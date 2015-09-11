@@ -12,6 +12,9 @@
     "indicative": "^1.2.4",
     "lodash": "^3.10.1"
   },
+  "peerDependencies": {
+    "adonis-fold": "^1.0.0"
+  },
   "devDependencies": {
     "chai": "^3.2.0",
     "co": "^4.6.0",

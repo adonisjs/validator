@@ -4,7 +4,8 @@
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha test"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,9 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "co": "^4.6.0",
-    "mocha": "^2.3.2"
+    "coveralls": "^2.11.4",
+    "istanbul": "^0.3.20",
+    "mocha": "^2.3.2",
+    "mocha-lcov-reporter": "0.0.2"
   }
 }

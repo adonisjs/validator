@@ -6,7 +6,7 @@
  * MIT Licensed
 */
 
-const Indicative = new(require("indicative"))
+const Indicative = require("indicative")
 const _ = require("lodash")
 
 class Validator {
@@ -30,7 +30,7 @@ class Validator {
     let self = this;
     return new Promise(function(resolve, reject) {
       Indicative
-        .validate(rules, data, messages)
+        .validate(data, rules, messages)
         .then(function(success) {
           self.errors = [];
           resolve();
@@ -56,7 +56,7 @@ class Validator {
     let self = this;
     return new Promise(function(resolve, reject) {
       Indicative
-        .validateAll(rules, data, messages)
+        .validateAll(data, rules, messages)
         .then(function(success) {
           self.errors = [];
           resolve();
@@ -100,7 +100,7 @@ class Validator {
    * @public
    */
   extend(rule, method, message) {
-    Indicative.extend(rule, message, method);
+    Indicative.extend(rule, method, message);
   }
 
 }

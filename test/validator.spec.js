@@ -26,7 +26,7 @@ describe("Validator", function() {
       yield Validator.validate(schema, data);
 
       expect(Validator.fails()).to.equal(true);
-      expect(Validator.messages()[0].rule).to.equal("required");
+      expect(Validator.messages()[0].validation).to.equal("required");
 
     }).then(done).catch(done)
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /**
  * adonis-validation-provider
@@ -6,104 +6,46 @@
  * MIT Licensed
 */
 
-const Indicative = require("indicative")
-const _ = require("lodash")
+const Indicative = require('indicative')
+const Validator = exports = module.exports = {}
+const SchemaValidator = require('./schema')
 
-class Validator {
-
-  constructor() {
-    this.errors = [];
-  }
-
-
-  /**
-   * @function validate
-   * @description validate schema using indicative validate
-   * and returns on first error
-   * @param  {Object} rules
-   * @param  {Object} data
-   * @param  {Object} messages
-   * @return {Promise}
-   * @public
-   */
-  * validate(rules, data, messages) {
-    let self = this;
-    return new Promise(function(resolve, reject) {
-      Indicative
-        .validate(data, rules, messages)
-        .then(function(success) {
-          self.errors = [];
-          resolve();
-        })
-        .catch(function(error) {
-          self.errors = error;
-          resolve();
-        });
-    });
-  }
-
-
-  /**
-   * @function validateAll
-   * @description validate schema using indicative validate
-   * @param  {Object} rules
-   * @param  {Object} data
-   * @param  {Object} messages
-   * @return {Promise}
-   * @public
-   */
-  * validateAll(rules, data, messages) {
-    let self = this;
-    return new Promise(function(resolve, reject) {
-      Indicative
-        .validateAll(data, rules, messages)
-        .then(function(success) {
-          self.errors = [];
-          resolve();
-        })
-        .catch(function(error) {
-          self.errors = error;
-          resolve();
-        });
-    });
-  }
-
-
-  /**
-   * @function fails
-   * @description tells whether there was an error using validate method
-   * or not
-   * @return {Boolean}
-   * @public
-   */
-  fails() {
-    return _.size(this.errors) ? true : false;
-  }
-
-  /**
-   * @function messages
-   * @description returns error messages
-   * @return {Array}
-   * @public
-   */
-  messages() {
-    return this.errors;
-  }
-
-
-  /**
-   * @function extend
-   * @description adds new methods to indicative lib
-   * @param  {String} rule
-   * @param  {Function} method
-   * @param  {String} message
-   * @public
-   */
-  extend(rule, method, message) {
-    Indicative.extend(rule, method, message);
-  }
-
+/**
+ * @description adds new methods to indicative lib
+ * @method extend
+ * @param  {String} rule
+ * @param  {Function} method
+ * @param  {String} message
+ * @public
+ */
+Validator.extend = function (rule, method, message) {
+  Indicative.extend(rule, method, message)
 }
 
+/**
+ * @description returns a new instance of schema validator class
+ * and calls its validate method
+ * @method validate
+ * @param  {Object} rules
+ * @param  {Object} data
+ * @param  {Obbject} messages
+ * @return {Object}
+ * @public
+ */
+Validator.validate = function (rules, data, messages) {
+  return new SchemaValidator().validate(rules, data, messages)
+}
 
-module.exports = Validator;
+/**
+ * @description returns a new instance of schema validator class
+ * and calls its validateAll method
+ * @method validateAll
+ * @param  {Object} rules
+ * @param  {Object} data
+ * @param  {Obbject} messages
+ * @return {Object}
+ * @public
+ */
+Validator.validateAll = function (rules, data, messages) {
+  return new SchemaValidator().validateAll(rules, data, messages)
+}

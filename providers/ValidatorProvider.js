@@ -7,13 +7,11 @@
 */
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
-const Validator = require('../src/Validator')
 
-class ValidatorProvider extends ServiceProvider{
-
-  *register(){
-    this.app.singleton('Adonis/Addons/Validator',function(){
-      return new Validator()
+class ValidatorProvider extends ServiceProvider {
+  * register () {
+    this.app.singleton('Adonis/Addons/Validator', function () {
+      return require('../src/Validator')
     })
   }
 }

@@ -4,14 +4,14 @@
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover _mocha --report lcovonly -- -R spec test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha test"
+    "test": "npm run standard && istanbul cover _mocha --report lcovonly -- -R spec test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha test",
+    "standard": "standard"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "indicative": "^2.0.1",
-    "lodash": "^3.10.1"
+    "indicative": "^2.0.2"
   },
   "peerDependencies": {
     "adonis-fold": "^1.0.0"
@@ -19,9 +19,11 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "co": "^4.6.0",
+    "co-mocha": "^1.1.2",
     "coveralls": "^2.11.4",
     "istanbul": "^0.3.20",
     "mocha": "^2.3.2",
-    "mocha-lcov-reporter": "0.0.2"
+    "mocha-lcov-reporter": "0.0.2",
+    "standard": "^5.4.1"
   }
 }

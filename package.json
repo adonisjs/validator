@@ -1,6 +1,6 @@
 {
   "name": "adonis-validation-provider",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "coverage": "istanbul cover ./node_modules/.bin/_mocha test",
     "standard": "standard"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "adonisjs",
+  "license": "MIT",
   "dependencies": {
     "indicative": "^2.0.2"
   },

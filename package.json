@@ -11,7 +11,7 @@
   "author": "adonisjs",
   "license": "MIT",
   "dependencies": {
-    "indicative": "^2.0.2"
+    "indicative": "^2.0.3"
   },
   "peerDependencies": {
     "adonis-fold": "^2.0.0"
@@ -26,5 +26,21 @@
     "mocha": "^2.3.2",
     "mocha-lcov-reporter": "0.0.2",
     "standard": "^5.4.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adonisjs/adonis-validation-provider.git"
+  },
+  "keywords": [
+    "validator",
+    "schema-validation",
+    "adonis"
+  ],
+  "bugs": {
+    "url": "https://github.com/adonisjs/adonis-validation-provider/issues"
+  },
+  "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme"
 }

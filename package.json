@@ -1,6 +1,6 @@
 {
   "name": "adonis-validation-provider",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {

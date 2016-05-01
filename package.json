@@ -11,13 +11,13 @@
   "author": "adonisjs",
   "license": "MIT",
   "dependencies": {
-    "indicative": "^2.0.3"
+    "indicative": "^2.0.6"
   },
   "peerDependencies": {
-    "adonis-fold": "^2.0.0"
+    "adonis-fold": "^3.0.1"
   },
   "devDependencies": {
-    "adonis-fold": "^2.0.0",
+    "adonis-fold": "^3.0.1",
     "chai": "^3.2.0",
     "co": "^4.6.0",
     "co-mocha": "^1.1.2",

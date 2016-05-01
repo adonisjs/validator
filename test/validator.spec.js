@@ -56,7 +56,7 @@ describe('Validator', function () {
     expect(fields).deep.equal(['username', 'email'])
   })
 
-  it('should return errors to false ,when data satisfy rules using validateAll', function * () {
+  it('should return errors to false, when data satisfy rules using validateAll', function * () {
     let schema = {
       username: 'required',
       email: 'required'
@@ -95,5 +95,26 @@ describe('Validator', function () {
     const validate = yield Validator.validate(schema, data)
     expect(validate.fails()).to.equal(true)
     expect(validate.messages()[0].message).to.equal('nums validation failed on age')
+  })
+
+  it('should be able to call raw validations using is method', function () {
+    const isArray = Validator.is.array
+    expect(typeof (isArray)).to.equal('function')
+  })
+
+  it('should be able to extend raw validations', function () {
+    Validator.is.extend('fooBar', function () {})
+    const isFooBar = Validator.is.fooBar
+    expect(typeof (isFooBar)).to.equal('function')
+  })
+
+  it('should be able to call sanitize method', function () {
+    const sanitize = Validator.sanitize
+    expect(typeof (sanitize)).to.equal('function')
+  })
+
+  it('should be able to access raw sanitizor', function () {
+    const title = Validator.sanitizor.title('hello-world')
+    expect(title).to.equal('Hello World')
   })
 })

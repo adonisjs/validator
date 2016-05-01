@@ -6,21 +6,18 @@
  * MIT Licensed
 */
 
-const Indicative = require('indicative')
+const indicative = require('indicative')
 const Validator = exports = module.exports = {}
 const SchemaValidator = require('./schema')
 
 /**
- * @description adds new methods to indicative lib
- * @method extend
- * @param  {String} rule
- * @param  {Function} method
- * @param  {String} message
- * @public
+ * assigning indicative methods to the Validator
+ * object.
  */
-Validator.extend = function (rule, method, message) {
-  Indicative.extend(rule, method, message)
-}
+Validator.extend = indicative.extend
+Validator.sanitize = indicative.sanitize
+Validator.sanitizor = indicative.sanitizor
+Validator.is = indicative.is
 
 /**
  * @description returns a new instance of schema validator class

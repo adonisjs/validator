@@ -9,9 +9,26 @@
 */
 
 const Validator = require('../src/Validator')
+const ExtendedRules = require('../src/ExtendedRules')
 const chai = require('chai')
 const expect = chai.expect
 require('co-mocha')
+const Database = {
+  table: function (table) {
+    return this
+  },
+  select: function (field) {
+    return this
+  },
+  pluck: function (field) {
+    return new Promise((resolve, reject) => {
+      resolve(['ssksk@gmail.com'])
+    })
+  },
+  where: function (field, value) {
+    return this
+  }
+}
 
 describe('Validator', function () {
   it('should validate data schema and return appropriate errors', function * () {
@@ -94,7 +111,7 @@ describe('Validator', function () {
     }
     const validate = yield Validator.validate(schema, data)
     expect(validate.fails()).to.equal(true)
-    expect(validate.messages()[0].message).to.equal('nums validation failed on age')
+    expect(validate.messages()[0].message).to.equal('Enter a valid number')
   })
 
   it('should be able to call raw validations using is method', function () {
@@ -116,5 +133,37 @@ describe('Validator', function () {
   it('should be able to access raw sanitizor', function () {
     const title = Validator.sanitizor.title('hello-world')
     expect(title).to.equal('Hello World')
+  })
+
+  it('should throw an error when field already exists', function * () {
+    const extendedRules = new ExtendedRules(Database)
+    Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
+    const schema = {
+      email: 'unique:users'
+    }
+    const data = {
+      email: 'sdjsajkdaksj@gmail.com'
+    }
+    const validate = yield Validator.validate(schema, data)
+    expect(validate.fails()).to.equal(true)
+    expect(validate.messages()[0].message).to.equal('email has already been taken by someone else')
+  })
+
+  it('should work fine when field does not exists', function * () {
+    const extendedRules = new ExtendedRules(Database)
+    Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
+    Database.pluck = function () {
+      return new Promise((resolve) => {
+        resolve()
+      })
+    }
+    const schema = {
+      email: 'unique:users'
+    }
+    const data = {
+      email: 'sdjsajkdaksj@gmail.com'
+    }
+    const validate = yield Validator.validate(schema, data)
+    expect(validate.fails()).to.equal(false)
   })
 })

@@ -25,7 +25,6 @@ class ExtendedRules {
       const databaseField = args[1] || field
       this.database
         .table(table)
-        .select(databaseField)
         .where(databaseField, fieldValue)
         .pluck(databaseField)
         .then((result) => {

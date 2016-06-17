@@ -16,6 +16,7 @@ class ValidatorProvider extends ServiceProvider {
       const extendedRules = new ExtendedRules(Database)
       const validator = require('../src/Validator')
       validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
+      return validator
     })
   }
 }

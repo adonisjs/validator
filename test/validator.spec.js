@@ -17,9 +17,6 @@ const Database = {
   table: function (table) {
     return this
   },
-  select: function (field) {
-    return this
-  },
   pluck: function (field) {
     return new Promise((resolve, reject) => {
       resolve(['ssksk@gmail.com'])

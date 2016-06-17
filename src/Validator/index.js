@@ -23,26 +23,26 @@ Validator.is = indicative.is
  * @description returns a new instance of schema validator class
  * and calls its validate method
  * @method validate
- * @param  {Object} rules
  * @param  {Object} data
+ * @param  {Object} rules
  * @param  {Obbject} messages
  * @return {Object}
  * @public
  */
-Validator.validate = function (rules, data, messages) {
-  return new SchemaValidator().validate(rules, data, messages)
+Validator.validate = function (data, rules, messages) {
+  return new SchemaValidator().validate(data, rules, messages)
 }
 
 /**
  * @description returns a new instance of schema validator class
  * and calls its validateAll method
  * @method validateAll
- * @param  {Object} rules
  * @param  {Object} data
+ * @param  {Object} rules
  * @param  {Obbject} messages
  * @return {Object}
  * @public
  */
-Validator.validateAll = function (rules, data, messages) {
-  return new SchemaValidator().validateAll(rules, data, messages)
+Validator.validateAll = function (data, rules, messages) {
+  return new SchemaValidator().validateAll(data, rules, messages)
 }

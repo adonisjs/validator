@@ -32,28 +32,28 @@ const Database = {
 
 describe('Validator', function () {
   it('should validate data schema and return appropriate errors', function * () {
-    let schema = {
+    let rules = {
       username: 'required'
     }
     let data = {}
-    const validate = yield Validator.validate(schema, data)
+    const validate = yield Validator.validate(data, rules)
     expect(validate.fails()).to.equal(true)
     expect(validate.messages()[0].validation).to.equal('required')
   })
 
   it('should not return previous errors when validation is passed next time', function * () {
-    let schema = {
+    let rules = {
       username: 'required'
     }
     let data = {
       username: 'boom'
     }
-    const validate = yield Validator.validate(schema, data)
+    const validate = yield Validator.validate(data, rules)
     expect(validate.fails()).to.equal(false)
   })
 
   it('should return all errors at once , when using validateAll', function * () {
-    let schema = {
+    let rules = {
       username: 'required',
       email: 'required'
     }
@@ -61,7 +61,7 @@ describe('Validator', function () {
     let data = {
     }
 
-    const validate = yield Validator.validateAll(schema, data)
+    const validate = yield Validator.validateAll(data, rules)
     const messages = validate.messages()
     let fields = []
     expect(validate.fails()).to.equal(true)
@@ -74,7 +74,7 @@ describe('Validator', function () {
   })
 
   it('should return errors to false, when data satisfy rules using validateAll', function * () {
-    let schema = {
+    let rules = {
       username: 'required',
       email: 'required'
     }
@@ -83,7 +83,7 @@ describe('Validator', function () {
       username: 'bar',
       email: 'foo'
     }
-    const validate = yield Validator.validateAll(schema, data)
+    const validate = yield Validator.validateAll(data, rules)
     expect(validate.fails()).to.equal(false)
   })
 
@@ -103,13 +103,13 @@ describe('Validator', function () {
     }
 
     Validator.extend('nums', nums, 'Enter a valid number')
-    const schema = {
+    const rules = {
       age: 'required|nums'
     }
     const data = {
       age: '20'
     }
-    const validate = yield Validator.validate(schema, data)
+    const validate = yield Validator.validate(data, rules)
     expect(validate.fails()).to.equal(true)
     expect(validate.messages()[0].message).to.equal('Enter a valid number')
   })
@@ -138,13 +138,13 @@ describe('Validator', function () {
   it('should throw an error when field already exists', function * () {
     const extendedRules = new ExtendedRules(Database)
     Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
-    const schema = {
+    const rules = {
       email: 'unique:users'
     }
     const data = {
       email: 'sdjsajkdaksj@gmail.com'
     }
-    const validate = yield Validator.validate(schema, data)
+    const validate = yield Validator.validate(data, rules)
     expect(validate.fails()).to.equal(true)
     expect(validate.messages()[0].message).to.equal('email has already been taken by someone else')
   })
@@ -157,13 +157,13 @@ describe('Validator', function () {
         resolve()
       })
     }
-    const schema = {
+    const rules = {
       email: 'unique:users'
     }
     const data = {
       email: 'sdjsajkdaksj@gmail.com'
     }
-    const validate = yield Validator.validate(schema, data)
+    const validate = yield Validator.validate(data, rules)
     expect(validate.fails()).to.equal(false)
   })
 })

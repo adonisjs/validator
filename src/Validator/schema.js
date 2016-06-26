@@ -18,13 +18,13 @@ class SchemaValidator {
    * @description validate schema using indicative validate
    * and returns on first error
    * @method validate
-   * @param  {Object} rules
    * @param  {Object} data
+   * @param  {Object} rules
    * @param  {Object} messages
    * @return {Promise}
    * @public
    */
-  validate (rules, data, messages) {
+  validate (data, rules, messages) {
     let self = this
     return new Promise(function (resolve, reject) {
       Indicative
@@ -43,13 +43,13 @@ class SchemaValidator {
   /**
    * @description validate schema using indicative validate
    * @method validateAll
-   * @param  {Object} rules
    * @param  {Object} data
+   * @param  {Object} rules
    * @param  {Object} messages
    * @return {Promise}
    * @public
    */
-  validateAll (rules, data, messages) {
+  validateAll (data, rules, messages) {
     let self = this
     return new Promise(function (resolve, reject) {
       Indicative

@@ -18,14 +18,28 @@ class ExtendedRules {
   unique (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
+
+      /**
+       * skip if value is empty, required validation will
+       * take care of empty values
+       */
       if (!fieldValue) {
         return resolve('validation skipped')
       }
-      const table = args[0]
+
+      const tableName = args[0]
       const databaseField = args[1] || field
-      this.database
-        .table(table)
-        .where(databaseField, fieldValue)
+      const query = this.database.table(tableName).where(databaseField, fieldValue)
+
+      /**
+       * if args[2] and args[3] are avaiable inside the array
+       * take them as whereNot key/valye pair
+       */
+      if (args[2] && args[3]) {
+        query.whereNot(args[2], args[3])
+      }
+
+      query
         .pluck(databaseField)
         .then((result) => {
           if (result && result.length) {

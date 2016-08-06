@@ -11,18 +11,29 @@
 const Validator = require('../src/Validator')
 const ExtendedRules = require('../src/ExtendedRules')
 const chai = require('chai')
+const clone = require('clone')
 const expect = chai.expect
 require('co-mocha')
 const Database = {
+  whereNotCalled: false,
   table: function (table) {
     return this
   },
   pluck: function (field) {
     return new Promise((resolve, reject) => {
-      resolve(['ssksk@gmail.com'])
+      if (this.whereNotCalled) {
+        resolve()
+      } else {
+        resolve(['ssksk@gmail.com'])
+      }
     })
   },
   where: function (field, value) {
+    return this
+  },
+
+  whereNot: function () {
+    this.whereNotCalled = true
     return this
   }
 }
@@ -147,15 +158,29 @@ describe('Validator', function () {
   })
 
   it('should work fine when field does not exists', function * () {
-    const extendedRules = new ExtendedRules(Database)
-    Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
-    Database.pluck = function () {
+    const DbClone = clone(Database)
+    DbClone.pluck = function () {
       return new Promise((resolve) => {
         resolve()
       })
     }
+    const extendedRules = new ExtendedRules(DbClone)
+    Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
     const rules = {
       email: 'unique:users'
+    }
+    const data = {
+      email: 'sdjsajkdaksj@gmail.com'
+    }
+    const validate = yield Validator.validate(data, rules)
+    expect(validate.fails()).to.equal(false)
+  })
+
+  it('should pass validation when whereNot key/value pairs are availabe', function * () {
+    const extendedRules = new ExtendedRules(Database)
+    Validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
+    const rules = {
+      email: 'unique:users,email,id,1'
     }
     const data = {
       email: 'sdjsajkdaksj@gmail.com'

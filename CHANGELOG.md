@@ -1,10 +1,13 @@
-<a name="3.0.1"></a>
-## 3.0.1 (2016-08-06)
+<a name="3.0.2"></a>
+## 3.0.2 (2016-08-06)
 
 
 ### Bug Fixes
 
 * **validation:unique:** add support for whereNot ([54669d3](https://github.com/adonisjs/adonis-validation-provider/commit/54669d3))
+
+<a name="3.0.1"></a>
+## 3.0.1 (2016-06-28)
 
 
 ### Features

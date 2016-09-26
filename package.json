@@ -1,6 +1,6 @@
 {
   "name": "adonis-validation-provider",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
@@ -13,9 +13,6 @@
   "dependencies": {
     "indicative": "^2.1.1"
   },
-  "peerDependencies": {
-    "adonis-fold": "^3.0.2"
-  },
   "devDependencies": {
     "adonis-fold": "^3.0.2",
     "chai": "^3.2.0",
@@ -23,10 +20,11 @@
     "co": "^4.6.0",
     "co-mocha": "^1.1.3",
     "coveralls": "^2.11.12",
-    "istanbul": "^0.3.20",
+    "cz-conventional-changelog": "^1.2.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.0.1",
-    "mocha-lcov-reporter": "0.0.2",
-    "standard": "^7.1.2"
+    "mocha-lcov-reporter": "1.2.0",
+    "standard": "^8.1.0"
   },
   "directories": {
     "test": "test"
@@ -43,5 +41,10 @@
   "bugs": {
     "url": "https://github.com/adonisjs/adonis-validation-provider/issues"
   },
-  "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme"
+  "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

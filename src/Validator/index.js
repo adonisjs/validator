@@ -25,7 +25,7 @@ Validator.is = indicative.is
  * @method validate
  * @param  {Object} data
  * @param  {Object} rules
- * @param  {Obbject} messages
+ * @param  {Object} messages
  * @return {Object}
  * @public
  */
@@ -39,7 +39,7 @@ Validator.validate = function (data, rules, messages) {
  * @method validateAll
  * @param  {Object} data
  * @param  {Object} rules
- * @param  {Obbject} messages
+ * @param  {Object} messages
  * @return {Object}
  * @public
  */

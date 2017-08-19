@@ -18,14 +18,18 @@ class ValidationProvider extends ServiceProvider {
   }
 
   boot () {
-    const Route = this.app.use('Adonis/Src/Route')
-    const Server = this.app.use('Adonis/Src/Server')
+    /**
+     * Add exception handler to handle exception gracefully.
+     */
+    const Exception = this.app.use('Adonis/Src/Exception')
+    Exception.on('ValidationException', require('../src/ExceptionHandler'))
 
     /**
      * Define a named middleware with server
      *
      * @type {String}
      */
+    const Server = this.app.use('Adonis/Src/Server')
     Server.registerNamed({
       addonValidator: 'Adonis/Middleware/Validator'
     })
@@ -36,6 +40,7 @@ class ValidationProvider extends ServiceProvider {
      * validates the request via validator
      * class
      */
+    const Route = this.app.use('Adonis/Src/Route')
     Route.Route.macro('validator', function (validatorClass) {
       this.middleware([`addonValidator:${validatorClass}`])
     })

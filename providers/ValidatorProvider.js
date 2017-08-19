@@ -68,7 +68,7 @@ class ValidationProvider extends ServiceProvider {
      * Add exception handler to handle exception gracefully.
      */
     const Exception = this.app.use('Adonis/Src/Exception')
-    Exception.on('ValidationException', require('../src/ExceptionHandler'))
+    Exception.handle('ValidationException', require('../src/ExceptionHandler'))
 
     /**
      * Define a named middleware with server

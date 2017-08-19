@@ -51,6 +51,6 @@
     }
   },
   "nyc": {
-    "exclude": ["bin"]
+    "exclude": ["bin", "test"]
   }
 }

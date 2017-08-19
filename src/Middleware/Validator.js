@@ -26,18 +26,6 @@ const CE = require('../Exceptions')
  * @constructor
  */
 class ValidatorMiddleware {
-  /* istanbul ignore next */
-  /**
-   * IoC container injections
-   *
-   * @method inject
-   *
-   * @return {Array}
-   */
-  static get inject () {
-    return ['Adonis/Addons/Validator']
-  }
-
   constructor (Validator) {
     this.Validator = Validator
   }

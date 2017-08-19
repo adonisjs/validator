@@ -1,31 +1,45 @@
 'use strict'
 
-/**
- * adonis-validation-provider
- * Copyright(c) 2015-2015 Harminder Virk
- * MIT Licensed
+/*
+ * adonis-validator
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
 */
 
-const ServiceProvider = require('adonis-fold').ServiceProvider
-const ExtendedRules = require('../src/ExtendedRules')
+const { ServiceProvider } = require('@adonisjs/fold')
 
-class ValidatorProvider extends ServiceProvider {
+class ValidationProvider extends ServiceProvider {
+  register () {
+    this.app.bind('Adonis/Addons/Validator', () => require('../src/Validator'))
+    this.app.alias('Adonis/Addons/Validator', 'Validator')
+  }
 
-  * register () {
-    this.app.singleton('Adonis/Addons/Validator', function (app) {
-      const validator = require('../src/Validator')
-      /**
-       * Wrap database unique rule inside a try/catch block
-       * incase someone is not using Lucid
-       */
-      try {
-        const Database = app.use('Adonis/Src/Database')
-        const extendedRules = new ExtendedRules(Database)
-        validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
-      } catch (e) {}
-      return validator
+  boot () {
+    const Route = this.app.use('Adonis/Src/Route')
+    const Server = this.app.use('Adonis/Src/Server')
+
+    /**
+     * Define a named middleware with server
+     *
+     * @type {String}
+     */
+    Server.registerNamed({
+      addonValidator: 'Adonis/Middleware/Validator'
+    })
+
+    /**
+     * Extend route class by adding a macro, which pushes a
+     * middleware to the route middleware stack and
+     * validates the request via validator
+     * class
+     */
+    Route.Route.macro('validator', function (validatorClass) {
+      this.middleware([`addonValidator:${validatorClass}`])
     })
   }
 }
 
-module.exports = ValidatorProvider
+module.exports = ValidationProvider

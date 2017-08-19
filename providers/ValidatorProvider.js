@@ -12,11 +12,57 @@
 const { ServiceProvider } = require('@adonisjs/fold')
 
 class ValidationProvider extends ServiceProvider {
-  register () {
+  /**
+   * Register the validator to the IoC container
+   * with `Adonis/Addons/Validator` namespace.
+   *
+   * @method _registerValidator
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _registerValidator () {
     this.app.bind('Adonis/Addons/Validator', () => require('../src/Validator'))
     this.app.alias('Adonis/Addons/Validator', 'Validator')
   }
 
+  /**
+   * Register the middleware to the IoC container
+   * with `Adonis/Middleware/Validator` namespace
+   *
+   * @method _registerMiddleware
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _registerMiddleware () {
+    this.app.bind('Adonis/Middleware/Validator', (app) => {
+      const MiddlewareValidator = require('../src/Middleware/Validator')
+      return new MiddlewareValidator(app.use('Adonis/Addons/Validator'))
+    })
+  }
+
+  /**
+   * Register bindings
+   *
+   * @method register
+   *
+   * @return {void}
+   */
+  register () {
+    this._registerValidator()
+    this._registerMiddleware()
+  }
+
+  /**
+   * On boot
+   *
+   * @method boot
+   *
+   * @return {void}
+   */
   boot () {
     /**
      * Add exception handler to handle exception gracefully.

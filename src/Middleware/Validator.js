@@ -10,6 +10,7 @@
 */
 
 const { resolver } = require('@adonisjs/fold')
+const CE = require('../Exceptions')
 
 /**
  * The middleware to validate requests using a custom
@@ -108,9 +109,7 @@ class ValidatorMiddleware {
      *
      * @type {Error}
      */
-    const error = new Error()
-    error.messages = validation.messages()
-    throw error
+    throw CE.ValidationException.validationFailed(validation.messages())
   }
 
   /**
@@ -163,10 +162,17 @@ class ValidatorMiddleware {
    * @return {void}
    */
   async handle (ctx, next, validator) {
-    if (!validator || !validator.length) {
+    validator = validator instanceof Array === true ? validator[0] : validator
+
+    if (!validator) {
       throw new Error('Cannot validate request without a validator. Make sure to call Route.validator(\'validatorPath\')')
     }
-    const validatorInstance = resolver.resolve(validator[0])
+
+    const validatorInstance = resolver.resolve(validator)
+
+    /**
+     * Set request ctx on the validator
+     */
     validatorInstance.ctx = ctx
 
     /**

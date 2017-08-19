@@ -15,6 +15,7 @@
   "author": "virk",
   "license": "MIT",
   "dependencies": {
+    "@adonisjs/generic-exceptions": "^1.0.0",
     "indicative": "^3.0.0"
   },
   "devDependencies": {
@@ -48,5 +49,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "nyc": {
+    "exclude": ["bin"]
   }
 }

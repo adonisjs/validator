@@ -11,7 +11,7 @@
   "author": "adonisjs",
   "license": "MIT",
   "dependencies": {
-    "indicative": "^2.2.1"
+    "indicative": "^3.0.0"
   },
   "devDependencies": {
     "adonis-fold": "^3.0.3",

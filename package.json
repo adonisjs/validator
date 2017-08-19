@@ -1,14 +1,18 @@
 {
-  "name": "adonis-validation-provider",
+  "name": "@adonisjs/validator",
   "version": "3.0.5",
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && istanbul cover _mocha --report lcovonly -- -R spec test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha test",
-    "lint": "standard src/**/*.js providers/*.js test/*.js"
+    "lint": "standard",
+    "pretest": "npm run lint",
+    "posttest": "npm run coverage",
+    "test:local": "FORCE_COLOR=true node bin/index.js --local",
+    "test": "nyc npm run test:local",
+    "test:win": "set FORCE_COLOR=true && node bin/index.js --win",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
-  "author": "adonisjs",
+  "author": "virk",
   "license": "MIT",
   "dependencies": {
     "indicative": "^3.0.0"

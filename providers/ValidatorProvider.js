@@ -1,31 +1,96 @@
 'use strict'
 
-/**
- * adonis-validation-provider
- * Copyright(c) 2015-2015 Harminder Virk
- * MIT Licensed
+/*
+ * adonis-validator
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
 */
 
-const ServiceProvider = require('adonis-fold').ServiceProvider
-const ExtendedRules = require('../src/ExtendedRules')
+const { ServiceProvider } = require('@adonisjs/fold')
 
-class ValidatorProvider extends ServiceProvider {
+class ValidationProvider extends ServiceProvider {
+  /**
+   * Register the validator to the IoC container
+   * with `Adonis/Addons/Validator` namespace.
+   *
+   * @method _registerValidator
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _registerValidator () {
+    this.app.bind('Adonis/Addons/Validator', () => require('../src/Validator'))
+    this.app.alias('Adonis/Addons/Validator', 'Validator')
+  }
 
-  * register () {
-    this.app.singleton('Adonis/Addons/Validator', function (app) {
-      const validator = require('../src/Validator')
-      /**
-       * Wrap database unique rule inside a try/catch block
-       * incase someone is not using Lucid
-       */
-      try {
-        const Database = app.use('Adonis/Src/Database')
-        const extendedRules = new ExtendedRules(Database)
-        validator.extend('unique', extendedRules.unique.bind(extendedRules), '{{field}} has already been taken by someone else')
-      } catch (e) {}
-      return validator
+  /**
+   * Register the middleware to the IoC container
+   * with `Adonis/Middleware/Validator` namespace
+   *
+   * @method _registerMiddleware
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _registerMiddleware () {
+    this.app.bind('Adonis/Middleware/Validator', (app) => {
+      const MiddlewareValidator = require('../src/Middleware/Validator')
+      return new MiddlewareValidator(app.use('Adonis/Addons/Validator'))
+    })
+  }
+
+  /**
+   * Register bindings
+   *
+   * @method register
+   *
+   * @return {void}
+   */
+  register () {
+    this._registerValidator()
+    this._registerMiddleware()
+  }
+
+  /**
+   * On boot
+   *
+   * @method boot
+   *
+   * @return {void}
+   */
+  boot () {
+    /**
+     * Add exception handler to handle exception gracefully.
+     */
+    const Exception = this.app.use('Adonis/Src/Exception')
+    Exception.handle('ValidationException', require('../src/ExceptionHandler'))
+
+    /**
+     * Define a named middleware with server
+     *
+     * @type {String}
+     */
+    const Server = this.app.use('Adonis/Src/Server')
+    Server.registerNamed({
+      addonValidator: 'Adonis/Middleware/Validator'
+    })
+
+    /**
+     * Extend route class by adding a macro, which pushes a
+     * middleware to the route middleware stack and
+     * validates the request via validator
+     * class
+     */
+    const Route = this.app.use('Adonis/Src/Route')
+    Route.Route.macro('validator', function (validatorClass) {
+      this.middleware([`addonValidator:${validatorClass}`])
     })
   }
 }
 
-module.exports = ValidatorProvider
+module.exports = ValidationProvider

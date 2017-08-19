@@ -1,3 +1,20 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/adonisjs/adonis-validation-provider/compare/v3.0.5...v4.0.0) (2017-08-19)
+
+
+### Bug Fixes
+
+* **provider:** register middleware to ioc container ([29b31e7](https://github.com/adonisjs/adonis-validation-provider/commit/29b31e7))
+
+
+### Features
+
+* rewrite for 4.0 ([d4d726d](https://github.com/adonisjs/adonis-validation-provider/commit/d4d726d))
+* **exception:** add exception handler ([e3ae357](https://github.com/adonisjs/adonis-validation-provider/commit/e3ae357))
+* **exceptions:** add custom exception ([da04ae6](https://github.com/adonisjs/adonis-validation-provider/commit/da04ae6))
+
+
+
 <a name="3.0.5"></a>
 ## [3.0.5](https://github.com/adonisjs/adonis-validation-provider/compare/v3.0.4...v3.0.5) (2016-12-12)
 

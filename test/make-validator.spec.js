@@ -29,7 +29,7 @@ test.group('Make Validator', (group) => {
   })
 
   test('make a validator class', async (assert) => {
-    const make = new MakeValidator(new Helpers(path.join(__dirname, './app')))
+    const make = new MakeValidator(new Helpers(path.join(__dirname)))
     await make.handle({ name: 'User' })
     const User = require(path.join(__dirname, './app/Validators/User'))
     assert.equal(User.name, 'User')

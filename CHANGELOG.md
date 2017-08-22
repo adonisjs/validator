@@ -1,3 +1,19 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.0...v4.0.1) (2017-08-22)
+
+
+### Bug Fixes
+
+* **middleware:** allow validator to return empty rules object ([cdacfb0](https://github.com/adonisjs/adonis-validation-provider/commit/cdacfb0))
+
+
+### Features
+
+* **command:** add make:validator command ([dff0e79](https://github.com/adonisjs/adonis-validation-provider/commit/dff0e79))
+* **sanitization:** add support for sanitization too ([4a65d79](https://github.com/adonisjs/adonis-validation-provider/commit/4a65d79))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/adonisjs/adonis-validation-provider/compare/v3.0.5...v4.0.0) (2017-08-19)
 

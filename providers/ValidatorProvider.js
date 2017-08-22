@@ -45,6 +45,19 @@ class ValidationProvider extends ServiceProvider {
   }
 
   /**
+   * Register the `make:validator` command to the IoC container
+   *
+   * @method _registerCommands
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _registerCommands () {
+    this.app.bind('Adonis/Commands/Make:Validator', () => require('../commands/MigrationRun'))
+  }
+
+  /**
    * Register bindings
    *
    * @method register
@@ -65,12 +78,6 @@ class ValidationProvider extends ServiceProvider {
    */
   boot () {
     /**
-     * Add exception handler to handle exception gracefully.
-     */
-    const Exception = this.app.use('Adonis/Src/Exception')
-    Exception.handle('ValidationException', require('../src/ExceptionHandler'))
-
-    /**
      * Define a named middleware with server
      *
      * @type {String}
@@ -90,6 +97,12 @@ class ValidationProvider extends ServiceProvider {
     Route.Route.macro('validator', function (validatorClass) {
       this.middleware([`addonValidator:${validatorClass}`])
     })
+
+    /**
+     * Register command with ace.
+     */
+    const ace = require('@adonisjs/ace')
+    ace.addCommand('Adonis/Commands/Make:Validator')
   }
 }
 

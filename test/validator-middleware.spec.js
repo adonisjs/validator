@@ -12,6 +12,7 @@
 const test = require('japa')
 const { setupResolver } = require('@adonisjs/sink')
 const { ioc } = require('@adonisjs/fold')
+const _ = require('lodash')
 const ValidatorMiddleware = require('../src/Middleware/Validator')
 const Validator = require('../src/Validator')
 
@@ -30,6 +31,21 @@ test.group('Validator Middleware', (group) => {
 
     const middleware = new ValidatorMiddleware(Validator)
     class UserValidator {}
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+    await middleware.handle({ request }, next, ['App/Validators/User'])
+  })
+
+  test('skip validation when rules returns an empty object', async (assert) => {
+    const request = {}
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+    class UserValidator {
+      get rules () {
+        return {}
+      }
+    }
 
     ioc.fake('App/Validators/User', () => new UserValidator())
     await middleware.handle({ request }, next, ['App/Validators/User'])
@@ -448,5 +464,38 @@ test.group('Validator Middleware', (group) => {
     } catch ({ message }) {
       assert.equal(message, `Cannot validate request without a validator. Make sure to call Route.validator('validatorPath')`)
     }
+  })
+
+  test('sanitize data before validation', async (assert) => {
+    const request = {
+      body: {
+        email: 'foo+11@gmail.com'
+      },
+      get: {
+        age: 22
+      },
+      _all: null,
+      all () {
+        if (!this._all) {
+          this._all = {}
+          return _.merge(this._all, this.get, this.body)
+        }
+        return this._all
+      }
+    }
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+    class UserValidator {
+      get sanitizationRules () {
+        return {
+          email: 'normalize_email'
+        }
+      }
+    }
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+    await middleware.handle({ request }, next, ['App/Validators/User'])
+    assert.equal(request.all().email, 'foo@gmail.com')
   })
 })

@@ -80,7 +80,7 @@ class MakeValidator extends Command {
     /**
      * Directory paths
      */
-    const relativePath = path.join('Validators', `${name}.js`)
+    const relativePath = path.join('app/Validators', `${name}.js`)
     const validatorPath = path.join(this.Helpers.appRoot(), relativePath)
 
     /**

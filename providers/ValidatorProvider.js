@@ -54,7 +54,7 @@ class ValidationProvider extends ServiceProvider {
    * @private
    */
   _registerCommands () {
-    this.app.bind('Adonis/Commands/Make:Validator', () => require('../commands/MigrationRun'))
+    this.app.bind('Adonis/Commands/Make:Validator', () => require('../commands/MakeValidator'))
   }
 
   /**
@@ -67,6 +67,7 @@ class ValidationProvider extends ServiceProvider {
   register () {
     this._registerValidator()
     this._registerMiddleware()
+    this._registerCommands()
   }
 
   /**

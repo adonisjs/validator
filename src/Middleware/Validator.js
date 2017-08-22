@@ -10,6 +10,7 @@
 */
 
 const { resolver } = require('@adonisjs/fold')
+const _ = require('lodash')
 const CE = require('../Exceptions')
 
 /**
@@ -28,6 +29,37 @@ const CE = require('../Exceptions')
 class ValidatorMiddleware {
   constructor (Validator) {
     this.Validator = Validator
+  }
+
+  /**
+   * Sanitize user data based upon validator sanitization
+   * rules
+   *
+   * @method _sanitizeData
+   *
+   * @param  {Object}      request
+   * @param  {Object}      validatorInstance
+   *
+   * @return {void}
+   *
+   * @private
+   */
+  _sanitizeData (request, validatorInstance) {
+    /**
+     * Skip sanitization when there are no rules defined
+     */
+    if (!validatorInstance.sanitizationRules || !_.size(validatorInstance.sanitizationRules)) {
+      return true
+    }
+
+    const data = request.all()
+    const sanitizedData = this.Validator.sanitize(data, validatorInstance.sanitizationRules)
+
+    /**
+     * Here we mutate the actual request body, this is required since there is
+     * no point keep the actual data when we really want to sanitize it.
+     */
+    _.merge(data, sanitizedData)
   }
 
   /**
@@ -52,7 +84,7 @@ class ValidatorMiddleware {
      * Skip validation when there are no rules
      * defined
      */
-    if (!validatorInstance.rules || !Object.keys(validatorInstance.rules).length) {
+    if (!validatorInstance.rules || !_.size(validatorInstance.rules)) {
       return true
     }
 
@@ -162,6 +194,11 @@ class ValidatorMiddleware {
      * Set request ctx on the validator
      */
     validatorInstance.ctx = ctx
+
+    /**
+     * Sanitize request data if there are sanitization rules
+     */
+    this._sanitizeData(ctx.request, validatorInstance)
 
     /**
      * Validate the request. This method should handle the request

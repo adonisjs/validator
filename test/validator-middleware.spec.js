@@ -35,6 +35,21 @@ test.group('Validator Middleware', (group) => {
     await middleware.handle({ request }, next, ['App/Validators/User'])
   })
 
+  test('skip validation when rules returns an empty object', async (assert) => {
+    const request = {}
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+    class UserValidator {
+      get rules () {
+        return {}
+      }
+    }
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+    await middleware.handle({ request }, next, ['App/Validators/User'])
+  })
+
   test('throw validation exception when there are rules', async (assert) => {
     assert.plan(1)
 

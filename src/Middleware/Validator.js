@@ -52,7 +52,7 @@ class ValidatorMiddleware {
      * Skip validation when there are no rules
      * defined
      */
-    if (!validatorInstance.rules) {
+    if (!validatorInstance.rules || !Object.keys(validatorInstance.rules).length) {
       return true
     }
 

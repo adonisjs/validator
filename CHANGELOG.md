@@ -1,3 +1,13 @@
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.1...v4.0.2) (2017-08-22)
+
+
+### Bug Fixes
+
+* **make:validator:** create validator inside the app dir ([a54378c](https://github.com/adonisjs/adonis-validation-provider/commit/a54378c))
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.0...v4.0.1) (2017-08-22)
 

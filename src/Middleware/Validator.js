@@ -156,7 +156,7 @@ class ValidatorMiddleware {
       throw new Error('Cannot validate request without a validator. Make sure to call Route.validator(\'validatorPath\')')
     }
 
-    const validatorInstance = resolver.resolve(validator)
+    const validatorInstance = resolver.forDir('validators').resolve(validator)
 
     /**
      * Set request ctx on the validator

@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.2",
-    "@adonisjs/sink": "^1.0.12",
+    "@adonisjs/sink": "^1.0.13",
     "clone": "^2.1.1",
     "coveralls": "^2.13.1",
     "cz-conventional-changelog": "^2.0.0",
@@ -51,6 +51,9 @@
     }
   },
   "nyc": {
-    "exclude": ["bin", "test"]
+    "exclude": [
+      "bin",
+      "test"
+    ]
   }
 }

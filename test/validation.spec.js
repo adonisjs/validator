@@ -65,4 +65,24 @@ test.group('Validation', () => {
       }
     ])
   })
+
+  test('show custom error messages', async (assert) => {
+    assert.plan(1)
+
+    const validation = new Validation(
+      { email: '' },
+      { email: 'required', age: 'required' },
+      { 'email.required': 'Enter email please' }
+    )
+
+    await validation.run()
+
+    assert.deepEqual(validation.messages(), [
+      {
+        field: 'email',
+        validation: 'required',
+        message: 'Enter email please'
+      }
+    ])
+  })
 })

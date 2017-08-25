@@ -22,7 +22,7 @@ class Validation {
   constructor (data, rules, messages) {
     this._data = data
     this._rules = rules
-    this._messages = this.messages
+    this._messages = messages
     this._errorMessages = null
     this._executed = false
   }

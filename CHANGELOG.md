@@ -1,3 +1,13 @@
+<a name="4.0.3"></a>
+## [4.0.3](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.2...v4.0.3) (2017-08-25)
+
+
+### Bug Fixes
+
+* **validation:** use custom messages ([23fa19c](https://github.com/adonisjs/adonis-validation-provider/commit/23fa19c))
+
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.1...v4.0.2) (2017-08-22)
 

@@ -498,4 +498,53 @@ test.group('Validator Middleware', (group) => {
     await middleware.handle({ request }, next, ['App/Validators/User'])
     assert.equal(request.all().email, 'foo@gmail.com')
   })
+
+  test('use data defined on validator instance', async (assert) => {
+    assert.plan(1)
+
+    const request = {
+      body: {
+        email: 'foo+11@gmail.com'
+      },
+      get: {
+        age: 22
+      },
+      _all: null,
+      all () {
+        if (!this._all) {
+          this._all = {}
+          return _.merge(this._all, this.get, this.body)
+        }
+        return this._all
+      }
+    }
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+
+    class UserValidator {
+      get rules () {
+        return {
+          email: 'email'
+        }
+      }
+
+      get data () {
+        return {
+          email: 'foo'
+        }
+      }
+    }
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+    try {
+      await middleware.handle({ request }, next, ['App/Validators/User'])
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'email',
+        validation: 'email',
+        message: 'email validation failed on email'
+      }])
+    }
+  })
 })

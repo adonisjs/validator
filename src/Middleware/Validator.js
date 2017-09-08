@@ -103,7 +103,7 @@ class ValidatorMiddleware {
      * Run validations
      */
     const validation = await validate(
-      request.all(),
+      validatorInstance.data || request.all(),
       validatorInstance.rules,
       validatorInstance.messages
     )

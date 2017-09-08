@@ -97,6 +97,7 @@ class ValidationProvider extends ServiceProvider {
     const Route = this.app.use('Adonis/Src/Route')
     Route.Route.macro('validator', function (validatorClass) {
       this.middleware([`addonValidator:${validatorClass}`])
+      return this
     })
 
     /**

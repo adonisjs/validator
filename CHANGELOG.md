@@ -1,3 +1,18 @@
+<a name="4.0.4"></a>
+## [4.0.4](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.3...v4.0.4) (2017-09-08)
+
+
+### Bug Fixes
+
+* **macro:** request.macro return this for chaining ([c4d83ad](https://github.com/adonisjs/adonis-validation-provider/commit/c4d83ad))
+
+
+### Features
+
+* **validator:** allow validator to define data object ([266ca7d](https://github.com/adonisjs/adonis-validation-provider/commit/266ca7d))
+
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.2...v4.0.3) (2017-08-25)
 

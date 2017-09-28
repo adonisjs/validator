@@ -1,3 +1,13 @@
+<a name="4.0.5"></a>
+## [4.0.5](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.4...v4.0.5) (2017-09-28)
+
+
+### Features
+
+* **resource:** add resource validator ([d58e57c](https://github.com/adonisjs/adonis-validation-provider/commit/d58e57c))
+
+
+
 <a name="4.0.4"></a>
 ## [4.0.4](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.3...v4.0.4) (2017-09-08)
 

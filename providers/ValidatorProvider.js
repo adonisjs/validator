@@ -10,6 +10,7 @@
 */
 
 const { ServiceProvider } = require('@adonisjs/fold')
+const _ = require('lodash')
 
 class ValidationProvider extends ServiceProvider {
   /**
@@ -97,6 +98,22 @@ class ValidationProvider extends ServiceProvider {
     const Route = this.app.use('Adonis/Src/Route')
     Route.Route.macro('validator', function (validatorClass) {
       this.middleware([`addonValidator:${validatorClass}`])
+      return this
+    })
+
+    /**
+     * Adding resource macro to apply validator on
+     * route resource
+     */
+    Route.RouteResource.macro('validator', function (validatorsMap) {
+      const middlewareMap = new Map()
+
+      for (const [routeNames, validators] of validatorsMap) {
+        const middleware = _.castArray(validators).map((validator) => `addonValidator:${validator}`)
+        middlewareMap.set(routeNames, middleware)
+      }
+
+      this.middleware(middlewareMap)
       return this
     })
 

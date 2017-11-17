@@ -20,6 +20,7 @@ module.exports = {
   rule: indicative.rule,
   is: indicative.is,
   sanitizor: indicative.sanitizor,
+  formatters: indicative.formatters,
   extend: indicative.extend,
   ValidationException
 }

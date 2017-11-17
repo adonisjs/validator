@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@adonisjs/generic-exceptions": "^1.0.0",
-    "indicative": "^3.0.3",
+    "indicative": "^3.0.5",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "japa": "^1.0.5",
     "japa-cli": "^1.0.1",
-    "nyc": "^11.2.1",
+    "nyc": "^11.3.0",
     "standard": "^10.0.3"
   },
   "directories": {

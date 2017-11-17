@@ -1,3 +1,14 @@
+<a name="4.0.7"></a>
+## [4.0.7](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.5...v4.0.7) (2017-11-17)
+
+
+### Features
+
+* **exception:** export ValidationException for manual use ([cf5574d](https://github.com/adonisjs/adonis-validation-provider/commit/cf5574d))
+* **formatter:** add support for indicative formatter ([b5284f8](https://github.com/adonisjs/adonis-validation-provider/commit/b5284f8))
+
+
+
 <a name="4.0.6"></a>
 ## [4.0.6](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.5...v4.0.6) (2017-10-29)
 

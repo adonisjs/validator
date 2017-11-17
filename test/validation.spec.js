@@ -85,4 +85,26 @@ test.group('Validation', () => {
       }
     ])
   })
+
+  test('use jsonapi formatter', async (assert) => {
+    assert.plan(1)
+
+    const validation = new Validation(
+      { email: '' },
+      { email: 'required', age: 'required' },
+      { 'email.required': 'Enter email please' },
+      'jsonapi'
+    )
+
+    await validation.run()
+    assert.deepEqual(validation.messages(), {
+      errors: [
+        {
+          source: { pointer: 'email' },
+          title: 'required',
+          detail: 'Enter email please'
+        }
+      ]
+    })
+  })
 })

@@ -11,6 +11,7 @@
 
 const indicative = require('indicative')
 const Validation = require('../Validation')
+const { ValidationException } = require('../Exceptions')
 
 module.exports = {
   validateAll: (...params) => new Validation(...params).runAll(),
@@ -19,5 +20,7 @@ module.exports = {
   rule: indicative.rule,
   is: indicative.is,
   sanitizor: indicative.sanitizor,
-  extend: indicative.extend
+  formatters: indicative.formatters,
+  extend: indicative.extend,
+  ValidationException
 }

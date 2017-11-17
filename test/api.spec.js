@@ -75,4 +75,10 @@ test.group('Validator', () => {
       message: 'foo rejected'
     }])
   })
+
+  test('access indicative formatter', async (assert) => {
+    const { formatters } = Validator
+    assert.isTrue(formatters.list.has('vanilla'))
+    assert.isTrue(formatters.list.has('jsonapi'))
+  })
 })

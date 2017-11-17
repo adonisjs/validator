@@ -547,4 +547,43 @@ test.group('Validator Middleware', (group) => {
       }])
     }
   })
+
+  test('use formatter defined on validator instance', async (assert) => {
+    assert.plan(1)
+
+    const request = {
+      all () {
+        return {}
+      }
+    }
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+
+    class UserValidator {
+      get rules () {
+        return {
+          email: 'required'
+        }
+      }
+
+      get formatter () {
+        return 'jsonapi'
+      }
+    }
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+
+    try {
+      await middleware.handle({ request }, next, ['App/Validators/User'])
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        errors: [{
+          source: { pointer: 'email' },
+          title: 'required',
+          detail: 'required validation failed on email'
+        }]
+      })
+    }
+  })
 })

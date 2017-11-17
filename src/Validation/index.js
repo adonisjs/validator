@@ -19,18 +19,17 @@ const indicative = require('indicative')
  * @constructor
  */
 class Validation {
-  constructor (data, rules, messages) {
+  constructor (data, rules, messages, formatter) {
     this._data = data
     this._rules = rules
     this._messages = messages
+    this._formatter = formatter
     this._errorMessages = null
     this._executed = false
   }
 
   /**
-   * Sets the error as a property on instance, if they
-   * are validation errors. Otherwise an exception
-   * is thrown
+   * Sets the error as a property on instance.
    *
    * @method _useErrors
    *
@@ -39,11 +38,7 @@ class Validation {
    * @return {void}
    */
   _useErrors (errors) {
-    if (errors instanceof Array === true) {
-      this._errorMessages = errors
-      return
-    }
-    throw errors
+    this._errorMessages = errors
   }
 
   /**
@@ -73,9 +68,10 @@ class Validation {
    * @return {this}
    */
   async run () {
+    this._markAsExecuted()
+
     try {
-      this._markAsExecuted()
-      await indicative.validate(this._data, this._rules, this._messages)
+      await indicative.validate(this._data, this._rules, this._messages, this._formatter)
     } catch (error) {
       this._useErrors(error)
     }
@@ -92,9 +88,10 @@ class Validation {
    * @return {this}
    */
   async runAll () {
+    this._markAsExecuted()
+
     try {
-      this._markAsExecuted()
-      await indicative.validateAll(this._data, this._rules, this._messages)
+      await indicative.validateAll(this._data, this._rules, this._messages, this._formatter)
     } catch (error) {
       this._useErrors(error)
     }

@@ -105,7 +105,8 @@ class ValidatorMiddleware {
     const validation = await validate(
       validatorInstance.data || request.all(),
       validatorInstance.rules,
-      validatorInstance.messages
+      validatorInstance.messages,
+      validatorInstance.formatter
     )
 
     /**

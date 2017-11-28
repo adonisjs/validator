@@ -1,6 +1,6 @@
 {
   "name": "@adonisjs/validator",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@adonisjs/generic-exceptions": "^1.0.0",
-    "indicative": "^3.0.5",
+    "indicative": "^3.0.6",
     "lodash": "^4.17.4"
   },
   "devDependencies": {

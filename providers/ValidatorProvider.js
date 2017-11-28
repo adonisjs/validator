@@ -86,7 +86,7 @@ class ValidationProvider extends ServiceProvider {
      */
     const Server = this.app.use('Adonis/Src/Server')
     Server.registerNamed({
-      addonValidator: 'Adonis/Middleware/Validator'
+      av: 'Adonis/Middleware/Validator'
     })
 
     /**
@@ -97,7 +97,7 @@ class ValidationProvider extends ServiceProvider {
      */
     const Route = this.app.use('Adonis/Src/Route')
     Route.Route.macro('validator', function (validatorClass) {
-      this.middleware([`addonValidator:${validatorClass}`])
+      this.middleware([`av:${validatorClass}`])
       return this
     })
 
@@ -109,7 +109,7 @@ class ValidationProvider extends ServiceProvider {
       const middlewareMap = new Map()
 
       for (const [routeNames, validators] of validatorsMap) {
-        const middleware = _.castArray(validators).map((validator) => `addonValidator:${validator}`)
+        const middleware = _.castArray(validators).map((validator) => `av:${validator}`)
         middlewareMap.set(routeNames, middleware)
       }
 

@@ -1,3 +1,8 @@
+<a name="4.0.8"></a>
+## [4.0.8](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.7...v4.0.8) (2017-11-28)
+
+
+
 <a name="4.0.7"></a>
 ## [4.0.7](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.5...v4.0.7) (2017-11-17)
 

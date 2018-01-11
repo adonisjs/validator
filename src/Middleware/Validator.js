@@ -52,7 +52,7 @@ class ValidatorMiddleware {
       return true
     }
 
-    const data = request.all()
+    const data = request.post()
     const sanitizedData = this.Validator.sanitize(data, validatorInstance.sanitizationRules)
 
     /**

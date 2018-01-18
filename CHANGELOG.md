@@ -1,3 +1,13 @@
+<a name="4.0.9"></a>
+## [4.0.9](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.8...v4.0.9) (2018-01-18)
+
+
+### Bug Fixes
+
+* **middleware:** sanitizor update request body after sanitization ([19b5217](https://github.com/adonisjs/adonis-validation-provider/commit/19b5217)), closes [#32](https://github.com/adonisjs/adonis-validation-provider/issues/32)
+
+
+
 <a name="4.0.8"></a>
 ## [4.0.8](https://github.com/adonisjs/adonis-validation-provider/compare/v4.0.7...v4.0.8) (2017-11-28)
 

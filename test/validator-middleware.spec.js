@@ -475,6 +475,9 @@ test.group('Validator Middleware', (group) => {
         age: 22
       },
       _all: null,
+      post () {
+        return this.body
+      },
       all () {
         if (!this._all) {
           this._all = {}

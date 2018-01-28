@@ -10,8 +10,9 @@
 */
 
 const indicative = require('indicative')
+
 const Validation = require('../Validation')
-const { ValidationException } = require('../Exceptions')
+const { ValidationException, InvalidArgumentException } = require('../Exceptions')
 
 module.exports = {
   validateAll: (...params) => new Validation(...params).runAll(),
@@ -21,6 +22,11 @@ module.exports = {
   is: indicative.is,
   sanitizor: indicative.sanitizor,
   formatters: indicative.formatters,
-  extend: indicative.extend,
+  extend: function (rule, fn) {
+    if (typeof (fn) !== 'function') {
+      throw InvalidArgumentException.invalidParameter('Validator.extend expects 2nd parameter to be a function', fn)
+    }
+    indicative.validations[rule] = fn
+  },
   ValidationException
 }

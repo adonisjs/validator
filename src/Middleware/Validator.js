@@ -59,7 +59,7 @@ class ValidatorMiddleware {
      * Here we mutate the actual request body, this is required since there is
      * no point keep the actual data when we really want to sanitize it.
      */
-    _.merge(data, sanitizedData)
+    request.body = _.merge({}, data, sanitizedData)
   }
 
   /**

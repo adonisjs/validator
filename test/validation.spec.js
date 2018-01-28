@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
 */
 
+const Validator = require('../src/Validator')
 const test = require('japa')
 const Validation = require('../src/Validation')
 
@@ -93,10 +94,11 @@ test.group('Validation', () => {
       { email: '' },
       { email: 'required', age: 'required' },
       { 'email.required': 'Enter email please' },
-      'jsonapi'
+      Validator.formatters.JsonApi
     )
 
     await validation.run()
+
     assert.deepEqual(validation.messages(), {
       errors: [
         {

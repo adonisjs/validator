@@ -29,7 +29,7 @@ class ValidationException extends GE.RuntimeException {
    *
    * @method handle
    *
-   * @param  {Array} options.messages
+   * @param  {Array}  options.messages
    * @param  {Object} options.request
    * @param  {Object} options.response
    * @param  {Object} options.session
@@ -67,4 +67,4 @@ class ValidationException extends GE.RuntimeException {
   }
 }
 
-module.exports = { ValidationException }
+module.exports = { ValidationException, InvalidArgumentException: GE.InvalidArgumentException }

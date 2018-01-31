@@ -78,7 +78,13 @@ test.group('Validator', () => {
 
   test('access indicative formatter', async (assert) => {
     const { formatters } = Validator
-    assert.isTrue(formatters.list.has('vanilla'))
-    assert.isTrue(formatters.list.has('jsonapi'))
+    assert.property(formatters, 'Vanilla')
+    assert.property(formatters, 'JsonApi')
+  })
+
+  test('throw exception when not passing a function to extend method', (assert) => {
+    const { extend } = Validator
+    const fn = () => extend('foo', {})
+    assert.throw(fn, 'E_INVALID_PARAMETER: Validator.extend expects 2nd parameter to be a function instead received object')
   })
 })

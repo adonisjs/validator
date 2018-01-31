@@ -75,6 +75,7 @@ class Validation {
     } catch (error) {
       this._useErrors(error)
     }
+
     return this
   }
 
@@ -95,6 +96,7 @@ class Validation {
     } catch (error) {
       this._useErrors(error)
     }
+
     return this
   }
 

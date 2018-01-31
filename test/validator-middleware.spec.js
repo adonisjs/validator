@@ -467,25 +467,40 @@ test.group('Validator Middleware', (group) => {
   })
 
   test('sanitize data before validation', async (assert) => {
-    const request = {
-      body: {
-        email: 'foo+11@gmail.com'
-      },
-      get: {
-        age: 22
-      },
-      _all: null,
+    class Request {
+      constructor () {
+        this._body = {
+          email: 'foo+11@gmail.com'
+        }
+        this._all = {}
+        this._qs = {
+          age: 22
+        }
+      }
+
+      get body () {
+        return this._body || {}
+      }
+
+      set body (body) {
+        this._body = body
+        this._all = _.merge({}, this.get(), body)
+      }
+
+      get () {
+        return this._qs
+      }
+
       post () {
         return this.body
-      },
+      }
+
       all () {
-        if (!this._all) {
-          this._all = {}
-          return _.merge(this._all, this.get, this.body)
-        }
         return this._all
       }
     }
+    const request = new Request()
+
     const next = function () {}
 
     const middleware = new ValidatorMiddleware(Validator)
@@ -505,22 +520,40 @@ test.group('Validator Middleware', (group) => {
   test('use data defined on validator instance', async (assert) => {
     assert.plan(1)
 
-    const request = {
-      body: {
-        email: 'foo+11@gmail.com'
-      },
-      get: {
-        age: 22
-      },
-      _all: null,
-      all () {
-        if (!this._all) {
-          this._all = {}
-          return _.merge(this._all, this.get, this.body)
+    class Request {
+      constructor () {
+        this._body = {
+          email: 'foo+11@gmail.com'
         }
+        this._all = {}
+        this._qs = {
+          age: 22
+        }
+      }
+
+      get body () {
+        return this._body || {}
+      }
+
+      set body (body) {
+        this._body = body
+        this._all = _.merge({}, this.get(), body)
+      }
+
+      get () {
+        return this._qs
+      }
+
+      post () {
+        return this.body
+      }
+
+      all () {
         return this._all
       }
     }
+
+    const request = new Request()
     const next = function () {}
 
     const middleware = new ValidatorMiddleware(Validator)
@@ -571,7 +604,7 @@ test.group('Validator Middleware', (group) => {
       }
 
       get formatter () {
-        return 'jsonapi'
+        return Validator.formatters.JsonApi
       }
     }
 

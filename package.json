@@ -20,7 +20,7 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@adonisjs/ace": "^4.0.8",
+    "@adonisjs/ace": "^5.0.0",
     "@adonisjs/fold": "^4.0.5",
     "@adonisjs/sink": "^1.0.13",
     "clone": "^2.1.1",

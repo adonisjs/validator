@@ -21,6 +21,7 @@ module.exports = {
   rule: indicative.rule,
   is: indicative.is,
   sanitizor: indicative.sanitizor,
+  configure: indicative.configure,
   formatters: indicative.formatters,
   extend: function (rule, fn) {
     if (typeof (fn) !== 'function') {

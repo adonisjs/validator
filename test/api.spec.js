@@ -87,4 +87,22 @@ test.group('Validator', () => {
     const fn = () => extend('foo', {})
     assert.throw(fn, 'E_INVALID_PARAMETER: Validator.extend expects 2nd parameter to be a function instead received object')
   })
+
+  test('update formatter via configure call', async (assert) => {
+    const { configure, formatters } = Validator
+    configure({
+      FORMATTER: formatters.JsonApi
+    })
+
+    const validation = await Validator.validate({}, { username: 'required' })
+    assert.deepEqual(validation.messages(), {
+      errors: [
+        {
+          detail: 'required validation failed on username',
+          title: 'required',
+          source: { pointer: 'username' }
+        }
+      ]
+    })
+  })
 })

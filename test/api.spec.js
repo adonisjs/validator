@@ -104,5 +104,9 @@ test.group('Validator', () => {
         }
       ]
     })
+
+    configure({
+      FORMATTER: formatters.Vanilla
+    })
   })
 })

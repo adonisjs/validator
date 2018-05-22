@@ -52,13 +52,17 @@ class ValidatorMiddleware {
       return true
     }
 
-    const data = request.all()
+    const qsData = request.get()
+    const sanitizedQSData = this.Validator.sanitize(qsData, validatorInstance.sanitizationRules)
+
+    const data = request.post()
     const sanitizedData = this.Validator.sanitize(data, validatorInstance.sanitizationRules)
 
     /**
-     * Here we mutate the actual request body, this is required since there is
+     * Here we mutate the actual request body and query params, this is required since there is
      * no point keep the actual data when we really want to sanitize it.
      */
+    request._qs = _.merge({}, qsData, sanitizedQSData)
     request.body = _.merge({}, data, sanitizedData)
   }
 

@@ -474,7 +474,7 @@ test.group('Validator Middleware', (group) => {
         }
         this._all = {}
         this._qs = {
-          age: 22
+          age: '22'
         }
       }
 
@@ -507,7 +507,8 @@ test.group('Validator Middleware', (group) => {
     class UserValidator {
       get sanitizationRules () {
         return {
-          email: 'normalize_email'
+          email: 'normalize_email',
+          age: 'to_int'
         }
       }
     }
@@ -515,6 +516,7 @@ test.group('Validator Middleware', (group) => {
     ioc.fake('App/Validators/User', () => new UserValidator())
     await middleware.handle({ request }, next, ['App/Validators/User'])
     assert.equal(request.all().email, 'foo@gmail.com')
+    assert.strictEqual(request.all().age, 22)
   })
 
   test('use data defined on validator instance', async (assert) => {

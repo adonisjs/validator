@@ -4,31 +4,37 @@
   "description": "Validator for adonis framework",
   "main": "index.js",
   "scripts": {
-    "lint": "standard",
     "pretest": "npm run lint",
     "posttest": "npm run coverage",
     "test:local": "FORCE_COLOR=true node bin/index.js --local",
-    "test": "nyc npm run test:local",
-    "test:win": "set FORCE_COLOR=true && node bin/index.js --win",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc japa",
+    "test:win": "node ./node_modules/japa-cli/index.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "mrm": "mrm --preset=@adonisjs/mrm-preset",
+    "commit": "git-cz",
+    "lint": "standard"
   },
   "author": "virk",
   "license": "MIT",
   "dependencies": {
-    "@adonisjs/generic-exceptions": "^2.0.0",
-    "indicative": "^5.0.5",
-    "lodash": "^4.17.5"
+    "@adonisjs/generic-exceptions": "^2.0.1",
+    "indicative": "^5.0.6",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
-    "@adonisjs/ace": "^5.0.0",
-    "@adonisjs/fold": "^4.0.5",
-    "@adonisjs/sink": "^1.0.15",
-    "clone": "^2.1.1",
-    "coveralls": "^3.0.0",
+    "@adonisjs/ace": "^5.0.4",
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/mrm-preset": "^1.0.10",
+    "@adonisjs/sink": "^1.0.16",
+    "clone": "^2.1.2",
+    "commitizen": "^2.10.1",
+    "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
+    "mrm": "^1.2.1",
     "nyc": "^12.0.1",
+    "pkg-ok": "^2.2.0",
     "standard": "^10.0.3"
   },
   "directories": {
@@ -49,13 +55,13 @@
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   },
   "nyc": {
     "exclude": [
-      "bin",
-      "test"
+      "test",
+      "japaFile.js"
     ]
   }
 }

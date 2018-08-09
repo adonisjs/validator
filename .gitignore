@@ -6,3 +6,12 @@ npm-debug.log
 out
 .nyc_output
 test/tmp
+.DS_STORE
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.log
+yarn.lock
+build
+dist
+package-lock.json

@@ -100,8 +100,8 @@ class ValidatorMiddleware {
      * @type {Function}
      */
     const validate = validatorInstance.validateAll
-    ? this.Validator.validateAll
-    : this.Validator.validate
+      ? this.Validator.validateAll
+      : this.Validator.validate
 
     /**
      * Run validations

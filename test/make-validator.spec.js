@@ -47,4 +47,22 @@ test.group('Make Validator', (group) => {
       assert.match(message, /User\.js already exists/)
     }
   })
+
+  test('properly parse sub paths to make the class name', async (assert) => {
+    assert.plan(1)
+
+    const make = new MakeValidator(new Helpers(path.join(__dirname)))
+    await make.handle({ name: 'User/index' })
+    const User = require(path.join(__dirname, './app/Validators/User/index'))
+    assert.equal(User.name, 'UserIndex')
+  })
+
+  test('properly parse dashes to make the class name', async (assert) => {
+    assert.plan(1)
+
+    const make = new MakeValidator(new Helpers(path.join(__dirname)))
+    await make.handle({ name: 'User-index' })
+    const User = require(path.join(__dirname, './app/Validators/User-index'))
+    assert.equal(User.name, 'UserIndex')
+  })
 })

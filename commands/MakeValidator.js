@@ -82,13 +82,14 @@ class MakeValidator extends Command {
      */
     const relativePath = path.join('app/Validators', `${name}.js`)
     const validatorPath = path.join(this.Helpers.appRoot(), relativePath)
+    const className = name.replace(/[-/_](\w)/g, (match, group) => group.toUpperCase())
 
     /**
      * If command is not executed via command line, then return
      * the response
      */
     if (!this.viaAce) {
-      return this.generateFile(validatorPath, template, { name })
+      return this.generateFile(validatorPath, template, { name: className })
     }
 
     /* istanbul ignore next */
@@ -97,7 +98,7 @@ class MakeValidator extends Command {
      * to the end user.
      */
     try {
-      await this.generateFile(validatorPath, template, { name })
+      await this.generateFile(validatorPath, template, { name: className })
       this.completed('create', relativePath)
     } catch (error) {
       this.error(`${relativePath} validator already exists`)

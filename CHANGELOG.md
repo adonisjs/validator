@@ -1,3 +1,14 @@
+<a name="5.0.4"></a>
+## [5.0.4](https://github.com/adonisjs/adonis-validation-provider/compare/v5.0.3...v5.0.4) (2018-09-27)
+
+
+### Bug Fixes
+
+* **command:** properly cast validator name to make class name ([c8c9df8](https://github.com/adonisjs/adonis-validation-provider/commit/c8c9df8)), closes [#56](https://github.com/adonisjs/adonis-validation-provider/issues/56)
+* **validator:** sanitize qs and body both ([2466338](https://github.com/adonisjs/adonis-validation-provider/commit/2466338))
+
+
+
 <a name="5.0.3"></a>
 ## [5.0.3](https://github.com/adonisjs/adonis-validation-provider/compare/v5.0.2...v5.0.3) (2018-02-08)
 

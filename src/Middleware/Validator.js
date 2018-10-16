@@ -103,11 +103,22 @@ class ValidatorMiddleware {
       ? this.Validator.validateAll
       : this.Validator.validate
 
+    let data = validatorInstance.data
+
+    /**
+     * Merge request body and files when custom data object is
+     * not defined
+     */
+    if (!data) {
+      const files = typeof (request.files) === 'function' ? request.files() : {}
+      data = Object.assign({}, request.all(), files)
+    }
+
     /**
      * Run validations
      */
     const validation = await validate(
-      validatorInstance.data || request.all(),
+      data,
       validatorInstance.rules,
       validatorInstance.messages,
       validatorInstance.formatter

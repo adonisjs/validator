@@ -1,3 +1,13 @@
+<a name="5.0.6"></a>
+## [5.0.6](https://github.com/adonisjs/adonis-validation-provider/compare/v5.0.5...v5.0.6) (2018-10-16)
+
+
+### Features
+
+* **validator-middleware:** merge files along with request body for validations ([dd0089e](https://github.com/adonisjs/adonis-validation-provider/commit/dd0089e))
+
+
+
 <a name="5.0.5"></a>
 ## [5.0.5](https://github.com/adonisjs/adonis-validation-provider/compare/v5.0.4...v5.0.5) (2018-10-16)
 

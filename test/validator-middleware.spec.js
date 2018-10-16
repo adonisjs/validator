@@ -185,7 +185,7 @@ test.group('Validator Middleware', (group) => {
     })
   })
 
-  test('all authorize when validation passes', async (assert) => {
+  test('call authorize when validation passes', async (assert) => {
     let authorizedCalled = false
 
     const request = {
@@ -622,6 +622,49 @@ test.group('Validator Middleware', (group) => {
           detail: 'required validation failed on email'
         }]
       })
+    }
+  })
+
+  test('merge files and body when running validations', async (assert) => {
+    assert.plan(1)
+
+    const request = {
+      all () {
+        return {}
+      },
+      files () {
+        return {
+          profile: 'file'
+        }
+      }
+    }
+    const next = function () {}
+
+    const middleware = new ValidatorMiddleware(Validator)
+
+    class UserValidator {
+      get rules () {
+        return {
+          email: 'required',
+          profile: 'required'
+        }
+      }
+
+      get validateAll () {
+        return true
+      }
+    }
+
+    ioc.fake('App/Validators/User', () => new UserValidator())
+
+    try {
+      await middleware.handle({ request }, next, ['App/Validators/User'])
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'email',
+        validation: 'required',
+        message: 'required validation failed on email'
+      }])
     }
   })
 })

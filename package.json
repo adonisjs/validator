@@ -11,14 +11,17 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "commit": "git-cz",
-    "lint": "standard"
+    "lint": "standard",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "virk",
   "license": "MIT",
   "dependencies": {
     "@adonisjs/generic-exceptions": "^2.0.1",
     "indicative": "^5.0.8",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "snyk": "^1.190.0"
   },
   "devDependencies": {
     "@adonisjs/ace": "^5.0.8",
@@ -61,5 +64,6 @@
     "exclude": [
       "test"
     ]
-  }
+  },
+  "snyk": true
 }

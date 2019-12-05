@@ -9,7 +9,7 @@
 
 /// <reference path="../../adonis-typings/validator.ts" />
 
-import { validateAll, validate, extend } from 'indicative/validator'
+import { validateAll, validate, extend, validations } from 'indicative/validator'
 import {
   SchemaContract,
   MessagesContract,
@@ -55,6 +55,12 @@ export class Validator<T extends any> implements ValidatorContract<T> {
   public static extend (name: string, definition: ValidationDefinitionContract): void {
     extend(name, definition)
   }
+
+  /**
+   * A copy of validations to use in favor of string
+   * based rules
+   */
+  public static validations = validations
 
   /**
    * Validate data against the pre-defined schema and messages

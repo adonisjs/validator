@@ -80,5 +80,6 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Validator
    */
-  export const Validator: ValidatorConstructorContract
+  const Validator: ValidatorConstructorContract
+  export default Validator
 }

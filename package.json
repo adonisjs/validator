@@ -6,7 +6,7 @@
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "node japaFile.js",
-    "lint": "tslint --project tsconfig.json",
+    "lint": "eslint . --ext .ts",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
     "build": "npm run compile",
@@ -32,19 +32,20 @@
   },
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
   "devDependencies": {
+    "@adonisjs/fold": "^6.2.3",
     "@adonisjs/mrm-preset": "^2.2.2",
     "@types/node": "^12.12.14",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "del-cli": "^3.0.0",
     "doctoc": "^1.4.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-adonis": "^1.0.2",
     "husky": "^3.1.0",
     "japa": "^3.0.1",
     "mrm": "^2.0.0",
     "np": "^5.2.1",
     "ts-node": "^8.5.4",
-    "tslint": "^5.20.1",
-    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.7.3"
   },
   "nyc": {
@@ -75,5 +76,8 @@
   "np": {
     "contents": ".",
     "anyBranch": false
+  },
+  "dependencies": {
+    "indicative": "^7.3.0"
   }
 }

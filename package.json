@@ -2,43 +2,21 @@
   "name": "@adonisjs/validator",
   "version": "5.0.6",
   "description": "Validator for adonis framework",
-  "main": "index.js",
   "scripts": {
-    "pretest": "npm run lint",
-    "test:local": "FORCE_COLOR=true node bin/index.js --local",
-    "test": "nyc node japaFile.js",
-    "test:win": "node ./node_modules/japa-cli/index.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
+    "pretest": "npm run lint",
+    "test": "node japaFile.js",
+    "lint": "tslint --project tsconfig.json",
+    "clean": "del build",
+    "compile": "npm run lint && npm run clean && tsc",
+    "build": "npm run compile",
+    "prepublishOnly": "npm run build",
     "commit": "git-cz",
-    "lint": "standard"
+    "release": "np",
+    "version": "npm run build"
   },
-  "author": "virk",
+  "author": "virk,adonisjs",
   "license": "MIT",
-  "dependencies": {
-    "@adonisjs/generic-exceptions": "^2.0.1",
-    "indicative": "^5.0.8",
-    "lodash": "^4.17.11"
-  },
-  "devDependencies": {
-    "@adonisjs/ace": "^5.0.8",
-    "@adonisjs/fold": "^4.0.9",
-    "@adonisjs/mrm-preset": "^1.0.14",
-    "@adonisjs/sink": "^1.0.17",
-    "clone": "^2.1.2",
-    "commitizen": "^3.0.2",
-    "coveralls": "^3.0.2",
-    "cz-conventional-changelog": "^2.1.0",
-    "japa": "^2.0.5",
-    "japa-cli": "^1.0.1",
-    "mrm": "^1.2.1",
-    "nyc": "^13.1.0",
-    "pkg-ok": "^2.3.1",
-    "standard": "^12.0.1"
-  },
-  "directories": {
-    "test": "test"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adonisjs/adonis-validation-provider.git"
@@ -46,20 +24,56 @@
   "keywords": [
     "validator",
     "schema-validation",
-    "adonis"
+    "adonis",
+    "indicative"
   ],
   "bugs": {
     "url": "https://github.com/adonisjs/adonis-validation-provider/issues"
   },
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
+  "devDependencies": {
+    "@adonisjs/mrm-preset": "^2.2.2",
+    "@types/node": "^12.12.14",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "del-cli": "^3.0.0",
+    "doctoc": "^1.4.0",
+    "husky": "^3.1.0",
+    "japa": "^3.0.1",
+    "mrm": "^2.0.0",
+    "np": "^5.2.1",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.7.3"
+  },
+  "nyc": {
+    "exclude": [
+      "test"
+    ],
+    "extension": [
+      ".ts"
+    ]
+  },
+  "main": "build/index.js",
+  "files": [
+    "build/src",
+    "build/index.d.ts",
+    "build/index.js"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "doctoc README.md --title='## Table of contents' && git add README.md",
+      "commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
+    }
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
   },
-  "nyc": {
-    "exclude": [
-      "test"
-    ]
+  "np": {
+    "contents": ".",
+    "anyBranch": false
   }
 }

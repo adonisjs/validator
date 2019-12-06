@@ -98,5 +98,9 @@
       "@adonisjs/validator"
     ],
     "types": "@adonisjs/validator"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
   }
 }

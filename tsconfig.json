@@ -3,5 +3,9 @@
    "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-  }
+    "types": [
+      "@types/node",
+      "@adonisjs/core"
+    ]
+  },
 }

@@ -12,84 +12,70 @@ import { Validator } from '../src/Validator'
 
 test.group('Validator', () => {
   test('handle validation failures', async (assert) => {
-    const validator = new Validator({
-      username: 'required',
-    })
-
-    await validator.validate({})
-    assert.isTrue(validator.hasErrors)
-    assert.isFalse(validator.isValid)
-    assert.isUndefined(validator.validatedData)
-    assert.isTrue(validator.isValidated)
-
-    assert.deepEqual(validator.errors, [{
-      field: 'username',
-      message: 'required validation failed on username',
-      validation: 'required',
-    }])
-  })
-
-  test('multiple calls to validate must raise an exception', async (assert) => {
     assert.plan(1)
+    const validator = new Validator({})
 
-    const validator = new Validator({
-      username: 'required',
-    })
-
-    await validator.validate({})
     try {
-      await validator.validate({})
-    } catch ({ message }) {
-      assert.equal(message, 'Cannot re-use validator instance to peform multiple validations')
+      await validator.validate({}, { username: 'required' })
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'username',
+        message: 'required validation failed on username',
+        validation: 'required',
+      }])
     }
   })
 
   test('use cachekey to cache schema', async (assert) => {
-    const CACHE_KEY = 'foo'
+    assert.plan(2)
 
-    await new Validator({ username: 'required' }, {}, CACHE_KEY).validate({})
+    const CACHE_KEY = 'foo'
+    const validator = new Validator({})
+
+    try {
+      await validator.validate({}, { username: 'required' }, {}, { cacheKey: CACHE_KEY })
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'username',
+        message: 'required validation failed on username',
+        validation: 'required',
+      }])
+    }
 
     /**
-     * This validator must fail, even if we change the schema.
+     * Even though schema has changed, the old schema is used because
+     * of same cache key
      */
-    const validator = new Validator({ username: 'min:8' }, {}, CACHE_KEY)
-    await validator.validate({})
-
-    assert.isTrue(validator.hasErrors)
-    assert.isFalse(validator.isValid)
-    assert.isUndefined(validator.validatedData)
-    assert.isTrue(validator.isValidated)
-
-    assert.deepEqual(validator.errors, [{
-      field: 'username',
-      message: 'required validation failed on username',
-      validation: 'required',
-    }])
+    try {
+      await validator.validate({}, { username: 'min:8' }, {}, { cacheKey: CACHE_KEY })
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'username',
+        message: 'required validation failed on username',
+        validation: 'required',
+      }])
+    }
   })
 
   test('extend validator', async (assert) => {
-    Validator.extend('foo', {
+    assert.plan(1)
+
+    const validator = new Validator({})
+    validator.extend('foo', {
       async: false,
       validate (): boolean {
         return false
       },
     })
 
-    /**
-     * This validator must fail, even if we change the schema.
-     */
-    const validator = new Validator({ username: 'foo' }, {})
-    await validator.validate({})
-
-    assert.isTrue(validator.hasErrors)
-    assert.isFalse(validator.isValid)
-    assert.isUndefined(validator.validatedData)
-    assert.isTrue(validator.isValidated)
-
-    assert.deepEqual(validator.errors, [{
-      field: 'username',
-      message: 'foo validation failed on username',
-      validation: 'foo',
-    }])
+    try {
+      await validator.validate({}, { username: 'foo' })
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'username',
+        message: 'foo validation failed on username',
+        validation: 'foo',
+      }])
+    }
   })
 })

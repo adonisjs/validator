@@ -2,6 +2,12 @@
   "name": "@adonisjs/validator",
   "version": "5.0.6",
   "description": "Validator for adonis framework",
+  "main": "./build/providers/ValidationProvider.js",
+  "files": [
+    "build/adonis-typings",
+    "build/providers",
+    "build/src"
+  ],
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
@@ -15,6 +21,7 @@
     "release": "np",
     "version": "npm run build"
   },
+  "types": "./build/adonis-typings/index.d.ts",
   "author": "virk,adonisjs",
   "license": "MIT",
   "repository": {
@@ -32,6 +39,7 @@
   },
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
   "devDependencies": {
+    "@adonisjs/core": "^2.6.2",
     "@adonisjs/fold": "^6.2.3",
     "@adonisjs/mrm-preset": "^2.2.2",
     "@types/node": "^12.12.14",
@@ -56,12 +64,6 @@
       ".ts"
     ]
   },
-  "main": "build/index.js",
-  "files": [
-    "build/src",
-    "build/index.d.ts",
-    "build/index.js"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "doctoc README.md --title='## Table of contents' && git add README.md",
@@ -78,6 +80,18 @@
     "anyBranch": false
   },
   "dependencies": {
+    "@poppinss/utils": "^2.1.0",
     "indicative": "^7.3.0"
+  },
+  "peerDependencies": {
+    "@adonisjs/core": "^2.0.0",
+    "@adonisjs/fold": "^6.0.0"
+  },
+  "adonisjs": {
+    "templates": {
+      "config": "validator.txt"
+    },
+    "providers": ["@adonisjs/validator"],
+    "types": "@adonisjs/validator"
   }
 }

@@ -9,9 +9,15 @@
 
 declare module '@ioc:Adonis/Core/Validator' {
   import { Schema, Messages } from 'indicative-parser'
-  import { ValidationDefination } from 'indicative-compiler'
   import { ValidatorConfig } from 'indicative/src/Contracts'
+  import { ValidationDefination, ErrorFormatterContract } from 'indicative-compiler'
   import { ValidationRulesContract as BaseRulesContract } from 'indicative/validator'
+  import { VanillaFormatter, JsonApiFormatter } from 'indicative-formatters'
+
+  /**
+   * Error formatter interface to create custom formatters.
+   */
+  export interface ValidatorFormatterContract extends ErrorFormatterContract {}
 
   /**
    * Validation rules interface that must be extended whenever
@@ -40,37 +46,30 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type ValidationDefinitionContract = ValidationDefination
 
   /**
-   * Validator to run validations on a given schema with runtime
-   * data. The validator can only be used once
+   * Validate and stop on first error
    */
-  export interface ValidatorContract<ValidatedData extends any> {
+  export function validate<T extends any = any> (
+    data: any,
     schema: SchemaContract,
     messages?: MessagesContract,
-    validatedData?: ValidatedData,
-    isValidated: boolean,
-    isValid: boolean
-    hasErrors: boolean
-    errors: any[]
-
-    validate (data: any, config?: Partial<ValidatorConfigContract>): Promise<void>
-    validateAll (data: any, config?: Partial<ValidatorConfigContract>): Promise<void>
-  }
+    config?: Partial<ValidatorConfigContract>
+  ): Promise<T>
 
   /**
-   * Shape of validator static properties.
+   * Validate all
    */
-  export interface ValidatorConstructorContract {
-    new<ValidatedData extends any> (
-      schema: SchemaContract,
-      messages?: MessagesContract
-    ): ValidatorContract<ValidatedData>
+  export function validateAll<T extends any = any> (
+    data: any,
+    schema: SchemaContract,
+    messages?: MessagesContract,
+    config?: Partial<ValidatorConfigContract>
+  ): Promise<T>
 
-    /**
-     * Extend validator by adding new validation rules. Newly added
-     * rule make their way back to indicative validations.
-     */
-    extend: (name: string, defination: ValidationDefinitionContract) => void
-  }
+  /**
+   * Extend validator by adding new validation rules. Newly added
+   * rule make their way back to indicative validations.
+   */
+  export const extend: (name: string, defination: ValidationDefinitionContract) => void
 
   /**
    * A copy of validations to be used a rules
@@ -78,8 +77,10 @@ declare module '@ioc:Adonis/Core/Validator' {
   export const validations: ValidationRulesContract
 
   /**
-   * Validator
+   * Collection of default formatters
    */
-  const Validator: ValidatorConstructorContract
-  export default Validator
+  export const formatters: {
+    vanilla: typeof VanillaFormatter,
+    jsonapi: typeof JsonApiFormatter,
+  }
 }

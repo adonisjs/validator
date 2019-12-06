@@ -10,49 +10,27 @@
 /// <reference path="../../adonis-typings/validator.ts" />
 
 import { validateAll, validate, extend, validations } from 'indicative/validator'
+import { JsonApiFormatter, VanillaFormatter } from 'indicative-formatters'
+
 import {
   SchemaContract,
   MessagesContract,
-  ValidatorContract,
   ValidatorConfigContract,
   ValidationDefinitionContract,
-  ValidatorConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
-function StaticImplements<T> () {
-  return (_t: T): void => {}
-}
+import { ValidationException } from '../Exceptions/ValidationException'
 
 /**
  * Exposes the API to validate data using the schema object.
  */
-@StaticImplements<ValidatorConstructorContract>()
-export class Validator<T extends any> implements ValidatorContract<T> {
-  public isValid = false
-  public hasErrors = false
-  public isValidated = false
-  public errors = []
-  public validatedData?: T
-
-  constructor (
-    public schema: SchemaContract,
-    public messages?: MessagesContract,
-    private _cacheKey?: string,
-  ) {}
-
-  /**
-   * Stopping validator instance from being re-used
-   */
-  private _ensureIsntValidated (): void {
-    if (this.isValidated) {
-      throw new Error('Cannot re-use validator instance to peform multiple validations')
-    }
-  }
+export class Validator {
+  constructor (private config: Partial<ValidatorConfigContract>) {}
 
   /**
    * Extend validations by adding a new rule
    */
-  public static extend (name: string, definition: ValidationDefinitionContract): void {
+  public extend (name: string, definition: ValidationDefinitionContract): void {
     extend(name, definition)
   }
 
@@ -60,27 +38,35 @@ export class Validator<T extends any> implements ValidatorContract<T> {
    * A copy of validations to use in favor of string
    * based rules
    */
-  public static validations = validations
+  public validations = validations
+
+  /**
+   * Collection of default formatters
+   */
+  public formatters = {
+    vanilla: VanillaFormatter,
+    jsonapi: JsonApiFormatter,
+  }
 
   /**
    * Validate data against the pre-defined schema and messages
    */
-  public async validate (
+  public async validate<T extends any> (
     data: any,
+    schema: SchemaContract,
+    messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
-  ): Promise<void> {
-    this._ensureIsntValidated()
-
-    config = Object.assign({ cacheKey: this._cacheKey }, config)
-    this.isValidated = true
-
+  ): Promise<T> {
     try {
-      this.validatedData = await validate(data, this.schema, this.messages, config)
-      this.isValid = true
+      config = Object.assign({}, this.config, config)
+      const validated = await validate(data, schema, messages, config)
+      return validated
     } catch (error) {
-      this.isValid = false
-      this.hasErrors = true
-      this.errors = error
+      if (Array.isArray(error)) {
+        throw new ValidationException(error)
+      } else {
+        throw error
+      }
     }
   }
 
@@ -90,20 +76,20 @@ export class Validator<T extends any> implements ValidatorContract<T> {
    */
   public async validateAll (
     data: any,
+    schema: SchemaContract,
+    messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
   ): Promise<void> {
-    this._ensureIsntValidated()
-
-    config = Object.assign({ cacheKey: this._cacheKey }, config)
-    this.isValidated = true
-
     try {
-      this.validatedData = await validateAll(data, this.schema, this.messages, config)
-      this.isValid = true
+      config = Object.assign({}, this.config, config)
+      const validated = await validateAll(data, schema, messages, config)
+      return validated
     } catch (error) {
-      this.isValid = false
-      this.hasErrors = true
-      this.errors = error
+      if (Array.isArray(error)) {
+        throw new ValidationException(error)
+      } else {
+        throw error
+      }
     }
   }
 }

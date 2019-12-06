@@ -6,6 +6,7 @@
   "files": [
     "build/adonis-typings",
     "build/providers",
+    "build/templates",
     "build/src"
   ],
   "scripts": {
@@ -15,7 +16,8 @@
     "lint": "eslint . --ext .ts",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
-    "build": "npm run compile",
+    "copy:files": "copyfiles \"templates/**/*.txt\" build",
+    "build": "npm run compile && npm run copy:files",
     "prepublishOnly": "npm run build",
     "commit": "git-cz",
     "release": "np",
@@ -44,6 +46,7 @@
     "@adonisjs/mrm-preset": "^2.2.2",
     "@types/node": "^12.12.14",
     "commitizen": "^4.0.3",
+    "copyfiles": "^2.1.1",
     "cz-conventional-changelog": "^3.0.2",
     "del-cli": "^3.0.0",
     "doctoc": "^1.4.0",
@@ -91,7 +94,9 @@
     "templates": {
       "config": "validator.txt"
     },
-    "providers": ["@adonisjs/validator"],
+    "providers": [
+      "@adonisjs/validator"
+    ],
     "types": "@adonisjs/validator"
   }
 }

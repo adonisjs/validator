@@ -8,11 +8,11 @@
 */
 
 declare module '@ioc:Adonis/Core/Validator' {
-  import { Schema, Messages } from 'indicative-parser'
   import { ValidatorConfig } from 'indicative/src/Contracts'
-  import { ValidationDefination, ErrorFormatterContract } from 'indicative-compiler'
-  import { ValidationRulesContract as BaseRulesContract } from 'indicative/validator'
   import { VanillaFormatter, JsonApiFormatter } from 'indicative-formatters'
+  import { ValidationDefination, ErrorFormatterContract } from 'indicative-compiler'
+  import { Schema, Messages, ParsedTypedSchema, TypedSchema } from 'indicative-parser'
+  import { t, ValidationRulesContract as BaseRulesContract } from 'indicative/validator'
 
   /**
    * Error formatter interface to create custom formatters.
@@ -36,6 +36,11 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type SchemaContract = Schema
 
   /**
+   * Shape of typed schema
+   */
+  export type TypedSchemaContract = ParsedTypedSchema<TypedSchema>
+
+  /**
    * Copy of messages
    */
   export type MessagesContract = Messages
@@ -48,22 +53,22 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Validate and stop on first error
    */
-  export function validate<T extends any = any> (
+  export function validate<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: SchemaContract,
+    schema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>
-  ): Promise<T>
+  ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
 
   /**
    * Validate all
    */
-  export function validateAll<T extends any = any> (
+  export function validate<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: SchemaContract,
+    schema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>
-  ): Promise<T>
+  ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
 
   /**
    * Extend validator by adding new validation rules. Newly added
@@ -83,4 +88,6 @@ declare module '@ioc:Adonis/Core/Validator' {
     vanilla: typeof VanillaFormatter,
     jsonapi: typeof JsonApiFormatter,
   }
+
+  export { t }
 }

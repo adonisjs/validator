@@ -78,4 +78,20 @@ test.group('Validator', () => {
       }])
     }
   })
+
+  test('define declarative schema', async (assert) => {
+    assert.plan(1)
+    const validator = new Validator({})
+
+    try {
+      await validator.validate({}, validator.t.schema({ username: validator.t.string() }))
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        field: 'username',
+        message: 'required validation failed on username',
+        validation: 'required',
+      }])
+    }
+  })
 })
+

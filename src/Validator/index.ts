@@ -9,12 +9,13 @@
 
 /// <reference path="../../adonis-typings/validator.ts" />
 
-import { validateAll, validate, extend, validations } from 'indicative/validator'
 import { JsonApiFormatter, VanillaFormatter } from 'indicative-formatters'
+import { validateAll, validate, extend, validations, t } from 'indicative/validator'
 
 import {
   SchemaContract,
   MessagesContract,
+  TypedSchemaContract,
   ValidatorConfigContract,
   ValidationDefinitionContract,
 } from '@ioc:Adonis/Core/Validator'
@@ -49,14 +50,19 @@ export class Validator {
   }
 
   /**
+   * Identifier to create declarative schema
+   */
+  public t = t
+
+  /**
    * Validate data against the pre-defined schema and messages
    */
-  public async validate<T extends any> (
+  public async validate<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: SchemaContract,
+    schema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
-  ): Promise<T> {
+  ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>> {
     try {
       config = Object.assign({}, this.config, config)
       const validated = await validate(data, schema, messages, config)
@@ -74,12 +80,12 @@ export class Validator {
    * Validate data against the pre-defined schema and messages using
    * validate all.
    */
-  public async validateAll (
+  public async validateAll<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: SchemaContract,
+    schema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
-  ): Promise<void> {
+  ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>> {
     try {
       config = Object.assign({}, this.config, config)
       const validated = await validateAll(data, schema, messages, config)

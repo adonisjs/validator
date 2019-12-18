@@ -52,7 +52,7 @@ export class Validator {
   /**
    * Identifier to create declarative schema
    */
-  public t = t
+  public schema = t
 
   /**
    * Validate data against the pre-defined schema and messages

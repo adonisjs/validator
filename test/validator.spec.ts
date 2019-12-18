@@ -84,7 +84,7 @@ test.group('Validator', () => {
     const validator = new Validator({})
 
     try {
-      await validator.validate({}, validator.t.schema({ username: validator.t.string() }))
+      await validator.validate({}, validator.schema.schema({ username: validator.schema.string() }))
     } catch (error) {
       assert.deepEqual(error.messages, [{
         field: 'username',

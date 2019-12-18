@@ -23,7 +23,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Validation rules interface that must be extended whenever
    * a new rule is added using extend
    */
-  export interface ValidationRulesContract extends BaseRulesContract {}
+  export interface ValidationsContract extends BaseRulesContract {}
 
   /**
    * Shape of validator config.
@@ -63,7 +63,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Validate all
    */
-  export function validate<T extends TypedSchemaContract | SchemaContract> (
+  export function validateAll<T extends TypedSchemaContract | SchemaContract> (
     data: any,
     schema: T,
     messages?: MessagesContract,
@@ -77,9 +77,9 @@ declare module '@ioc:Adonis/Core/Validator' {
   export const extend: (name: string, defination: ValidationDefinitionContract) => void
 
   /**
-   * A copy of validations to be used a rules
+   * A copy of validations to be used as rules
    */
-  export const validations: ValidationRulesContract
+  export const validations: ValidationsContract
 
   /**
    * Collection of default formatters
@@ -89,5 +89,5 @@ declare module '@ioc:Adonis/Core/Validator' {
     jsonapi: typeof JsonApiFormatter,
   }
 
-  export { t }
+  export { t as schema }
 }

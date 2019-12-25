@@ -93,11 +93,7 @@
   "adonisjs": {
     "templates": {
       "config": "validator.txt"
-    },
-    "providers": [
-      "@adonisjs/validator"
-    ],
-    "types": "@adonisjs/validator"
+    }
   },
   "publishConfig": {
     "access": "public",

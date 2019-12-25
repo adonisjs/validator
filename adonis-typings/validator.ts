@@ -12,7 +12,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   import { VanillaFormatter, JsonApiFormatter } from 'indicative-formatters'
   import { ValidationDefination, ErrorFormatterContract } from 'indicative-compiler'
   import { Schema, Messages, ParsedTypedSchema, TypedSchema } from 'indicative-parser'
-  import { t, ValidationRulesContract as BaseRulesContract } from 'indicative/validator'
+  import { schema, ValidationRulesContract as BaseRulesContract } from 'indicative/validator'
 
   /**
    * Error formatter interface to create custom formatters.
@@ -55,7 +55,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export function validate<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: T,
+    validationSchema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>
   ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
@@ -65,7 +65,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export function validateAll<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: T,
+    validationSchema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>
   ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
@@ -89,5 +89,5 @@ declare module '@ioc:Adonis/Core/Validator' {
     jsonapi: typeof JsonApiFormatter,
   }
 
-  export { t as schema }
+  export { schema }
 }

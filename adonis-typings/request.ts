@@ -13,24 +13,25 @@ declare module '@ioc:Adonis/Core/Request' {
   import {
     SchemaContract,
     MessagesContract,
+    TypedSchemaContract,
     ValidatorConfigContract,
   } from '@ioc:Adonis/Core/Validator'
 
   /**
-   * Adding `validate` and `validateAll` custom methods
+   * Adding `validate` and `validateUsing` custom methods
    */
   interface RequestContract {
-    validate<T extends any> (
+    validate<T extends TypedSchemaContract | SchemaContract> (
       schema: SchemaContract,
       messages?: MessagesContract,
       config?: Partial<ValidatorConfigContract>,
-    ): Promise<T>
+    ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
 
-    validateUsing<T extends any> (
+    validateUsing<T extends TypedSchemaContract | SchemaContract> (
       data: any,
       schema: SchemaContract,
       messages?: MessagesContract,
       config?: Partial<ValidatorConfigContract>,
-    ): Promise<T>
+    ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
   }
 }

@@ -10,7 +10,7 @@
 /// <reference path="../../adonis-typings/validator.ts" />
 
 import { JsonApiFormatter, VanillaFormatter } from 'indicative-formatters'
-import { validateAll, validate, extend, validations, t } from 'indicative/validator'
+import { validateAll, validate, extend, validations, schema } from 'indicative/validator'
 
 import {
   SchemaContract,
@@ -52,20 +52,20 @@ export class Validator {
   /**
    * Identifier to create declarative schema
    */
-  public schema = t
+  public schema = schema
 
   /**
    * Validate data against the pre-defined schema and messages
    */
   public async validate<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: T,
+    validationSchema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
   ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>> {
     try {
       config = Object.assign({}, this.config, config)
-      const validated = await validate(data, schema, messages, config)
+      const validated = await validate(data, validationSchema, messages, config)
       return validated
     } catch (error) {
       if (Array.isArray(error)) {
@@ -82,13 +82,13 @@ export class Validator {
    */
   public async validateAll<T extends TypedSchemaContract | SchemaContract> (
     data: any,
-    schema: T,
+    validationSchema: T,
     messages?: MessagesContract,
     config?: Partial<ValidatorConfigContract>,
   ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>> {
     try {
       config = Object.assign({}, this.config, config)
-      const validated = await validateAll(data, schema, messages, config)
+      const validated = await validateAll(data, validationSchema, messages, config)
       return validated
     } catch (error) {
       if (Array.isArray(error)) {

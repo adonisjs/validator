@@ -3,9 +3,11 @@
    "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": [
-      "@types/node",
-      "@adonisjs/core"
-    ]
   },
+ "files": [
+    "./node_modules/@adonisjs/http-server/build/adonis-typings/index.d.ts",
+    "./node_modules/@adonisjs/encryption/build/adonis-typings/encryption.d.ts",
+    "./node_modules/@adonisjs/profiler/build/adonis-typings/profiler.d.ts",
+    "./node_modules/@adonisjs/logger/build/adonis-typings/logger.d.ts"
+  ]
 }

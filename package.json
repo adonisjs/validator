@@ -41,9 +41,12 @@
   },
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
   "devDependencies": {
-    "@adonisjs/core": "^2.6.2",
+    "@adonisjs/encryption": "^1.0.3",
     "@adonisjs/fold": "^6.2.3",
+    "@adonisjs/http-server": "^1.6.0",
+    "@adonisjs/logger": "^1.1.7",
     "@adonisjs/mrm-preset": "^2.2.3",
+    "@adonisjs/profiler": "^1.2.4",
     "@types/node": "^13.1.0",
     "commitizen": "^4.0.3",
     "copyfiles": "^2.1.1",
@@ -87,7 +90,6 @@
     "indicative": "^7.4.3"
   },
   "peerDependencies": {
-    "@adonisjs/core": "^2.0.0",
     "@adonisjs/fold": "^6.0.0"
   },
   "adonisjs": {

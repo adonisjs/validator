@@ -47,6 +47,7 @@
     "@adonisjs/logger": "^1.1.7",
     "@adonisjs/mrm-preset": "^2.2.3",
     "@adonisjs/profiler": "^1.2.4",
+    "@adonisjs/session": "^2.1.0",
     "@types/node": "^13.1.0",
     "commitizen": "^4.0.3",
     "copyfiles": "^2.1.1",
@@ -87,7 +88,7 @@
   },
   "dependencies": {
     "@poppinss/utils": "^2.1.1",
-    "indicative": "^7.4.3"
+    "indicative": "^7.4.4"
   },
   "peerDependencies": {
     "@adonisjs/fold": "^6.0.0"

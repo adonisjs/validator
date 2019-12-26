@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 */
 
-/// <reference path="../../adonis-typings/validator.ts" />
+/// <reference path="../../adonis-typings/index.ts" />
 
 import { JsonApiFormatter, VanillaFormatter } from 'indicative-formatters'
 import { validateAll, validate, extend, validations, schema } from 'indicative/validator'

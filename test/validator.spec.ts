@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
 */
 
+/// <reference path="../adonis-typings/index.ts" />
+
 import test from 'japa'
 import { Validator } from '../src/Validator'
 

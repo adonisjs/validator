@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 */
 
-/// <reference path="../../adonis-typings/validator.ts" />
+/// <reference path="../../adonis-typings/index.ts" />
 
 import { validateAll } from '@ioc:Adonis/Core/Validator'
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'

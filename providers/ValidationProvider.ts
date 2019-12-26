@@ -34,7 +34,7 @@ export default class ValidationProvider {
   public boot (): void {
     this.$container.with(
       ['Adonis/Core/Validator', 'Adonis/Core/Request'],
-      (validator, request) => extendRequest(request, validator.validateAll),
+      (validator, request) => extendRequest(request, validator.validateAll.bind(validator)),
     )
   }
 }

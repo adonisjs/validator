@@ -21,14 +21,21 @@ declare module '@ioc:Adonis/Core/Request' {
    * Adding `validate` and `validateUsing` custom methods
    */
   interface RequestContract {
+    /**
+     * Validate the current request body and query params against
+     * a pre-defined schema
+     */
     validate<T extends TypedSchemaContract | SchemaContract> (
       schema: T,
       messages?: MessagesContract,
       config?: Partial<ValidatorConfigContract>,
     ): Promise<T extends SchemaContract ? Promise<any> : Promise<T['props']>>
 
-    validateUsing<T extends TypedSchemaContract | SchemaContract> (
-      data: any,
+    /**
+     * Validate the current request body and query params against
+     * a pre-defined schema and collect all errors
+     */
+    validateAll<T extends TypedSchemaContract | SchemaContract> (
       schema: T,
       messages?: MessagesContract,
       config?: Partial<ValidatorConfigContract>,

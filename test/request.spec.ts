@@ -31,7 +31,7 @@ const requestConfig = {
 test.group('Extend Request', () => {
   test('validate data using request', async (assert) => {
     const validator = new Validator({})
-    extendRequest(Request, validator.validateAll.bind(this))
+    extendRequest(Request, validator.validate, validator.validateAll)
 
     const req = new IncomingMessage(new Socket())
     const res = new ServerResponse(req)
@@ -40,6 +40,7 @@ test.group('Extend Request', () => {
     try {
       await request.validate(validator.schema.new({
         username: validator.schema.string(),
+        age: validator.schema.number(),
       }))
     } catch (error) {
       assert.deepEqual(error.messages, [{
@@ -52,7 +53,7 @@ test.group('Extend Request', () => {
 
   test('return validated data when validation passes', async (assert) => {
     const validator = new Validator({})
-    extendRequest(Request, validator.validateAll.bind(this))
+    extendRequest(Request, validator.validate, validator.validateAll)
 
     const req = new IncomingMessage(new Socket())
     const res = new ServerResponse(req)
@@ -66,21 +67,32 @@ test.group('Extend Request', () => {
     assert.deepEqual(validated, { username: 'virk' })
   })
 
-  test('validate using custom data', async (assert) => {
+  test('validate all', async (assert) => {
     const validator = new Validator({})
-    extendRequest(Request, validator.validateAll.bind(this))
+    extendRequest(Request, validator.validate, validator.validateAll)
 
     const req = new IncomingMessage(new Socket())
     const res = new ServerResponse(req)
     const request = new Request(req, res, encryption, requestConfig)
-    request.setInitialBody({ username: 'virk' })
 
-    const validated = await request.validateUsing({
-      username: 'nikk',
-    }, validator.schema.new({
-      username: validator.schema.string(),
-    }))
-
-    assert.deepEqual(validated, { username: 'nikk' })
+    try {
+      await request.validateAll(validator.schema.new({
+        username: validator.schema.string(),
+        age: validator.schema.number(),
+      }))
+    } catch (error) {
+      assert.deepEqual(error.messages, [
+        {
+          field: 'username',
+          message: 'required validation failed on username',
+          validation: 'required',
+        },
+        {
+          field: 'age',
+          message: 'required validation failed on age',
+          validation: 'required',
+        },
+      ])
+    }
   })
 })

@@ -26,7 +26,7 @@ import { ValidationException } from '../Exceptions/ValidationException'
  * Exposes the API to validate data using the schema object.
  */
 export class Validator {
-  constructor (private config: Partial<ValidatorConfigContract>) {}
+  constructor (public config: Partial<ValidatorConfigContract>) {}
 
   /**
    * Extend validations by adding a new rule
@@ -57,7 +57,7 @@ export class Validator {
   /**
    * Validate data against the pre-defined schema and messages
    */
-  public async validate<T extends TypedSchemaContract | SchemaContract> (
+  public validate = async function <T extends TypedSchemaContract | SchemaContract> (
     data: any,
     validationSchema: T,
     messages?: MessagesContract,
@@ -74,13 +74,13 @@ export class Validator {
         throw error
       }
     }
-  }
+  }.bind(this)
 
   /**
    * Validate data against the pre-defined schema and messages using
    * validate all.
    */
-  public async validateAll<T extends TypedSchemaContract | SchemaContract> (
+  public validateAll = async function <T extends TypedSchemaContract | SchemaContract> (
     data: any,
     validationSchema: T,
     messages?: MessagesContract,
@@ -97,5 +97,5 @@ export class Validator {
         throw error
       }
     }
-  }
+  }.bind(this)
 }

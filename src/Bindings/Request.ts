@@ -9,7 +9,7 @@
 
 /// <reference path="../../adonis-typings/index.ts" />
 
-import { validateAll } from '@ioc:Adonis/Core/Validator'
+import { validateAll, validate } from '@ioc:Adonis/Core/Validator'
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
 
 /**
@@ -18,13 +18,14 @@ import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
  */
 export default function extendRequest (
   Request: RequestConstructorContract,
-  validateFn: typeof validateAll,
+  validateFn: typeof validate,
+  validateAllFn: typeof validateAll,
 ): void {
   /**
    * Adding `validate` macro to validate the current request
    * data
    */
-  Request.macro('validate', function validate (
+  Request.macro('validate', function requestValidate (
     schema,
     messages?,
     config?,
@@ -36,12 +37,11 @@ export default function extendRequest (
    * Adding `validate` macro to validate using custom data. This is shortcut
    * import validator manually
    */
-  Request.macro('validateUsing', function validateUsing (
-    data,
+  Request.macro('validateAll', function requestValidateAll (
     schema,
     messages?,
     config?,
   ): Promise<any> {
-    return validateFn(data, schema, messages, config)
+    return validateAllFn(this.all(), schema, messages, config)
   })
 }

@@ -1,64 +1,23 @@
+<div align="center"><img src="https://res.cloudinary.com/adonisjs/image/upload/q_100/v1564392111/adonis-banner_o9lunk.png" width="600px"></div>
+# @adonisjs/validator
+> Tagline
+
+[![circleci-image]][circleci-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url]
+
+A short brief
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of contents
 
-- [Data Validator For AdonisJS](#data-validator-for-adonisjs)
-- [
-    
-      Website
-    
-     | 
-    
-      Guides
-    
-     | 
-    
-      Contributing
-    
-  ](#website%0A----%0A------%0A----%0A------guides%0A----%0A------%0A----%0A------contributing)
+- [Purpose](#purpose)
+- [Features](#features)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<div align="center">
-  <img src="https://res.cloudinary.com/adonisjs/image/upload/q_100/v1558612869/adonis-readme_zscycu.jpg" width="600px">
-</div>
+## Purpose
 
-<br />
-
-<div align="center">
-  <h3>Data Validator For AdonisJS</h3>
-  <p>
-    AdonisJS validator uses <a href="https://indicative.adonisjs.com">indicative</a> to validate the request data provides complete type information for validated data.
-  </p>
-</div>
-
-<br />
-
-<div align="center">
-
-[![circleci-image]][circleci-url] [![typescript-image]][typescript-url] [![npm-image]][npm-url] [![license-image]][license-url]
-
-</div>
-
-<div align="center">
-  <h3>
-    <a href="https://adonisjs.com">
-      Website
-    </a>
-    <span> | </span>
-    <a href="https://adonisjs.com/docs/validator">
-      Guides
-    </a>
-    <span> | </span>
-    <a href="CONTRIBUTING.md">
-      Contributing
-    </a>
-  </h3>
-</div>
-
-<div align="center">
-  <sub>Built with ❤︎ by <a href="https://github.com/thetutlage">Harminder Virk</a>
-</div>
+## Features
 
 [circleci-image]: https://img.shields.io/circleci/project/github/adonisjs/adonis-validation-provider/master.svg?style=for-the-badge&logo=circleci
 [circleci-url]: https://circleci.com/gh/adonisjs/adonis-validation-provider "circleci"

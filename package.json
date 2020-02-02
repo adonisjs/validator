@@ -2,26 +2,19 @@
   "name": "@adonisjs/validator",
   "version": "6.1.1",
   "description": "Validator for adonis framework",
-  "main": "./build/providers/ValidationProvider.js",
-  "files": [
-    "build/adonis-typings",
-    "build/providers",
-    "build/templates",
-    "build/src"
-  ],
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "node japaFile.js",
-    "lint": "eslint . --ext .ts",
     "clean": "del build",
     "compile": "npm run lint && npm run clean && tsc",
     "copy:files": "copyfiles \"templates/**/*.txt\" build",
-    "build": "npm run compile && npm run copy:files",
+    "build": "npm run compile",
     "prepublishOnly": "npm run build",
     "commit": "git-cz",
     "release": "np",
-    "version": "npm run build"
+    "version": "npm run build",
+    "lint": "eslint . --ext=.ts"
   },
   "types": "./build/adonis-typings/index.d.ts",
   "author": "virk,adonisjs",
@@ -40,29 +33,6 @@
     "url": "https://github.com/adonisjs/adonis-validation-provider/issues"
   },
   "homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
-  "devDependencies": {
-    "@adonisjs/encryption": "^1.0.3",
-    "@adonisjs/fold": "^6.2.3",
-    "@adonisjs/http-server": "^1.6.0",
-    "@adonisjs/logger": "^1.1.7",
-    "@adonisjs/mrm-preset": "^2.2.3",
-    "@adonisjs/profiler": "^1.2.4",
-    "@adonisjs/session": "^2.1.0",
-    "@types/node": "^13.1.0",
-    "commitizen": "^4.0.3",
-    "copyfiles": "^2.1.1",
-    "cz-conventional-changelog": "^3.0.2",
-    "del-cli": "^3.0.0",
-    "doctoc": "^1.4.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-adonis": "^1.0.4",
-    "husky": "^3.1.0",
-    "japa": "^3.0.1",
-    "mrm": "^2.0.2",
-    "np": "^5.2.1",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
-  },
   "nyc": {
     "exclude": [
       "test"
@@ -86,13 +56,6 @@
     "contents": ".",
     "anyBranch": false
   },
-  "dependencies": {
-    "@poppinss/utils": "^2.1.1",
-    "indicative": "^7.4.4"
-  },
-  "peerDependencies": {
-    "@adonisjs/fold": "^6.0.0"
-  },
   "adonisjs": {
     "templates": {
       "config": "validator.txt"
@@ -101,5 +64,27 @@
   "publishConfig": {
     "access": "public",
     "tag": "alpha"
-  }
+  },
+  "devDependencies": {
+    "@adonisjs/mrm-preset": "^2.2.3",
+    "@types/node": "^13.7.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
+    "del-cli": "^3.0.0",
+    "doctoc": "^1.4.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-adonis": "^1.0.5",
+    "husky": "^4.2.1",
+    "japa": "^3.0.1",
+    "mrm": "^2.0.4",
+    "np": "^5.2.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build/src",
+    "build/index.d.ts",
+    "build/index.js"
+  ]
 }

@@ -1,0 +1,63 @@
+/*
+ * @adonisjs/validator
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+*/
+
+import test from 'japa'
+import { validate } from '../fixtures/rules/index'
+import { ApiErrorReporter } from '../../src/ErrorReporter'
+import { unsigned } from '../../src/Validations/number/unsigned'
+
+test.group('unsigned', () => {
+  validate(unsigned, test, -10, 10, {
+    type: 'literal',
+    subtype: 'number',
+  })
+
+  test('report error when value is not an unsigned number', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    unsigned.validate(-10, {}, {
+      errorReporter: reporter,
+      pointer: 'age',
+      tip: {},
+      root: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), [{
+      field: 'age',
+      rule: 'unsigned',
+      message: 'unsigned validation failed',
+    }])
+  })
+
+  test('skip when value is not a number', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    unsigned.validate('-10', {}, {
+      errorReporter: reporter,
+      pointer: 'age',
+      tip: {},
+      root: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), [])
+  })
+
+  test('work fine when value is a valid unsigned value', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    unsigned.validate(1, {}, {
+      errorReporter: reporter,
+      pointer: 'age',
+      tip: {},
+      root: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), [])
+  })
+})

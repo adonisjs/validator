@@ -1,3 +1,11 @@
 {
-  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig"
+  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+  },
+  "files": [
+    "./node_modules/@adonisjs/http-server/build/adonis-typings/index.d.ts",
+    "./node_modules/@adonisjs/bodyparser/build/adonis-typings/index.d.ts"
+  ]
 }

@@ -66,16 +66,30 @@
     "tag": "alpha"
   },
   "devDependencies": {
-    "@adonisjs/mrm-preset": "^2.2.3",
+    "@adonisjs/bodyparser": "^3.2.2",
+    "@adonisjs/encryption": "^1.0.4",
+    "@adonisjs/fold": "^6.3.3",
+    "@adonisjs/http-server": "^1.7.1",
+    "@adonisjs/logger": "^1.1.8",
+    "@adonisjs/mrm-preset": "^2.2.4",
+    "@adonisjs/profiler": "^2.0.0",
+    "@hapi/joi": "^17.1.0",
     "@types/node": "^13.7.0",
+    "benchmark": "^2.1.4",
+    "class-validator": "^0.11.0",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.1.0",
+    "dedent": "^0.7.0",
     "del-cli": "^3.0.0",
     "doctoc": "^1.4.0",
+    "endent": "^1.4.0",
     "eslint": "^6.8.0",
-    "eslint-plugin-adonis": "^1.0.5",
+    "eslint-plugin-adonis": "^1.0.6",
     "husky": "^4.2.1",
+    "indicative": "^7.4.4",
+    "indicative-compiler": "^7.2.4",
     "japa": "^3.0.1",
+    "matcha": "^0.7.0",
     "mrm": "^2.0.4",
     "np": "^5.2.1",
     "ts-node": "^8.6.2",
@@ -86,5 +100,6 @@
     "build/src",
     "build/index.d.ts",
     "build/index.js"
-  ]
+  ],
+  "dependencies": {}
 }

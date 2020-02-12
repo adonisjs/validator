@@ -24,7 +24,7 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.validate(schema.create({
+      await validator.compileAndValidate(schema.create({
         username: schema.string(),
       }), {})
     } catch (error) {
@@ -36,7 +36,7 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.validate(schema.create({
+      await validator.compileAndValidate(schema.create({
         username: schema.string(),
         email: schema.string(),
         password: schema.string(),
@@ -54,7 +54,7 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.validate(schema.create({
+      await validator.compileAndValidate(schema.create({
         username: schema.string(),
         email: schema.string(),
         password: schema.string(),
@@ -70,7 +70,7 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.validate(schema.create({
+      await validator.compileAndValidate(schema.create({
         username: schema.string(),
         email: schema.string(),
         password: schema.string(),
@@ -90,7 +90,7 @@ test.group('Validator | validate', () => {
     }
 
     try {
-      await validator.validate(schema.create({
+      await validator.compileAndValidate(schema.create({
         username: schema.string(),
         email: schema.string(),
         password: schema.string(),

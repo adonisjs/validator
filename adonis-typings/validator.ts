@@ -342,9 +342,9 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Validate function signature
+   * Compile and validate function signature
    */
-  export interface ValidateFn {
+  export interface CompileAndValidateFn {
     <T extends ParsedTypedSchema<TypedSchema>> (
       schema: T,
       data: any,
@@ -365,9 +365,9 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Shape of the function that executes the compiler function
+   * Shape of the function that validates the compiler output
    */
-  export interface ExecFn {
+  export interface ValidateFn {
     <Fn extends (...args: any) => any> (
       compiledFn: Fn,
       data: any,
@@ -398,7 +398,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * Compile schema to an executable function
      */
-    exec: ExecFn,
+    compileAndValidate: CompileAndValidateFn,
 
     /**
      * Add a new validation rule

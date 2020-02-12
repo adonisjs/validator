@@ -9,10 +9,10 @@
 
 import {
   Rule,
-  ExecFn,
   CompileFn,
   ValidateFn,
   ValidationContract,
+  CompileAndValidateFn,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
@@ -55,7 +55,7 @@ const compile: CompileFn = (parsedSchema) => new Compiler(parsedSchema.tree).com
  * have to re-compile the schema when trying to use different set of
  * validation messages.
  */
-const exec: ExecFn = (compiledFn, data, messages, options) => {
+const validate: ValidateFn = (compiledFn, data, messages, options) => {
   let Reporter: ErrorReporterConstructorContract = VanillaErrorReporter
   let bail = false
 
@@ -80,9 +80,9 @@ const exec: ExecFn = (compiledFn, data, messages, options) => {
  * Validate data using pre-parsed schema. The schema will be compiled and
  * cached using the cache key (if defined).
  */
-const validate: ValidateFn = (parsedSchema, data, messages, options) => {
+const compileAndValidate: CompileAndValidateFn = (parsedSchema, data, messages, options) => {
   if (!options || !options.cacheKey) {
-    return exec(compile(parsedSchema), data, messages, options)
+    return validate(compile(parsedSchema), data, messages, options)
   }
 
   let compiledFn = COMPILED_CACHE[options.cacheKey]
@@ -90,7 +90,7 @@ const validate: ValidateFn = (parsedSchema, data, messages, options) => {
     compiledFn = compile(parsedSchema)
     COMPILED_CACHE[options.cacheKey] = compiledFn
   }
-  return exec(compiledFn, data, messages, options)
+  return validate(compiledFn, data, messages, options)
 }
 
 /**
@@ -119,8 +119,8 @@ const addType = function (name: string, typeDefinition: any) {
  */
 export const validator = {
   compile,
-  exec,
   validate,
+  compileAndValidate,
   rules,
   addRule,
   addType,

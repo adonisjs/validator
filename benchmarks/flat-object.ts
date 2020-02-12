@@ -72,7 +72,7 @@ new Suite()
   .add('AdonisJS', {
     defer: true,
     fn (deferred: Deferred) {
-      validator.exec(adonisValidate, { username: 'virk', name: 'Virk' }).then(() => deferred.resolve())
+      validator.validate(adonisValidate, { username: 'virk', name: 'Virk' }).then(() => deferred.resolve())
     },
   })
   .add('Joi', {

@@ -14,7 +14,8 @@
     "commit": "git-cz",
     "release": "np",
     "version": "npm run build",
-    "lint": "eslint . --ext=.ts"
+    "lint": "eslint . --ext=.ts",
+    "benchmarks": "node build/benchmarks/index.js"
   },
   "types": "./build/adonis-typings/index.d.ts",
   "author": "virk,adonisjs",
@@ -85,10 +86,12 @@
     "endent": "^1.4.0",
     "eslint": "^6.8.0",
     "eslint-plugin-adonis": "^1.0.6",
+    "execa": "^4.0.0",
     "husky": "^4.2.1",
     "indicative": "^7.4.4",
     "indicative-compiler": "^7.2.4",
     "japa": "^3.0.1",
+    "kleur": "^3.0.3",
     "matcha": "^0.7.0",
     "mrm": "^2.0.4",
     "np": "^5.2.1",

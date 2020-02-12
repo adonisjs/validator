@@ -10,23 +10,16 @@
 declare module '@ioc:Adonis/Core/Request' {
   import {
     TypedSchema,
+    ValidateFn,
     ParsedTypedSchema,
     ErrorReporterConstructorContract,
   } from '@ioc:Adonis/Core/Validator'
 
   interface RequestContract {
     /**
-     * Validate current request data using a pre-parsed
+     * Validate current request data using a pre-compiled
      * schema
      */
-    validate <T extends ParsedTypedSchema<TypedSchema>> (
-      schema: T,
-      messages?: { [key: string]: string },
-      options?: {
-        cacheKey?: string,
-        reporter?: ErrorReporterConstructorContract,
-        bail?: boolean,
-      }
-    ): Promise<T['props']>
+    validate: ValidateFn,
   }
 }

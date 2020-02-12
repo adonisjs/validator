@@ -58,7 +58,7 @@ new Suite()
   .add('AdonisJS', {
     defer: true,
     fn (deferred: Deferred) {
-      validator.exec(adonisValidate, {
+      validator.validate(adonisValidate, {
         username: 'virk',
         name: 'Virk',
         prop1: 'foo',

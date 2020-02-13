@@ -104,5 +104,7 @@
     "build/index.d.ts",
     "build/index.js"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  }
 }

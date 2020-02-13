@@ -15,6 +15,7 @@ import {
   SchemaLiteral,
   ParsedSchemaTree,
 } from '@ioc:Adonis/Core/Validator'
+import get from 'lodash.get'
 
 import * as validations from './Validations'
 
@@ -112,4 +113,13 @@ export function getArrayType (
       }
     },
   }
+}
+
+/**
+ * Returns the field value for a given pointer. If pointer starts
+ * with `/`, then it will be searched from the root of the
+ * object, otherwise it's searched from the nearest tip
+ */
+export function getFieldValue (field: string, root: any, tip: any) {
+  return field[0] === '/' ? get(root, field) : tip[field]
 }

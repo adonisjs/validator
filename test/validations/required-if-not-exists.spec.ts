@@ -8,70 +8,81 @@
 */
 
 import test from 'japa'
-import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
-import { required } from '../../src/Validations/existence/required'
+import { requiredIfNotExists } from '../../src/Validations/existence/requiredIfNotExists'
 
-test.group('Required', () => {
-  validate(required, test, undefined, 'anything')
-
-  test('report error when value is null', (assert) => {
+test.group('Required If Not Exists', () => {
+  test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(null, {}, {
+    requiredIfNotExists.validate(null, {
+      field: 'token',
+    }, {
       errorReporter: reporter,
       pointer: 'username',
-      tip: {},
+      tip: {
+      },
       root: {},
       mutate: () => {},
     })
 
     assert.deepEqual(reporter.toJSON(), [{
       field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
+      rule: 'requiredIfNotExists',
+      message: 'requiredIfNotExists validation failed',
     }])
   })
 
-  test('report error when value is undefined', (assert) => {
+  test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(undefined, {}, {
+    requiredIfNotExists.validate(undefined, {
+      field: 'token',
+    }, {
       errorReporter: reporter,
       pointer: 'username',
-      tip: {},
+      tip: {
+        token: null,
+      },
       root: {},
       mutate: () => {},
     })
 
     assert.deepEqual(reporter.toJSON(), [{
       field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
+      rule: 'requiredIfNotExists',
+      message: 'requiredIfNotExists validation failed',
     }])
   })
 
-  test('report error when value is an empty string', (assert) => {
+  test('report error when expectation matches and field is empty string', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate('', {}, {
+    requiredIfNotExists.validate('', {
+      field: 'token',
+    }, {
       errorReporter: reporter,
       pointer: 'username',
-      tip: {},
+      tip: {
+      },
       root: {},
       mutate: () => {},
     })
 
     assert.deepEqual(reporter.toJSON(), [{
       field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
+      rule: 'requiredIfNotExists',
+      message: 'requiredIfNotExists validation failed',
     }])
   })
 
-  test('work fine when value is defined', (assert) => {
+  test('work fine when target field is defined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate('virk', {}, {
+    requiredIfNotExists.validate('', {
+      field: 'token',
+    }, {
       errorReporter: reporter,
       pointer: 'username',
-      tip: {},
+      tip: {
+        token: '10100110',
+      },
       root: {},
       mutate: () => {},
     })
@@ -79,25 +90,15 @@ test.group('Required', () => {
     assert.deepEqual(reporter.toJSON(), [])
   })
 
-  test('work fine when value is negative boolean', (assert) => {
+  test('work fine when expectation matches and field is undefined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(false, {}, {
+    requiredIfNotExists.validate('hello', {
+      field: 'token',
+    }, {
       errorReporter: reporter,
       pointer: 'username',
-      tip: {},
-      root: {},
-      mutate: () => {},
-    })
-
-    assert.deepEqual(reporter.toJSON(), [])
-  })
-
-  test('work fine when value is zero', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
-    required.validate(0, {}, {
-      errorReporter: reporter,
-      pointer: 'username',
-      tip: {},
+      tip: {
+      },
       root: {},
       mutate: () => {},
     })

@@ -49,14 +49,14 @@ const compile: CompileFn = (parsedSchema) => new Compiler(parsedSchema.tree).com
  * have to re-compile the schema when trying to use different set of
  * validation messages.
  */
-const validate: ValidateFn = ({ schema: compileSchema, data, messages, reporter, bail }) => {
-  let Reporter: ErrorReporterConstructorContract = reporter || VanillaErrorReporter
-  bail = bail === undefined ? false : bail
+const validate: ValidateFn = (options) => {
+  let Reporter: ErrorReporterConstructorContract = options.reporter || VanillaErrorReporter
+  const bail = options.bail === undefined ? false : options.bail
 
-  return compileSchema(
-    data,
+  return options.schema(
+    options.data,
     validations,
-    new Reporter(messages || NOOP_MESSAGES, bail),
+    new Reporter(options.messages || NOOP_MESSAGES, bail),
     HELPERS,
   )
 }

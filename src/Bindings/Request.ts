@@ -23,13 +23,18 @@ export default function extendRequest (
     /**
      * Attempt to find the best error reporter for validation
      */
-    let Reporter: ErrorReporterConstructorContract = ErrorReporters.VanillaErrorReporter
-    if (this.accepts(['json']) === 'json') {
-      Reporter = ErrorReporters.ApiErrorReporter
-    }
-
-    if (this.accepts(['application/vnd.api+json']) === 'application/vnd.api+json') {
-      Reporter = ErrorReporters.JsonApiErrorReporter
+    let Reporter: ErrorReporterConstructorContract
+    switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
+      case 'html':
+      case null:
+        Reporter = ErrorReporters.VanillaErrorReporter
+        break
+      case 'json':
+        Reporter = ErrorReporters.ApiErrorReporter
+        break
+      case 'application/vnd.api+json':
+        Reporter = ErrorReporters.JsonApiErrorReporter
+        break
     }
 
     return validate(schema, {

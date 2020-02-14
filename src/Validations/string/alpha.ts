@@ -10,6 +10,7 @@
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const DEFAULT_MESSAGE = 'alpha validation failed'
+const RULE_NAME = 'alpha'
 
 /**
  * Validation signature for the "alpha" regex. Non-string values are
@@ -24,7 +25,8 @@ export const alpha: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'alpha',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { errorReporter, arrayExpressionPointer, pointer }) {
@@ -37,7 +39,7 @@ export const alpha: SyncValidation = {
     }
 
     if (!/^[a-zA-z]+$/.test(value)) {
-      errorReporter.report(pointer, 'alpha', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

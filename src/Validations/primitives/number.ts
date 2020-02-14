@@ -10,6 +10,7 @@
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const DEFAULT_MESSAGE = 'number validation failed'
+const RULE_NAME = 'number'
 
 /**
  * Ensure the value is a valid number. Numeric string will be casted
@@ -20,7 +21,8 @@ export const number: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'number',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
@@ -32,17 +34,17 @@ export const number: SyncValidation = {
      * Report error when value is not a number and neither a string
      */
     if (typeof (value) !== 'string') {
-      errorReporter.report(pointer, 'number', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
       return
     }
 
     /**
      * Attempt to cast number like string to a number. In case of
-     * failure report the validation failure
+     * failure report the validation error
      */
     const castedValue = Number(value)
     if (isNaN(castedValue)) {
-      errorReporter.report(pointer, 'number', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
       return
     }
 

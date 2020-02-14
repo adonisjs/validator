@@ -8,16 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { number } from '../../src/Validations/primitives/number'
 
+function compile () {
+  return number.compile('literal', 'number', rules['number']().options)
+}
+
 test.group('Number', () => {
-  validate(number, test, 'helloworld', 10)
+  validate(number, test, 'helloworld', 10, compile())
 
   test('report error when value is not a valid number', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    number.validate(null, {}, {
+    number.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},
@@ -36,7 +41,7 @@ test.group('Number', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = '22'
 
-    number.validate(value, {}, {
+    number.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},
@@ -52,7 +57,7 @@ test.group('Number', () => {
 
   test('work fine when value is a valid number', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    number.validate(22, {}, {
+    number.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},
@@ -65,7 +70,7 @@ test.group('Number', () => {
 
   test('report error when value is a string that cannot be casted to a number', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    number.validate('hello-world', {}, {
+    number.validate('hello-world', compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},

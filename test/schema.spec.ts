@@ -24,11 +24,13 @@ test.group('Schema | String', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'string',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -47,6 +49,7 @@ test.group('Schema | String', () => {
             name: 'string',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -65,16 +68,19 @@ test.group('Schema | String', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'string',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'alpha',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -95,11 +101,13 @@ test.group('Schema | Boolean', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'boolean',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -118,6 +126,7 @@ test.group('Schema | Boolean', () => {
             name: 'boolean',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -138,11 +147,13 @@ test.group('Schema | Number', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'number',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -161,6 +172,7 @@ test.group('Schema | Number', () => {
             name: 'number',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -179,16 +191,19 @@ test.group('Schema | Number', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'number',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'unsigned',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -209,11 +224,15 @@ test.group('Schema | Date', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'date',
             allowUndefineds: false,
             async: false,
+            compiledOptions: {
+              format: undefined,
+            },
           },
         ],
       },
@@ -232,6 +251,53 @@ test.group('Schema | Date', () => {
             name: 'date',
             allowUndefineds: false,
             async: false,
+            compiledOptions: {
+              format: undefined,
+            },
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with date rule and a format', (assert) => {
+    assert.deepEqual(schema.create({
+      username: schema.date({ format: 'iso' }),
+    }).tree, {
+      username: {
+        type: 'literal',
+        subtype: 'date',
+        rules: [
+          {
+            name: 'required',
+            allowUndefineds: true,
+            async: false,
+            compiledOptions: undefined,
+          },
+          {
+            name: 'date',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: { format: 'iso' },
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with optional date rule and a format', (assert) => {
+    assert.deepEqual(schema.create({
+      username: schema.date.optional({ format: 'iso' }),
+    }).tree, {
+      username: {
+        type: 'literal',
+        subtype: 'date',
+        rules: [
+          {
+            name: 'date',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: { format: 'iso' },
           },
         ],
       },
@@ -252,6 +318,7 @@ test.group('Schema | Enum', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'enum',
@@ -297,6 +364,7 @@ test.group('Schema | Enum Set', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'enumSet',
@@ -343,11 +411,13 @@ test.group('Schema | Object', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'object',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         children: {
@@ -359,11 +429,13 @@ test.group('Schema | Object', () => {
                 name: 'required',
                 allowUndefineds: true,
                 async: false,
+                compiledOptions: undefined,
               },
               {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
+                compiledOptions: undefined,
               },
             ],
           },
@@ -385,6 +457,7 @@ test.group('Schema | Object', () => {
             name: 'object',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         children: {
@@ -396,11 +469,13 @@ test.group('Schema | Object', () => {
                 name: 'required',
                 allowUndefineds: true,
                 async: false,
+                compiledOptions: undefined,
               },
               {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
+                compiledOptions: undefined,
               },
             ],
           },
@@ -424,11 +499,13 @@ test.group('Schema | Array', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         each: {
@@ -438,11 +515,13 @@ test.group('Schema | Array', () => {
               name: 'required',
               allowUndefineds: true,
               async: false,
+              compiledOptions: undefined,
             },
             {
               name: 'object',
               allowUndefineds: false,
               async: false,
+              compiledOptions: undefined,
             },
           ],
           children: {
@@ -454,11 +533,13 @@ test.group('Schema | Array', () => {
                   name: 'required',
                   allowUndefineds: true,
                   async: false,
+                  compiledOptions: undefined,
                 },
                 {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
+                  compiledOptions: undefined,
                 },
               ],
             },
@@ -481,6 +562,7 @@ test.group('Schema | Array', () => {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         each: {
@@ -490,11 +572,13 @@ test.group('Schema | Array', () => {
               name: 'required',
               allowUndefineds: true,
               async: false,
+              compiledOptions: undefined,
             },
             {
               name: 'object',
               allowUndefineds: false,
               async: false,
+              compiledOptions: undefined,
             },
           ],
           children: {
@@ -506,11 +590,13 @@ test.group('Schema | Array', () => {
                   name: 'required',
                   allowUndefineds: true,
                   async: false,
+                  compiledOptions: undefined,
                 },
                 {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
+                  compiledOptions: undefined,
                 },
               ],
             },
@@ -533,11 +619,13 @@ test.group('Schema | Array', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'maxLength',
@@ -553,11 +641,13 @@ test.group('Schema | Array', () => {
               name: 'required',
               allowUndefineds: true,
               async: false,
+              compiledOptions: undefined,
             },
             {
               name: 'object',
               allowUndefineds: false,
               async: false,
+              compiledOptions: undefined,
             },
           ],
           children: {
@@ -569,11 +659,13 @@ test.group('Schema | Array', () => {
                   name: 'required',
                   allowUndefineds: true,
                   async: false,
+                  compiledOptions: undefined,
                 },
                 {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
+                  compiledOptions: undefined,
                 },
               ],
             },
@@ -594,11 +686,13 @@ test.group('Schema | Array', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -616,6 +710,7 @@ test.group('Schema | Array', () => {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
       },
@@ -633,11 +728,13 @@ test.group('Schema | Array', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         each: {
@@ -648,11 +745,13 @@ test.group('Schema | Array', () => {
               name: 'required',
               allowUndefineds: true,
               async: false,
+              compiledOptions: undefined,
             },
             {
               name: 'string',
               allowUndefineds: false,
               async: false,
+              compiledOptions: undefined,
             },
           ],
         },
@@ -671,11 +770,13 @@ test.group('Schema | Array', () => {
             name: 'required',
             allowUndefineds: true,
             async: false,
+            compiledOptions: undefined,
           },
           {
             name: 'array',
             allowUndefineds: false,
             async: false,
+            compiledOptions: undefined,
           },
         ],
         each: {
@@ -686,9 +787,106 @@ test.group('Schema | Array', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
+              compiledOptions: undefined,
             },
           ],
         },
+      },
+    })
+  })
+})
+
+test.group('Schema | File', () => {
+  test('define schema with file rule', (assert) => {
+    assert.deepEqual(schema.create({
+      avatar: schema.file(),
+    }).tree, {
+      avatar: {
+        type: 'literal',
+        subtype: 'file',
+        rules: [
+          {
+            name: 'required',
+            allowUndefineds: true,
+            async: false,
+            compiledOptions: undefined,
+          },
+          {
+            name: 'file',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: {},
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with file rule and validation options', (assert) => {
+    assert.deepEqual(schema.create({
+      avatar: schema.file({ size: 10, extnames: ['jpg'] }),
+    }).tree, {
+      avatar: {
+        type: 'literal',
+        subtype: 'file',
+        rules: [
+          {
+            name: 'required',
+            allowUndefineds: true,
+            async: false,
+            compiledOptions: undefined,
+          },
+          {
+            name: 'file',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: {
+              extnames: ['jpg'],
+              size: 10,
+            },
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with optional file rule', (assert) => {
+    assert.deepEqual(schema.create({
+      avatar: schema.file.optional(),
+    }).tree, {
+      avatar: {
+        type: 'literal',
+        subtype: 'file',
+        rules: [
+          {
+            name: 'file',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: {},
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with optional file rule and validation options', (assert) => {
+    assert.deepEqual(schema.create({
+      avatar: schema.file.optional({ size: 10, extnames: ['jpg'] }),
+    }).tree, {
+      avatar: {
+        type: 'literal',
+        subtype: 'file',
+        rules: [
+          {
+            name: 'file',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: {
+              extnames: ['jpg'],
+              size: 10,
+            },
+          },
+        ],
       },
     })
   })

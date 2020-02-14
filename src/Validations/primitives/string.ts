@@ -10,6 +10,7 @@
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const DEFAULT_MESSAGE = 'string validation failed'
+const RULE_NAME = 'string'
 
 /**
  * Ensure value is a valid string
@@ -20,12 +21,13 @@ export const string: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'string',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { pointer, errorReporter, arrayExpressionPointer }) {
     if (typeof (value) !== 'string') {
-      errorReporter.report(pointer, 'string', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

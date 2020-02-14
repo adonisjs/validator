@@ -10,6 +10,7 @@
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const DEFAULT_MESSAGE = 'array validation failed'
+const RULE_NAME = 'array'
 
 /**
  * Ensure value is a valid array
@@ -19,12 +20,13 @@ export const array: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'array',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { pointer, arrayExpressionPointer, errorReporter }) {
     if (!Array.isArray(value)) {
-      errorReporter.report(pointer, 'array', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

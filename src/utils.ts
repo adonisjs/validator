@@ -15,9 +15,11 @@ import {
   SchemaLiteral,
   ParsedSchemaTree,
 } from '@ioc:Adonis/Core/Validator'
+
 import get from 'lodash.get'
 
 import * as validations from './Validations'
+import { rules as schemaRules } from './Rules'
 
 /**
  * Compiles the `Rule` object and returns `ParsedRule` object.
@@ -56,8 +58,8 @@ export function getLiteralType (
         type: 'literal' as const,
         subtype: subtype,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [{ name: 'required', options: {} }])
-          .concat(hasSubTypeRule ? [] : [{ name: subtype, options: ruleOptions }])
+          .concat(isOptional ? [] : [schemaRules.required()])
+          .concat(hasSubTypeRule ? [] : [schemaRules[subtype](ruleOptions)])
           .concat(rules)
           .map((rule) => compileRule('literal', subtype, rule)),
       }
@@ -122,4 +124,19 @@ export function getArrayType (
  */
 export function getFieldValue (field: string, root: any, tip: any) {
   return field[0] === '/' ? get(root, field) : tip[field]
+}
+
+/**
+ * Validates to ensure that arguments passed to validations compile method
+ * is an array
+ */
+export function ensureValidArgs (ruleName: string, args: any): asserts args is any[] {
+  /**
+   * The compile method must receive an array of spread arguments. If not
+   * it means the end has not used `Rules.<rule>` in order to use the
+   * validation rule
+   */
+  if (!Array.isArray(args)) {
+    throw new Error(`${ruleName}: The 3rd arguments must be a combined array of arguments`)
+  }
 }

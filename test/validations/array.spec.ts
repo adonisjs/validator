@@ -8,16 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { array } from '../../src/Validations/primitives/array'
 
+function compile () {
+  return array.compile('array', 'array', rules['array']().options)
+}
+
 test.group('array', () => {
-  validate(array, test, null, [])
+  validate(array, test, null, [], compile())
 
   test('report error when value is not a valid array', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    array.validate(null, {}, {
+    array.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'addresses',
       tip: {},
@@ -34,7 +39,7 @@ test.group('array', () => {
 
   test('work fine when value is a valid array', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    array.validate([], {}, {
+    array.validate([], compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},

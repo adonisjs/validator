@@ -8,13 +8,40 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { maxLength } from '../../src/Validations/string-and-array/maxLength'
 
+function compile (length: number) {
+  return maxLength.compile('literal', 'string', rules.maxLength(length).options)
+}
+
 test.group('Max Length', () => {
-  validate(maxLength, test, 'helloworld', 'hello', {
-    options: 6,
+  validate(maxLength, test, 'helloworld', 'hello', compile(6))
+
+  test('do not compile when args are not defined', (assert) => {
+    const fn = () => maxLength.compile('literal', 'array')
+    assert.throw(fn, 'maxLength: The 3rd arguments must be a combined array of arguments')
+  })
+
+  test('do not compile when length is not defined', (assert) => {
+    const fn = () => maxLength.compile('literal', 'array', [])
+    assert.throw(fn, 'The limit value for "maxLength" must be defined as a number')
+  })
+
+  test('do not compile node subtype is not array or string', (assert) => {
+    const fn = () => maxLength.compile('literal', 'object', [])
+    assert.throw(fn, 'Cannot use "maxLength" rule on "object" data type')
+  })
+
+  test('compile with options', (assert) => {
+    assert.deepEqual(maxLength.compile('literal', 'array', [10]), {
+      name: 'maxLength',
+      allowUndefineds: false,
+      async: false,
+      compiledOptions: { maxLength: 10 },
+    })
   })
 
   test('skip when value is not an array or string', (assert) => {
@@ -32,7 +59,7 @@ test.group('Max Length', () => {
 
   test('raise error when string length is over the maxLength', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    maxLength.validate('hello-world', { maxLength: 10 }, {
+    maxLength.validate('hello-world', compile(10).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -50,7 +77,7 @@ test.group('Max Length', () => {
 
   test('raise error when array length is over the maxLength', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    maxLength.validate(['hello', 'world'], { maxLength: 1 }, {
+    maxLength.validate(['hello', 'world'], compile(1).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -68,7 +95,7 @@ test.group('Max Length', () => {
 
   test('work fine when string length is under or equals maxLength', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    maxLength.validate('helloworld', { maxLength: 10 }, {
+    maxLength.validate('helloworld', compile(10).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -81,7 +108,7 @@ test.group('Max Length', () => {
 
   test('work fine when array length is under or equals maxLength', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    maxLength.validate(['hello'], { maxLength: 1 }, {
+    maxLength.validate(['hello'], compile(1).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},

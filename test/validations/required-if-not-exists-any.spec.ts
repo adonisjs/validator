@@ -8,15 +8,51 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
+import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfNotExistsAny } from '../../src/Validations/existence/requiredIfNotExistsAny'
 
+function compile (fields: string[]) {
+  return requiredIfNotExistsAny.compile(
+    'literal',
+    'string',
+    rules.requiredIfNotExistsAny(fields).options,
+  )
+}
+
 test.group('Required If Not Exists Any', () => {
+  validate(requiredIfNotExistsAny, test, undefined, 'foo', compile(['id', 'type']), {
+    tip: { id: 1 },
+  })
+
+  test('do not compile when args are not defined', (assert) => {
+    const fn = () => requiredIfNotExistsAny.compile('literal', 'string')
+    assert.throw(fn, 'requiredIfNotExistsAny: The 3rd arguments must be a combined array of arguments')
+  })
+
+  test('do not compile when fields are not defined', (assert) => {
+    const fn = () => requiredIfNotExistsAny.compile('literal', 'string', [])
+    assert.throw(fn, 'requiredIfNotExistsAny: expects an array of "fields"')
+  })
+
+  test('do not compile when fields are not defined as an array', (assert) => {
+    const fn = () => requiredIfNotExistsAny.compile('literal', 'string', ['foo'])
+    assert.throw(fn, 'requiredIfNotExistsAny: expects "fields" to be an array')
+  })
+
+  test('compile with options', (assert) => {
+    assert.deepEqual(requiredIfNotExistsAny.compile('literal', 'string', [['foo']]), {
+      name: 'requiredIfNotExistsAny',
+      allowUndefineds: true,
+      async: false,
+      compiledOptions: { fields: ['foo'] },
+    })
+  })
+
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAny.validate(null, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAny.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -35,9 +71,7 @@ test.group('Required If Not Exists Any', () => {
 
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAny.validate(undefined, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAny.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -56,9 +90,7 @@ test.group('Required If Not Exists Any', () => {
 
   test('report error when expectation matches and field is empty string', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAny.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -77,9 +109,7 @@ test.group('Required If Not Exists Any', () => {
 
   test('work fine when all of the target fields are defined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAny.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -95,9 +125,7 @@ test.group('Required If Not Exists Any', () => {
 
   test('work fine when expectation matches and field has value', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAny.validate('hello', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAny.validate('hello', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {

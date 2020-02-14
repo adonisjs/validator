@@ -8,16 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { boolean } from '../../src/Validations/primitives/boolean'
 
+function compile () {
+  return boolean.compile('literal', 'boolean', rules['boolean']().options)
+}
+
 test.group('boolean', () => {
-  validate(boolean, test, 'hello', '0')
+  validate(boolean, test, 'hello', '0', compile())
 
   test('report error when value is not a valid boolean', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    boolean.validate(null, {}, {
+    boolean.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -36,7 +41,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = 1
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -54,7 +59,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = '1'
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -72,7 +77,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = 0
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -90,7 +95,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = '0'
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -108,7 +113,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = true
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},
@@ -126,7 +131,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     let value: any = false
 
-    boolean.validate(value, {}, {
+    boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'terms',
       tip: {},

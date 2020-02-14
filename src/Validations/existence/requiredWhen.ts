@@ -8,9 +8,10 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { getFieldValue } from '../../utils'
+import { getFieldValue, ensureValidArgs } from '../../utils'
 
 const DEFAULT_MESSAGE = 'requiredWhen validation failed'
+const RULE_NAME = 'requiredWhen'
 
 /**
  * Available operators
@@ -19,7 +20,7 @@ const OPERATORS = {
   'in': {
     compile (comparisonValues) {
       if (!Array.isArray(comparisonValues)) {
-        throw new Error('requiredWhen: "in" operator expects an array of "comparisonValues"')
+        throw new Error(`${RULE_NAME}: "in" operator expects an array of "comparisonValues"`)
       }
     },
 
@@ -29,9 +30,9 @@ const OPERATORS = {
   },
 
   'notIn': {
-    compile (comparisonValues) {
+    compile (comparisonValues: any[]) {
       if (!Array.isArray(comparisonValues)) {
-        throw new Error('requiredWhen: "notIn" operator expects an array of "comparisonValues"')
+        throw new Error(`${RULE_NAME}: "notIn" operator expects an array of "comparisonValues"`)
       }
     },
 
@@ -53,9 +54,9 @@ const OPERATORS = {
   },
 
   '>': {
-    compile (comparisonValue) {
+    compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
-        throw new Error('requiredWhen: ">" operator expects "comparisonValue" to be an integer')
+        throw new Error(`${RULE_NAME}: ">" operator expects "comparisonValue" to be a number`)
       }
     },
 
@@ -65,9 +66,9 @@ const OPERATORS = {
   },
 
   '<': {
-    compile (comparisonValue) {
+    compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
-        throw new Error('requiredWhen: "<" operator expects "comparisonValue" to be an integer')
+        throw new Error(`${RULE_NAME}: "<" operator expects "comparisonValue" to be a number`)
       }
     },
 
@@ -77,9 +78,9 @@ const OPERATORS = {
   },
 
   '>=': {
-    compile (comparisonValue) {
+    compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
-        throw new Error('requiredWhen: ">=" operator expects "comparisonValue" to be an integer')
+        throw new Error(`${RULE_NAME}: ">=" operator expects "comparisonValue" to be a number`)
       }
     },
 
@@ -89,9 +90,9 @@ const OPERATORS = {
   },
 
   '<=': {
-    compile (comparisonValue) {
+    compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
-        throw new Error('requiredWhen: "<=" operator expects "comparisonValue" to be an integer')
+        throw new Error(`${RULE_NAME}: "<=" operator expects "comparisonValue" to be a number`)
       }
     },
 
@@ -110,37 +111,40 @@ export const requiredWhen: SyncValidation<{
   field: string,
   comparisonValues: any | any[],
 }> = {
-  compile (_, __, options) {
+  compile (_, __, args) {
+    ensureValidArgs(RULE_NAME, args)
+    const [field, operator, comparisonValues] = args
+
     /**
      * Ensure "field", "operator" and "comparisonValues" are defined
      */
-    if (!options || !options.field || !options.operator || !options.comparisonValues) {
-      throw new Error('requiredWhen: expects a "field", "operator" and "comparisonValue"')
+    if (!field || !operator || !comparisonValues) {
+      throw new Error(`${RULE_NAME}: expects a "field", "operator" and "comparisonValue"`)
     }
 
     /**
      * Ensure "operator" is defined
      */
-    if (!OPERATORS[options.operator]) {
-      throw new Error('requiredWhen: expects "operator" to be one of the whitelisted operators')
+    if (!OPERATORS[operator]) {
+      throw new Error(`${RULE_NAME}: expects "operator" to be one of the whitelisted operators`)
     }
 
     /**
      * Compile the options for a given operator when they
      * implement a compile function
      */
-    if (typeof (OPERATORS[options.operator].compile) === 'function') {
-      OPERATORS[options.operator].compile(options.comparisonValue)
+    if (typeof (OPERATORS[operator].compile) === 'function') {
+      OPERATORS[operator].compile(comparisonValues)
     }
 
     return {
       allowUndefineds: true,
       async: false,
-      name: 'requiredWhen',
+      name: RULE_NAME,
       compiledOptions: {
-        operator: options.operator,
-        field: options.field,
-        comparisonValues: options.comparisonValues,
+        operator,
+        field,
+        comparisonValues,
       },
     }
   },
@@ -156,7 +160,7 @@ export const requiredWhen: SyncValidation<{
     )
 
     if (shouldBeRequired && !value && value !== false && value !== 0) {
-      errorReporter.report(pointer, 'requiredWhen', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

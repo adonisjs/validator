@@ -1,28 +1,32 @@
 import test from 'japa'
-import { ValidationContract } from '@ioc:Adonis/Core/Validator'
+import { ValidationContract, ParsedRule } from '@ioc:Adonis/Core/Validator'
 import { ApiErrorReporter } from '../../../src/ErrorReporter/Api'
+
+type ValidationOptions = {
+  root?: any,
+  tip?: any,
+  mutate?: () => any,
+}
 
 /**
  * Ensure rule is reporting errors
  */
 function reportErrors (
-  validation: ValidationContract,
+  validation: ValidationContract<any>,
   testFn: typeof test,
   failureValue: any,
-  compileOptions?: any,
+  rule: ParsedRule,
+  validationOptions?: ValidationOptions,
 ) {
   testFn('report error with a default message', (assert) => {
-    compileOptions = Object.assign({ type: 'literal', subtype: 'string' }, compileOptions)
-    const rule = validation.compile(compileOptions.type, compileOptions.subtype, compileOptions.options)
     const errorReporter = new ApiErrorReporter({}, false)
-
-    validation.validate(failureValue, rule.compiledOptions, {
+    validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
-    })
+    }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
     assert.lengthOf(errorMessages, 1)
@@ -36,26 +40,24 @@ function reportErrors (
  * Ensure rule is reporting errors with correct pointer
  */
 function reportUserDefinedErrors (
-  validation: ValidationContract,
+  validation: ValidationContract<any>,
   testFn: typeof test,
   failureValue: any,
-  compileOptions?: any,
+  rule: ParsedRule,
+  validationOptions?: ValidationOptions,
 ) {
   testFn('report error with field pointer', (assert) => {
-    compileOptions = Object.assign({ type: 'literal', subtype: 'string' }, compileOptions)
-    const rule = validation.compile(compileOptions.type, compileOptions.subtype, compileOptions.options)
-
     const errorReporter = new ApiErrorReporter({
       [`username.${rule.name}`]: 'Validation failure for username',
     }, false)
 
-    validation.validate(failureValue, rule.compiledOptions, {
+    validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
-    })
+    }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
     assert.lengthOf(errorMessages, 1)
@@ -69,27 +71,25 @@ function reportUserDefinedErrors (
  * Ensure rule is sending array expression when defined
  */
 function reportUserDefinedErrorsForArrayExpression (
-  validation: ValidationContract,
+  validation: ValidationContract<any>,
   testFn: typeof test,
   failureValue: any,
-  compileOptions?: any,
+  rule: ParsedRule,
+  validationOptions?: ValidationOptions,
 ) {
   testFn('report error with array expression pointer', (assert) => {
-    compileOptions = Object.assign({ type: 'literal', subtype: 'string' }, compileOptions)
-    const rule = validation.compile(compileOptions.type, compileOptions.subtype, compileOptions.options)
-
     const errorReporter = new ApiErrorReporter({
       [`users.*.username.${rule.name}`]: 'Validation failure for users username',
     }, false)
 
-    validation.validate(failureValue, rule.compiledOptions, {
+    validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
       pointer: 'users.0.username',
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,
       mutate: () => {},
-    })
+    }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
     assert.lengthOf(errorMessages, 1)
@@ -103,24 +103,22 @@ function reportUserDefinedErrorsForArrayExpression (
  * Ensure rule is not reporting errors when validation passes
  */
 function doNotReportErrorWithSuccessValue (
-  validation: ValidationContract,
+  validation: ValidationContract<any>,
   testFn: typeof test,
   successValue: any,
-  compileOptions?: any,
+  rule: ParsedRule,
+  validationOptions?: ValidationOptions,
 ) {
   testFn('do not report error when value is valid', (assert) => {
-    compileOptions = Object.assign({ type: 'literal', subtype: 'string' }, compileOptions)
-    const rule = validation.compile(compileOptions.type, compileOptions.subtype, compileOptions.options)
-
     const errorReporter = new ApiErrorReporter({}, false)
-    validation.validate(successValue, rule.compiledOptions, {
+    validation.validate(successValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
       pointer: 'users.0.username',
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,
       mutate: () => {},
-    })
+    }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
     assert.lengthOf(errorMessages, 0)
@@ -131,18 +129,15 @@ function doNotReportErrorWithSuccessValue (
  * Validate reporter against expectations
  */
 export function validate (
-  validation: ValidationContract,
+  validation: ValidationContract<any>,
   testFn: typeof test,
   failureValue: any,
   successValue: any,
-  compileOptions?: {
-    type?: string,
-    subtype?: string,
-    options?: any,
-  }
+  rule: ParsedRule,
+  validationOptions?: ValidationOptions,
 ) {
-  reportErrors(validation, testFn, failureValue, compileOptions)
-  reportUserDefinedErrors(validation, testFn, failureValue, compileOptions)
-  reportUserDefinedErrorsForArrayExpression(validation, testFn, failureValue, compileOptions)
-  doNotReportErrorWithSuccessValue(validation, testFn, successValue, compileOptions)
+  reportErrors(validation, testFn, failureValue, rule, validationOptions)
+  reportUserDefinedErrors(validation, testFn, failureValue, rule, validationOptions)
+  reportUserDefinedErrorsForArrayExpression(validation, testFn, failureValue, rule, validationOptions)
+  doNotReportErrorWithSuccessValue(validation, testFn, successValue, rule, validationOptions)
 }

@@ -115,18 +115,20 @@ test.group('Validator | addRule', () => {
           async: false,
           allowUndefineds: true,
           name: 'isPhone',
+          compiledOptions: undefined,
         }
       },
     })
 
     assert.property(validations, 'isPhone')
     assert.property(rules, 'isPhone')
-    assert.deepEqual(rules['isPhone'](), { name: 'isPhone', options: undefined })
-    assert.deepEqual(rules['isPhone']('sample'), { name: 'isPhone', options: 'sample' })
+    assert.deepEqual(rules['isPhone'](), { name: 'isPhone', options: [] })
+    assert.deepEqual(rules['isPhone']('sample'), { name: 'isPhone', options: ['sample'] })
     assert.deepEqual(validations['isPhone'].compile(), {
       async: false,
       allowUndefineds: true,
       name: 'isPhone',
+      compiledOptions: undefined,
     })
   })
 })
@@ -141,7 +143,8 @@ test.group('Validator | addType', () => {
         return {
           async: false,
           allowUndefineds: false,
-          name: 'file',
+          name: 'unicorn',
+          compiledOptions: undefined,
         }
       },
       validate () {},
@@ -162,11 +165,13 @@ test.group('Validator | addType', () => {
             name: 'required',
             async: false,
             allowUndefineds: true,
+            compiledOptions: undefined,
           },
           {
-            name: 'file',
+            name: 'unicorn',
             async: false,
             allowUndefineds: false,
+            compiledOptions: undefined,
           },
         ],
       },

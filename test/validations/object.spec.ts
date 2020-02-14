@@ -8,16 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { object } from '../../src/Validations/primitives/object'
 
+function compile () {
+  return object.compile('object', 'object', rules['object']().options)
+}
+
 test.group('Object', () => {
-  validate(object, test, null, {})
+  validate(object, test, null, {}, compile())
 
   test('report error when value is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    object.validate(null, {}, {
+    object.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'profile',
       tip: {},
@@ -34,7 +39,7 @@ test.group('Object', () => {
 
   test('report error when value is an array', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    object.validate([], {}, {
+    object.validate([], compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'profile',
       tip: {},
@@ -51,7 +56,7 @@ test.group('Object', () => {
 
   test('work fine when value is a valid object', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    object.validate({}, {}, {
+    object.validate({}, compile().compiledOptions, {
       errorReporter: reporter,
       pointer: 'profile',
       tip: {},

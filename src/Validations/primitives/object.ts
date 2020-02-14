@@ -10,6 +10,7 @@
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const DEFAULT_MESSAGE = 'object validation failed'
+const RULE_NAME = 'object'
 
 /**
  * Ensure value is a valid object
@@ -19,12 +20,13 @@ export const object: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'object',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { errorReporter, pointer, arrayExpressionPointer }) {
     if (typeof (value) !== 'object' || Array.isArray(value) || value === null) {
-      errorReporter.report(pointer, 'object', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

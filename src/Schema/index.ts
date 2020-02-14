@@ -58,11 +58,11 @@ number.optional = function optionalNumber (rules?: Rule[]) {
 /**
  * Date schema type
  */
-function date (rules?: Rule[]) {
-  return getLiteralType('date', false, {}, rules || []) as ReturnType<DateType>
+function date (options?: { format: string }, rules?: Rule[]) {
+  return getLiteralType('date', false, options, rules || []) as ReturnType<DateType>
 }
-date.optional = function optionalDate (rules?: Rule[]) {
-  return getLiteralType('date', true, {}, rules || []) as ReturnType<DateType['optional']>
+date.optional = function optionalDate (options?: { format: string }, rules?: Rule[]) {
+  return getLiteralType('date', true, options, rules || []) as ReturnType<DateType['optional']>
 }
 
 /**
@@ -117,20 +117,20 @@ array.optional = function optionalArray (rules?: Rule[]) {
  * Enum schema type
  */
 function oneOf (enumOptions: any[], rules?: Rule[]) {
-  return getLiteralType('enum', false, { choices: enumOptions }, rules || []) as ReturnType<EnumType>
+  return getLiteralType('enum', false, enumOptions, rules || []) as ReturnType<EnumType>
 }
 oneOf.optional = function optionalEnum (enumOptions: any[], rules?: Rule[]) {
-  return getLiteralType('enum', true, { choices: enumOptions }, rules || []) as ReturnType<EnumType['optional']>
+  return getLiteralType('enum', true, enumOptions, rules || []) as ReturnType<EnumType['optional']>
 }
 
 /**
  * Enum set schema type
  */
 function enumSet (enumOptions: any[], rules?: Rule[]) {
-  return getLiteralType('enumSet', false, { choices: enumOptions }, rules || []) as ReturnType<EnumSetType>
+  return getLiteralType('enumSet', false, enumOptions, rules || []) as ReturnType<EnumSetType>
 }
 enumSet.optional = function optionalEnumSet (enumOptions: any[], rules?: Rule[]) {
-  return getLiteralType('enumSet', true, { choices: enumOptions }, rules || []) as ReturnType<EnumSetType['optional']>
+  return getLiteralType('enumSet', true, enumOptions, rules || []) as ReturnType<EnumSetType['optional']>
 }
 
 /**

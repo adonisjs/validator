@@ -105,6 +105,8 @@
     "build/index.js"
   ],
   "dependencies": {
-    "lodash.get": "^4.4.2"
+    "@types/luxon": "^1.21.0",
+    "lodash.get": "^4.4.2",
+    "luxon": "^1.22.0"
   }
 }

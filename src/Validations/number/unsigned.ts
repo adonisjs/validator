@@ -9,18 +9,20 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
+const RULE_NAME = 'unsigned'
 const DEFAULT_MESSAGE = 'unsigned validation failed'
 
 export const unsigned: SyncValidation = {
   compile (_, subtype) {
     if (subtype !== 'number') {
-      throw new Error(`Cannot use unsigned rule on "${subtype}" data type.`)
+      throw new Error(`Cannot use ${RULE_NAME} rule on "${subtype}" data type.`)
     }
 
     return {
       allowUndefineds: false,
       async: false,
-      name: 'unsigned',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { errorReporter, arrayExpressionPointer, pointer }) {
@@ -29,7 +31,7 @@ export const unsigned: SyncValidation = {
     }
 
     if (value < 0) {
-      errorReporter.report(pointer, 'unsigned', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

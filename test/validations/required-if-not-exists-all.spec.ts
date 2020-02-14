@@ -8,15 +8,51 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
+import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfNotExistsAll } from '../../src/Validations/existence/requiredIfNotExistsAll'
 
+function compile (fields: string[]) {
+  return requiredIfNotExistsAll.compile(
+    'literal',
+    'string',
+    rules.requiredIfNotExistsAll(fields).options,
+  )
+}
+
 test.group('Required If Not Exists All', () => {
+  validate(requiredIfNotExistsAll, test, undefined, 'foo', compile(['id', 'twitter']), {
+    tip: {},
+  })
+
+  test('do not compile when args are not defined', (assert) => {
+    const fn = () => requiredIfNotExistsAll.compile('literal', 'string')
+    assert.throw(fn, 'requiredIfNotExistsAll: The 3rd arguments must be a combined array of arguments')
+  })
+
+  test('do not compile when fields are not defined', (assert) => {
+    const fn = () => requiredIfNotExistsAll.compile('literal', 'string', [])
+    assert.throw(fn, 'requiredIfNotExistsAll: expects an array of "fields"')
+  })
+
+  test('do not compile when fields are not defined as array', (assert) => {
+    const fn = () => requiredIfNotExistsAll.compile('literal', 'string', ['foo'])
+    assert.throw(fn, 'requiredIfNotExistsAll: expects "fields" to be an array')
+  })
+
+  test('compile with options', (assert) => {
+    assert.deepEqual(requiredIfNotExistsAll.compile('literal', 'string', [['foo']]), {
+      name: 'requiredIfNotExistsAll',
+      async: false,
+      allowUndefineds: true,
+      compiledOptions: { fields: ['foo'] },
+    })
+  })
+
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAll.validate(null, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAll.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -34,9 +70,7 @@ test.group('Required If Not Exists All', () => {
 
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAll.validate(undefined, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAll.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -75,9 +109,7 @@ test.group('Required If Not Exists All', () => {
 
   test('work fine when all of the target fields are defined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfNotExistsAll.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfNotExistsAll.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {

@@ -9,19 +9,24 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
+import { ensureValidArgs } from '../../utils'
 
 const DEFAULT_MESSAGE = 'file validation failed'
+const RULE_NAME = 'file'
 
 /**
  * Ensure the value is a valid file instance
  */
 export const file: SyncValidation<Partial<FileValidationOptions>> = {
-  compile (_, __, options) {
+  compile (_, __, args) {
+    ensureValidArgs(RULE_NAME, args)
+    const [options] = args
+
     return {
       allowUndefineds: false,
       async: false,
-      name: 'file',
-      compiledOptions: options || {},
+      name: RULE_NAME,
+      compiledOptions: options ? { size: options.size, extnames: options.extnames } : {},
     }
   },
   validate (
@@ -33,12 +38,7 @@ export const file: SyncValidation<Partial<FileValidationOptions>> = {
      * Raise error when not a multipart file instance
      */
     if (!fileToValidate.isMultipartFile) {
-      errorReporter.report(
-        pointer,
-        'file',
-        DEFAULT_MESSAGE,
-        arrayExpressionPointer,
-      )
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
       return
     }
 
@@ -67,7 +67,7 @@ export const file: SyncValidation<Partial<FileValidationOptions>> = {
     fileToValidate.errors.forEach((error) => {
       errorReporter.report(
         pointer,
-        `file.${error.type}`,
+        `${RULE_NAME}.${error.type}`,
         error.message,
         arrayExpressionPointer,
       )

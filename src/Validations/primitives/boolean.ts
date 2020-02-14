@@ -12,6 +12,7 @@ import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 const BOOLEAN_POSITIVES = [ '1', 1 ]
 const BOOLEAN_NEGATIVES = [ '0', 0 ]
 const DEFAULT_MESSAGE = 'boolean validation failed'
+const RULE_NAME = 'boolean'
 
 /**
  * Ensure value is a valid boolean or a valid boolean representation
@@ -25,14 +26,21 @@ export const boolean: SyncValidation = {
     return {
       allowUndefineds: false,
       async: false,
-      name: 'boolean',
+      name: RULE_NAME,
+      compiledOptions: undefined,
     }
   },
   validate (value, _, { mutate, pointer, errorReporter, arrayExpressionPointer }) {
+    /**
+     * A valid boolean is passed at first place
+     */
     if (typeof (value) === 'boolean') {
       return
     }
 
+    /**
+     * Value is a boolean representation in form of numeric or a string.
+     */
     if (BOOLEAN_POSITIVES.includes(value)) {
       mutate(true)
       return
@@ -43,6 +51,9 @@ export const boolean: SyncValidation = {
       return
     }
 
-    errorReporter.report(pointer, 'boolean', DEFAULT_MESSAGE, arrayExpressionPointer)
+    /**
+     * Report error
+     */
+    errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
   },
 }

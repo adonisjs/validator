@@ -8,19 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { unsigned } from '../../src/Validations/number/unsigned'
 
+function compile () {
+  return unsigned.compile('literal', 'number', rules.unsigned().options)
+}
+
 test.group('unsigned', () => {
-  validate(unsigned, test, -10, 10, {
-    type: 'literal',
-    subtype: 'number',
-  })
+  validate(unsigned, test, -10, 10, compile())
 
   test('report error when value is not an unsigned number', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    unsigned.validate(-10, {}, {
+    unsigned.validate(-10, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},
@@ -37,7 +39,7 @@ test.group('unsigned', () => {
 
   test('skip when value is not a number', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    unsigned.validate('-10', {}, {
+    unsigned.validate('-10', compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},
@@ -50,7 +52,7 @@ test.group('unsigned', () => {
 
   test('work fine when value is a valid unsigned value', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    unsigned.validate(1, {}, {
+    unsigned.validate(1, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'age',
       tip: {},

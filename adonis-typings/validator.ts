@@ -8,6 +8,7 @@
 */
 
 declare module '@ioc:Adonis/Core/Validator' {
+  import { DateTime } from 'luxon'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
   export type Rule = {
@@ -22,7 +23,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     name: string
     async: boolean
     allowUndefineds: boolean
-    compiledOptions?: Options
+    compiledOptions: Options
   }
 
   /**
@@ -84,8 +85,8 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Shape of an async validation function
    */
-  export type AsyncValidation = {
-    compile (type: 'array' | 'object' | 'literal', subtype: string, options?: any): ParsedRule
+  export type AsyncValidation<T extends any = undefined> = {
+    compile (type: 'array' | 'object' | 'literal', subtype: string, options?: any): ParsedRule<T>
     validate (
       value: any,
       compiledOptions: any,
@@ -96,7 +97,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Shape of an sync validation function
    */
-  export type SyncValidation<T extends any = any> = {
+  export type SyncValidation<T extends any = undefined> = {
     compile (
       type: 'array' | 'object' | 'literal',
       subtype: string,
@@ -139,7 +140,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * The contract every validation must adhere to
    */
-  export type ValidationContract = AsyncValidation | SyncValidation
+  export type ValidationContract<T> = AsyncValidation<T> | SyncValidation<T>
 
   /**
    * The compiler output function
@@ -147,7 +148,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   export interface CompilerOutput<T extends any> {
     (
       data: any,
-      validations: { [rule: string]: ValidationContract },
+      validations: { [rule: string]: ValidationContract<any> },
       errorReporter: ErrorReporterContract,
       helpers: { exists: ((value: any) => boolean), isObject: ((value: any) => boolean) }
     ): Promise<T>
@@ -183,12 +184,12 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a date or an optional date type
    */
   export interface DateType {
-    (rules?: Rule[]): {
-      t: Date,
+    (options?: { format: string }, rules?: Rule[]): {
+      t: DateTime,
       getTree (): SchemaLiteral
     },
-    optional (rules?: Rule[]): {
-      t?: Date,
+    optional (options?: { format: string }, rules?: Rule[]): {
+      t?: DateTime,
       getTree (): SchemaLiteral
     },
   }
@@ -299,11 +300,11 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Type for validating multipart files
    */
   export interface FileType {
-    (options: Partial<FileValidationOptions>, rules?: Rule[]): {
+    (options?: Partial<FileValidationOptions>, rules?: Rule[]): {
       t: MultipartFileContract,
       getTree (): SchemaLiteral
     },
-    optional (options: Partial<FileValidationOptions>, rules?: Rule[]): {
+    optional (options?: Partial<FileValidationOptions>, rules?: Rule[]): {
       t?: MultipartFileContract,
       getTree (): SchemaLiteral
     }
@@ -403,7 +404,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * Add a new validation rule
      */
-    addRule (name: string, ruleDefinition: ValidationContract): void
+    addRule (name: string, ruleDefinition: ValidationContract<any>): void
 
     /**
      * Type definition is set to any, since one can pass in a function or
@@ -424,9 +425,80 @@ declare module '@ioc:Adonis/Core/Validator' {
    * schema.string will add rules.string automatically.
    */
   export interface Rules {
+    /**
+     * Field under validation must always exists
+     */
     required (): Rule
+
+    /**
+     * Field under validation must always exists if the
+     * target field exists
+     */
+    requiredIfExists (field: string): Rule
+
+    /**
+     * Field under validation must always exists, if all of the
+     * target field exists
+     */
+    requiredIfExistsAll (field: string[]): Rule
+
+    /**
+     * Field under validation must always exists, if any of the
+     * target fields exists
+     */
+    requiredIfExistsAny (field: string[]): Rule
+
+    /**
+     * Field under validation must always exists, if target field
+     * does not exists
+     */
+    requiredIfNotExists (field: string): Rule
+
+    /**
+     * Field under validation must always exists, if all of the
+     * target fields does not exists
+     */
+    requiredIfNotExistsAll (field: string[]): Rule
+
+    /**
+     * Field under validation must always exists, if any of the
+     * target fields does not exists
+     */
+    requiredIfNotExistsAny (field: string[]): Rule
+
+    /**
+     * Field under validation must always exists, when the defined
+     * expecations are met
+     */
+    requiredWhen (
+      field: string,
+      operator: 'in' | 'notIn',
+      comparisonValues: any[]
+    ): Rule
+    requiredWhen (
+      field: string,
+      operator: '>' | '<' | '>=' | '<=',
+      comparisonValues: number,
+    ): Rule
+    requiredWhen (
+      field: string,
+      operator: 'in' | 'notIn' | '=' | '!=' | '>' | '<' | '>=' | '<=',
+      comparisonValues: any
+    ): Rule
+
+    /**
+     * Number must be unsigned
+     */
     unsigned (): Rule
+
+    /**
+     * String must be alpha
+     */
     alpha (): Rule
+
+    /**
+     * String or array must have defined maximum length
+     */
     maxLength (length: number): Rule
   }
 

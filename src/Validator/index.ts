@@ -8,7 +8,6 @@
 */
 
 import {
-  Rule,
   CompileFn,
   ValidateFn,
   ValidationContract,
@@ -16,9 +15,9 @@ import {
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
-import { rules } from '../Rules'
 import { schema } from '../Schema'
 import { Compiler } from '../Compiler'
+import { rules, getRuleFn } from '../Rules'
 import { existy, isObject } from './helpers'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
@@ -38,11 +37,6 @@ const COMPILED_CACHE = {}
  * messages are defined.
  */
 const NOOP_MESSAGES = {}
-
-/**
- * The global config to be used by the validator
- */
-// const CONFIG = {}
 
 /**
  * Compiles the schema to an executable function
@@ -96,14 +90,12 @@ const compileAndValidate: CompileAndValidateFn = (parsedSchema, data, messages, 
 /**
  * Extend validator by adding a new rule
  */
-const addRule = function (name: string, ruleDefinition: ValidationContract) {
+const addRule = function (name: string, ruleDefinition: ValidationContract<any>) {
   /**
    * Adding to the rules object, so that one can reference the method. Also
    * interface of rules list has to be extended seperately.
    */
-  rules[name] = function rule (options?: any): Rule {
-    return { name, options }
-  }
+  rules[name] = getRuleFn(name)
   validations[name] = ruleDefinition
 }
 

@@ -8,15 +8,49 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
+import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfExistsAny } from '../../src/Validations/existence/requiredIfExistsAny'
 
+function compile (fields: string[]) {
+  return requiredIfExistsAny.compile('literal', 'string', rules.requiredIfExistsAny(fields).options)
+}
+
 test.group('Required If Exists Any', () => {
+  validate(requiredIfExistsAny, test, undefined, 'foo', compile(['id', 'type']), {
+    tip: {
+      id: 1,
+    },
+  })
+
+  test('do not compile when args are not defined', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string')
+    assert.throw(fn, 'requiredIfExistsAny: The 3rd arguments must be a combined array of arguments')
+  })
+
+  test('do not compile when fields are not defined', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string', [])
+    assert.throw(fn, 'requiredIfExistsAny: expects an array of "fields"')
+  })
+
+  test('do not compile when fields are not defined as an array', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string', ['foo'])
+    assert.throw(fn, 'requiredIfExistsAny: expects "fields" to be an array')
+  })
+
+  test('compile with options', (assert) => {
+    assert.deepEqual(requiredIfExistsAny.compile('literal', 'string', [['foo']]), {
+      name: 'requiredIfExistsAny',
+      allowUndefineds: true,
+      async: false,
+      compiledOptions: { fields: ['foo'] },
+    })
+  })
+
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate(null, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -35,9 +69,7 @@ test.group('Required If Exists Any', () => {
 
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate(undefined, {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -56,9 +88,7 @@ test.group('Required If Exists Any', () => {
 
   test('report error when expectation matches and field is empty string', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -77,9 +107,7 @@ test.group('Required If Exists Any', () => {
 
   test('work fine when all of the target fields are undefined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -93,9 +121,7 @@ test.group('Required If Exists Any', () => {
 
   test('work fine when all of target fields are null or undefined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate('', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {
@@ -110,9 +136,7 @@ test.group('Required If Exists Any', () => {
 
   test('work fine when expectation matches and field has value', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    requiredIfExistsAny.validate('hello', {
-      fields: ['type', 'user_id'],
-    }, {
+    requiredIfExistsAny.validate('hello', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       pointer: 'profile_id',
       tip: {

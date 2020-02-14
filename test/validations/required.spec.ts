@@ -8,16 +8,21 @@
 */
 
 import test from 'japa'
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { required } from '../../src/Validations/existence/required'
 
+function compile () {
+  return required.compile('literal', 'string', rules.required().options)
+}
+
 test.group('Required', () => {
-  validate(required, test, undefined, 'anything')
+  validate(required, test, undefined, 'anything', compile())
 
   test('report error when value is null', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(null, {}, {
+    required.validate(null, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -34,7 +39,7 @@ test.group('Required', () => {
 
   test('report error when value is undefined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(undefined, {}, {
+    required.validate(undefined, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -51,7 +56,7 @@ test.group('Required', () => {
 
   test('report error when value is an empty string', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate('', {}, {
+    required.validate('', compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -68,7 +73,7 @@ test.group('Required', () => {
 
   test('work fine when value is defined', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate('virk', {}, {
+    required.validate('virk', compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -81,7 +86,7 @@ test.group('Required', () => {
 
   test('work fine when value is negative boolean', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(false, {}, {
+    required.validate(false, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},
@@ -94,7 +99,7 @@ test.group('Required', () => {
 
   test('work fine when value is zero', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
-    required.validate(0, {}, {
+    required.validate(0, compile().compiledOptions!, {
       errorReporter: reporter,
       pointer: 'username',
       tip: {},

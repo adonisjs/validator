@@ -8,8 +8,9 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { getFieldValue } from '../../utils'
+import { getFieldValue, ensureValidArgs } from '../../utils'
 
+const RULE_NAME = 'requiredIfExists'
 const DEFAULT_MESSAGE = 'requiredIfExists validation failed'
 
 /**
@@ -17,19 +18,22 @@ const DEFAULT_MESSAGE = 'requiredIfExists validation failed'
  * fails the validation
  */
 export const requiredIfExists: SyncValidation<{ field: string }> = {
-  compile (_, __, options) {
+  compile (_, __, args) {
+    ensureValidArgs(RULE_NAME, args)
+    const [field] = args
+
     /**
      * Ensure "field" is defined
      */
-    if (!options || !options.field) {
-      throw new Error('requiredIfExists: expects a "field"')
+    if (!field) {
+      throw new Error(`${RULE_NAME}: expects a "field"`)
     }
 
     return {
       allowUndefineds: true,
       async: false,
-      name: 'requiredIfExists',
-      compiledOptions: { field: options.field },
+      name: RULE_NAME,
+      compiledOptions: { field },
     }
   },
   validate (
@@ -41,7 +45,7 @@ export const requiredIfExists: SyncValidation<{ field: string }> = {
     const otherFieldExists = otherFieldValue !== undefined && otherFieldValue !== null
 
     if (otherFieldExists && !value && value !== false && value !== 0) {
-      errorReporter.report(pointer, 'requiredIfExists', DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },
 }

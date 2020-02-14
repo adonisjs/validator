@@ -8,8 +8,8 @@
 */
 
 import test from 'japa'
-import { VanillaErrorReporter } from '../../src/ErrorReporter/index'
 import { validate } from '../fixtures/error-reporters'
+import { VanillaErrorReporter } from '../../src/ErrorReporter/index'
 
 test.group('Vanilla ErrorReporter', () => {
   validate(VanillaErrorReporter, test, (messages) => {
@@ -19,5 +19,22 @@ test.group('Vanilla ErrorReporter', () => {
       })
       return errors
     }, [] as { field: string, message: string }[])
+  })
+
+  test('set flash messages to true when returning ValidationException instance', (assert) => {
+    const reporter = new VanillaErrorReporter({}, false)
+    assert.isTrue(reporter.toError().flashToSession)
+  })
+
+  test('return error messages as a key-value pair of field and it\'s messages', (assert) => {
+    const reporter = new VanillaErrorReporter({}, false)
+    reporter.report('username', 'required', 'required validation failed')
+    reporter.report('username', 'alpha', 'alpha validation failed')
+    reporter.report('age', 'required', 'required validation failed')
+
+    assert.deepEqual(reporter.toError().messages, {
+      username: ['required validation failed', 'alpha validation failed'],
+      age: ['required validation failed'],
+    })
   })
 })

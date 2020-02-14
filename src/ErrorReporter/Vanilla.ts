@@ -75,7 +75,7 @@ export class VanillaErrorReporter implements ErrorReporterContract<
    * Returns an instance of [[ValidationException]]
    */
   public toError () {
-    return new ValidationException(true, this.errors)
+    return new ValidationException(true, this.toJSON())
   }
 
   /**

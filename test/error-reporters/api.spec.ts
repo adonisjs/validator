@@ -20,4 +20,35 @@ test.group('Api ErrorReporter', () => {
       }
     })
   })
+
+  test('do set flash messages to true when returning ValidationException instance', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    assert.isFalse(reporter.toError().flashToSession)
+  })
+
+  test('return error messages as an array of objects', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    reporter.report('username', 'required', 'required validation failed')
+    reporter.report('username', 'alpha', 'alpha validation failed', undefined, { isRegex: true })
+    reporter.report('age', 'required', 'required validation failed')
+
+    assert.deepEqual(reporter.toError().messages, [
+      {
+        field: 'username',
+        rule: 'required',
+        message: 'required validation failed',
+      },
+      {
+        field: 'username',
+        rule: 'alpha',
+        message: 'alpha validation failed',
+        args: { isRegex: true },
+      },
+      {
+        field: 'age',
+        rule: 'required',
+        message: 'required validation failed',
+      },
+    ])
+  })
 })

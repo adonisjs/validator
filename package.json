@@ -63,11 +63,6 @@
     "contents": ".",
     "anyBranch": false
   },
-  "adonisjs": {
-    "templates": {
-      "config": "validator.txt"
-    }
-  },
   "publishConfig": {
     "access": "public",
     "tag": "alpha"

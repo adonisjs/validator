@@ -36,8 +36,8 @@ export default class ValidationProvider {
     this.container.with([
       'Adonis/Core/Request',
       'Adonis/Core/Validator',
-    ], (Request: RequestConstructorContract, Validator: typeof validator) => {
-      extendRequest(Request, Validator.validate)
+    ], (Request: RequestConstructorContract, Validator: { validator: typeof validator }) => {
+      extendRequest(Request, Validator.validator.validate)
     })
   }
 }

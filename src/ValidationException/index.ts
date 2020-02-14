@@ -22,7 +22,7 @@ export class ValidationException {
 
     const session = ctx['session']
     session.flashExcept(['_csrf_token'])
-    ctx['session'].flash(error.messages)
+    ctx['session'].flash('errors', error.messages)
     ctx.response.redirect('back', true)
   }
 }

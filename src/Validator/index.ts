@@ -10,8 +10,8 @@
 import {
   CompileFn,
   ValidateFn,
+  CompileAndCache,
   ValidationContract,
-  CompileAndValidateFn,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
@@ -49,20 +49,11 @@ const compile: CompileFn = (parsedSchema) => new Compiler(parsedSchema.tree).com
  * have to re-compile the schema when trying to use different set of
  * validation messages.
  */
-const validate: ValidateFn = (compiledFn, data, messages, options) => {
-  let Reporter: ErrorReporterConstructorContract = VanillaErrorReporter
-  let bail = false
+const validate: ValidateFn = ({ schema: compileSchema, data, messages, reporter, bail }) => {
+  let Reporter: ErrorReporterConstructorContract = reporter || VanillaErrorReporter
+  bail = bail === undefined ? false : bail
 
-  if (options) {
-    if (options.reporter) {
-      Reporter = options.reporter
-    }
-    if (options.bail !== undefined) {
-      bail = options.bail
-    }
-  }
-
-  return compiledFn(
+  return compileSchema(
     data,
     validations,
     new Reporter(messages || NOOP_MESSAGES, bail),
@@ -71,20 +62,16 @@ const validate: ValidateFn = (compiledFn, data, messages, options) => {
 }
 
 /**
- * Validate data using pre-parsed schema. The schema will be compiled and
- * cached using the cache key (if defined).
+ * Compile and cache the schema using the cache key
  */
-const compileAndValidate: CompileAndValidateFn = (parsedSchema, data, messages, options) => {
-  if (!options || !options.cacheKey) {
-    return validate(compile(parsedSchema), data, messages, options)
-  }
-
-  let compiledFn = COMPILED_CACHE[options.cacheKey]
+const compileAndCache: CompileAndCache = (parsedSchema, cacheKey) => {
+  let compiledFn = COMPILED_CACHE[cacheKey]
   if (!compiledFn) {
     compiledFn = compile(parsedSchema)
-    COMPILED_CACHE[options.cacheKey] = compiledFn
+    COMPILED_CACHE[cacheKey] = compiledFn
   }
-  return validate(compiledFn, data, messages, options)
+
+  return compiledFn
 }
 
 /**
@@ -110,10 +97,10 @@ const addType = function (name: string, typeDefinition: any) {
  * Module available methods/properties
  */
 export const validator = {
-  compile,
-  validate,
-  compileAndValidate,
   rules,
+  compile,
   addRule,
   addType,
+  validate,
+  compileAndCache,
 }

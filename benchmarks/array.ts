@@ -95,12 +95,15 @@ new Suite()
   .add('AdonisJS', {
     defer: true,
     fn (deferred: Deferred) {
-      validator.validate(adonisValidate, {
-        username: 'virk',
-        name: 'Virk',
-        profiles: [{
-          profileId: 'virk011',
-        }],
+      validator.validate({
+        schema: adonisValidate,
+        data: {
+          username: 'virk',
+          name: 'Virk',
+          profiles: [{
+            profileId: 'virk011',
+          }],
+        },
       }).then(() => deferred.resolve())
     },
   })

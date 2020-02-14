@@ -8,7 +8,11 @@
 */
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import { validator, ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
+import {
+  validator,
+  ErrorReporterConstructorContract,
+} from '@ioc:Adonis/Core/Validator'
+
 import * as ErrorReporters from '../ErrorReporter'
 
 /**
@@ -19,11 +23,12 @@ export default function extendRequest (
   Request: RequestConstructorContract,
   validate: typeof validator['validate'],
 ) {
-  Request.macro('validate', function validateRequest (schema: any, messages?: any, config?: any) {
+  Request.macro('validate', function validateRequest (validatorNode) {
+    let Reporter: ErrorReporterConstructorContract
+
     /**
      * Attempt to find the best error reporter for validation
      */
-    let Reporter: ErrorReporterConstructorContract
     switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
       case 'html':
       case null:
@@ -37,9 +42,7 @@ export default function extendRequest (
         break
     }
 
-    return validate(schema, {
-      ...this.all(),
-      ...this.allFiles(),
-    }, messages, Object.assign({ reporter: Reporter }, config))
+    const data = { ...this.all(), ...this.allFiles() }
+    return validate({ data, reporter: Reporter, ...validatorNode })
   })
 }

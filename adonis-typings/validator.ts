@@ -343,19 +343,13 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Compile and validate function signature
+   * Compile the schema and cache it using a cache key
    */
-  export interface CompileAndValidateFn {
+  export interface CompileAndCache {
     <T extends ParsedTypedSchema<TypedSchema>> (
       schema: T,
-      data: any,
-      messages?: { [key: string]: string },
-      options?: {
-        cacheKey?: string,
-        reporter?: ErrorReporterConstructorContract,
-        bail?: boolean,
-      }
-    ): Promise<T['props']>
+      cacheKey: string,
+    ): CompilerOutput<T['props']>
   }
 
   /**
@@ -370,13 +364,13 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export interface ValidateFn {
     <Fn extends (...args: any) => any> (
-      compiledFn: Fn,
-      data: any,
-      messages?: { [key: string]: string },
-      options?: {
+      validator: {
+        schema: Fn,
+        data: any,
+        messages?: { [key: string]: string },
         reporter?: ErrorReporterConstructorContract,
         bail?: boolean,
-      },
+      }
     ): ReturnType<Fn>
   }
 
@@ -397,9 +391,9 @@ declare module '@ioc:Adonis/Core/Validator' {
     compile: CompileFn,
 
     /**
-     * Compile schema to an executable function
+     * Compile and cache schema using a cache key
      */
-    compileAndValidate: CompileAndValidateFn,
+    compileAndCache: CompileAndCache,
 
     /**
      * Add a new validation rule

@@ -24,9 +24,12 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.compileAndValidate(schema.create({
-        username: schema.string(),
-      }), {})
+      await validator.validate({
+        schema: validator.compile(schema.create({
+          username: schema.string(),
+        })),
+        data: {},
+      })
     } catch (error) {
       assert.deepEqual(error.messages, { username: ['required validation failed'] })
     }
@@ -36,11 +39,14 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.compileAndValidate(schema.create({
-        username: schema.string(),
-        email: schema.string(),
-        password: schema.string(),
-      }), {})
+      await validator.validate({
+        schema: validator.compile(schema.create({
+          username: schema.string(),
+          email: schema.string(),
+          password: schema.string(),
+        })),
+        data: {},
+      })
     } catch (error) {
       assert.deepEqual(error.messages, {
         username: ['required validation failed'],
@@ -54,11 +60,15 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.compileAndValidate(schema.create({
-        username: schema.string(),
-        email: schema.string(),
-        password: schema.string(),
-      }), {}, {}, { bail: true })
+      await validator.validate({
+        schema: validator.compile(schema.create({
+          username: schema.string(),
+          email: schema.string(),
+          password: schema.string(),
+        })),
+        data: {},
+        bail: true,
+      })
     } catch (error) {
       assert.deepEqual(error.messages, {
         username: ['required validation failed'],
@@ -70,11 +80,18 @@ test.group('Validator | validate', () => {
     assert.plan(1)
 
     try {
-      await validator.compileAndValidate(schema.create({
-        username: schema.string(),
-        email: schema.string(),
-        password: schema.string(),
-      }), {}, { required: 'The field is required' }, { bail: true })
+      await validator.validate({
+        schema: validator.compile(schema.create({
+          username: schema.string(),
+          email: schema.string(),
+          password: schema.string(),
+        })),
+        data: {},
+        messages: {
+          required: 'The field is required',
+        },
+        bail: true,
+      })
     } catch (error) {
       assert.deepEqual(error.messages, {
         username: ['The field is required'],
@@ -84,17 +101,19 @@ test.group('Validator | validate', () => {
 
   test('use custom error reporter when defined', async (assert) => {
     assert.plan(1)
-    const options = {
-      bail: true,
-      reporter: ApiErrorReporter,
-    }
 
     try {
-      await validator.compileAndValidate(schema.create({
-        username: schema.string(),
-        email: schema.string(),
-        password: schema.string(),
-      }), {}, { required: 'The field is required' }, options)
+      await validator.validate({
+        schema: validator.compile(schema.create({
+          username: schema.string(),
+          email: schema.string(),
+          password: schema.string(),
+        })),
+        data: {},
+        messages: { required: 'The field is required' },
+        bail: true,
+        reporter: ApiErrorReporter,
+      })
     } catch (error) {
       assert.deepEqual(error.messages, [{
         rule: 'required',

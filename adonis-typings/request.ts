@@ -20,6 +20,11 @@ declare module '@ioc:Adonis/Core/Request' {
      * Validate current request data using a pre-compiled
      * schema
      */
-    validate: ValidateFn,
+    validate <Fn extends (...args: any) => any> (validator: {
+      schema: Fn,
+      messages?: { [key: string]: string },
+      reporter?: ErrorReporterConstructorContract,
+      bail?: boolean,
+    }): ReturnType<Fn>
   }
 }

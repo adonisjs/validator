@@ -2,6 +2,12 @@
   "name": "@adonisjs/validator",
   "version": "6.1.1",
   "description": "Validator for adonis framework",
+  "main": "build/providers/ValidatorProvider.js",
+  "files": [
+    "build/adonis-typings",
+    "build/providers",
+    "build/src"
+  ],
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
@@ -65,5 +71,42 @@
   "publishConfig": {
     "access": "public",
     "tag": "alpha"
+  },
+  "devDependencies": {
+    "@adonisjs/bodyparser": "^3.2.2",
+    "@adonisjs/encryption": "^1.0.4",
+    "@adonisjs/fold": "^6.3.3",
+    "@adonisjs/http-server": "^1.7.1",
+    "@adonisjs/logger": "^1.1.8",
+    "@adonisjs/mrm-preset": "^2.2.4",
+    "@adonisjs/profiler": "^2.0.0",
+    "@hapi/joi": "^17.1.0",
+    "@types/node": "^13.7.0",
+    "benchmark": "^2.1.4",
+    "class-validator": "^0.11.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
+    "dedent": "^0.7.0",
+    "del-cli": "^3.0.0",
+    "doctoc": "^1.4.0",
+    "endent": "^1.4.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-adonis": "^1.0.6",
+    "execa": "^4.0.0",
+    "husky": "^4.2.1",
+    "indicative": "^7.4.4",
+    "indicative-compiler": "^7.2.4",
+    "japa": "^3.0.1",
+    "kleur": "^3.0.3",
+    "matcha": "^0.7.0",
+    "mrm": "^2.0.4",
+    "np": "^5.2.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/luxon": "^1.21.0",
+    "lodash.get": "^4.4.2",
+    "luxon": "^1.22.0"
   }
 }

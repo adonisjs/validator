@@ -9,6 +9,7 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { getFieldValue, ensureValidArgs } from '../../utils'
+import { exists } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'requiredWhen validation failed'
 const RULE_NAME = 'requiredWhen'
@@ -159,7 +160,7 @@ export const requiredWhen: SyncValidation<{
       compiledOptions.comparisonValues,
     )
 
-    if (shouldBeRequired && !value && value !== false && value !== 0) {
+    if (shouldBeRequired && !exists(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },

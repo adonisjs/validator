@@ -368,6 +368,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         schema: Fn,
         data: any,
         messages?: { [key: string]: string },
+        existsStrict?: boolean,
         reporter?: ErrorReporterConstructorContract,
         bail?: boolean,
       }

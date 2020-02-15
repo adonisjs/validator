@@ -10,15 +10,16 @@
 /**
  * Ensure value is not `undefined`
  */
-export function defined (value: any) {
-  return value !== undefined
+export function existsStrict (value: any) {
+  return value !== undefined && value !== null
 }
 
 /**
- * Ensure value is not `undefined` and neither `null`
+ * Ensure that value exists. Empty string, null and undefined
+ * fails the exists check.
  */
-export function existy (value: any) {
-  return value !== null && value !== undefined
+export function exists (value: any) {
+  return !!value || value === false || value === 0
 }
 
 /**

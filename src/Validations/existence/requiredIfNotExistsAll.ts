@@ -9,6 +9,7 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { getFieldValue, ensureValidArgs } from '../../utils'
+import { exists } from '../../Validator/helpers'
 
 const RULE_NAME = 'requiredIfNotExistsAll'
 const DEFAULT_MESSAGE = 'requiredIfNotExistsAll validation failed'
@@ -50,10 +51,10 @@ export const requiredIfNotExistsAll: SyncValidation<{ fields: string[] }> = {
   ) {
     const allFieldsMissing = compiledOptions.fields.every((field) => {
       const otherFieldValue = getFieldValue(field, root, tip)
-      return otherFieldValue === undefined || otherFieldValue === null
+      return !exists(otherFieldValue)
     })
 
-    if (allFieldsMissing && !value && value !== false && value !== 0) {
+    if (allFieldsMissing && !exists(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },

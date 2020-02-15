@@ -18,14 +18,19 @@ import {
 import { schema } from '../Schema'
 import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
-import { existy, isObject } from './helpers'
+import { exists, existsStrict, isObject } from './helpers'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
 
 /**
  * The compiled output runtime helpers
  */
-const HELPERS = { exists: existy, isObject }
+const HELPERS = { exists: exists, isObject }
+
+/**
+ * Helpers that has strict checking for non-existing values
+ */
+const STRICT_HELPERS = { exists: existsStrict, isObject }
 
 /**
  * Cache to store the compiled schemas
@@ -57,7 +62,7 @@ const validate: ValidateFn = (options) => {
     options.data,
     validations,
     new Reporter(options.messages || NOOP_MESSAGES, bail),
-    HELPERS,
+    options.existsStrict === true ? STRICT_HELPERS : HELPERS,
   )
 }
 

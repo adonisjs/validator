@@ -8,6 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
+import { exists } from '../../Validator/helpers'
 
 const RULE_NAME = 'required'
 const DEFAULT_MESSAGE = 'required validation failed'
@@ -26,7 +27,7 @@ export const required: SyncValidation = {
     }
   },
   validate (value, _, { errorReporter, pointer, arrayExpressionPointer }) {
-    if (!value && value !== false && value !== 0) {
+    if (!exists(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },

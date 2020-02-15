@@ -68,7 +68,7 @@
     "tag": "alpha"
   },
   "devDependencies": {
-    "@adonisjs/bodyparser": "^3.2.2",
+    "@adonisjs/bodyparser": "^3.2.4",
     "@adonisjs/encryption": "^1.0.4",
     "@adonisjs/fold": "^6.3.3",
     "@adonisjs/http-server": "^1.7.2",
@@ -92,7 +92,6 @@
     "indicative-compiler": "^7.2.4",
     "japa": "^3.0.1",
     "kleur": "^3.0.3",
-    "matcha": "^0.7.0",
     "mrm": "^2.0.4",
     "np": "^5.2.1",
     "ts-node": "^8.6.2",

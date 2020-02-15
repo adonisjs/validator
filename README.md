@@ -26,39 +26,32 @@ Let's compare the validator performance in comparison to some of the famous libr
 
 ![](./benchmarks.png)
 
-<details>
-<summary><strong> Textual Version </strong></summary>
-<pre>
-<code>
-Benchmarking against flat object
-AdonisJS x 6,777,738 ops/sec ±0.53% (81 runs sampled)
-Joi x 705,094 ops/sec ±0.62% (81 runs sampled)
-Indicative x 855,792 ops/sec ±0.30% (84 runs sampled)
-Class Validator x 372,847 ops/sec ±0.38% (84 runs sampled)
+<pre><code>Benchmarking against flat object
+AdonisJS x 4,827,208 ops/sec ±1.50% (66 runs sampled)
+Joi x 610,986 ops/sec ±0.66% (82 runs sampled)
+Indicative x 833,243 ops/sec ±0.42% (84 runs sampled)
+Class Validator x 351,342 ops/sec ±0.53% (83 runs sampled)
 Fastest is AdonisJS
 
 Benchmarking against flat object with extra properties
-AdonisJS x 6,685,496 ops/sec ±0.41% (81 runs sampled)
-Joi x 445,545 ops/sec ±0.45% (83 runs sampled)
-Indicative x 836,625 ops/sec ±0.44% (84 runs sampled)
+AdonisJS x 4,810,872 ops/sec ±0.94% (64 runs sampled)
+Joi x 446,868 ops/sec ±0.52% (82 runs sampled)
+Indicative x 840,674 ops/sec ±0.51% (79 runs sampled)
 Fastest is AdonisJS
 
 Benchmarking against nested object
-AdonisJS x 4,742,486 ops/sec ±0.52% (82 runs sampled)
-Joi x 395,813 ops/sec ±0.48% (84 runs sampled)
-Indicative x 532,652 ops/sec ±0.27% (85 runs sampled)
-Class Validator x 216,392 ops/sec ±0.82% (83 runs sampled)
+AdonisJS x 4,538,678 ops/sec ±0.57% (81 runs sampled)
+Joi x 393,278 ops/sec ±0.56% (81 runs sampled)
+Indicative x 524,408 ops/sec ±0.46% (83 runs sampled)
+Class Validator x 215,683 ops/sec ±0.40% (83 runs sampled)
 Fastest is AdonisJS
 
 Benchmarking against array of objects
-AdonisJS x 2,330,326 ops/sec ±0.42% (82 runs sampled)
-Joi x 297,187 ops/sec ±0.47% (82 runs sampled)
-Indicative x 394,948 ops/sec ±0.30% (83 runs sampled)
-Class Validator x 192,939 ops/sec ±1.25% (82 runs sampled)
-Fastest is AdonisJS
-</code>
-</pre>
-</details>
+AdonisJS x 1,348,083 ops/sec ±0.59% (82 runs sampled)
+Joi x 269,459 ops/sec ±0.69% (79 runs sampled)
+Indicative x 389,542 ops/sec ±0.43% (83 runs sampled)
+Class Validator x 180,988 ops/sec ±0.88% (80 runs sampled)
+Fastest is AdonisJS</code></pre>
 
 ## Goals
 **No code is the fastest code**. In other words, making something fast is not a big deal, if you cut out all the features and compromise usability on every front.

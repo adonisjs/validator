@@ -1,5 +1,5 @@
 /*
-* @adonisjs/ace
+* @adonisjs/validator
 *
 * (c) Harminder Virk <virk@adonisjs.com>
 *
@@ -8,10 +8,7 @@
 */
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import {
-  validator,
-  ErrorReporterConstructorContract,
-} from '@ioc:Adonis/Core/Validator'
+import { validator, ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
 
 import * as ErrorReporters from '../ErrorReporter'
 
@@ -23,7 +20,7 @@ export default function extendRequest (
   Request: RequestConstructorContract,
   validate: typeof validator['validate'],
 ) {
-  Request.macro('validate', function validateRequest (validatorNode) {
+  Request.macro('validate', async function validateRequest (validatorNode) {
     let Reporter: ErrorReporterConstructorContract
 
     /**
@@ -42,7 +39,24 @@ export default function extendRequest (
         break
     }
 
-    const data = { ...this.all(), ...this.allFiles() }
-    return validate({ data, reporter: Reporter, ...validatorNode })
+    /**
+     * Merging request body, files and the params. The params are nested, since
+     * it's possible that request body and params may have the same object
+     * properties.
+     */
+    const data = { ...this.all(), ...this.allFiles(), params: this.ctx!.params }
+
+    /**
+     * Creating a new profiler action to profile the validation
+     */
+    const profilerAction = this.ctx!.profiler.profile('request:validate')
+
+    try {
+      await validate({ data, reporter: Reporter, ...validatorNode })
+      profilerAction.end({ status: 'success' })
+    } catch (error) {
+      profilerAction.end({ status: 'error' })
+      throw error
+    }
   })
 }

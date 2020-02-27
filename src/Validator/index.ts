@@ -14,13 +14,14 @@ import {
   ValidationContract,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
+import { LoggerContract } from '@ioc:Adonis/Core/Logger'
 
 import { schema } from '../Schema'
 import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
-import { exists, existsStrict, isObject } from './helpers'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
+import { exists, existsStrict, isObject } from './helpers'
 
 /**
  * The compiled output runtime helpers
@@ -42,6 +43,14 @@ const COMPILED_CACHE = {}
  * messages are defined.
  */
 const NOOP_MESSAGES = {}
+
+/**
+ * Configuration options. They can be set using the configure
+ * method
+ */
+let CONFIGURATION_OPTIONS: {
+  logger?: LoggerContract,
+} = {}
 
 /**
  * Compiles the schema to an executable function
@@ -72,6 +81,13 @@ const validate: ValidateFn = (options) => {
 const compileAndCache: CompileAndCache = (parsedSchema, cacheKey) => {
   let compiledFn = COMPILED_CACHE[cacheKey]
   if (!compiledFn) {
+    /**
+     * Log when logger is defined
+     */
+    if (CONFIGURATION_OPTIONS.logger) {
+      CONFIGURATION_OPTIONS.logger.trace(`Compiling schema for "${cacheKey}" cache key`)
+    }
+
     compiledFn = compile(parsedSchema)
     COMPILED_CACHE[cacheKey] = compiledFn
   }
@@ -99,6 +115,15 @@ const addType = function (name: string, typeDefinition: any) {
 }
 
 /**
+ * Configure validator. This method is not exposed via typings as of
+ * now, since we trying to keep it public until we have enought
+ * configuration options
+ */
+const configure = function configure (options: typeof CONFIGURATION_OPTIONS) {
+  CONFIGURATION_OPTIONS = options
+}
+
+/**
  * Module available methods/properties
  */
 export const validator = {
@@ -108,4 +133,5 @@ export const validator = {
   addType,
   validate,
   compileAndCache,
+  configure,
 }

@@ -70,7 +70,7 @@
     "@adonisjs/bodyparser": "^3.2.4",
     "@adonisjs/encryption": "^1.0.4",
     "@adonisjs/fold": "^6.3.3",
-    "@adonisjs/http-server": "^1.7.4",
+    "@adonisjs/http-server": "^1.8.0",
     "@adonisjs/logger": "^1.1.8",
     "@adonisjs/mrm-preset": "^2.2.4",
     "@adonisjs/profiler": "^2.0.0",

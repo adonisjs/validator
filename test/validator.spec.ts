@@ -8,6 +8,7 @@
 */
 
 import test from 'japa'
+import { FakeLogger } from '@adonisjs/logger/build/standalone'
 import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../src/Rules'
@@ -195,5 +196,18 @@ test.group('Validator | addType', () => {
         ],
       },
     })
+  })
+})
+
+test.group('Validator | configure', () => {
+  test('use custom logger', async (assert) => {
+    assert.plan(1)
+
+    const logger = new FakeLogger({ name: 'adonisjs', enabled: true, level: 'trace' })
+    validator['configure']({
+      logger,
+    })
+    validator.compileAndCache(schema.create({}), '/posts')
+    assert.equal(logger.logs[0].msg, 'Compiling schema for "/posts" cache key')
   })
 })

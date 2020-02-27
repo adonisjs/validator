@@ -98,7 +98,7 @@ const compileAndCache: CompileAndCache = (parsedSchema, cacheKey) => {
 /**
  * Extend validator by adding a new rule
  */
-const addRule = function (name: string, ruleDefinition: ValidationContract<any>) {
+const addRule = (name: string, ruleDefinition: ValidationContract<any>) => {
   /**
    * Adding to the rules object, so that one can reference the method. Also
    * interface of rules list has to be extended seperately.
@@ -110,7 +110,7 @@ const addRule = function (name: string, ruleDefinition: ValidationContract<any>)
 /**
  * Add a new type
  */
-const addType = function (name: string, typeDefinition: any) {
+const addType = (name: string, typeDefinition: any) => {
   schema[name] = typeDefinition
 }
 
@@ -119,7 +119,7 @@ const addType = function (name: string, typeDefinition: any) {
  * now, since we trying to keep it public until we have enought
  * configuration options
  */
-const configure = function configure (options: typeof CONFIGURATION_OPTIONS) {
+const configure = (options: typeof CONFIGURATION_OPTIONS) => {
   CONFIGURATION_OPTIONS = options
 }
 

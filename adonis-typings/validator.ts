@@ -9,6 +9,7 @@
 
 declare module '@ioc:Adonis/Core/Validator' {
   import { DateTime } from 'luxon'
+  import { default as validatorJs } from 'validator'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
   export type Rule = {
@@ -468,6 +469,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     alpha (): Rule
     email (options?: EmailRuleOptions): Rule
     ip (options?: { version?: '4' | '6' }): Rule
+    mobile (optioms?: { strict?: boolean, locale?: validatorJs.MobilePhoneLocale[] }): Rule
 
     /**
      * String or array must have defined maximum length

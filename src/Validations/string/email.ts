@@ -38,13 +38,18 @@ export const email: SyncValidation<CompiledOptions> = {
     }
 
     ensureValidArgs(RULE_NAME, args)
-    const [options] = args as [EmailRuleOptions]
+    const options = Object.assign({
+      domainSpecificValidation: false,
+      allowIpDomain: false,
+      ignoreMaxLength: false,
+      sanitize: false,
+    }, args[0]) as Required<EmailRuleOptions>
 
     /**
      * Compute sanitization options
      */
     let sanitizationOptions: CompiledOptions['sanitize']
-    if (options && options.sanitize) {
+    if (options.sanitize) {
       if (options.sanitize === true) {
         sanitizationOptions = { all_lowercase: true }
       } else if (isObject(options.sanitize)) {
@@ -56,12 +61,12 @@ export const email: SyncValidation<CompiledOptions> = {
       allowUndefineds: false,
       async: false,
       name: RULE_NAME,
-      compiledOptions: options ? {
-        domain_specific_validation: options.domainSpecificValidation || false,
-        allow_ip_domain: options.allowIpDomain || false,
-        ignore_max_length: options.ignoreMaxLength || false,
+      compiledOptions: {
+        domain_specific_validation: options.domainSpecificValidation,
+        allow_ip_domain: options.allowIpDomain,
+        ignore_max_length: options.ignoreMaxLength,
         sanitize: sanitizationOptions,
-      } : {},
+      },
     }
   },
   validate (value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, mutate }) {

@@ -170,11 +170,11 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a string or optional string type
    */
   export interface StringType {
-    (rules?: Rule[]): {
+    (options?: { escape?: boolean }, rules?: Rule[]): {
       t: string,
       getTree (): SchemaLiteral
     },
-    optional (rules?: Rule[]): {
+    optional (options?: { escape?: boolean }, rules?: Rule[]): {
       t?: string,
       getTree (): SchemaLiteral
     },
@@ -184,11 +184,11 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a date or an optional date type
    */
   export interface DateType {
-    (options?: { format: string }, rules?: Rule[]): {
+    (options?: { format?: string }, rules?: Rule[]): {
       t: DateTime,
       getTree (): SchemaLiteral
     },
-    optional (options?: { format: string }, rules?: Rule[]): {
+    optional (options?: { format?: string }, rules?: Rule[]): {
       t?: DateTime,
       getTree (): SchemaLiteral
     },

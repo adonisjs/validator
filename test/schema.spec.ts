@@ -30,7 +30,7 @@ test.group('Schema | String', () => {
             name: 'string',
             allowUndefineds: false,
             async: false,
-            compiledOptions: undefined,
+            compiledOptions: { escape: false },
           },
         ],
       },
@@ -49,7 +49,7 @@ test.group('Schema | String', () => {
             name: 'string',
             allowUndefineds: false,
             async: false,
-            compiledOptions: undefined,
+            compiledOptions: { escape: false },
           },
         ],
       },
@@ -58,7 +58,7 @@ test.group('Schema | String', () => {
 
   test('define schema with string and custom rules', (assert) => {
     assert.deepEqual(schema.create({
-      username: schema.string([rules.alpha()]),
+      username: schema.string({}, [rules.alpha()]),
     }).tree, {
       username: {
         type: 'literal',
@@ -74,13 +74,38 @@ test.group('Schema | String', () => {
             name: 'string',
             allowUndefineds: false,
             async: false,
-            compiledOptions: undefined,
+            compiledOptions: { escape: false },
           },
           {
             name: 'alpha',
             allowUndefineds: false,
             async: false,
             compiledOptions: undefined,
+          },
+        ],
+      },
+    })
+  })
+
+  test('define schema with escape rule', (assert) => {
+    assert.deepEqual(schema.create({
+      username: schema.string({ escape: true }),
+    }).tree, {
+      username: {
+        type: 'literal',
+        subtype: 'string',
+        rules: [
+          {
+            name: 'required',
+            allowUndefineds: true,
+            async: false,
+            compiledOptions: undefined,
+          },
+          {
+            name: 'string',
+            allowUndefineds: false,
+            async: false,
+            compiledOptions: { escape: true },
           },
         ],
       },
@@ -435,7 +460,7 @@ test.group('Schema | Object', () => {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
-                compiledOptions: undefined,
+                compiledOptions: { escape: false },
               },
             ],
           },
@@ -475,7 +500,7 @@ test.group('Schema | Object', () => {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
-                compiledOptions: undefined,
+                compiledOptions: { escape: false },
               },
             ],
           },
@@ -539,7 +564,7 @@ test.group('Schema | Array', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: undefined,
+                  compiledOptions: { escape: false },
                 },
               ],
             },
@@ -596,7 +621,7 @@ test.group('Schema | Array', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: undefined,
+                  compiledOptions: { escape: false },
                 },
               ],
             },
@@ -665,7 +690,7 @@ test.group('Schema | Array', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: undefined,
+                  compiledOptions: { escape: false },
                 },
               ],
             },
@@ -751,7 +776,7 @@ test.group('Schema | Array', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: undefined,
+              compiledOptions: { escape: false },
             },
           ],
         },
@@ -787,7 +812,7 @@ test.group('Schema | Array', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: undefined,
+              compiledOptions: { escape: false },
             },
           ],
         },

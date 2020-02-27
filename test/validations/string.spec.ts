@@ -13,8 +13,8 @@ import { validate } from '../fixtures/rules/index'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { string } from '../../src/Validations/primitives/string'
 
-function compile () {
-  return string.compile('literal', 'string', rules['string']().options)
+function compile (options?: { escape: true }) {
+  return string.compile('literal', 'string', rules['string'](options).options)
 }
 
 test.group('String', () => {
@@ -65,5 +65,20 @@ test.group('String', () => {
     })
 
     assert.deepEqual(reporter.toJSON(), [])
+  })
+
+  test('escape string when enabled', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    let value = '<p>hello world</p>'
+
+    string.validate(value, compile({ escape: true }).compiledOptions, {
+      errorReporter: reporter,
+      pointer: 'username',
+      tip: {},
+      root: {},
+      mutate: (newValue) => value = newValue,
+    })
+
+    assert.equal(value, '&lt;p&gt;hello world&lt;&#x2F;p&gt;')
   })
 })

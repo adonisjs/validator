@@ -376,39 +376,15 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Shape of validator module
+   * Email validation and sanitization options
    */
-  const validator: {
-    /**
-     * Validate is a shorthand to compile + exec. If cache
-     * key is defined, then it will also cache the
-     * schemas.
-     */
-    validate: ValidateFn,
-
-    /**
-     * Compile schema to an executable function
-     */
-    compile: CompileFn,
-
-    /**
-     * Compile and cache schema using a cache key
-     */
-    compileAndCache: CompileAndCache,
-
-    /**
-     * Add a new validation rule
-     */
-    addRule (name: string, ruleDefinition: ValidationContract<any>): void
-
-    /**
-     * Type definition is set to any, since one can pass in a function or
-     * an object that has chainable API. So there is no simple way
-     * to guard the type definition. However, the `schema.create`
-     * method will fail if the final outcome doesn't have `getTree`
-     * method on it.
-     */
-    addType (name: string, typeDefinition: any): void
+  export type EmailRuleOptions = {
+    domainSpecificValidation?: boolean,
+    allowIpDomain?: boolean,
+    ignoreMaxLength?: boolean,
+    sanitize?: boolean | {
+      lowerCase: boolean,
+    },
   }
 
   /**
@@ -490,6 +466,7 @@ declare module '@ioc:Adonis/Core/Validator' {
      * String must be alpha
      */
     alpha (): Rule
+    email (options?: EmailRuleOptions): Rule
 
     /**
      * String or array must have defined maximum length
@@ -506,6 +483,42 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Shape of rules module
    */
   const rules: Rules
+
+  /**
+   * Shape of validator module
+   */
+  const validator: {
+    /**
+     * Validate is a shorthand to compile + exec. If cache
+     * key is defined, then it will also cache the
+     * schemas.
+     */
+    validate: ValidateFn,
+
+    /**
+     * Compile schema to an executable function
+     */
+    compile: CompileFn,
+
+    /**
+     * Compile and cache schema using a cache key
+     */
+    compileAndCache: CompileAndCache,
+
+    /**
+     * Add a new validation rule
+     */
+    addRule (name: string, ruleDefinition: ValidationContract<any>): void
+
+    /**
+     * Type definition is set to any, since one can pass in a function or
+     * an object that has chainable API. So there is no simple way
+     * to guard the type definition. However, the `schema.create`
+     * method will fail if the final outcome doesn't have `getTree`
+     * method on it.
+     */
+    addType (name: string, typeDefinition: any): void
+  }
 
   export { schema, rules, validator }
 }

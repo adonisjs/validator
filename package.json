@@ -76,6 +76,7 @@
     "@adonisjs/profiler": "^2.0.0",
     "@hapi/joi": "^17.1.0",
     "@types/node": "^13.7.6",
+    "@types/validator": "^12.0.1",
     "benchmark": "^2.1.4",
     "class-validator": "^0.11.0",
     "commitizen": "^4.0.3",
@@ -100,6 +101,7 @@
     "@types/luxon": "^1.21.0",
     "endent": "^1.4.1",
     "lodash.get": "^4.4.2",
-    "luxon": "^1.22.0"
+    "luxon": "^1.22.0",
+    "validator": "^12.2.0"
   }
 }

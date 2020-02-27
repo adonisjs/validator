@@ -70,8 +70,6 @@ test.group('Array Compiler', () => {
     const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
     objectCompiler.compile(buff)
 
-    console.log(buff.toString())
-
     assert.deepEqual(buff.toString().split('\n'), endent`
       // Validate root['users']
       let val_0 = root['users'];

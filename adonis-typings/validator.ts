@@ -467,6 +467,7 @@ declare module '@ioc:Adonis/Core/Validator' {
      */
     alpha (): Rule
     email (options?: EmailRuleOptions): Rule
+    ip (options?: { version?: '4' | '6' }): Rule
 
     /**
      * String or array must have defined maximum length

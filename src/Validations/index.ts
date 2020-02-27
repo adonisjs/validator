@@ -29,4 +29,5 @@ export { string } from './primitives/string'
 
 export { alpha } from './string/alpha'
 export { email } from './string/email'
+export { ip } from './string/ip'
 export { maxLength } from './string-and-array/maxLength'

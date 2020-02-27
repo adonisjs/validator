@@ -475,6 +475,7 @@ declare module '@ioc:Adonis/Core/Validator' {
      * String or array must have defined maximum length
      */
     maxLength (length: number): Rule
+    minLength (length: number): Rule
   }
 
   /**

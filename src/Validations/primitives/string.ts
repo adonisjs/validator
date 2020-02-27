@@ -18,7 +18,7 @@ const RULE_NAME = 'string'
  * Ensure value is a valid string
  * @type {SyncValidation}
  */
-export const string: SyncValidation<{ escape: boolean }> = {
+export const string: SyncValidation<{ escape: boolean, trim: boolean }> = {
   compile (_, __, args) {
     ensureValidArgs(RULE_NAME, args)
     const [options] = args
@@ -29,6 +29,7 @@ export const string: SyncValidation<{ escape: boolean }> = {
       name: RULE_NAME,
       compiledOptions: {
         escape: !!(options && options.escape),
+        trim: options && options.trim === false ? false : true,
       },
     }
   },
@@ -38,8 +39,24 @@ export const string: SyncValidation<{ escape: boolean }> = {
       return
     }
 
+    let mutated = false
+
+    /**
+     * Escape string
+     */
     if (compiledOptions.escape) {
-      mutate(escape(value))
+      mutated = true
+      value = escape(value)
     }
+
+    /**
+     * Trim whitespaces
+     */
+    if (compiledOptions.trim) {
+      mutated = true
+      value = value.trim()
+    }
+
+    mutated && mutate(value)
   },
 }

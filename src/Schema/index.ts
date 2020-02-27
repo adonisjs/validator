@@ -28,10 +28,10 @@ import {
 /**
  * String schema type
  */
-function string (options?: { escape: boolean }, rules?: Rule[]) {
+function string (options?: { escape?: boolean, trim?: boolean }, rules?: Rule[]) {
   return getLiteralType('string', false, options, rules || []) as ReturnType<StringType>
 }
-string.optional = function optionalString (options?: { escape: boolean }, rules?: Rule[]) {
+string.optional = function optionalString (options?: { escape?: boolean, trim?: boolean }, rules?: Rule[]) {
   return getLiteralType('string', true, options, rules || []) as ReturnType<StringType['optional']>
 }
 

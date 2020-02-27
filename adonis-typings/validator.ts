@@ -170,11 +170,11 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a string or optional string type
    */
   export interface StringType {
-    (options?: { escape?: boolean }, rules?: Rule[]): {
+    (options?: { escape?: boolean, trim?: boolean }, rules?: Rule[]): {
       t: string,
       getTree (): SchemaLiteral
     },
-    optional (options?: { escape?: boolean }, rules?: Rule[]): {
+    optional (options?: { escape?: boolean, trim?: boolean }, rules?: Rule[]): {
       t?: string,
       getTree (): SchemaLiteral
     },

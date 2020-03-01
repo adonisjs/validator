@@ -71,11 +71,11 @@
     "@adonisjs/encryption": "^1.0.4",
     "@adonisjs/fold": "^6.3.3",
     "@adonisjs/http-server": "^1.8.0",
-    "@adonisjs/logger": "^1.1.8",
+    "@adonisjs/logger": "^1.1.9",
     "@adonisjs/mrm-preset": "^2.2.4",
     "@adonisjs/profiler": "^2.0.0",
     "@hapi/joi": "^17.1.0",
-    "@types/node": "^13.7.6",
+    "@types/node": "^13.7.7",
     "@types/validator": "^12.0.1",
     "benchmark": "^2.1.4",
     "class-validator": "^0.11.0",
@@ -91,10 +91,10 @@
     "indicative-compiler": "^7.2.4",
     "japa": "^3.0.1",
     "kleur": "^3.0.3",
-    "mrm": "^2.0.4",
+    "mrm": "^2.1.0",
     "np": "^5.2.1",
     "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@poppinss/utils": "^2.1.2",

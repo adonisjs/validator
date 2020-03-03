@@ -143,4 +143,25 @@ test.group('Request validator', (group) => {
 
     httpRow.end()
   })
+
+  test('return validated request body', async (assert) => {
+    const req = new IncomingMessage(new Socket())
+    const res = new ServerResponse(req)
+    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+    const profiler = new Profiler(__dirname, logger, {})
+
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    ctx.request.request.headers.accept = 'application/json'
+    ctx.request.allFiles = function () {
+      return {}
+    }
+    ctx.request.setInitialBody({ username: 'virk', age: 22 })
+
+    const validated = await ctx.request.validate({
+      schema: validator.compile(schema.create({
+        username: schema.string(),
+      })),
+    })
+    assert.deepEqual(validated, { username: 'virk' })
+  })
 })

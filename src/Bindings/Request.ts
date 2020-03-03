@@ -52,8 +52,9 @@ export default function extendRequest (
     const profilerAction = this.ctx!.profiler.profile('request:validate')
 
     try {
-      await validate({ data, reporter: Reporter, ...validatorNode })
+      const validated = await validate({ data, reporter: Reporter, ...validatorNode })
       profilerAction.end({ status: 'success' })
+      return validated
     } catch (error) {
       profilerAction.end({ status: 'error' })
       throw error

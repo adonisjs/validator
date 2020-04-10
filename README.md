@@ -5,7 +5,7 @@
 <br />
 
 <div align="center">
-  <h3>AdonisJS Vaidator</h3>
+  <h3>AdonisJS Validator</h3>
   <p>A fluent and super fast validation engine for AdonisJS. In performance AdonisJS validator out performs many of its competitors.</p>
 </div>
 

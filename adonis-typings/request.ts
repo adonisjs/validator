@@ -8,12 +8,7 @@
 */
 
 declare module '@ioc:Adonis/Core/Request' {
-  import {
-    TypedSchema,
-    ValidateFn,
-    ParsedTypedSchema,
-    ErrorReporterConstructorContract,
-  } from '@ioc:Adonis/Core/Validator'
+  import { ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
 
   interface RequestContract {
     /**

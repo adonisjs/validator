@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
 */
 
+import { lodash } from '@poppinss/utils'
 import {
   Rule,
   ParsedRule,
@@ -15,8 +16,6 @@ import {
   SchemaLiteral,
   ParsedSchemaTree,
 } from '@ioc:Adonis/Core/Validator'
-
-import get from 'lodash.get'
 
 import * as validations from './Validations'
 import { rules as schemaRules } from './Rules'
@@ -123,7 +122,7 @@ export function getArrayType (
  * object, otherwise it's searched from the nearest tip
  */
 export function getFieldValue (field: string, root: any, tip: any) {
-  return field[0] === '/' ? get(root, field) : tip[field]
+  return field[0] === '/' ? lodash.get(root, field) : tip[field]
 }
 
 /**

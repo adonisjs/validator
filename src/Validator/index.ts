@@ -10,7 +10,7 @@
 import {
   CompileFn,
   ValidateFn,
-  CompileAndCache,
+  CompileAndCacheFn,
   ValidationContract,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
@@ -78,7 +78,7 @@ const validate: ValidateFn = (options) => {
 /**
  * Compile and cache the schema using the cache key
  */
-const compileAndCache: CompileAndCache = (parsedSchema, cacheKey) => {
+const compileAndCache: CompileAndCacheFn = (parsedSchema, cacheKey) => {
   let compiledFn = COMPILED_CACHE[cacheKey]
   if (!compiledFn) {
     /**

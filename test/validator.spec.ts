@@ -14,8 +14,8 @@ import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 import { getLiteralType } from '../src/utils'
-import { validator as validatorBase } from '../src/Validator'
 import * as validations from '../src/Validations'
+import { validator as validatorBase } from '../src/Validator'
 import { ApiErrorReporter } from '../src/ErrorReporter'
 
 const validator = validatorBase as unknown as typeof validatorType

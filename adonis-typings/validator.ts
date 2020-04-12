@@ -12,6 +12,10 @@ declare module '@ioc:Adonis/Core/Validator' {
   import { default as validatorJs } from 'validator'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
+  /**
+   * Shape of a rule. This is what methods from the
+   * rules object returns
+   */
   export type Rule = {
     name: string,
     options?: any,
@@ -346,35 +350,31 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Compile the schema and cache it using a cache key
    */
-  export interface CompileAndCache {
-    <T extends ParsedTypedSchema<TypedSchema>> (
-      schema: T,
-      cacheKey: string,
-    ): CompilerOutput<T['props']>
-  }
+  export type CompileAndCacheFn = <T extends ParsedTypedSchema<TypedSchema>> (
+    schema: T,
+    cacheKey: string,
+  ) => CompilerOutput<T['props']>
 
   /**
    * Compile function signature
    */
-  export interface CompileFn {
-    <T extends ParsedTypedSchema<TypedSchema>> (schema: T): CompilerOutput<T['props']>
-  }
+  export type CompileFn = <T extends ParsedTypedSchema<TypedSchema>> (
+    schema: T,
+  ) => CompilerOutput<T['props']>
 
   /**
    * Shape of the function that validates the compiler output
    */
-  export interface ValidateFn {
-    <Fn extends (...args: any) => any> (
-      validator: {
-        schema: Fn,
-        data: any,
-        messages?: { [key: string]: string },
-        existsStrict?: boolean,
-        reporter?: ErrorReporterConstructorContract,
-        bail?: boolean,
-      }
-    ): ReturnType<Fn>
-  }
+  export type ValidateFn = <Fn extends (...args: any) => any> (
+    validator: {
+      schema: Fn,
+      data: any,
+      messages?: { [key: string]: string },
+      existsStrict?: boolean,
+      reporter?: ErrorReporterConstructorContract,
+      bail?: boolean,
+    }
+  ) => ReturnType<Fn>
 
   /**
    * Email validation and sanitization options
@@ -507,7 +507,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * Compile and cache schema using a cache key
      */
-    compileAndCache: CompileAndCache,
+    compileAndCache: CompileAndCacheFn,
 
     /**
      * Add a new validation rule

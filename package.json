@@ -86,7 +86,6 @@
     "execa": "^4.0.0",
     "husky": "^4.2.5",
     "indicative": "^7.4.4",
-    "indicative-compiler": "^7.2.4",
     "japa": "^3.0.1",
     "kleur": "^3.0.3",
     "mrm": "^2.2.1",

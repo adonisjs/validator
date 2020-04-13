@@ -8,15 +8,14 @@
 */
 
 import test from 'japa'
-import { FakeLogger } from '@adonisjs/logger/build/standalone'
 import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 import { getLiteralType } from '../src/utils'
 import * as validations from '../src/Validations'
-import { validator as validatorBase } from '../src/Validator'
 import { ApiErrorReporter } from '../src/ErrorReporter'
+import { validator as validatorBase } from '../src/Validator'
 
 const validator = validatorBase as unknown as typeof validatorType
 
@@ -26,9 +25,9 @@ test.group('Validator | validate', () => {
 
     try {
       await validator.validate({
-        schema: validator.compile(schema.create({
+        schema: schema.create({
           username: schema.string(),
-        })),
+        }),
         data: {},
       })
     } catch (error) {
@@ -41,11 +40,11 @@ test.group('Validator | validate', () => {
 
     try {
       await validator.validate({
-        schema: validator.compile(schema.create({
+        schema: schema.create({
           username: schema.string(),
           email: schema.string(),
           password: schema.string(),
-        })),
+        }),
         data: {},
       })
     } catch (error) {
@@ -62,11 +61,11 @@ test.group('Validator | validate', () => {
 
     try {
       await validator.validate({
-        schema: validator.compile(schema.create({
+        schema: schema.create({
           username: schema.string(),
           email: schema.string(),
           password: schema.string(),
-        })),
+        }),
         data: {},
         bail: true,
       })
@@ -82,11 +81,11 @@ test.group('Validator | validate', () => {
 
     try {
       await validator.validate({
-        schema: validator.compile(schema.create({
+        schema: schema.create({
           username: schema.string(),
           email: schema.string(),
           password: schema.string(),
-        })),
+        }),
         data: {},
         messages: {
           required: 'The field is required',
@@ -105,11 +104,11 @@ test.group('Validator | validate', () => {
 
     try {
       await validator.validate({
-        schema: validator.compile(schema.create({
+        schema: schema.create({
           username: schema.string(),
           email: schema.string(),
           password: schema.string(),
-        })),
+        }),
         data: {},
         messages: { required: 'The field is required' },
         bail: true,
@@ -122,6 +121,39 @@ test.group('Validator | validate', () => {
         message: 'The field is required',
       }])
     }
+  })
+
+  test('cache schema using the cache key', async () => {
+    const initialSchema = schema.create({
+      username: schema.string.optional(),
+    })
+
+    /**
+     * First validation will be skipped, since we have marked
+     * the field optional
+     */
+    await validator.validate({
+      schema: initialSchema,
+      data: {},
+      cacheKey: 'foo',
+      reporter: ApiErrorReporter,
+    })
+
+    const newSchema = schema.create({
+      username: schema.string(),
+    })
+
+    /**
+     * This one should have failed, but not, since the same
+     * cache key is used and hence new schema is not
+     * compiled
+     */
+    await validator.validate({
+      schema: newSchema,
+      data: {},
+      cacheKey: 'foo',
+      reporter: ApiErrorReporter,
+    })
   })
 })
 
@@ -196,18 +228,5 @@ test.group('Validator | addType', () => {
         ],
       },
     })
-  })
-})
-
-test.group('Validator | configure', () => {
-  test('use custom logger', async (assert) => {
-    assert.plan(1)
-
-    const logger = new FakeLogger({ name: 'adonisjs', enabled: true, level: 'trace' })
-    validator['configure']({
-      logger,
-    })
-    validator.compileAndCache(schema.create({}), '/posts')
-    assert.equal(logger.logs[0].msg, 'Compiling schema for "/posts" cache key')
   })
 })

@@ -100,5 +100,13 @@
     "endent": "^2.0.1",
     "luxon": "^1.23.0",
     "validator": "^13.0.0"
+  },
+  "peerDependencies": {
+    "@adonisjs/http-server": "^2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@adonisjs/http-server": {
+      "optional": true
+    }
   }
 }

@@ -33,17 +33,11 @@ export default class ValidationProvider {
   }
 
   public boot () {
-    this.container.with([
-      'Adonis/Core/Request',
-      'Adonis/Core/Validator',
-      'Adonis/Core/Logger',
-    ], (
-      Request: RequestConstructorContract,
-      Validator: { validator: typeof validator },
-      Logger,
-    ) => {
-      Validator.validator.configure({ logger: Logger })
-      extendRequest(Request, Validator.validator.validate)
-    })
+    this.container.with(
+      ['Adonis/Core/Request', 'Adonis/Core/Validator'],
+      (Request: RequestConstructorContract, Validator: { validator: typeof validator }) => {
+        extendRequest(Request, Validator.validator.validate)
+      },
+    )
   }
 }

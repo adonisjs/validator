@@ -348,33 +348,25 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Compile the schema and cache it using a cache key
+   * The validator node object accepted by the validated
+   * method
    */
-  export type CompileAndCacheFn = <T extends ParsedTypedSchema<TypedSchema>> (
+  export type ValidatorNode<T extends ParsedTypedSchema<TypedSchema>> = {
     schema: T,
-    cacheKey: string,
-  ) => CompilerOutput<T['props']>
-
-  /**
-   * Compile function signature
-   */
-  export type CompileFn = <T extends ParsedTypedSchema<TypedSchema>> (
-    schema: T,
-  ) => CompilerOutput<T['props']>
+    data?: any,
+    cacheKey?: string,
+    messages?: { [key: string]: string },
+    existsStrict?: boolean,
+    reporter?: ErrorReporterConstructorContract,
+    bail?: boolean,
+  }
 
   /**
    * Shape of the function that validates the compiler output
    */
-  export type ValidateFn = <Fn extends (...args: any) => any> (
-    validator: {
-      schema: Fn,
-      data: any,
-      messages?: { [key: string]: string },
-      existsStrict?: boolean,
-      reporter?: ErrorReporterConstructorContract,
-      bail?: boolean,
-    }
-  ) => ReturnType<Fn>
+  export type ValidateFn = <T extends ParsedTypedSchema<TypedSchema>> (
+    validator: ValidatorNode<T>
+  ) => Promise<T['props']>
 
   /**
    * Email validation and sanitization options
@@ -498,16 +490,6 @@ declare module '@ioc:Adonis/Core/Validator' {
      * schemas.
      */
     validate: ValidateFn,
-
-    /**
-     * Compile schema to an executable function
-     */
-    compile: CompileFn,
-
-    /**
-     * Compile and cache schema using a cache key
-     */
-    compileAndCache: CompileAndCacheFn,
 
     /**
      * Add a new validation rule

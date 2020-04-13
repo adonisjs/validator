@@ -8,18 +8,22 @@
 */
 
 declare module '@ioc:Adonis/Core/Request' {
-  import { ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
+  import {
+    TypedSchema,
+    ValidatorNode,
+    ParsedTypedSchema,
+    ErrorReporterConstructorContract,
+  } from '@ioc:Adonis/Core/Validator'
+
+  type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
   interface RequestContract {
     /**
-     * Validate current request data using a pre-compiled
-     * schema
+     * Validate current request. The data is optional here, since request
+     * can pre-fill it for us
      */
-    validate <Fn extends (...args: any) => any> (validator: {
-      schema: Fn,
-      messages?: { [key: string]: string },
-      reporter?: ErrorReporterConstructorContract,
-      bail?: boolean,
-    }): ReturnType<Fn>
+    validate <T extends ParsedTypedSchema<TypedSchema>> (
+      validator: WithOptional<ValidatorNode<T>, 'data'>,
+    ): Promise<T['props']>
   }
 }

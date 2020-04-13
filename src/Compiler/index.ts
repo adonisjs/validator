@@ -14,6 +14,7 @@ import {
   SchemaLiteral,
   ValidationField,
   ParsedSchemaTree,
+  CompilerOutput,
 } from '@ioc:Adonis/Core/Validator'
 
 import endent from 'endent'
@@ -268,7 +269,7 @@ export class Compiler {
   /**
    * Compiles the schema tree to an executable function
    */
-  public compile () {
+  public compile<T extends any> (): CompilerOutput<T> {
     return new Function('root', 'validations', 'errorReporter', 'helpers', this.compileAsString())()
   }
 }

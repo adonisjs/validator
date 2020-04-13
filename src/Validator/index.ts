@@ -8,13 +8,11 @@
 */
 
 import {
-  CompileFn,
   ValidateFn,
-  CompileAndCacheFn,
+  CompilerOutput,
   ValidationContract,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
-import { LoggerContract } from '@ioc:Adonis/Core/Logger'
 
 import { schema } from '../Schema'
 import { Compiler } from '../Compiler'
@@ -36,7 +34,7 @@ const STRICT_HELPERS = { exists: existsStrict, isObject }
 /**
  * Cache to store the compiled schemas
  */
-const COMPILED_CACHE = {}
+const COMPILED_CACHE: { [key: string]: CompilerOutput<any> } = {}
 
 /**
  * An object of messages to use as fallback, when no custom
@@ -45,54 +43,33 @@ const COMPILED_CACHE = {}
 const NOOP_MESSAGES = {}
 
 /**
- * Configuration options. They can be set using the configure
- * method
- */
-let CONFIGURATION_OPTIONS: {
-  logger?: LoggerContract,
-} = {}
-
-/**
- * Compiles the schema to an executable function
- */
-const compile: CompileFn = (parsedSchema) => new Compiler(parsedSchema.tree).compile()
-
-/**
- * Execute the compiled schema function with runtime data and custom messages.
- * We allow custom messages and error reporter per call, so that you don't
- * have to re-compile the schema when trying to use different set of
- * validation messages.
  */
 const validate: ValidateFn = (options) => {
   let Reporter: ErrorReporterConstructorContract = options.reporter || VanillaErrorReporter
   const bail = options.bail === undefined ? false : options.bail
+  const reporter = new Reporter(options.messages || NOOP_MESSAGES, bail)
+  const helpers = options.existsStrict === true ? STRICT_HELPERS : HELPERS
 
-  return options.schema(
-    options.data,
-    validations,
-    new Reporter(options.messages || NOOP_MESSAGES, bail),
-    options.existsStrict === true ? STRICT_HELPERS : HELPERS,
-  )
-}
-
-/**
- * Compile and cache the schema using the cache key
- */
-const compileAndCache: CompileAndCacheFn = (parsedSchema, cacheKey) => {
-  let compiledFn = COMPILED_CACHE[cacheKey]
-  if (!compiledFn) {
-    /**
-     * Log when logger is defined
-     */
-    if (CONFIGURATION_OPTIONS.logger) {
-      CONFIGURATION_OPTIONS.logger.trace(`Compiling schema for "${cacheKey}" cache key`)
-    }
-
-    compiledFn = compile(parsedSchema)
-    COMPILED_CACHE[cacheKey] = compiledFn
+  /**
+   * Compile everytime, when no cache is defined
+   */
+  if (!options.cacheKey) {
+    return new Compiler(options.schema.tree).compile()(options.data, validations, reporter, helpers)
   }
 
-  return compiledFn
+  /**
+   * Look for compiled function or compile one
+   */
+  let compiledFn = COMPILED_CACHE[options.cacheKey]
+  if (!compiledFn) {
+    compiledFn = new Compiler(options.schema.tree).compile()
+    COMPILED_CACHE[options.cacheKey] = compiledFn
+  }
+
+  /**
+   * Execute compiled function
+   */
+  return compiledFn(options.data, validations, reporter, helpers)
 }
 
 /**
@@ -115,23 +92,10 @@ const addType = (name: string, typeDefinition: any) => {
 }
 
 /**
- * Configure validator. This method is not exposed via typings as of
- * now, since we trying to keep it public until we have enought
- * configuration options
- */
-const configure = (options: typeof CONFIGURATION_OPTIONS) => {
-  CONFIGURATION_OPTIONS = options
-}
-
-/**
  * Module available methods/properties
  */
 export const validator = {
-  rules,
-  compile,
   addRule,
   addType,
   validate,
-  compileAndCache,
-  configure,
 }

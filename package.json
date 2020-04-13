@@ -68,12 +68,12 @@
   },
   "devDependencies": {
     "@adonisjs/bodyparser": "^3.2.4",
-    "@adonisjs/encryption": "^2.0.1",
-    "@adonisjs/fold": "^6.3.3",
-    "@adonisjs/http-server": "^2.0.1",
-    "@adonisjs/logger": "^2.0.0",
+    "@adonisjs/encryption": "^2.0.2",
+    "@adonisjs/fold": "^6.3.5",
+    "@adonisjs/http-server": "^2.0.2",
+    "@adonisjs/logger": "^2.0.1",
     "@adonisjs/mrm-preset": "^2.3.0",
-    "@adonisjs/profiler": "^3.0.0",
+    "@adonisjs/profiler": "^3.0.1",
     "@hapi/joi": "^17.1.1",
     "@types/node": "^13.11.1",
     "benchmark": "^2.1.4",
@@ -95,10 +95,10 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@poppinss/utils": "^2.2.3",
+    "@poppinss/utils": "^2.2.4",
     "@types/luxon": "^1.22.0",
     "@types/validator": "^13.0.0",
-    "endent": "^1.4.1",
+    "endent": "^2.0.1",
     "luxon": "^1.23.0",
     "validator": "^13.0.0"
   }

@@ -8,7 +8,7 @@
 */
 
 import { DateTime } from 'luxon'
-import { ensureValidArgs } from '../../utils'
+import { ensureValidArgs } from '../../Validator/helpers'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 const RULE_NAME = 'date'

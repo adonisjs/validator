@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../utils'
+import { ensureValidArgs } from '../../Validator/helpers'
 
 const RULE_NAME = 'maxLength'
 const DEFAULT_MESSAGE = 'maxLength validation failed'

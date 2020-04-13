@@ -8,8 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { getFieldValue, ensureValidArgs } from '../../utils'
-import { exists } from '../../Validator/helpers'
+import { exists, getFieldValue, ensureValidArgs } from '../../Validator/helpers'
 
 const RULE_NAME = 'requiredIfNotExistsAll'
 const DEFAULT_MESSAGE = 'requiredIfNotExistsAll validation failed'

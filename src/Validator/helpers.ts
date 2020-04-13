@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
 */
 
+import { lodash } from '@poppinss/utils'
+
 /**
  * Ensure value is not `undefined`
  */
@@ -27,4 +29,28 @@ export function exists (value: any) {
  */
 export function isObject (value: any) {
   return value !== null && typeof (value) === 'object' && !Array.isArray(value)
+}
+
+/**
+ * Returns the field value for a given pointer. If pointer starts
+ * with `/`, then it will be searched from the root of the
+ * object, otherwise it's searched from the nearest tip
+ */
+export function getFieldValue (field: string, root: any, tip: any) {
+  return field[0] === '/' ? lodash.get(root, field) : tip[field]
+}
+
+/**
+ * Validates to ensure that arguments passed to validations compile method
+ * is an array
+ */
+export function ensureValidArgs (ruleName: string, args: any): asserts args is any[] {
+  /**
+   * The compile method must receive an array of spread arguments. If not
+   * it means the end has not used `Rules.<rule>` in order to use the
+   * validation rule
+   */
+  if (!Array.isArray(args)) {
+    throw new Error(`${ruleName}: The 3rd arguments must be a combined array of arguments`)
+  }
 }

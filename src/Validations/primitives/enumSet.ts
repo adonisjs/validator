@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../utils'
+import { ensureValidArgs } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'enumSet validation failed'
 const RULE_NAME = 'enumSet'

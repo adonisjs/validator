@@ -14,16 +14,17 @@ import Joi from '@hapi/joi'
 import { Suite } from 'benchmark'
 import { validateAll, schema as indicativeSchema } from 'indicative/validator'
 
-import { validator } from '../src/Validator'
+import { Compiler } from '../src/Compiler'
 import { schema } from '../src/Schema'
+import { validate } from './validate'
 
 /**
  * Adonis pre compiled validation function
  */
-const adonisValidate = validator.compile(schema.create({
+const adonisValidate = new Compiler(schema.create({
   username: schema.string(),
   name: schema.string(),
-}))
+}).tree).compile()
 
 /**
  * Joi pre compile validation function
@@ -58,13 +59,10 @@ new Suite()
   .add('AdonisJS', {
     defer: true,
     fn (deferred: Deferred) {
-      validator.validate({
-        schema: adonisValidate,
-        data: {
-          username: 'virk',
-          name: 'Virk',
-          prop1: 'foo',
-        },
+      validate(adonisValidate, {
+        username: 'virk',
+        name: 'Virk',
+        prop1: 'foo',
       }).then(() => deferred.resolve())
     },
   })

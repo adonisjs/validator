@@ -11,8 +11,7 @@ import isEmail from 'validator/lib/isEmail'
 import normalizeEmail from 'validator/lib/normalizeEmail'
 import { SyncValidation, EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
 
-import { ensureValidArgs } from '../../utils'
-import { isObject } from '../../Validator/helpers'
+import { isObject, ensureValidArgs } from '../../Validator/helpers'
 
 const RULE_NAME = 'email'
 const DEFAULT_MESSAGE = 'email validation failed'

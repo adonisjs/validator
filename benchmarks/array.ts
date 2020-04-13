@@ -13,19 +13,20 @@ import { Suite } from 'benchmark'
 import { validateOrReject, ValidateNested, IsString } from 'class-validator'
 import { validateAll, schema as indicativeSchema } from 'indicative/validator'
 
-import { validator } from '../src/Validator'
+import { validate } from './validate'
 import { schema } from '../src/Schema'
+import { Compiler } from '../src/Compiler'
 
 /**
  * Adonis pre compiled validation function
  */
-const adonisValidate = validator.compile(schema.create({
+const adonisValidate = new Compiler(schema.create({
   username: schema.string(),
   name: schema.string(),
   profiles: schema.array().members(schema.object().members({
     profileId: schema.string(),
   })),
-}))
+}).tree).compile()
 
 /**
  * Joi pre compile validation function
@@ -73,7 +74,7 @@ const indicativeCompiled = indicativeSchema.new({
 })
 
 /**
- * Indicative doesn't have a pre-compile function. However, validting
+ * Indicative doesn't have a pre-compile function. However, validating
  * once with a cache key caches the compiled schema
  */
 validateAll({
@@ -95,16 +96,15 @@ new Suite()
   .add('AdonisJS', {
     defer: true,
     fn (deferred: Deferred) {
-      validator.validate({
-        schema: adonisValidate,
-        data: {
+      validate(adonisValidate,
+        {
           username: 'virk',
           name: 'Virk',
           profiles: [{
             profileId: 'virk011',
           }],
         },
-      }).then(() => deferred.resolve())
+      ).then(() => deferred.resolve())
     },
   })
   .add('Joi', {

@@ -9,7 +9,7 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
-import { ensureValidArgs } from '../../utils'
+import { ensureValidArgs } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'file validation failed'
 const RULE_NAME = 'file'

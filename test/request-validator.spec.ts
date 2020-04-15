@@ -38,12 +38,14 @@ test.group('Request validator', (group) => {
       return {}
     }
 
-    try {
-      await ctx.request.validate({
-        schema: schema.create({
-          username: schema.string(),
-        }),
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
       })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
     } catch (error) {
       assert.deepEqual(error.messages, [{
         rule: 'required',
@@ -67,12 +69,14 @@ test.group('Request validator', (group) => {
       return {}
     }
 
-    try {
-      await ctx.request.validate({
-        schema: schema.create({
-          username: schema.string(),
-        }),
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
       })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
     } catch (error) {
       assert.deepEqual(error.messages, {
         errors: [{
@@ -99,12 +103,14 @@ test.group('Request validator', (group) => {
       return {}
     }
 
-    try {
-      await ctx.request.validate({
-        schema: schema.create({
-          username: schema.string(),
-        }),
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
       })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
     } catch (error) {
       assert.deepEqual(error.messages, {
         username: ['required validation failed'],
@@ -133,12 +139,14 @@ test.group('Request validator', (group) => {
       return {}
     }
 
-    try {
-      await ctx.request.validate({
-        schema: schema.create({
-          username: schema.string(),
-        }),
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
       })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
     } catch {}
 
     httpRow.end()
@@ -157,11 +165,13 @@ test.group('Request validator', (group) => {
     }
     ctx.request.setInitialBody({ username: 'virk', age: 22 })
 
-    const validated = await ctx.request.validate({
-      schema: schema.create({
+    class Validator {
+      public schema = schema.create({
         username: schema.string(),
-      }),
-    })
+      })
+    }
+
+    const validated = await ctx.request.validate(Validator)
     assert.deepEqual(validated, { username: 'virk' })
   })
 
@@ -177,11 +187,35 @@ test.group('Request validator', (group) => {
       return {}
     }
 
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
+      })
+
+      public data = { username: 'virk' }
+    }
+
+    const validated = await ctx.request.validate(Validator)
+    assert.deepEqual(validated, { username: 'virk' })
+  })
+
+  test('validate using vanilla object', async (assert) => {
+    const req = new IncomingMessage(new Socket())
+    const res = new ServerResponse(req)
+    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+    const profiler = new Profiler(__dirname, logger, {})
+
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    ctx.request.request.headers.accept = 'application/json'
+    ctx.request.allFiles = function () {
+      return {}
+    }
+    ctx.request.setInitialBody({ username: 'virk', age: 22 })
+
     const validated = await ctx.request.validate({
       schema: schema.create({
         username: schema.string(),
       }),
-      data: { username: 'virk' },
     })
     assert.deepEqual(validated, { username: 'virk' })
   })

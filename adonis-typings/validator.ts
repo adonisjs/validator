@@ -10,7 +10,13 @@
 declare module '@ioc:Adonis/Core/Validator' {
   import { DateTime } from 'luxon'
   import { default as validatorJs } from 'validator'
+  import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
+
+  /**
+   * Helper
+   */
+  type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
   /**
    * Shape of a rule. This is what methods from the
@@ -353,13 +359,22 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export type ValidatorNode<T extends ParsedTypedSchema<TypedSchema>> = {
     schema: T,
-    data?: any,
+    data: any,
     cacheKey?: string,
     messages?: { [key: string]: string },
     existsStrict?: boolean,
     reporter?: ErrorReporterConstructorContract,
     bail?: boolean,
   }
+
+  /**
+   * Shape of validator accepted by the request.validate function. It can be
+   * a class with constructor that accepts the Context or a plain object
+   * with properties accepted by the `validator.validate` method.
+   */
+  export type RequestValidatorNode<T extends ParsedTypedSchema<TypedSchema>> = (
+    new (ctx: HttpContextContract) => WithOptional<ValidatorNode<T>, 'data'>
+  ) | WithOptional<ValidatorNode<T>, 'data'>
 
   /**
    * Shape of the function that validates the compiler output

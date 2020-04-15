@@ -10,7 +10,7 @@
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
 import {
   validator,
-  ValidatorNode,
+  RequestValidatorNode,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
@@ -24,7 +24,9 @@ export default function extendRequest (
   Request: RequestConstructorContract,
   validate: typeof validator['validate'],
 ) {
-  Request.macro('validate', async function validateRequest (validatorNode: ValidatorNode<any>) {
+  Request.macro('validate', async function validateRequest (
+    Validator: RequestValidatorNode<any>,
+  ) {
     let Reporter: ErrorReporterConstructorContract
 
     /**
@@ -48,6 +50,7 @@ export default function extendRequest (
      * it's possible that request body and params may have the same object
      * properties.
      */
+    const validatorNode = typeof (Validator) === 'function' ? new Validator(this.ctx!) : Validator
     const data = validatorNode.data || {
       ...this.all(),
       ...this.allFiles(),

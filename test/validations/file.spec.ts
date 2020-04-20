@@ -49,6 +49,7 @@ test.group('File', () => {
     const reporter = new ApiErrorReporter({}, false)
     file.validate({}, compile({}).compiledOptions!, {
       errorReporter: reporter,
+      field: 'avatar',
       pointer: 'avatar',
       tip: {},
       root: {},
@@ -71,6 +72,7 @@ test.group('File', () => {
     const reporter = new ApiErrorReporter({}, false)
     file.validate(mp, compile({ size: 10 }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'avatar',
       pointer: 'avatar',
       tip: {},
       root: {},
@@ -93,6 +95,7 @@ test.group('File', () => {
     const reporter = new ApiErrorReporter({}, false)
     file.validate(mp, compile({ extnames: ['jpg'] }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'avatar',
       pointer: 'avatar',
       tip: {},
       root: {},
@@ -115,6 +118,7 @@ test.group('File', () => {
     const reporter = new ApiErrorReporter({}, false)
     file.validate(mp, compile({ extnames: ['png'] }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'avatar',
       pointer: 'avatar',
       tip: {},
       root: {},

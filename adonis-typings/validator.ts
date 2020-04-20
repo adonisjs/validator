@@ -78,6 +78,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type ValidationRuntimeOptions = {
     root: any,
     tip: any,
+    field: string,
     pointer: string,
     arrayExpressionPointer?: string,
     errorReporter: ErrorReporterContract,
@@ -483,6 +484,11 @@ declare module '@ioc:Adonis/Core/Validator' {
      */
     maxLength (length: number): Rule
     minLength (length: number): Rule
+
+    /**
+     * Confirm field to be exists and have the same value
+     */
+    confirmed (): Rule
   }
 
   /**

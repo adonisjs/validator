@@ -85,6 +85,7 @@ export class LiteralCompiler {
 
     buffer.writeExpression(this.compiler.getOptionsDeclarationExpression(
       this.variableName,
+      this.compiler.pointerToExpression(this.field),
       this.references.referenceVariable,
       pointerExpression,
       ar,

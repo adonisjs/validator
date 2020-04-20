@@ -24,6 +24,7 @@ test.group('Number', () => {
     const reporter = new ApiErrorReporter({}, false)
     number.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},
@@ -43,6 +44,7 @@ test.group('Number', () => {
 
     number.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},
@@ -59,6 +61,7 @@ test.group('Number', () => {
     const reporter = new ApiErrorReporter({}, false)
     number.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},
@@ -72,6 +75,7 @@ test.group('Number', () => {
     const reporter = new ApiErrorReporter({}, false)
     number.validate('hello-world', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},

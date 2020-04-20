@@ -95,6 +95,7 @@ test.group('Object Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'user',
         tip: root,
         pointer: 'user',
         mutate: mutate_val_0,
@@ -113,6 +114,7 @@ test.group('Object Compiler', () => {
         }
         const val_1_options = {
           root,
+          field: 'username',
           tip: val_0,
           pointer: 'user.username',
           mutate: mutate_val_1,
@@ -192,6 +194,7 @@ test.group('Object Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'user',
         tip: root,
         pointer: 'user',
         mutate: mutate_val_0,
@@ -210,6 +213,7 @@ test.group('Object Compiler', () => {
         }
         const val_1_options = {
           root,
+          field: 'profile',
           tip: val_0,
           pointer: 'user.profile',
           mutate: mutate_val_1,
@@ -228,6 +232,7 @@ test.group('Object Compiler', () => {
           }
           const val_2_options = {
             root,
+            field: 'username',
             tip: val_1,
             pointer: 'user.profile.username',
             mutate: mutate_val_2,
@@ -283,6 +288,7 @@ test.group('Object Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'user',
         tip: root,
         pointer: 'user',
         mutate: mutate_val_0,
@@ -349,6 +355,7 @@ test.group('Object Compiler', () => {
         }
         const val_1_options = {
           root,
+          field: 'username',
           tip: val_0,
           pointer: 'user.username',
           mutate: mutate_val_1,

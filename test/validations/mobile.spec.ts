@@ -26,6 +26,7 @@ test.group('Mobile', () => {
     const reporter = new ApiErrorReporter({}, false)
     mobile.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'phone_number',
       pointer: 'phone_number',
       tip: {},
       root: {},
@@ -39,6 +40,7 @@ test.group('Mobile', () => {
     const reporter = new ApiErrorReporter({}, false)
     mobile.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'phone_number',
       pointer: 'phone_number',
       tip: {},
       root: {},
@@ -56,6 +58,7 @@ test.group('Mobile', () => {
     const reporter = new ApiErrorReporter({}, false)
     mobile.validate('7555244225', compile({ locale: ['en-IN'] }).compiledOptions, {
       errorReporter: reporter,
+      field: 'phone_number',
       pointer: 'phone_number',
       tip: {},
       root: {},

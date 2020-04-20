@@ -37,7 +37,7 @@ export function isObject (value: any) {
  * object, otherwise it's searched from the nearest tip
  */
 export function getFieldValue (field: string, root: any, tip: any) {
-  return field[0] === '/' ? lodash.get(root, field) : tip[field]
+  return field[0] === '/' ? lodash.get(root, field.slice(1)) : tip[field]
 }
 
 /**

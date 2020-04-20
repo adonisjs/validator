@@ -25,6 +25,7 @@ test.group('Alpha', () => {
     const reporter = new ApiErrorReporter({}, false)
     alpha.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -38,6 +39,7 @@ test.group('Alpha', () => {
     const reporter = new ApiErrorReporter({}, false)
     alpha.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -55,6 +57,7 @@ test.group('Alpha', () => {
     const reporter = new ApiErrorReporter({}, false)
     alpha.validate('hello', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},

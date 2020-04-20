@@ -81,6 +81,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'username',
         tip: root,
         pointer: 'username',
         mutate: mutate_val_0,
@@ -133,6 +134,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'username',
         tip: root,
         pointer: 'username',
         mutate: mutate_val_0,
@@ -185,6 +187,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'username',
         tip: root,
         pointer: 'username',
         mutate: mutate_val_0,
@@ -237,6 +240,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'username',
         tip: root,
         pointer: 'username',
         mutate: mutate_val_0,
@@ -321,6 +325,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        field: 'username',
         tip: root,
         pointer: 'username',
         mutate: mutate_val_0,

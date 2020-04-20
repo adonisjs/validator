@@ -23,6 +23,7 @@ function reportErrors (
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
+      field: 'username',
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
@@ -54,6 +55,7 @@ function reportUserDefinedErrors (
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
+      field: 'username',
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
@@ -85,6 +87,7 @@ function reportUserDefinedErrorsForArrayExpression (
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
+      field: 'username',
       pointer: 'users.0.username',
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,
@@ -114,6 +117,7 @@ function doNotReportErrorWithSuccessValue (
     validation.validate(successValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
+      field: 'username',
       pointer: 'users.0.username',
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,

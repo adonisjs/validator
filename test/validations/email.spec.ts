@@ -26,6 +26,7 @@ test.group('Email', () => {
     const reporter = new ApiErrorReporter({}, false)
     email.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'email',
       pointer: 'email',
       tip: {},
       root: {},
@@ -39,6 +40,7 @@ test.group('Email', () => {
     const reporter = new ApiErrorReporter({}, false)
     email.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'email',
       pointer: 'email',
       tip: {},
       root: {},
@@ -56,6 +58,7 @@ test.group('Email', () => {
     const reporter = new ApiErrorReporter({}, false)
     email.validate('foo@bar.com', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'email',
       pointer: 'email',
       tip: {},
       root: {},
@@ -71,6 +74,7 @@ test.group('Email', () => {
 
     email.validate(emailValue, compile({ sanitize: true }).compiledOptions, {
       errorReporter: reporter,
+      field: 'email',
       pointer: 'email',
       tip: {},
       root: {},

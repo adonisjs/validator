@@ -86,6 +86,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -105,6 +106,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -124,6 +126,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -143,6 +146,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('@AmanVirk1', compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -158,6 +162,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'facebook',
@@ -173,6 +178,7 @@ test.group('Required When [=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
       },
@@ -189,6 +195,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -208,6 +215,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -227,6 +235,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -246,6 +255,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
       },
@@ -264,6 +274,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('@AmanVirk1', compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
@@ -279,6 +290,7 @@ test.group('Required When [!=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
+      field: 'twitter_handle',
       pointer: 'twitter_handle',
       tip: {
         type: 'facebook',
@@ -296,6 +308,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -315,6 +328,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -334,6 +348,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -353,6 +368,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('@AmanVirk1', compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -368,6 +384,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'VARIABLE',
@@ -383,6 +400,7 @@ test.group('Required When [in]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
       },
@@ -399,6 +417,7 @@ test.group('Required When [notIn]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -418,6 +437,7 @@ test.group('Required When [notIn]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -437,6 +457,7 @@ test.group('Required When [notIn]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -456,6 +477,7 @@ test.group('Required When [notIn]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
       },
@@ -476,6 +498,7 @@ test.group('Required When [notIn]', () => {
 
     requiredWhen.validate('@AmanVirk1', compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'FIXED',
@@ -491,6 +514,7 @@ test.group('Required When [notIn]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'value',
       pointer: 'value',
       tip: {
         calculation_type: 'VARIABLE',
@@ -508,6 +532,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -527,6 +552,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -546,6 +572,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -565,6 +592,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('131002020', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -580,6 +608,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 17,
@@ -595,6 +624,7 @@ test.group('Required When [>]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('192010202', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
       },
@@ -611,6 +641,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -630,6 +661,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -649,6 +681,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -668,6 +701,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('131002020', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 20,
@@ -683,6 +717,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 41,
@@ -698,6 +733,7 @@ test.group('Required When [<]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('192010202', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
       },
@@ -714,6 +750,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -733,6 +770,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -752,6 +790,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -771,6 +810,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('131002020', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -786,6 +826,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 17,
@@ -801,6 +842,7 @@ test.group('Required When [>=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('192010202', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
       },
@@ -817,6 +859,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -836,6 +879,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(undefined, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -855,6 +899,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -874,6 +919,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('131002020', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 18,
@@ -889,6 +935,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate(null, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
         age: 19,
@@ -904,6 +951,7 @@ test.group('Required When [<=]', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('192010202', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
+      field: 'drivers_license',
       pointer: 'drivers_license',
       tip: {
       },

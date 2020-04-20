@@ -25,6 +25,7 @@ test.group('Date', () => {
     const reporter = new ApiErrorReporter({}, false)
     date.validate(null, compile({}).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -42,6 +43,7 @@ test.group('Date', () => {
     const reporter = new ApiErrorReporter({}, false)
     date.validate(22, compile({}).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -61,6 +63,7 @@ test.group('Date', () => {
 
     date.validate(value, compile({}).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -77,6 +80,7 @@ test.group('Date', () => {
     const reporter = new ApiErrorReporter({}, false)
     date.validate('2020-21-10', compile({ format: 'iso' }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -96,6 +100,7 @@ test.group('Date', () => {
 
     date.validate('2020-10-21', compile({ format: 'iso' }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -112,6 +117,7 @@ test.group('Date', () => {
     const reporter = new ApiErrorReporter({}, false)
     date.validate('2020-10-21', compile({ format: 'yyyy-dd-MM' }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -131,6 +137,7 @@ test.group('Date', () => {
 
     date.validate('2020-10-21', compile({ format: 'yyyy-MM-dd' }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -147,6 +154,7 @@ test.group('Date', () => {
     const reporter = new ApiErrorReporter({}, false)
     date.validate(new Date(), compile({ format: 'yyyy-dd-MM' }).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},
@@ -166,6 +174,7 @@ test.group('Date', () => {
 
     date.validate(value, compile({}).compiledOptions!, {
       errorReporter: reporter,
+      field: 'dob',
       pointer: 'dob',
       tip: {},
       root: {},

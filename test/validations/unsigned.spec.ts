@@ -24,6 +24,7 @@ test.group('unsigned', () => {
     const reporter = new ApiErrorReporter({}, false)
     unsigned.validate(-10, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},
@@ -41,6 +42,7 @@ test.group('unsigned', () => {
     const reporter = new ApiErrorReporter({}, false)
     unsigned.validate('-10', compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},
@@ -54,6 +56,7 @@ test.group('unsigned', () => {
     const reporter = new ApiErrorReporter({}, false)
     unsigned.validate(1, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'age',
       pointer: 'age',
       tip: {},
       root: {},

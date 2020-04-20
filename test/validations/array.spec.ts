@@ -24,6 +24,7 @@ test.group('array', () => {
     const reporter = new ApiErrorReporter({}, false)
     array.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'addresses',
       pointer: 'addresses',
       tip: {},
       root: {},
@@ -41,6 +42,7 @@ test.group('array', () => {
     const reporter = new ApiErrorReporter({}, false)
     array.validate([], compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'addresses',
       pointer: 'terms',
       tip: {},
       root: {},

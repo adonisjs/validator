@@ -48,6 +48,7 @@ test.group('Max Length', () => {
     const reporter = new ApiErrorReporter({}, false)
     maxLength.validate({}, { maxLength: 10 }, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -61,6 +62,7 @@ test.group('Max Length', () => {
     const reporter = new ApiErrorReporter({}, false)
     maxLength.validate('hello-world', compile(10).compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -79,6 +81,7 @@ test.group('Max Length', () => {
     const reporter = new ApiErrorReporter({}, false)
     maxLength.validate(['hello', 'world'], compile(1).compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -97,6 +100,7 @@ test.group('Max Length', () => {
     const reporter = new ApiErrorReporter({}, false)
     maxLength.validate('helloworld', compile(10).compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -110,6 +114,7 @@ test.group('Max Length', () => {
     const reporter = new ApiErrorReporter({}, false)
     maxLength.validate(['hello'], compile(1).compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},

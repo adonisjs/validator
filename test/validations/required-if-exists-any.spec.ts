@@ -52,6 +52,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
         user_id: 1,
@@ -71,6 +72,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
         type: 'twitter',
@@ -90,6 +92,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
         type: 'twitter',
@@ -109,6 +112,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
       },
@@ -123,6 +127,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
         user_id: null,
@@ -138,6 +143,7 @@ test.group('Required If Exists Any', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfExistsAny.validate('hello', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'profile_id',
       pointer: 'profile_id',
       tip: {
         type: 'twitter',

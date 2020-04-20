@@ -24,6 +24,7 @@ test.group('Object', () => {
     const reporter = new ApiErrorReporter({}, false)
     object.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'profile',
       pointer: 'profile',
       tip: {},
       root: {},
@@ -41,6 +42,7 @@ test.group('Object', () => {
     const reporter = new ApiErrorReporter({}, false)
     object.validate([], compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'profile',
       pointer: 'profile',
       tip: {},
       root: {},
@@ -58,6 +60,7 @@ test.group('Object', () => {
     const reporter = new ApiErrorReporter({}, false)
     object.validate({}, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'profile',
       pointer: 'profile',
       tip: {},
       root: {},

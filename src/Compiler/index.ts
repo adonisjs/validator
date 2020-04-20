@@ -99,6 +99,7 @@ export class Compiler {
    */
   public getOptionsDeclarationExpression (
     variableName: string,
+    field: string,
     tip: string,
     pointer: string,
     arrayExpressionPointer?: string,
@@ -109,6 +110,7 @@ export class Compiler {
 
     return endent`const ${this.getVariableOptionsName(variableName)} = {
       root,
+      field: ${field},
       tip: ${tip},
       pointer: ${pointer},${arrayExpressionPointerItem}
       mutate: ${this.getVariableMutationName(variableName)},

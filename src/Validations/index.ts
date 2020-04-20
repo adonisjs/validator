@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
 */
 
+export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'
 export { requiredIfExists } from './existence/requiredIfExists'
 export { requiredIfExistsAll } from './existence/requiredIfExistsAll'

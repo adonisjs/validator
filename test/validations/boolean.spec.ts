@@ -24,6 +24,7 @@ test.group('boolean', () => {
     const reporter = new ApiErrorReporter({}, false)
     boolean.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -43,6 +44,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -61,6 +63,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -79,6 +82,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -97,6 +101,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -115,6 +120,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},
@@ -133,6 +139,7 @@ test.group('boolean', () => {
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'terms',
       pointer: 'terms',
       tip: {},
       root: {},

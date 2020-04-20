@@ -24,6 +24,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate(null, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -41,6 +42,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate(undefined, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -58,6 +60,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate('', compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -75,6 +78,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate('virk', compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -88,6 +92,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate(false, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -101,6 +106,7 @@ test.group('Required', () => {
     const reporter = new ApiErrorReporter({}, false)
     required.validate(0, compile().compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},

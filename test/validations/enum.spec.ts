@@ -34,6 +34,7 @@ test.group('enum', () => {
     const reporter = new ApiErrorReporter({}, false)
     oneOf.validate('3', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},
@@ -52,6 +53,7 @@ test.group('enum', () => {
     const reporter = new ApiErrorReporter({}, false)
     oneOf.validate(null, compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},
@@ -70,6 +72,7 @@ test.group('enum', () => {
     const reporter = new ApiErrorReporter({}, false)
     oneOf.validate('1', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},

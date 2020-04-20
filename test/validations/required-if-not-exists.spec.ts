@@ -47,6 +47,7 @@ test.group('Required If Not Exists', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfNotExists.validate(null, compile('token').compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {
       },
@@ -65,6 +66,7 @@ test.group('Required If Not Exists', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfNotExists.validate(undefined, compile('token').compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {
         token: null,
@@ -84,6 +86,7 @@ test.group('Required If Not Exists', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfNotExists.validate('', compile('token').compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {
       },
@@ -102,6 +105,7 @@ test.group('Required If Not Exists', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfNotExists.validate('', compile('token').compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {
         token: '10100110',
@@ -117,6 +121,7 @@ test.group('Required If Not Exists', () => {
     const reporter = new ApiErrorReporter({}, false)
     requiredIfNotExists.validate('hello', compile('token').compiledOptions!, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {
       },

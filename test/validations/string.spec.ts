@@ -24,6 +24,7 @@ test.group('String', () => {
     const reporter = new ApiErrorReporter({}, false)
     string.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -41,6 +42,7 @@ test.group('String', () => {
     const reporter = new ApiErrorReporter({}, false)
     string.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -58,6 +60,7 @@ test.group('String', () => {
     const reporter = new ApiErrorReporter({}, false)
     string.validate('22', compile().compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},
@@ -73,6 +76,7 @@ test.group('String', () => {
 
     string.validate(value, compile({ escape: true }).compiledOptions, {
       errorReporter: reporter,
+      field: 'username',
       pointer: 'username',
       tip: {},
       root: {},

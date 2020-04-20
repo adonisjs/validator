@@ -34,6 +34,7 @@ test.group('enum set', () => {
     const reporter = new ApiErrorReporter({}, false)
     enumSet.validate(['1', '2', '3'], compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},
@@ -54,6 +55,7 @@ test.group('enum set', () => {
     const reporter = new ApiErrorReporter({}, false)
     enumSet.validate('1', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},
@@ -74,6 +76,7 @@ test.group('enum set', () => {
     const reporter = new ApiErrorReporter({}, false)
     enumSet.validate(['1', '2'], compile(['1', '2', '3']).compiledOptions!, {
       errorReporter: reporter,
+      field: 'points',
       pointer: 'points',
       tip: {},
       root: {},

@@ -26,9 +26,9 @@ export class ValidationException extends Exception {
     const session = ctx['session']
 
     /**
-     * Flash all input, except the `_csrf_token`.
+     * Flash all input, except the `_csrf`.
      */
-    session.flashExcept(['_csrf_token'])
+    session.flashExcept(['_csrf'])
 
     /**
      * Flash errors

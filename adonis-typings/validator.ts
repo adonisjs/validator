@@ -475,6 +475,11 @@ declare module '@ioc:Adonis/Core/Validator' {
      * String must be alpha
      */
     alpha (): Rule
+
+    /**
+     * String must match regex
+     */
+    regex (regexPattern: RegExp): Rule
     email (options?: EmailRuleOptions): Rule
     ip (options?: { version?: '4' | '6' }): Rule
     mobile (optioms?: { strict?: boolean, locale?: validatorJs.MobilePhoneLocale[] }): Rule

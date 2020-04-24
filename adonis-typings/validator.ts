@@ -9,6 +9,7 @@
 
 declare module '@ioc:Adonis/Core/Validator' {
   import { DateTime } from 'luxon'
+  import { UUIDVersion } from 'validator/lib/isUUID'
   import { default as validatorJs } from 'validator'
   import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
@@ -477,6 +478,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     alpha (): Rule
     email (options?: EmailRuleOptions): Rule
     ip (options?: { version?: '4' | '6' }): Rule
+    uuid (options?: { version?: UUIDVersion }): Rule
     mobile (optioms?: { strict?: boolean, locale?: validatorJs.MobilePhoneLocale[] }): Rule
 
     /**

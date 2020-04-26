@@ -29,6 +29,7 @@ export { object } from './primitives/object'
 export { string } from './primitives/string'
 
 export { alpha } from './string/alpha'
+export { regex } from './string/regex'
 export { email } from './string/email'
 export { ip } from './string/ip'
 export { mobile } from './string/mobile'

@@ -32,7 +32,7 @@ export const uuid: SyncValidation<{ version?: UUIDVersion }> = {
       async: false,
       name: RULE_NAME,
       compiledOptions: {
-        version: options && options.version,
+        version: options && options.version || 4,
       },
     }
   },
@@ -45,7 +45,7 @@ export const uuid: SyncValidation<{ version?: UUIDVersion }> = {
       return
     }
 
-    if (!isUUID(value, compiledOptions.version || '4')) {
+    if (!isUUID(value, compiledOptions.version)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
     }
   },

@@ -31,11 +31,13 @@ test.group('unsigned', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'age',
-      rule: 'unsigned',
-      message: 'unsigned validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'age',
+        rule: 'unsigned',
+        message: 'unsigned validation failed',
+      }],
+    })
   })
 
   test('skip when value is not a number', (assert) => {
@@ -49,7 +51,7 @@ test.group('unsigned', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when value is a valid unsigned value', (assert) => {
@@ -63,6 +65,6 @@ test.group('unsigned', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

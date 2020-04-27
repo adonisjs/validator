@@ -13,7 +13,7 @@ import { validate } from '../fixtures/error-reporters'
 
 test.group('Api ErrorReporter', () => {
   validate(ApiErrorReporter, test, (messages) => {
-    return messages.map((message) => {
+    return messages.errors.map((message) => {
       return {
         message: message.message,
         field: message.field,
@@ -32,23 +32,25 @@ test.group('Api ErrorReporter', () => {
     reporter.report('username', 'alpha', 'alpha validation failed', undefined, { isRegex: true })
     reporter.report('age', 'required', 'required validation failed')
 
-    assert.deepEqual(reporter.toError().messages, [
-      {
-        field: 'username',
-        rule: 'required',
-        message: 'required validation failed',
-      },
-      {
-        field: 'username',
-        rule: 'alpha',
-        message: 'alpha validation failed',
-        args: { isRegex: true },
-      },
-      {
-        field: 'age',
-        rule: 'required',
-        message: 'required validation failed',
-      },
-    ])
+    assert.deepEqual(reporter.toError().messages, {
+      errors: [
+        {
+          field: 'username',
+          rule: 'required',
+          message: 'required validation failed',
+        },
+        {
+          field: 'username',
+          rule: 'alpha',
+          message: 'alpha validation failed',
+          args: { isRegex: true },
+        },
+        {
+          field: 'age',
+          rule: 'required',
+          message: 'required validation failed',
+        },
+      ],
+    })
   })
 })

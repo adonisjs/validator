@@ -115,11 +115,13 @@ test.group('Validator | validate', () => {
         reporter: ApiErrorReporter,
       })
     } catch (error) {
-      assert.deepEqual(error.messages, [{
-        rule: 'required',
-        field: 'username',
-        message: 'The field is required',
-      }])
+      assert.deepEqual(error.messages, {
+        errors: [{
+          rule: 'required',
+          field: 'username',
+          message: 'The field is required',
+        }],
+      })
     }
   })
 

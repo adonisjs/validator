@@ -55,7 +55,7 @@ test.group('Min Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('raise error when string length is under the minLength', (assert) => {
@@ -69,12 +69,14 @@ test.group('Min Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'minLength',
-      args: { minLength: 10 },
-      message: 'minLength validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'minLength',
+        args: { minLength: 10 },
+        message: 'minLength validation failed',
+      }],
+    })
   })
 
   test('raise error when array length is under the minLength', (assert) => {
@@ -88,12 +90,14 @@ test.group('Min Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'minLength',
-      args: { minLength: 3 },
-      message: 'minLength validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'minLength',
+        args: { minLength: 3 },
+        message: 'minLength validation failed',
+      }],
+    })
   })
 
   test('work fine when string length is above or equals minLength', (assert) => {
@@ -107,7 +111,7 @@ test.group('Min Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when array length is above or equals minLength', (assert) => {
@@ -121,6 +125,6 @@ test.group('Min Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

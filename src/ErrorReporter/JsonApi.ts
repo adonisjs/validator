@@ -15,7 +15,7 @@ type JsonApiErrorNode = {
     pointer: string,
   }
   code: string,
-  detail: string,
+  title: string,
   meta?: any,
 }
 
@@ -68,7 +68,7 @@ export class JsonApiErrorReporter implements ErrorReporterContract<{ errors: Jso
       source: {
         pointer,
       },
-      detail: validationMessage,
+      title: validationMessage,
       ...(meta ? { meta } : {}),
     })
 

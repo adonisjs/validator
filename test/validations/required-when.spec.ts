@@ -95,11 +95,13 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -115,11 +117,13 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -135,11 +139,13 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -155,7 +161,7 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -171,7 +177,7 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -186,7 +192,7 @@ test.group('Required When [=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -204,11 +210,13 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -224,11 +232,13 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -244,11 +254,13 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when target field value is undefined', (assert) => {
@@ -263,11 +275,13 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'twitter_handle',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -283,7 +297,7 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -299,7 +313,7 @@ test.group('Required When [!=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -317,11 +331,13 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -337,11 +353,13 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -357,11 +375,13 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -377,7 +397,7 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -393,7 +413,7 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -408,7 +428,7 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -426,11 +446,13 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -446,11 +468,13 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -466,11 +490,13 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when target field value is undefined', (assert) => {
@@ -485,11 +511,13 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'value',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'value',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -507,7 +535,7 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -523,7 +551,7 @@ test.group('Required When [notIn]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -541,11 +569,13 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -561,11 +591,13 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -581,11 +613,13 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -601,7 +635,7 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -617,7 +651,7 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -632,7 +666,7 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -650,11 +684,13 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -670,11 +706,13 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -690,11 +728,13 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -710,7 +750,7 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -726,7 +766,7 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -741,7 +781,7 @@ test.group('Required When [<]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -759,11 +799,13 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -779,11 +821,13 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -799,11 +843,13 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -819,7 +865,7 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -835,7 +881,7 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -850,7 +896,7 @@ test.group('Required When [>=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
 
@@ -868,11 +914,13 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
@@ -888,11 +936,13 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -908,11 +958,13 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'drivers_license',
-      rule: 'requiredWhen',
-      message: 'requiredWhen validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'drivers_license',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
@@ -928,7 +980,7 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
@@ -944,7 +996,7 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when target field value is undefined', (assert) => {
@@ -959,6 +1011,6 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

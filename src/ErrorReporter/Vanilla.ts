@@ -16,7 +16,7 @@ import { ValidationException } from '../ValidationException'
  * next to a form field.
  */
 export class VanillaErrorReporter implements ErrorReporterContract<
-{ [field: string]: string[] }
+  { [field: string]: string[] }
 > {
   /**
    * Collected errors

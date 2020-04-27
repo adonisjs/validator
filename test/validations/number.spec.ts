@@ -31,11 +31,13 @@ test.group('Number', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'age',
-      rule: 'number',
-      message: 'number validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'age',
+        rule: 'number',
+        message: 'number validation failed',
+      }],
+    })
   })
 
   test('cast number like string to a valid number', (assert) => {
@@ -53,7 +55,7 @@ test.group('Number', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, 22)
   })
 
@@ -68,7 +70,7 @@ test.group('Number', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value is a string that cannot be casted to a number', (assert) => {
@@ -82,10 +84,12 @@ test.group('Number', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'age',
-      rule: 'number',
-      message: 'number validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'age',
+        rule: 'number',
+        message: 'number validation failed',
+      }],
+    })
   })
 })

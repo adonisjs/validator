@@ -10,12 +10,19 @@
 import { ErrorReporterContract } from '@ioc:Adonis/Core/Validator'
 import { ValidationException } from '../ValidationException'
 
+type ApiErrorNode = {
+  message: string,
+  field: string,
+  rule: string,
+  args?: any,
+}
+
 /**
  * The API Error reporter formats messages as an array of objects
  */
-export class ApiErrorReporter implements ErrorReporterContract<
-{ message: string, field: string, rule: string, args?: any }[]
-> {
+export class ApiErrorReporter implements ErrorReporterContract<{
+  errors: ApiErrorNode[]
+}> {
   private errors: { field: string, rule: string, message: string, args?: any }[] = []
 
   /**
@@ -79,6 +86,8 @@ export class ApiErrorReporter implements ErrorReporterContract<
    * Return errors
    */
   public toJSON () {
-    return this.errors
+    return {
+      errors: this.errors,
+    }
   }
 }

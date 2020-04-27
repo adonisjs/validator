@@ -31,11 +31,13 @@ test.group('Object', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile',
-      rule: 'object',
-      message: 'object validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile',
+        rule: 'object',
+        message: 'object validation failed',
+      }],
+    })
   })
 
   test('report error when value is an array', (assert) => {
@@ -49,11 +51,13 @@ test.group('Object', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile',
-      rule: 'object',
-      message: 'object validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile',
+        rule: 'object',
+        message: 'object validation failed',
+      }],
+    })
   })
 
   test('work fine when value is a valid object', (assert) => {
@@ -67,6 +71,6 @@ test.group('Object', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

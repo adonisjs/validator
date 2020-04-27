@@ -30,10 +30,10 @@ function reportErrors (
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
-    assert.lengthOf(errorMessages, 1)
-    assert.equal(errorMessages[0].rule, rule.name)
-    assert.equal(errorMessages[0].field, 'username')
-    assert.exists(errorMessages[0].message)
+    assert.lengthOf(errorMessages.errors, 1)
+    assert.equal(errorMessages.errors[0].rule, rule.name)
+    assert.equal(errorMessages.errors[0].field, 'username')
+    assert.exists(errorMessages.errors[0].message)
   })
 }
 
@@ -62,10 +62,10 @@ function reportUserDefinedErrors (
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
-    assert.lengthOf(errorMessages, 1)
-    assert.equal(errorMessages[0].rule, rule.name)
-    assert.equal(errorMessages[0].field, 'username')
-    assert.equal(errorMessages[0].message, 'Validation failure for username')
+    assert.lengthOf(errorMessages.errors, 1)
+    assert.equal(errorMessages.errors[0].rule, rule.name)
+    assert.equal(errorMessages.errors[0].field, 'username')
+    assert.equal(errorMessages.errors[0].message, 'Validation failure for username')
   })
 }
 
@@ -95,10 +95,10 @@ function reportUserDefinedErrorsForArrayExpression (
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
-    assert.lengthOf(errorMessages, 1)
-    assert.equal(errorMessages[0].rule, rule.name)
-    assert.equal(errorMessages[0].field, 'users.0.username')
-    assert.equal(errorMessages[0].message, 'Validation failure for users username')
+    assert.lengthOf(errorMessages.errors, 1)
+    assert.equal(errorMessages.errors[0].rule, rule.name)
+    assert.equal(errorMessages.errors[0].field, 'users.0.username')
+    assert.equal(errorMessages.errors[0].message, 'Validation failure for users username')
   })
 }
 
@@ -125,7 +125,7 @@ function doNotReportErrorWithSuccessValue (
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
-    assert.lengthOf(errorMessages, 0)
+    assert.lengthOf(errorMessages.errors, 0)
   })
 }
 

@@ -32,7 +32,7 @@ test.group('IP Address', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the ip address validation', (assert) => {
@@ -46,11 +46,13 @@ test.group('IP Address', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'user_ip',
-      rule: 'ip',
-      message: 'ip validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'user_ip',
+        rule: 'ip',
+        message: 'ip validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the ip validation', (assert) => {
@@ -64,7 +66,7 @@ test.group('IP Address', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the ipv6 address validation', (assert) => {
@@ -78,11 +80,13 @@ test.group('IP Address', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'user_ip',
-      rule: 'ip',
-      message: 'ip validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'user_ip',
+        rule: 'ip',
+        message: 'ip validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the ipv6 validation', (assert) => {
@@ -96,6 +100,6 @@ test.group('IP Address', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

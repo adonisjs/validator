@@ -55,7 +55,7 @@ test.group('Max Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('raise error when string length is over the maxLength', (assert) => {
@@ -69,12 +69,14 @@ test.group('Max Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'maxLength',
-      args: { maxLength: 10 },
-      message: 'maxLength validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'maxLength',
+        args: { maxLength: 10 },
+        message: 'maxLength validation failed',
+      }],
+    })
   })
 
   test('raise error when array length is over the maxLength', (assert) => {
@@ -88,12 +90,14 @@ test.group('Max Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'maxLength',
-      args: { maxLength: 1 },
-      message: 'maxLength validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'maxLength',
+        args: { maxLength: 1 },
+        message: 'maxLength validation failed',
+      }],
+    })
   })
 
   test('work fine when string length is under or equals maxLength', (assert) => {
@@ -107,7 +111,7 @@ test.group('Max Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when array length is under or equals maxLength', (assert) => {
@@ -121,6 +125,6 @@ test.group('Max Length', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

@@ -31,11 +31,13 @@ test.group('boolean', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'terms',
-      rule: 'boolean',
-      message: 'boolean validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'terms',
+        rule: 'boolean',
+        message: 'boolean validation failed',
+      }],
+    })
   })
 
   test('cast positive numeric representation to a boolean', (assert) => {
@@ -53,7 +55,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, true)
   })
 
@@ -72,7 +74,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, true)
   })
 
@@ -91,7 +93,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, false)
   })
 
@@ -110,7 +112,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, false)
   })
 
@@ -129,7 +131,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, true)
   })
 
@@ -148,7 +150,7 @@ test.group('boolean', () => {
       },
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
     assert.equal(value, false)
   })
 })

@@ -15,7 +15,7 @@ test.group('JSON API ErrorReporter', () => {
   validate(JsonApiErrorReporter, test, ({ errors }) => {
     return errors.map((error) => {
       return {
-        message: error.detail,
+        message: error.title,
         field: error.source.pointer,
       }
     })
@@ -39,14 +39,14 @@ test.group('JSON API ErrorReporter', () => {
             pointer: 'username',
           },
           code: 'required',
-          detail: 'required validation failed',
+          title: 'required validation failed',
         },
         {
           source: {
             pointer: 'username',
           },
           code: 'alpha',
-          detail: 'alpha validation failed',
+          title: 'alpha validation failed',
           meta: { isRegex: true },
         },
         {
@@ -54,7 +54,7 @@ test.group('JSON API ErrorReporter', () => {
             pointer: 'age',
           },
           code: 'required',
-          detail: 'required validation failed',
+          title: 'required validation failed',
         },
       ],
     })

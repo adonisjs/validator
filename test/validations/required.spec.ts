@@ -31,11 +31,13 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'required',
+        message: 'required validation failed',
+      }],
+    })
   })
 
   test('report error when value is undefined', (assert) => {
@@ -49,11 +51,13 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'required',
+        message: 'required validation failed',
+      }],
+    })
   })
 
   test('report error when value is an empty string', (assert) => {
@@ -67,11 +71,13 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'required',
-      message: 'required validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'required',
+        message: 'required validation failed',
+      }],
+    })
   })
 
   test('work fine when value is defined', (assert) => {
@@ -85,7 +91,7 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when value is negative boolean', (assert) => {
@@ -99,7 +105,7 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when value is zero', (assert) => {
@@ -113,6 +119,6 @@ test.group('Required', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

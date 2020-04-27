@@ -47,11 +47,13 @@ test.group('Request validator', (group) => {
     try {
       await ctx.request.validate(Validator)
     } catch (error) {
-      assert.deepEqual(error.messages, [{
-        rule: 'required',
-        message: 'required validation failed',
-        field: 'username',
-      }])
+      assert.deepEqual(error.messages, {
+        errors: [{
+          rule: 'required',
+          message: 'required validation failed',
+          field: 'username',
+        }],
+      })
     }
   })
 
@@ -81,7 +83,7 @@ test.group('Request validator', (group) => {
       assert.deepEqual(error.messages, {
         errors: [{
           code: 'required',
-          detail: 'required validation failed',
+          title: 'required validation failed',
           source: {
             pointer: 'username',
           },

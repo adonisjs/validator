@@ -29,7 +29,7 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when original value is present and confirmation field is missing', (assert) => {
@@ -43,11 +43,13 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'password_confirmation',
-      rule: 'confirmed',
-      message: 'confirmed validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'password_confirmation',
+        rule: 'confirmed',
+        message: 'confirmed validation failed',
+      }],
+    })
   })
 
   test('report error when both fields are present but has different value', (assert) => {
@@ -63,11 +65,13 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'password_confirmation',
-      rule: 'confirmed',
-      message: 'confirmed validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'password_confirmation',
+        rule: 'confirmed',
+        message: 'confirmed validation failed',
+      }],
+    })
   })
 
   test('work fine when field values are same', (assert) => {
@@ -83,7 +87,7 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report when using nested fields', (assert) => {
@@ -103,11 +107,13 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'user.password_confirmation',
-      rule: 'confirmed',
-      message: 'confirmed validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'user.password_confirmation',
+        rule: 'confirmed',
+        message: 'confirmed validation failed',
+      }],
+    })
   })
 
   test('work fine when matches inside nested fields', (assert) => {
@@ -127,6 +133,6 @@ test.group('Confirmed', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

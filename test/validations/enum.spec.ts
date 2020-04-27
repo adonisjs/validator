@@ -41,12 +41,14 @@ test.group('enum', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'points',
-      rule: 'enum',
-      args: { choices: ['1', '2'] },
-      message: 'enum validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'points',
+        rule: 'enum',
+        args: { choices: ['1', '2'] },
+        message: 'enum validation failed',
+      }],
+    })
   })
 
   test('report error when value is null', (assert) => {
@@ -60,12 +62,14 @@ test.group('enum', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'points',
-      rule: 'enum',
-      args: { choices: ['1', '2'] },
-      message: 'enum validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'points',
+        rule: 'enum',
+        args: { choices: ['1', '2'] },
+        message: 'enum validation failed',
+      }],
+    })
   })
 
   test('work fine when value is in the defined array', (assert) => {
@@ -79,6 +83,6 @@ test.group('enum', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

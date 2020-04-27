@@ -55,11 +55,13 @@ test.group('Required If Not Exists', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'requiredIfNotExists',
-      message: 'requiredIfNotExists validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'requiredIfNotExists',
+        message: 'requiredIfNotExists validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is null', (assert) => {
@@ -75,11 +77,13 @@ test.group('Required If Not Exists', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'requiredIfNotExists',
-      message: 'requiredIfNotExists validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'requiredIfNotExists',
+        message: 'requiredIfNotExists validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -94,11 +98,13 @@ test.group('Required If Not Exists', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'requiredIfNotExists',
-      message: 'requiredIfNotExists validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'requiredIfNotExists',
+        message: 'requiredIfNotExists validation failed',
+      }],
+    })
   })
 
   test('work fine when target field is defined', (assert) => {
@@ -114,7 +120,7 @@ test.group('Required If Not Exists', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation matches and field is undefined', (assert) => {
@@ -129,6 +135,6 @@ test.group('Required If Not Exists', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

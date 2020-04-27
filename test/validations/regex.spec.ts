@@ -45,7 +45,7 @@ test.group('Regex', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the regex pattern', (assert) => {
@@ -59,11 +59,13 @@ test.group('Regex', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'regex',
-      message: 'regex validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'regex',
+        message: 'regex validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the regex pattern', (assert) => {
@@ -77,6 +79,6 @@ test.group('Regex', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

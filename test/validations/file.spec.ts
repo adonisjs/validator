@@ -56,11 +56,13 @@ test.group('File', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'avatar',
-      rule: 'file',
-      message: 'file validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'avatar',
+        rule: 'file',
+        message: 'file validation failed',
+      }],
+    })
   })
 
   test('report error when size validation fails', (assert) => {
@@ -79,11 +81,13 @@ test.group('File', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'avatar',
-      rule: 'file.size',
-      message: 'File size should be less than 10B',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'avatar',
+        rule: 'file.size',
+        message: 'File size should be less than 10B',
+      }],
+    })
   })
 
   test('report error when extension validation fails', (assert) => {
@@ -102,11 +106,13 @@ test.group('File', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'avatar',
-      rule: 'file.extname',
-      message: 'Invalid file extension png. Only jpg is allowed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'avatar',
+        rule: 'file.extname',
+        message: 'Invalid file extension png. Only jpg is allowed',
+      }],
+    })
   })
 
   test('work fine when field is a valid file', (assert) => {
@@ -125,6 +131,6 @@ test.group('File', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

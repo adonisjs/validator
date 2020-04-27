@@ -32,11 +32,13 @@ test.group('Date', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'dob',
-      rule: 'date',
-      message: 'date validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'dob',
+        rule: 'date',
+        message: 'date validation failed',
+      }],
+    })
   })
 
   test('report error when value is a number', (assert) => {
@@ -50,11 +52,13 @@ test.group('Date', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'dob',
-      rule: 'date',
-      message: 'date validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'dob',
+        rule: 'date',
+        message: 'date validation failed',
+      }],
+    })
   })
 
   test('work fine when value is a valid date string', (assert) => {
@@ -73,7 +77,7 @@ test.group('Date', () => {
     })
 
     assert.instanceOf(value, DateTime)
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value is invalid as per expected pre-defined format', (assert) => {
@@ -87,11 +91,13 @@ test.group('Date', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'dob',
-      rule: 'date.format',
-      message: 'you specified 21 (of type number) as a month, which is invalid',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'dob',
+        rule: 'date.format',
+        message: 'you specified 21 (of type number) as a month, which is invalid',
+      }],
+    })
   })
 
   test('work fine when valid is valid as per pre-defined format', (assert) => {
@@ -110,7 +116,7 @@ test.group('Date', () => {
     })
 
     assert.instanceOf(value, DateTime)
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value is invalid as per expected custom format', (assert) => {
@@ -124,11 +130,13 @@ test.group('Date', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'dob',
-      rule: 'date.format',
-      message: 'you specified 21 (of type number) as a month, which is invalid',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'dob',
+        rule: 'date.format',
+        message: 'you specified 21 (of type number) as a month, which is invalid',
+      }],
+    })
   })
 
   test('work fine when valid is valid as per custom format', (assert) => {
@@ -147,7 +155,7 @@ test.group('Date', () => {
     })
 
     assert.instanceOf(value, DateTime)
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value is an instance of date and format is defined', (assert) => {
@@ -161,11 +169,13 @@ test.group('Date', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'dob',
-      rule: 'date',
-      message: 'cannot validate data instance against a date format',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'dob',
+        rule: 'date',
+        message: 'cannot validate data instance against a date format',
+      }],
+    })
   })
 
   test('work fine when value is an instance of date', (assert) => {
@@ -184,6 +194,6 @@ test.group('Date', () => {
     })
 
     assert.instanceOf(value, DateTime)
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

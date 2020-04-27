@@ -37,7 +37,7 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the uuid validation', (assert) => {
@@ -51,11 +51,13 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'uuid',
-      rule: 'uuid',
-      message: 'uuid validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'uuid',
+        rule: 'uuid',
+        message: 'uuid validation failed',
+      }],
+    })
   })
 
   test('work fine when implicitly checking v4', (assert) => {
@@ -69,7 +71,7 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when checking v3 against default (v4)', (assert) => {
@@ -83,11 +85,13 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      rule: 'uuid',
-      field: 'uuid',
-      message: 'uuid validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        rule: 'uuid',
+        field: 'uuid',
+        message: 'uuid validation failed',
+      }],
+    })
   })
 
   test('work fine when explicitly validating v3', (assert) => {
@@ -101,7 +105,7 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when explicitly validating v4', (assert) => {
@@ -115,7 +119,7 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when explicitly validating v5', (assert) => {
@@ -129,6 +133,6 @@ test.group('UUID', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

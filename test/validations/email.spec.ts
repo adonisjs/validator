@@ -33,7 +33,7 @@ test.group('Email', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the email validation', (assert) => {
@@ -47,11 +47,13 @@ test.group('Email', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'email',
-      rule: 'email',
-      message: 'email validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'email',
+        rule: 'email',
+        message: 'email validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the email validation', (assert) => {
@@ -65,7 +67,7 @@ test.group('Email', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('sanitize email to lowercase', (assert) => {

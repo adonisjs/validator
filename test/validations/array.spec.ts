@@ -31,11 +31,13 @@ test.group('array', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'addresses',
-      rule: 'array',
-      message: 'array validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'addresses',
+        rule: 'array',
+        message: 'array validation failed',
+      }],
+    })
   })
 
   test('work fine when value is a valid array', (assert) => {
@@ -49,6 +51,8 @@ test.group('array', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [],
+    })
   })
 })

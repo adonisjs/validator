@@ -31,11 +31,13 @@ test.group('String', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'string',
-      message: 'string validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'string',
+        message: 'string validation failed',
+      }],
+    })
   })
 
   test('report error when value is a number', (assert) => {
@@ -49,11 +51,13 @@ test.group('String', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'string',
-      message: 'string validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'string',
+        message: 'string validation failed',
+      }],
+    })
   })
 
   test('work fine when value is a valid string', (assert) => {
@@ -67,7 +71,7 @@ test.group('String', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('escape string when enabled', (assert) => {

@@ -32,7 +32,9 @@ test.group('Alpha', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [],
+    })
   })
 
   test('report error when value fails the alpha regex', (assert) => {
@@ -46,11 +48,13 @@ test.group('Alpha', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'username',
-      rule: 'alpha',
-      message: 'alpha validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'username',
+        rule: 'alpha',
+        message: 'alpha validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the alpha regex', (assert) => {
@@ -64,6 +68,8 @@ test.group('Alpha', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [],
+    })
   })
 })

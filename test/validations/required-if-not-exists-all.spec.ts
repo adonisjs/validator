@@ -62,11 +62,13 @@ test.group('Required If Not Exists All', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfNotExistsAll',
-      message: 'requiredIfNotExistsAll validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfNotExistsAll',
+        message: 'requiredIfNotExistsAll validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is null', (assert) => {
@@ -82,11 +84,13 @@ test.group('Required If Not Exists All', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfNotExistsAll',
-      message: 'requiredIfNotExistsAll validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfNotExistsAll',
+        message: 'requiredIfNotExistsAll validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -103,11 +107,13 @@ test.group('Required If Not Exists All', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfNotExistsAll',
-      message: 'requiredIfNotExistsAll validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfNotExistsAll',
+        message: 'requiredIfNotExistsAll validation failed',
+      }],
+    })
   })
 
   test('work fine when all of the target fields are defined', (assert) => {
@@ -124,6 +130,6 @@ test.group('Required If Not Exists All', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

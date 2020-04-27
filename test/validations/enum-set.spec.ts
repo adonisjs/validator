@@ -41,14 +41,16 @@ test.group('enum set', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'points',
-      args: {
-        choices: ['1', '2'],
-      },
-      rule: 'enumSet',
-      message: 'enumSet validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'points',
+        args: {
+          choices: ['1', '2'],
+        },
+        rule: 'enumSet',
+        message: 'enumSet validation failed',
+      }],
+    })
   })
 
   test('report error when value is not a valid array', (assert) => {
@@ -62,14 +64,16 @@ test.group('enum set', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'points',
-      args: {
-        choices: ['1', '2'],
-      },
-      rule: 'enumSet',
-      message: 'enumSet validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'points',
+        args: {
+          choices: ['1', '2'],
+        },
+        rule: 'enumSet',
+        message: 'enumSet validation failed',
+      }],
+    })
   })
 
   test('work fine when value is a subset of defined array', (assert) => {
@@ -83,6 +87,6 @@ test.group('enum set', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

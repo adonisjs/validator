@@ -33,7 +33,7 @@ test.group('Mobile', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value fails the mobile validation', (assert) => {
@@ -47,11 +47,13 @@ test.group('Mobile', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'phone_number',
-      rule: 'mobile',
-      message: 'mobile validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'phone_number',
+        rule: 'mobile',
+        message: 'mobile validation failed',
+      }],
+    })
   })
 
   test('work fine when value passes the mobile validation', (assert) => {
@@ -65,6 +67,6 @@ test.group('Mobile', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

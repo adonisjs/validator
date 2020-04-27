@@ -61,11 +61,13 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfExistsAny',
-      message: 'requiredIfExistsAny validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfExistsAny',
+        message: 'requiredIfExistsAny validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is null', (assert) => {
@@ -81,11 +83,13 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfExistsAny',
-      message: 'requiredIfExistsAny validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfExistsAny',
+        message: 'requiredIfExistsAny validation failed',
+      }],
+    })
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
@@ -101,11 +105,13 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [{
-      field: 'profile_id',
-      rule: 'requiredIfExistsAny',
-      message: 'requiredIfExistsAny validation failed',
-    }])
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfExistsAny',
+        message: 'requiredIfExistsAny validation failed',
+      }],
+    })
   })
 
   test('work fine when all of the target fields are undefined', (assert) => {
@@ -120,7 +126,7 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when all of target fields are null or undefined', (assert) => {
@@ -136,7 +142,7 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('work fine when expectation matches and field has value', (assert) => {
@@ -152,6 +158,6 @@ test.group('Required If Exists Any', () => {
       mutate: () => {},
     })
 
-    assert.deepEqual(reporter.toJSON(), [])
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

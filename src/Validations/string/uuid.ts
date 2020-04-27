@@ -32,7 +32,7 @@ export const uuid: SyncValidation<{ version?: UUIDVersion }> = {
       async: false,
       name: RULE_NAME,
       compiledOptions: {
-        version: options && options.version || 4,
+        version: options && options.version ? options.version : 4,
       },
     }
   },

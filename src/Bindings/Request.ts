@@ -32,17 +32,21 @@ export default function extendRequest (
     /**
      * Attempt to find the best error reporter for validation
      */
-    switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
-      case 'html':
-      case null:
-        Reporter = ErrorReporters.VanillaErrorReporter
-        break
-      case 'json':
-        Reporter = ErrorReporters.ApiErrorReporter
-        break
-      case 'application/vnd.api+json':
-        Reporter = ErrorReporters.JsonApiErrorReporter
-        break
+    if (this.ajax()) {
+      Reporter = ErrorReporters.ApiErrorReporter
+    } else {
+      switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
+        case 'html':
+        case null:
+          Reporter = ErrorReporters.VanillaErrorReporter
+          break
+        case 'json':
+          Reporter = ErrorReporters.ApiErrorReporter
+          break
+        case 'application/vnd.api+json':
+          Reporter = ErrorReporters.JsonApiErrorReporter
+          break
+      }
     }
 
     /**

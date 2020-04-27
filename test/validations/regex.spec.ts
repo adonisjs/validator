@@ -24,6 +24,16 @@ function compile () {
 test.group('Regex', () => {
   validate(regex, test, '9999', '99.999.999/0001-99', compile())
 
+  test('compile regex rule with flags', (assert) => {
+    const { compiledOptions } = regex.compile('literal', 'string', rules.regex(/[a-z]/g).options)
+    assert.deepEqual(compiledOptions, { pattern: '[a-z]', flags: 'g' })
+  })
+
+  test('compile regex rule without flags', (assert) => {
+    const { compiledOptions } = regex.compile('literal', 'string', rules.regex(/[a-z]/).options)
+    assert.deepEqual(compiledOptions, { pattern: '[a-z]', flags: '' })
+  })
+
   test('ignore validation when value is not a valid string', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
     regex.validate(null, compile().compiledOptions, {

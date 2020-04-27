@@ -238,7 +238,7 @@ test.group('Validator | validations with non-serialized options', () => {
     try {
       await validator.validate({
         schema: schema.create({
-          username: schema.string({}, [rules.regex(/\w+/)]),
+          username: schema.string({}, [rules.regex(/[a-z]/)]),
         }),
         data: {
           username: '12',

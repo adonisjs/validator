@@ -230,3 +230,22 @@ test.group('Validator | addType', () => {
     })
   })
 })
+
+test.group('Validator | validations with non-serialized options', () => {
+  test('validate against a regex', async (assert) => {
+    assert.plan(1)
+
+    try {
+      await validator.validate({
+        schema: schema.create({
+          username: schema.string({}, [rules.regex(/\w+/)]),
+        }),
+        data: {
+          username: '12',
+        },
+      })
+    } catch (error) {
+      assert.deepEqual(error.messages, { username: ['regex validation failed'] })
+    }
+  })
+})

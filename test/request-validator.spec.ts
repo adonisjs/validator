@@ -13,7 +13,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { FakeLogger } from '@adonisjs/logger/build/standalone'
 import { Profiler } from '@adonisjs/profiler/build/standalone'
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import { HttpContext, Request } from '@adonisjs/http-server/build/standalone'
+import { HttpContext, Request, Router } from '@adonisjs/http-server/build/standalone'
 
 import { schema } from '../src/Schema'
 import { validator } from '../src/Validator'
@@ -31,8 +31,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.request.headers.accept = 'application/json'
     ctx.request.allFiles = function () {
       return {}
@@ -64,8 +65,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.request.headers.accept = 'application/vnd.api+json'
     ctx.request.allFiles = function () {
       return {}
@@ -99,8 +101,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.allFiles = function () {
       return {}
     }
@@ -136,7 +139,8 @@ test.group('Request validator', (group) => {
     })
 
     const httpRow = profiler.create('http')
-    const ctx = HttpContext.create('/', {}, logger, profiler.create('http'), {}, req, res)
+    const router = new Router({})
+    const ctx = HttpContext.create('/', {}, logger, profiler.create('http'), {}, router, req, res)
     ctx.request.allFiles = function () {
       return {}
     }
@@ -159,8 +163,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.request.headers.accept = 'application/json'
     ctx.request.allFiles = function () {
       return {}
@@ -182,8 +187,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.request.headers.accept = 'application/json'
     ctx.request.allFiles = function () {
       return {}
@@ -206,8 +212,9 @@ test.group('Request validator', (group) => {
     const res = new ServerResponse(req)
     const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
     const profiler = new Profiler(__dirname, logger, {})
+    const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, req, res)
+    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
     ctx.request.request.headers.accept = 'application/json'
     ctx.request.allFiles = function () {
       return {}

@@ -8,8 +8,10 @@
 */
 
 import {
-  ValidateFn,
+  TypedSchema,
+  ValidatorNode,
   CompilerOutput,
+  ParsedTypedSchema,
   ValidationContract,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
@@ -44,32 +46,39 @@ const NOOP_MESSAGES = {}
 
 /**
  */
-const validate: ValidateFn = (options) => {
-  let Reporter: ErrorReporterConstructorContract = options.reporter || VanillaErrorReporter
-  const bail = options.bail === undefined ? false : options.bail
-  const reporter = new Reporter(options.messages || NOOP_MESSAGES, bail)
-  const helpers = options.existsStrict === true ? STRICT_HELPERS : HELPERS
+const validate = <T extends ParsedTypedSchema<TypedSchema>>(
+  validator: ValidatorNode<T>
+): Promise<T['props']> => {
+  let Reporter: ErrorReporterConstructorContract = validator.reporter || VanillaErrorReporter
+  const bail = validator.bail === undefined ? false : validator.bail
+  const reporter = new Reporter(validator.messages || NOOP_MESSAGES, bail)
+  const helpers = validator.existsStrict === true ? STRICT_HELPERS : HELPERS
 
   /**
    * Compile everytime, when no cache is defined
    */
-  if (!options.cacheKey) {
-    return new Compiler(options.schema.tree).compile()(options.data, validations, reporter, helpers)
+  if (!validator.cacheKey) {
+    return new Compiler(validator.schema.tree).compile()(
+      validator.data,
+      validations,
+      reporter,
+      helpers,
+    ) as Promise<T['props']>
   }
 
   /**
    * Look for compiled function or compile one
    */
-  let compiledFn = COMPILED_CACHE[options.cacheKey]
+  let compiledFn = COMPILED_CACHE[validator.cacheKey]
   if (!compiledFn) {
-    compiledFn = new Compiler(options.schema.tree).compile()
-    COMPILED_CACHE[options.cacheKey] = compiledFn
+    compiledFn = new Compiler(validator.schema.tree).compile()
+    COMPILED_CACHE[validator.cacheKey] = compiledFn
   }
 
   /**
    * Execute compiled function
    */
-  return compiledFn(options.data, validations, reporter, helpers)
+  return compiledFn(validator.data, validations, reporter, helpers)
 }
 
 /**

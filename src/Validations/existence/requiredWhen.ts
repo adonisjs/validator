@@ -118,7 +118,7 @@ export const requiredWhen: SyncValidation<{
     /**
      * Ensure "field", "operator" and "comparisonValues" are defined
      */
-    if (!field || !operator || !comparisonValues) {
+    if (!field || !operator || comparisonValues === undefined) {
       throw new Error(`${RULE_NAME}: expects a "field", "operator" and "comparisonValue"`)
     }
 

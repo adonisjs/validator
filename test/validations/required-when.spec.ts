@@ -148,6 +148,28 @@ test.group('Required When [=]', () => {
     })
   })
 
+  test('report error when expectation matches (as boolean) and field is empty string', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    requiredWhen.validate('', compile('type', '=', false).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'twitter_handle',
+      pointer: 'twitter_handle',
+      tip: {
+        type: false,
+      },
+      root: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'twitter_handle',
+        rule: 'requiredWhen',
+        message: 'requiredWhen validation failed',
+      }],
+    })
+  })
+
   test('work fine when expectation matches and field is present', (assert) => {
     const reporter = new ApiErrorReporter({}, false)
     requiredWhen.validate('@AmanVirk1', compile('type', '=', 'twitter').compiledOptions!, {
@@ -156,6 +178,22 @@ test.group('Required When [=]', () => {
       pointer: 'twitter_handle',
       tip: {
         type: 'twitter',
+      },
+      root: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('work fine when expectation matches (as boolean) and field is present', (assert) => {
+    const reporter = new ApiErrorReporter({}, false)
+    requiredWhen.validate('@AmanVirk1', compile('type', '=', false).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'twitter_handle',
+      pointer: 'twitter_handle',
+      tip: {
+        type: false,
       },
       root: {},
       mutate: () => {},

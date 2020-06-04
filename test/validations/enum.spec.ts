@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { oneOf } from '../../src/Validations/primitives/enum'
 
@@ -22,7 +23,7 @@ test.group('enum', () => {
 
   test('do not compile when choices are not defined', (assert) => {
     const fn = () => oneOf.compile('literal', 'string')
-    assert.throw(fn, 'enum: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'enum: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when choices not an array of values', (assert) => {
@@ -31,7 +32,7 @@ test.group('enum', () => {
   })
 
   test('report error when value is not in the defined array', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate('3', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
       field: 'points',
@@ -52,7 +53,7 @@ test.group('enum', () => {
   })
 
   test('report error when value is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate(null, compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
       field: 'points',
@@ -73,7 +74,7 @@ test.group('enum', () => {
   })
 
   test('work fine when value is in the defined array', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate('1', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
       field: 'points',

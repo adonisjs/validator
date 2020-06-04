@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredWhen } from '../../src/Validations/existence/requiredWhen'
 
@@ -34,7 +35,7 @@ test.group('Required When (compile)', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => requiredWhen.compile('literal', 'string')
-    assert.throw(fn, 'requiredWhen: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'requiredWhen: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when field is not defined', (assert) => {
@@ -83,7 +84,7 @@ test.group('Required When (compile)', () => {
 
 test.group('Required When [=]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -105,7 +106,7 @@ test.group('Required When [=]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -127,7 +128,7 @@ test.group('Required When [=]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -171,7 +172,7 @@ test.group('Required When [=]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('@AmanVirk1', compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -203,7 +204,7 @@ test.group('Required When [=]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -219,7 +220,7 @@ test.group('Required When [=]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '=', 'twitter').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -236,7 +237,7 @@ test.group('Required When [=]', () => {
 
 test.group('Required When [!=]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -258,7 +259,7 @@ test.group('Required When [!=]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -280,7 +281,7 @@ test.group('Required When [!=]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -302,7 +303,7 @@ test.group('Required When [!=]', () => {
   })
 
   test('report error when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -323,7 +324,7 @@ test.group('Required When [!=]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('@AmanVirk1', compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -339,7 +340,7 @@ test.group('Required When [!=]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('type', '!=', 'facebook').compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -357,7 +358,7 @@ test.group('Required When [!=]', () => {
 
 test.group('Required When [in]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -379,7 +380,7 @@ test.group('Required When [in]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -401,7 +402,7 @@ test.group('Required When [in]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -423,7 +424,7 @@ test.group('Required When [in]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('@AmanVirk1', compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -439,7 +440,7 @@ test.group('Required When [in]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -455,7 +456,7 @@ test.group('Required When [in]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('calculation_type', 'in', ['FIXED', 'PERCENTAGE']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -472,7 +473,7 @@ test.group('Required When [in]', () => {
 
 test.group('Required When [notIn]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -494,7 +495,7 @@ test.group('Required When [notIn]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -516,7 +517,7 @@ test.group('Required When [notIn]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -538,7 +539,7 @@ test.group('Required When [notIn]', () => {
   })
 
   test('report error when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -559,7 +560,7 @@ test.group('Required When [notIn]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const { compiledOptions } = compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA'])
 
     requiredWhen.validate('@AmanVirk1', compiledOptions!, {
@@ -577,7 +578,7 @@ test.group('Required When [notIn]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('calculation_type', 'notIn', ['VARIABLE', 'FORMULA']).compiledOptions!, {
       errorReporter: reporter,
       field: 'value',
@@ -595,7 +596,7 @@ test.group('Required When [notIn]', () => {
 
 test.group('Required When [>]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -617,7 +618,7 @@ test.group('Required When [>]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -639,7 +640,7 @@ test.group('Required When [>]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -661,7 +662,7 @@ test.group('Required When [>]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('131002020', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -677,7 +678,7 @@ test.group('Required When [>]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -693,7 +694,7 @@ test.group('Required When [>]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('192010202', compile('age', '>', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -710,7 +711,7 @@ test.group('Required When [>]', () => {
 
 test.group('Required When [<]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -732,7 +733,7 @@ test.group('Required When [<]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -754,7 +755,7 @@ test.group('Required When [<]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -776,7 +777,7 @@ test.group('Required When [<]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('131002020', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -792,7 +793,7 @@ test.group('Required When [<]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -808,7 +809,7 @@ test.group('Required When [<]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('192010202', compile('age', '<', 40).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -825,7 +826,7 @@ test.group('Required When [<]', () => {
 
 test.group('Required When [>=]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -847,7 +848,7 @@ test.group('Required When [>=]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -869,7 +870,7 @@ test.group('Required When [>=]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -891,7 +892,7 @@ test.group('Required When [>=]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('131002020', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -907,7 +908,7 @@ test.group('Required When [>=]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -923,7 +924,7 @@ test.group('Required When [>=]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('192010202', compile('age', '>=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -940,7 +941,7 @@ test.group('Required When [>=]', () => {
 
 test.group('Required When [<=]', () => {
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -962,7 +963,7 @@ test.group('Required When [<=]', () => {
   })
 
   test('report error when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(undefined, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -984,7 +985,7 @@ test.group('Required When [<=]', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -1006,7 +1007,7 @@ test.group('Required When [<=]', () => {
   })
 
   test('work fine when expectation matches and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('131002020', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -1022,7 +1023,7 @@ test.group('Required When [<=]', () => {
   })
 
   test('work fine when expectation fails and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate(null, compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',
@@ -1038,7 +1039,7 @@ test.group('Required When [<=]', () => {
   })
 
   test('work fine when target field value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('192010202', compile('age', '<=', 18).compiledOptions!, {
       errorReporter: reporter,
       field: 'drivers_license',

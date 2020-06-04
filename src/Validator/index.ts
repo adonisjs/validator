@@ -19,6 +19,7 @@ import {
 import { schema } from '../Schema'
 import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
+import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
 import { exists, existsStrict, isObject } from './helpers'
@@ -49,9 +50,24 @@ const NOOP_MESSAGES = {}
 const validate = <T extends ParsedTypedSchema<TypedSchema>>(
   validator: ValidatorNode<T>
 ): Promise<T['props']> => {
+  /**
+   * The reporter to use. Defaults to the [[VanillaErrorReporter]]
+   */
   let Reporter: ErrorReporterConstructorContract = validator.reporter || VanillaErrorReporter
+
+  /**
+   * Whether or not fail on the first error message
+   */
   const bail = validator.bail === undefined ? false : validator.bail
-  const reporter = new Reporter(validator.messages || NOOP_MESSAGES, bail)
+
+  /**
+   * Reporter instance
+   */
+  const reporter = new Reporter(new MessagesBag(validator.messages || NOOP_MESSAGES), bail)
+
+  /**
+   * The helpers to use
+   */
   const helpers = validator.existsStrict === true ? STRICT_HELPERS : HELPERS
 
   /**

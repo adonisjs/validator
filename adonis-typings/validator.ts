@@ -124,6 +124,20 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
+   * Returns the most appropriate message for the current
+   * validation error.
+   */
+  export interface MessagesBagContract {
+    get (
+      pointer: string,
+      rule: string,
+      message: string,
+      arrayExpressionPointer?: string,
+      args?: any,
+    ): string
+  }
+
+  /**
    * The interface that every error reporter must adhere
    * to.
    */
@@ -145,7 +159,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export interface ErrorReporterConstructorContract<Messages extends any = any> {
     new (
-      userMessages: { [key: string]: string },
+      messages: MessagesBagContract,
       bail: boolean,
     ): ErrorReporterContract<Messages>
   }

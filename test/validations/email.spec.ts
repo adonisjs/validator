@@ -11,6 +11,7 @@ import test from 'japa'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { email } from '../../src/Validations/string/email'
 import { EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
@@ -23,7 +24,7 @@ test.group('Email', () => {
   validate(email, test, '9999', 'foo@bar.com', compile())
 
   test('ignore validation when value is not a valid string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'email',
@@ -37,7 +38,7 @@ test.group('Email', () => {
   })
 
   test('report error when value fails the email validation', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'email',
@@ -57,7 +58,7 @@ test.group('Email', () => {
   })
 
   test('work fine when value passes the email validation', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate('foo@bar.com', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'email',
@@ -71,7 +72,7 @@ test.group('Email', () => {
   })
 
   test('sanitize email to lowercase', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let emailValue = 'FOO@bar.com'
 
     email.validate(emailValue, compile({ sanitize: true }).compiledOptions, {

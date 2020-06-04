@@ -51,6 +51,6 @@ export function ensureValidArgs (ruleName: string, args: any): asserts args is a
    * validation rule
    */
   if (!Array.isArray(args)) {
-    throw new Error(`${ruleName}: The 3rd arguments must be a combined array of arguments`)
+    throw new Error(`${ruleName}: The 3rd argument must be a combined array of arguments`)
   }
 }

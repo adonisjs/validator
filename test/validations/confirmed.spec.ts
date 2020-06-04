@@ -10,6 +10,7 @@
 import test from 'japa'
 
 import { rules } from '../../src/Rules'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { confirmed } from '../../src/Validations/existence/confirmed'
 
@@ -19,7 +20,7 @@ function compile () {
 
 test.group('Confirmed', () => {
   test('ignore validation when original value is missing', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',
@@ -33,7 +34,7 @@ test.group('Confirmed', () => {
   })
 
   test('report error when original value is present and confirmation field is missing', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',
@@ -53,7 +54,7 @@ test.group('Confirmed', () => {
   })
 
   test('report error when both fields are present but has different value', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',
@@ -75,7 +76,7 @@ test.group('Confirmed', () => {
   })
 
   test('work fine when field values are same', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',
@@ -91,7 +92,7 @@ test.group('Confirmed', () => {
   })
 
   test('report when using nested fields', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',
@@ -117,7 +118,7 @@ test.group('Confirmed', () => {
   })
 
   test('work fine when matches inside nested fields', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'password',

@@ -1,5 +1,6 @@
 import test from 'japa'
 import { ValidationContract, ParsedRule } from '@ioc:Adonis/Core/Validator'
+import { MessagesBag } from '../../../src/MessagesBag'
 import { ApiErrorReporter } from '../../../src/ErrorReporter/Api'
 
 type ValidationOptions = {
@@ -19,7 +20,7 @@ function reportErrors (
   validationOptions?: ValidationOptions,
 ) {
   testFn('report error with a default message', (assert) => {
-    const errorReporter = new ApiErrorReporter({}, false)
+    const errorReporter = new ApiErrorReporter(new MessagesBag({}), false)
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},
@@ -48,9 +49,9 @@ function reportUserDefinedErrors (
   validationOptions?: ValidationOptions,
 ) {
   testFn('report error with field pointer', (assert) => {
-    const errorReporter = new ApiErrorReporter({
+    const errorReporter = new ApiErrorReporter(new MessagesBag({
       [`username.${rule.name}`]: 'Validation failure for username',
-    }, false)
+    }), false)
 
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
@@ -80,9 +81,9 @@ function reportUserDefinedErrorsForArrayExpression (
   validationOptions?: ValidationOptions,
 ) {
   testFn('report error with array expression pointer', (assert) => {
-    const errorReporter = new ApiErrorReporter({
+    const errorReporter = new ApiErrorReporter(new MessagesBag({
       [`users.*.username.${rule.name}`]: 'Validation failure for users username',
-    }, false)
+    }), false)
 
     validation.validate(failureValue, rule.compiledOptions, Object.assign({
       root: {},
@@ -113,7 +114,7 @@ function doNotReportErrorWithSuccessValue (
   validationOptions?: ValidationOptions,
 ) {
   testFn('do not report error when value is valid', (assert) => {
-    const errorReporter = new ApiErrorReporter({}, false)
+    const errorReporter = new ApiErrorReporter(new MessagesBag({}), false)
     validation.validate(successValue, rule.compiledOptions, Object.assign({
       root: {},
       tip: {},

@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfNotExistsAll } from '../../src/Validations/existence/requiredIfNotExistsAll'
 
@@ -28,7 +29,7 @@ test.group('Required If Not Exists All', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => requiredIfNotExistsAll.compile('literal', 'string')
-    assert.throw(fn, 'requiredIfNotExistsAll: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'requiredIfNotExistsAll: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when fields are not defined', (assert) => {
@@ -51,7 +52,7 @@ test.group('Required If Not Exists All', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -72,7 +73,7 @@ test.group('Required If Not Exists All', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -94,7 +95,7 @@ test.group('Required If Not Exists All', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate('', {
       fields: ['type', 'user_id'],
     }, {
@@ -117,7 +118,7 @@ test.group('Required If Not Exists All', () => {
   })
 
   test('work fine when all of the target fields are defined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',

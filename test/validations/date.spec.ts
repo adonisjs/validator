@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { date } from '../../src/Validations/primitives/date'
 import { DateTime } from 'luxon'
@@ -22,7 +23,7 @@ test.group('Date', () => {
   validate(date, test, 22, '2020-10-20', compile({}))
 
   test('report error when value is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     date.validate(null, compile({}).compiledOptions!, {
       errorReporter: reporter,
       field: 'dob',
@@ -42,7 +43,7 @@ test.group('Date', () => {
   })
 
   test('report error when value is a number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     date.validate(22, compile({}).compiledOptions!, {
       errorReporter: reporter,
       field: 'dob',
@@ -62,7 +63,7 @@ test.group('Date', () => {
   })
 
   test('work fine when value is a valid date string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '2020-10-20'
 
     date.validate(value, compile({}).compiledOptions!, {
@@ -81,7 +82,7 @@ test.group('Date', () => {
   })
 
   test('report error when value is invalid as per expected pre-defined format', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     date.validate('2020-21-10', compile({ format: 'iso' }).compiledOptions!, {
       errorReporter: reporter,
       field: 'dob',
@@ -101,7 +102,7 @@ test.group('Date', () => {
   })
 
   test('work fine when valid is valid as per pre-defined format', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '2020-10-21'
 
     date.validate('2020-10-21', compile({ format: 'iso' }).compiledOptions!, {
@@ -120,7 +121,7 @@ test.group('Date', () => {
   })
 
   test('report error when value is invalid as per expected custom format', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     date.validate('2020-10-21', compile({ format: 'yyyy-dd-MM' }).compiledOptions!, {
       errorReporter: reporter,
       field: 'dob',
@@ -140,7 +141,7 @@ test.group('Date', () => {
   })
 
   test('work fine when valid is valid as per custom format', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '2020-10-21'
 
     date.validate('2020-10-21', compile({ format: 'yyyy-MM-dd' }).compiledOptions!, {
@@ -159,7 +160,7 @@ test.group('Date', () => {
   })
 
   test('report error when value is an instance of date and format is defined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     date.validate(new Date(), compile({ format: 'yyyy-dd-MM' }).compiledOptions!, {
       errorReporter: reporter,
       field: 'dob',
@@ -179,7 +180,7 @@ test.group('Date', () => {
   })
 
   test('work fine when value is an instance of date', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = new Date()
 
     date.validate(value, compile({}).compiledOptions!, {

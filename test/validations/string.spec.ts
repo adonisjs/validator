@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { string } from '../../src/Validations/primitives/string'
 
@@ -21,7 +22,7 @@ test.group('String', () => {
   validate(string, test, 22, 'anystring', compile())
 
   test('report error when value is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',
@@ -41,7 +42,7 @@ test.group('String', () => {
   })
 
   test('report error when value is a number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',
@@ -61,7 +62,7 @@ test.group('String', () => {
   })
 
   test('work fine when value is a valid string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate('22', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',
@@ -75,7 +76,7 @@ test.group('String', () => {
   })
 
   test('escape string when enabled', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value = '<p>hello world</p>'
 
     string.validate(value, compile({ escape: true }).compiledOptions, {

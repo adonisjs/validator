@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfNotExists } from '../../src/Validations/existence/requiredIfNotExists'
 
@@ -26,7 +27,7 @@ test.group('Required If Not Exists', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => requiredIfNotExists.compile('literal', 'string')
-    assert.throw(fn, 'requiredIfNotExists: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'requiredIfNotExists: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when field is not defined', (assert) => {
@@ -44,7 +45,7 @@ test.group('Required If Not Exists', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExists.validate(null, compile('token').compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -65,7 +66,7 @@ test.group('Required If Not Exists', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExists.validate(undefined, compile('token').compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -87,7 +88,7 @@ test.group('Required If Not Exists', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExists.validate('', compile('token').compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -108,7 +109,7 @@ test.group('Required If Not Exists', () => {
   })
 
   test('work fine when target field is defined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExists.validate('', compile('token').compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -124,7 +125,7 @@ test.group('Required If Not Exists', () => {
   })
 
   test('work fine when expectation matches and field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExists.validate('hello', compile('token').compiledOptions!, {
       errorReporter: reporter,
       field: 'username',

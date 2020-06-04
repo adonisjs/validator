@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { required } from '../../src/Validations/existence/required'
 
@@ -21,7 +22,7 @@ test.group('Required', () => {
   validate(required, test, undefined, 'anything', compile())
 
   test('report error when value is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(null, compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -41,7 +42,7 @@ test.group('Required', () => {
   })
 
   test('report error when value is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(undefined, compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -61,7 +62,7 @@ test.group('Required', () => {
   })
 
   test('report error when value is an empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate('', compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -81,7 +82,7 @@ test.group('Required', () => {
   })
 
   test('work fine when value is defined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate('virk', compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -95,7 +96,7 @@ test.group('Required', () => {
   })
 
   test('work fine when value is negative boolean', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(false, compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -109,7 +110,7 @@ test.group('Required', () => {
   })
 
   test('work fine when value is zero', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(0, compile().compiledOptions!, {
       errorReporter: reporter,
       field: 'username',

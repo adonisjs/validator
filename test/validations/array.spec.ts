@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { array } from '../../src/Validations/primitives/array'
 
@@ -21,7 +22,7 @@ test.group('array', () => {
   validate(array, test, null, [], compile())
 
   test('report error when value is not a valid array', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     array.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'addresses',
@@ -41,7 +42,7 @@ test.group('array', () => {
   })
 
   test('work fine when value is a valid array', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     array.validate([], compile().compiledOptions, {
       errorReporter: reporter,
       field: 'addresses',

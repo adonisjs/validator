@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { maxLength } from '../../src/Validations/string-and-array/maxLength'
 
@@ -22,7 +23,7 @@ test.group('Max Length', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => maxLength.compile('literal', 'array')
-    assert.throw(fn, 'maxLength: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'maxLength: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when length is not defined', (assert) => {
@@ -45,7 +46,7 @@ test.group('Max Length', () => {
   })
 
   test('skip when value is not an array or string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     maxLength.validate({}, { maxLength: 10 }, {
       errorReporter: reporter,
       field: 'username',
@@ -59,7 +60,7 @@ test.group('Max Length', () => {
   })
 
   test('raise error when string length is over the maxLength', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     maxLength.validate('hello-world', compile(10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -80,7 +81,7 @@ test.group('Max Length', () => {
   })
 
   test('raise error when array length is over the maxLength', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     maxLength.validate(['hello', 'world'], compile(1).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -101,7 +102,7 @@ test.group('Max Length', () => {
   })
 
   test('work fine when string length is under or equals maxLength', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     maxLength.validate('helloworld', compile(10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
@@ -115,7 +116,7 @@ test.group('Max Length', () => {
   })
 
   test('work fine when array length is under or equals maxLength', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     maxLength.validate(['hello'], compile(1).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',

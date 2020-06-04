@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfExists } from '../../src/Validations/existence/requiredIfExists'
 
@@ -24,7 +25,7 @@ test.group('Required If Exists', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => requiredIfExists.compile('literal', 'string')
-    assert.throw(fn, 'requiredIfExists: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'requiredIfExists: The 3rd argument must be a combined array of arguments')
   })
 
   test('do not compile when options are not defined', (assert) => {
@@ -42,7 +43,7 @@ test.group('Required If Exists', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(null, compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -64,7 +65,7 @@ test.group('Required If Exists', () => {
   })
 
   test('report error when expectation matches and field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(undefined, compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -86,7 +87,7 @@ test.group('Required If Exists', () => {
   })
 
   test('report error when expectation matches and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -108,7 +109,7 @@ test.group('Required If Exists', () => {
   })
 
   test('work fine when target field is undefined', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -123,7 +124,7 @@ test.group('Required If Exists', () => {
   })
 
   test('work fine when target field is null', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',
@@ -139,7 +140,7 @@ test.group('Required If Exists', () => {
   })
 
   test('work fine when expectation matches and field has value', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('hello', compile('type').compiledOptions!, {
       errorReporter: reporter,
       field: 'profile_id',

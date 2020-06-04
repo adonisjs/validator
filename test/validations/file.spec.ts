@@ -9,6 +9,7 @@
 
 import test from 'japa'
 import { rules } from '../../src/Rules'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 import { File } from '@adonisjs/bodyparser/build/src/Multipart/File'
@@ -33,7 +34,7 @@ test.group('File', () => {
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => file.compile('literal', 'file')
-    assert.throw(fn, 'file: The 3rd arguments must be a combined array of arguments')
+    assert.throw(fn, 'file: The 3rd argument must be a combined array of arguments')
   })
 
   test('compile with empty object when options are not defined', (assert) => {
@@ -46,7 +47,7 @@ test.group('File', () => {
   })
 
   test('report error when value is not a file', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     file.validate({}, compile({}).compiledOptions!, {
       errorReporter: reporter,
       field: 'avatar',
@@ -71,7 +72,7 @@ test.group('File', () => {
     mp.size = 20
     mp.extname = 'jpg'
 
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     file.validate(mp, compile({ size: 10 }).compiledOptions!, {
       errorReporter: reporter,
       field: 'avatar',
@@ -96,7 +97,7 @@ test.group('File', () => {
     mp.size = 20
     mp.extname = 'png'
 
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     file.validate(mp, compile({ extnames: ['jpg'] }).compiledOptions!, {
       errorReporter: reporter,
       field: 'avatar',
@@ -121,7 +122,7 @@ test.group('File', () => {
     mp.size = 20
     mp.extname = 'png'
 
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     file.validate(mp, compile({ extnames: ['png'] }).compiledOptions!, {
       errorReporter: reporter,
       field: 'avatar',

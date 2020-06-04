@@ -1,4 +1,5 @@
 import test from 'japa'
+import { MessagesBag } from '../../../src/MessagesBag'
 import { ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
 
 /**
@@ -10,7 +11,7 @@ function collectsMessages (
   getMessage: (messages: any) => { field: string, message: string }[],
 ) {
   testFn('collect reported errors', (assert) => {
-    const errorReporter = new Reporter({}, false)
+    const errorReporter = new Reporter(new MessagesBag({}), false)
     errorReporter.report('username', 'required', 'Required validation failed')
     assert.isTrue(errorReporter.hasErrors)
     assert.deepEqual(getMessage(errorReporter.toJSON()), [{
@@ -29,9 +30,9 @@ function useUserDefinedMessages (
   getMessage: (messages: any) => { field: string, message: string }[],
 ) {
   testFn('give preference to user defined messages for a field.rule', (assert) => {
-    const errorReporter = new Reporter({
+    const errorReporter = new Reporter(new MessagesBag({
       'username.required': 'Username is required',
-    }, false)
+    }), false)
     errorReporter.report('username', 'required', 'Required validation failed')
 
     assert.isTrue(errorReporter.hasErrors)
@@ -51,9 +52,9 @@ function useRuleMessages (
   getMessage: (messages: any) => { field: string, message: string }[],
 ) {
   testFn('give preference to user defined messages for a rule', (assert) => {
-    const errorReporter = new Reporter({
+    const errorReporter = new Reporter(new MessagesBag({
       'required': 'The field is required',
-    }, false)
+    }), false)
     errorReporter.report('username', 'required', 'Required validation failed')
     assert.isTrue(errorReporter.hasErrors)
     assert.deepEqual(getMessage(errorReporter.toJSON()), [{
@@ -72,9 +73,9 @@ function useArrayExpressionMessage (
   getMessage: (messages: any) => { field: string, message: string }[],
 ) {
   testFn('use array expression message when defined', (assert) => {
-    const errorReporter = new Reporter({
+    const errorReporter = new Reporter(new MessagesBag({
       'users.*.username.required': 'Each user must have a username',
-    }, false)
+    }), false)
     errorReporter.report(
       'users.0.username',
       'required',
@@ -99,10 +100,10 @@ function usePointerMessage (
   getMessage: (messages: any) => { field: string, message: string }[],
 ) {
   testFn('given preference to field message, when array expression message is defined', (assert) => {
-    const errorReporter = new Reporter({
+    const errorReporter = new Reporter(new MessagesBag({
       'users.*.username.required': 'Each user must have a username',
       'users.0.username.required': 'Primary user must have a username',
-    }, false)
+    }), false)
     errorReporter.report(
       'users.0.username',
       'required',
@@ -129,9 +130,9 @@ function raiseException (
   testFn('raise exception when bail is true', (assert) => {
     assert.plan(2)
 
-    const errorReporter = new Reporter({
+    const errorReporter = new Reporter(new MessagesBag({
       'required': 'The field is required',
-    }, true)
+    }), true)
 
     try {
       errorReporter.report('username', 'required', 'Required validation failed')

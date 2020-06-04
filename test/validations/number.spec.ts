@@ -10,6 +10,7 @@
 import test from 'japa'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { number } from '../../src/Validations/primitives/number'
 
@@ -21,7 +22,7 @@ test.group('Number', () => {
   validate(number, test, 'helloworld', 10, compile())
 
   test('report error when value is not a valid number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     number.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'age',
@@ -41,7 +42,7 @@ test.group('Number', () => {
   })
 
   test('cast number like string to a valid number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '22'
 
     number.validate(value, compile().compiledOptions, {
@@ -60,7 +61,7 @@ test.group('Number', () => {
   })
 
   test('work fine when value is a valid number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     number.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'age',
@@ -74,7 +75,7 @@ test.group('Number', () => {
   })
 
   test('report error when value is a string that cannot be casted to a number', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     number.validate('hello-world', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'age',

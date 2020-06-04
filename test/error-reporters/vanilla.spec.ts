@@ -8,6 +8,7 @@
 */
 
 import test from 'japa'
+import { MessagesBag } from '../../src/MessagesBag'
 import { validate } from '../fixtures/error-reporters'
 import { VanillaErrorReporter } from '../../src/ErrorReporter/index'
 
@@ -22,12 +23,12 @@ test.group('Vanilla ErrorReporter', () => {
   })
 
   test('set flash messages to true when returning ValidationException instance', (assert) => {
-    const reporter = new VanillaErrorReporter({}, false)
+    const reporter = new VanillaErrorReporter(new MessagesBag({}), false)
     assert.isTrue(reporter.toError().flashToSession)
   })
 
   test('return error messages as a key-value pair of field and it\'s messages', (assert) => {
-    const reporter = new VanillaErrorReporter({}, false)
+    const reporter = new VanillaErrorReporter(new MessagesBag({}), false)
     reporter.report('username', 'required', 'required validation failed')
     reporter.report('username', 'alpha', 'alpha validation failed')
     reporter.report('age', 'required', 'required validation failed')

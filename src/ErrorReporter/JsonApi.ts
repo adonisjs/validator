@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 */
 
-import { ErrorReporterContract } from '@ioc:Adonis/Core/Validator'
+import { ErrorReporterContract, MessagesBagContract } from '@ioc:Adonis/Core/Validator'
 import { ValidationException } from '../ValidationException'
 
 type JsonApiErrorNode = {
@@ -31,7 +31,7 @@ export class JsonApiErrorReporter implements ErrorReporterContract<{ errors: Jso
    */
   public hasErrors = false
 
-  constructor (private messages: { [key: string]: string }, private bail: boolean) {
+  constructor (private messages: MessagesBagContract, private bail: boolean) {
   }
 
   /**
@@ -42,34 +42,17 @@ export class JsonApiErrorReporter implements ErrorReporterContract<{ errors: Jso
     rule: string,
     message: string,
     arrayExpressionPointer?: string,
-    meta?: any
+    args?: any
   ) {
     this.hasErrors = true
-
-    /**
-     * Finding the best possible error message for the
-     * given field and rule.
-     *
-     * 1. Look for `field.rule`
-     * 2. Look for `arrayExpression.rule`
-     * 3. Look for just rule
-     * 4. Fallback to default reported error message
-     */
-    let validationMessage = this.messages[`${pointer}.${rule}`]
-    if (!validationMessage && arrayExpressionPointer) {
-      validationMessage = this.messages[`${arrayExpressionPointer}.${rule}`]
-    }
-    if (!validationMessage) {
-      validationMessage = this.messages[rule] || message
-    }
 
     this.errors.push({
       code: rule,
       source: {
         pointer,
       },
-      title: validationMessage,
-      ...(meta ? { meta } : {}),
+      title: this.messages.get(pointer, rule, message, arrayExpressionPointer, args),
+      ...(args ? { meta: args } : {}),
     })
 
     /**
@@ -80,6 +63,9 @@ export class JsonApiErrorReporter implements ErrorReporterContract<{ errors: Jso
     }
   }
 
+  /**
+   * Returns an instance of [[ValidationException]]
+   */
   public toError () {
     return new ValidationException(false, this.toJSON())
   }

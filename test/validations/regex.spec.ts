@@ -11,6 +11,7 @@ import test from 'japa'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { regex } from '../../src/Validations/string/regex'
 
@@ -35,7 +36,7 @@ test.group('Regex', () => {
   })
 
   test('ignore validation when value is not a valid string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',
@@ -49,7 +50,7 @@ test.group('Regex', () => {
   })
 
   test('report error when value fails the regex pattern', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate('999999990001', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',
@@ -69,7 +70,7 @@ test.group('Regex', () => {
   })
 
   test('work fine when value passes the regex pattern', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate('99.999.999/0001-99', compile().compiledOptions, {
       errorReporter: reporter,
       field: 'username',

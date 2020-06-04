@@ -79,7 +79,26 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('cast negative numeric representation to a boolean', (assert) => {
+  test('cast on keyword to a positive boolean', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = 'on'
+
+    boolean.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'terms',
+      pointer: 'terms',
+      tip: {},
+      root: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, true)
+  })
+
+  test('cast 0 numeric representation to a boolean', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 0
 
@@ -98,9 +117,28 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
-  test('cast positive string representation to a boolean', (assert) => {
+  test('cast 0 string representation to a boolean', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '0'
+
+    boolean.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'terms',
+      pointer: 'terms',
+      tip: {},
+      root: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, false)
+  })
+
+  test('cast off keyword as negative boolean', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = 'off'
 
     boolean.validate(value, compile().compiledOptions, {
       errorReporter: reporter,

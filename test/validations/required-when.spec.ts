@@ -153,7 +153,7 @@ test.group('Required When [=]', () => {
   })
 
   test('report error when expectation matches (as boolean) and field is empty string', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('', compile('type', '=', false).compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -162,6 +162,7 @@ test.group('Required When [=]', () => {
         type: false,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -192,7 +193,7 @@ test.group('Required When [=]', () => {
   })
 
   test('work fine when expectation matches (as boolean) and field is present', (assert) => {
-    const reporter = new ApiErrorReporter({}, false)
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredWhen.validate('@AmanVirk1', compile('type', '=', false).compiledOptions!, {
       errorReporter: reporter,
       field: 'twitter_handle',
@@ -201,6 +202,7 @@ test.group('Required When [=]', () => {
         type: false,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

@@ -63,6 +63,7 @@ test.group('File', () => {
         field: 'avatar',
         rule: 'file',
         message: 'file validation failed',
+        args: {},
       }],
     })
   })
@@ -89,6 +90,7 @@ test.group('File', () => {
         field: 'avatar',
         rule: 'file.size',
         message: 'File size should be less than 10B',
+        args: { size: 10 },
       }],
     })
   })
@@ -115,6 +117,7 @@ test.group('File', () => {
         field: 'avatar',
         rule: 'file.extname',
         message: 'Invalid file extension png. Only jpg is allowed',
+        args: { extnames: ['jpg'] },
       }],
     })
   })

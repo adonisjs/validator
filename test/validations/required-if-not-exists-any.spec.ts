@@ -70,6 +70,9 @@ test.group('Required If Not Exists Any', () => {
         field: 'profile_id',
         rule: 'requiredIfNotExistsAny',
         message: 'requiredIfNotExistsAny validation failed',
+        args: {
+          otherFields: ['type', 'user_id'],
+        },
       }],
     })
   })
@@ -93,6 +96,9 @@ test.group('Required If Not Exists Any', () => {
         field: 'profile_id',
         rule: 'requiredIfNotExistsAny',
         message: 'requiredIfNotExistsAny validation failed',
+        args: {
+          otherFields: ['type', 'user_id'],
+        },
       }],
     })
   })
@@ -116,6 +122,9 @@ test.group('Required If Not Exists Any', () => {
         field: 'profile_id',
         rule: 'requiredIfNotExistsAny',
         message: 'requiredIfNotExistsAny validation failed',
+        args: {
+          otherFields: ['type', 'user_id'],
+        },
       }],
     })
   })

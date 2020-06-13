@@ -39,7 +39,13 @@ export const requiredIfNotExists: SyncValidation<{ field: string }> = {
     const otherFieldMissing = !exists(otherFieldValue)
 
     if (otherFieldMissing && !exists(value)) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(
+        pointer,
+        RULE_NAME,
+        DEFAULT_MESSAGE,
+        arrayExpressionPointer,
+        { otherField: compiledOptions.field },
+      )
     }
   },
 }

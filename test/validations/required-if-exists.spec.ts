@@ -42,6 +42,32 @@ test.group('Required If Exists', () => {
     })
   })
 
+  test('pass otherField to the error options', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExists.validate(null, compile('type').compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        type: 'twitter',
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
+
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [{
+        field: 'profile_id',
+        rule: 'requiredIfExists',
+        message: 'requiredIfExists validation failed',
+        args: {
+          otherField: 'type',
+        },
+      }],
+    })
+  })
+
   test('report error when expectation matches and field is null', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(null, compile('type').compiledOptions!, {
@@ -61,6 +87,9 @@ test.group('Required If Exists', () => {
         field: 'profile_id',
         rule: 'requiredIfExists',
         message: 'requiredIfExists validation failed',
+        args: {
+          otherField: 'type',
+        },
       }],
     })
   })
@@ -84,6 +113,9 @@ test.group('Required If Exists', () => {
         field: 'profile_id',
         rule: 'requiredIfExists',
         message: 'requiredIfExists validation failed',
+        args: {
+          otherField: 'type',
+        },
       }],
     })
   })
@@ -107,6 +139,9 @@ test.group('Required If Exists', () => {
         field: 'profile_id',
         rule: 'requiredIfExists',
         message: 'requiredIfExists validation failed',
+        args: {
+          otherField: 'type',
+        },
       }],
     })
   })

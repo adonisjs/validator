@@ -102,6 +102,11 @@ test.group('Required When [=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '=',
+          otherField: 'type',
+          values: 'twitter',
+        },
       }],
     })
   })
@@ -125,6 +130,11 @@ test.group('Required When [=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '=',
+          otherField: 'type',
+          values: 'twitter',
+        },
       }],
     })
   })
@@ -148,6 +158,11 @@ test.group('Required When [=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '=',
+          otherField: 'type',
+          values: 'twitter',
+        },
       }],
     })
   })
@@ -171,6 +186,11 @@ test.group('Required When [=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '=',
+          otherField: 'type',
+          values: false,
+        },
       }],
     })
   })
@@ -263,6 +283,11 @@ test.group('Required When [!=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '!=',
+          otherField: 'type',
+          values: 'facebook',
+        },
       }],
     })
   })
@@ -286,6 +311,11 @@ test.group('Required When [!=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '!=',
+          otherField: 'type',
+          values: 'facebook',
+        },
       }],
     })
   })
@@ -309,6 +339,11 @@ test.group('Required When [!=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '!=',
+          otherField: 'type',
+          values: 'facebook',
+        },
       }],
     })
   })
@@ -331,6 +366,11 @@ test.group('Required When [!=]', () => {
         field: 'twitter_handle',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '!=',
+          otherField: 'type',
+          values: 'facebook',
+        },
       }],
     })
   })
@@ -390,6 +430,11 @@ test.group('Required When [in]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'in',
+          otherField: 'calculation_type',
+          values: ['FIXED', 'PERCENTAGE'],
+        },
       }],
     })
   })
@@ -413,6 +458,11 @@ test.group('Required When [in]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'in',
+          otherField: 'calculation_type',
+          values: ['FIXED', 'PERCENTAGE'],
+        },
       }],
     })
   })
@@ -436,6 +486,11 @@ test.group('Required When [in]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'in',
+          otherField: 'calculation_type',
+          values: ['FIXED', 'PERCENTAGE'],
+        },
       }],
     })
   })
@@ -511,6 +566,11 @@ test.group('Required When [notIn]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'notIn',
+          otherField: 'calculation_type',
+          values: ['VARIABLE', 'FORMULA'],
+        },
       }],
     })
   })
@@ -534,6 +594,11 @@ test.group('Required When [notIn]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'notIn',
+          otherField: 'calculation_type',
+          values: ['VARIABLE', 'FORMULA'],
+        },
       }],
     })
   })
@@ -557,6 +622,11 @@ test.group('Required When [notIn]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'notIn',
+          otherField: 'calculation_type',
+          values: ['VARIABLE', 'FORMULA'],
+        },
       }],
     })
   })
@@ -579,6 +649,11 @@ test.group('Required When [notIn]', () => {
         field: 'value',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: 'notIn',
+          otherField: 'calculation_type',
+          values: ['VARIABLE', 'FORMULA'],
+        },
       }],
     })
   })
@@ -640,6 +715,11 @@ test.group('Required When [>]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -663,6 +743,11 @@ test.group('Required When [>]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -686,6 +771,11 @@ test.group('Required When [>]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -761,6 +851,11 @@ test.group('Required When [<]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<',
+          otherField: 'age',
+          values: 40,
+        },
       }],
     })
   })
@@ -784,6 +879,11 @@ test.group('Required When [<]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<',
+          otherField: 'age',
+          values: 40,
+        },
       }],
     })
   })
@@ -807,6 +907,11 @@ test.group('Required When [<]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<',
+          otherField: 'age',
+          values: 40,
+        },
       }],
     })
   })
@@ -882,6 +987,11 @@ test.group('Required When [>=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -905,6 +1015,11 @@ test.group('Required When [>=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -928,6 +1043,11 @@ test.group('Required When [>=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '>=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -1003,6 +1123,11 @@ test.group('Required When [<=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -1026,6 +1151,11 @@ test.group('Required When [<=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })
@@ -1049,6 +1179,11 @@ test.group('Required When [<=]', () => {
         field: 'drivers_license',
         rule: 'requiredWhen',
         message: 'requiredWhen validation failed',
+        args: {
+          operator: '<=',
+          otherField: 'age',
+          values: 18,
+        },
       }],
     })
   })

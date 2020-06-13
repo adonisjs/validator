@@ -57,7 +57,7 @@ export const enumSet: SyncValidation<{ choices: any[] | { key: string } }> = {
     }
 
     if (!value.every((one) => (choices as any[]).includes(one))) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, compiledOptions)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, { choices })
     }
   },
 }

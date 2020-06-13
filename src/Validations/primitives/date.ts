@@ -38,8 +38,8 @@ export const date: SyncValidation<{ format?: string }> = {
   validate (value, compiledOptions, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
     let dateTime: DateTime | undefined
 
-    const isDateInstance = value instanceof Date === true
     const { format } = compiledOptions
+    const isDateInstance = value instanceof Date === true
 
     /**
      * If value is a valid datetime instance and format is defined, then

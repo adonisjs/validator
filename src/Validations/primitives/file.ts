@@ -19,8 +19,17 @@ const RULE_NAME = 'file'
  */
 export const file: SyncValidation<Partial<FileValidationOptions>> = {
   compile: wrapCompile(RULE_NAME, [], ([ options ]) => {
+    const validationOptions: Partial<FileValidationOptions> = {}
+    if (options && options.size) {
+      validationOptions.size = options.size
+    }
+
+    if (options && options.extnames) {
+      validationOptions.extnames = options.extnames
+    }
+
     return {
-      compiledOptions: options ? { size: options.size, extnames: options.extnames } : {},
+      compiledOptions: validationOptions,
     }
   }),
   validate (
@@ -32,7 +41,7 @@ export const file: SyncValidation<Partial<FileValidationOptions>> = {
      * Raise error when not a multipart file instance
      */
     if (!fileToValidate.isMultipartFile) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, compiledOptions)
       return
     }
 
@@ -64,6 +73,7 @@ export const file: SyncValidation<Partial<FileValidationOptions>> = {
         `${RULE_NAME}.${error.type}`,
         error.message,
         arrayExpressionPointer,
+        compiledOptions,
       )
     })
   },

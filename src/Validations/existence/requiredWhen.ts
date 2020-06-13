@@ -154,7 +154,17 @@ export const requiredWhen: SyncValidation<{
     )
 
     if (shouldBeRequired && !exists(value)) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(
+        pointer,
+        RULE_NAME,
+        DEFAULT_MESSAGE,
+        arrayExpressionPointer,
+        {
+          operator,
+          otherField: field,
+          values: comparisonValues,
+        },
+      )
     }
   },
 }

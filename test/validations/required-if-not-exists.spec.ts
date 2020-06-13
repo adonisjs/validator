@@ -62,6 +62,9 @@ test.group('Required If Not Exists', () => {
         field: 'username',
         rule: 'requiredIfNotExists',
         message: 'requiredIfNotExists validation failed',
+        args: {
+          otherField: 'token',
+        },
       }],
     })
   })
@@ -85,6 +88,9 @@ test.group('Required If Not Exists', () => {
         field: 'username',
         rule: 'requiredIfNotExists',
         message: 'requiredIfNotExists validation failed',
+        args: {
+          otherField: 'token',
+        },
       }],
     })
   })
@@ -107,6 +113,9 @@ test.group('Required If Not Exists', () => {
         field: 'username',
         rule: 'requiredIfNotExists',
         message: 'requiredIfNotExists validation failed',
+        args: {
+          otherField: 'token',
+        },
       }],
     })
   })

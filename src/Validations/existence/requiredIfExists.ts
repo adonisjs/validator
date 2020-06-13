@@ -37,7 +37,13 @@ export const requiredIfExists: SyncValidation<{ field: string }> = {
   ) {
     const otherFieldExists = exists(getFieldValue(compiledOptions.field, root, tip))
     if (otherFieldExists && !exists(value)) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(
+        pointer,
+        RULE_NAME,
+        DEFAULT_MESSAGE,
+        arrayExpressionPointer,
+        { otherField: compiledOptions.field },
+      )
     }
   },
 }

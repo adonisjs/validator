@@ -28,6 +28,7 @@ function reportErrors (
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
+      refs: {},
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
@@ -60,6 +61,7 @@ function reportUserDefinedErrors (
       pointer: 'username',
       errorReporter: errorReporter,
       mutate: () => {},
+      refs: {},
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
@@ -93,6 +95,7 @@ function reportUserDefinedErrorsForArrayExpression (
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,
       mutate: () => {},
+      refs: {},
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()
@@ -123,6 +126,7 @@ function doNotReportErrorWithSuccessValue (
       arrayExpressionPointer: 'users.*.username',
       errorReporter: errorReporter,
       mutate: () => {},
+      refs: {},
     }, validationOptions))
 
     const errorMessages = errorReporter.toJSON()

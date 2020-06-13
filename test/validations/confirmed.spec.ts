@@ -27,6 +27,7 @@ test.group('Confirmed', () => {
       pointer: 'password',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -41,6 +42,7 @@ test.group('Confirmed', () => {
       pointer: 'password',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -63,6 +65,7 @@ test.group('Confirmed', () => {
         password_confirmation: 'supersecret',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -85,6 +88,7 @@ test.group('Confirmed', () => {
         password_confirmation: 'secret',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -105,6 +109,7 @@ test.group('Confirmed', () => {
           password_confirmation: 'supersecret',
         },
       },
+      refs: {},
       mutate: () => {},
     })
 
@@ -131,6 +136,7 @@ test.group('Confirmed', () => {
           password_confirmation: 'secret',
         },
       },
+      refs: {},
       mutate: () => {},
     })
 

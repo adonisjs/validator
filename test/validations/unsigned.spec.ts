@@ -29,6 +29,7 @@ test.group('unsigned', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('unsigned', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -63,6 +65,7 @@ test.group('unsigned', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

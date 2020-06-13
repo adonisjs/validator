@@ -60,6 +60,7 @@ test.group('Required If Not Exists All', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -82,6 +83,7 @@ test.group('Required If Not Exists All', () => {
         type: null,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -105,6 +107,7 @@ test.group('Required If Not Exists All', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -128,6 +131,7 @@ test.group('Required If Not Exists All', () => {
         user_id: 1,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

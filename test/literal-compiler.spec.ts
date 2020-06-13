@@ -81,6 +81,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'username',
         tip: root,
         pointer: 'username',
@@ -134,6 +135,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'username',
         tip: root,
         pointer: 'username',
@@ -187,6 +189,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'username',
         tip: root,
         pointer: 'username',
@@ -240,6 +243,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'username',
         tip: root,
         pointer: 'username',
@@ -325,6 +329,7 @@ test.group('Literal Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'username',
         tip: root,
         pointer: 'username',

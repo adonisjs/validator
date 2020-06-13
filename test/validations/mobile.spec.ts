@@ -31,6 +31,7 @@ test.group('Mobile', () => {
       pointer: 'phone_number',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -45,6 +46,7 @@ test.group('Mobile', () => {
       pointer: 'phone_number',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -65,6 +67,7 @@ test.group('Mobile', () => {
       pointer: 'phone_number',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

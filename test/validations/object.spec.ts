@@ -29,6 +29,7 @@ test.group('Object', () => {
       pointer: 'profile',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('Object', () => {
       pointer: 'profile',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -69,6 +71,7 @@ test.group('Object', () => {
       pointer: 'profile',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

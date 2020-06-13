@@ -30,6 +30,7 @@ test.group('IP Address', () => {
       pointer: 'user_ip',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -44,6 +45,7 @@ test.group('IP Address', () => {
       pointer: 'user_ip',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -64,6 +66,7 @@ test.group('IP Address', () => {
       pointer: 'user_ip',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -78,6 +81,7 @@ test.group('IP Address', () => {
       pointer: 'user_ip',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -98,6 +102,7 @@ test.group('IP Address', () => {
       pointer: 'user_ip',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

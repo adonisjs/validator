@@ -29,6 +29,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -51,6 +52,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -70,6 +72,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -89,6 +92,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -108,6 +112,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -127,6 +132,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -146,6 +152,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -165,6 +172,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -184,6 +192,7 @@ test.group('boolean', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },

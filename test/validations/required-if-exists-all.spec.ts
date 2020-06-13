@@ -61,6 +61,7 @@ test.group('Required If Exists All', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -84,6 +85,7 @@ test.group('Required If Exists All', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -107,6 +109,7 @@ test.group('Required If Exists All', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -129,6 +132,7 @@ test.group('Required If Exists All', () => {
         user_id: 1,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -146,6 +150,7 @@ test.group('Required If Exists All', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -163,6 +168,7 @@ test.group('Required If Exists All', () => {
         user_id: 1,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

@@ -31,6 +31,7 @@ test.group('Email', () => {
       pointer: 'email',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -45,6 +46,7 @@ test.group('Email', () => {
       pointer: 'email',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -65,6 +67,7 @@ test.group('Email', () => {
       pointer: 'email',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -81,6 +84,7 @@ test.group('Email', () => {
       pointer: 'email',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => emailValue = newValue,
     })
 

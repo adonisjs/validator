@@ -93,6 +93,7 @@ test.group('Required When [=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -115,6 +116,7 @@ test.group('Required When [=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -137,6 +139,7 @@ test.group('Required When [=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -181,6 +184,7 @@ test.group('Required When [=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -213,6 +217,7 @@ test.group('Required When [=]', () => {
         type: 'facebook',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -228,6 +233,7 @@ test.group('Required When [=]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -246,6 +252,7 @@ test.group('Required When [!=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -268,6 +275,7 @@ test.group('Required When [!=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -290,6 +298,7 @@ test.group('Required When [!=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -311,6 +320,7 @@ test.group('Required When [!=]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -333,6 +343,7 @@ test.group('Required When [!=]', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -349,6 +360,7 @@ test.group('Required When [!=]', () => {
         type: 'facebook',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -367,6 +379,7 @@ test.group('Required When [in]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -389,6 +402,7 @@ test.group('Required When [in]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -411,6 +425,7 @@ test.group('Required When [in]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -433,6 +448,7 @@ test.group('Required When [in]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -449,6 +465,7 @@ test.group('Required When [in]', () => {
         calculation_type: 'VARIABLE',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -464,6 +481,7 @@ test.group('Required When [in]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -482,6 +500,7 @@ test.group('Required When [notIn]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -504,6 +523,7 @@ test.group('Required When [notIn]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -526,6 +546,7 @@ test.group('Required When [notIn]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -547,6 +568,7 @@ test.group('Required When [notIn]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -571,6 +593,7 @@ test.group('Required When [notIn]', () => {
         calculation_type: 'FIXED',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -587,6 +610,7 @@ test.group('Required When [notIn]', () => {
         calculation_type: 'VARIABLE',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -605,6 +629,7 @@ test.group('Required When [>]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -627,6 +652,7 @@ test.group('Required When [>]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -649,6 +675,7 @@ test.group('Required When [>]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -671,6 +698,7 @@ test.group('Required When [>]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -687,6 +715,7 @@ test.group('Required When [>]', () => {
         age: 17,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -702,6 +731,7 @@ test.group('Required When [>]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -720,6 +750,7 @@ test.group('Required When [<]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -742,6 +773,7 @@ test.group('Required When [<]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -764,6 +796,7 @@ test.group('Required When [<]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -786,6 +819,7 @@ test.group('Required When [<]', () => {
         age: 20,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -802,6 +836,7 @@ test.group('Required When [<]', () => {
         age: 41,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -817,6 +852,7 @@ test.group('Required When [<]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -835,6 +871,7 @@ test.group('Required When [>=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -857,6 +894,7 @@ test.group('Required When [>=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -879,6 +917,7 @@ test.group('Required When [>=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -901,6 +940,7 @@ test.group('Required When [>=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -917,6 +957,7 @@ test.group('Required When [>=]', () => {
         age: 17,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -932,6 +973,7 @@ test.group('Required When [>=]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -950,6 +992,7 @@ test.group('Required When [<=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -972,6 +1015,7 @@ test.group('Required When [<=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -994,6 +1038,7 @@ test.group('Required When [<=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -1016,6 +1061,7 @@ test.group('Required When [<=]', () => {
         age: 18,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -1032,6 +1078,7 @@ test.group('Required When [<=]', () => {
         age: 19,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -1047,6 +1094,7 @@ test.group('Required When [<=]', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

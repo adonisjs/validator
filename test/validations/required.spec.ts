@@ -29,6 +29,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -69,6 +71,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -89,6 +92,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -103,6 +107,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -117,6 +122,7 @@ test.group('Required', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

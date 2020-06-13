@@ -59,6 +59,7 @@ test.group('Required If Exists Any', () => {
         user_id: 1,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -81,6 +82,7 @@ test.group('Required If Exists Any', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -103,6 +105,7 @@ test.group('Required If Exists Any', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -124,6 +127,7 @@ test.group('Required If Exists Any', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -140,6 +144,7 @@ test.group('Required If Exists Any', () => {
         user_id: null,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -156,6 +161,7 @@ test.group('Required If Exists Any', () => {
         type: 'twitter',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

@@ -29,6 +29,7 @@ test.group('array', () => {
       pointer: 'addresses',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('array', () => {
       pointer: 'terms',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

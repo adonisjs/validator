@@ -29,6 +29,7 @@ test.group('String', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('String', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -69,6 +71,7 @@ test.group('String', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -85,6 +88,7 @@ test.group('String', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => value = newValue,
     })
 

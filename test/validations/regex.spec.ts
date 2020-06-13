@@ -43,6 +43,7 @@ test.group('Regex', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -57,6 +58,7 @@ test.group('Regex', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -77,6 +79,7 @@ test.group('Regex', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

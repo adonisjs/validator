@@ -30,6 +30,7 @@ test.group('Alpha', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -46,6 +47,7 @@ test.group('Alpha', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -66,6 +68,7 @@ test.group('Alpha', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

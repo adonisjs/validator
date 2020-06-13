@@ -110,6 +110,7 @@ export class Compiler {
 
     return endent`const ${this.getVariableOptionsName(variableName)} = {
       root,
+      refs,
       field: ${field},
       tip: ${tip},
       pointer: ${pointer},${arrayExpressionPointerItem}
@@ -235,7 +236,7 @@ export class Compiler {
      * - `exists` checks whether the value is defined or not.
      */
     buffer.wrappingCode([
-      'return async function (root, validations, errorReporter, helpers) {',
+      'return async function (root, validations, errorReporter, helpers, validator) {',
       '}',
     ])
 
@@ -272,6 +273,13 @@ export class Compiler {
    * Compiles the schema tree to an executable function
    */
   public compile<T extends any> (): CompilerOutput<T> {
-    return new Function('root', 'validations', 'errorReporter', 'helpers', this.compileAsString())()
+    return new Function(
+      'root',
+      'validations',
+      'errorReporter',
+      'helpers',
+      'refs',
+      this.compileAsString(),
+    )()
   }
 }

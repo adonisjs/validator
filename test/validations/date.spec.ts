@@ -30,6 +30,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -50,6 +51,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -72,6 +74,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -89,6 +92,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -111,6 +115,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -128,6 +133,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -150,6 +156,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -167,6 +174,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -189,6 +197,7 @@ test.group('Date', () => {
       pointer: 'dob',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },

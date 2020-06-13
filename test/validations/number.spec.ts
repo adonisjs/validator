@@ -29,6 +29,7 @@ test.group('Number', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -51,6 +52,7 @@ test.group('Number', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: (newValue) => {
         value = newValue
       },
@@ -68,6 +70,7 @@ test.group('Number', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -82,6 +85,7 @@ test.group('Number', () => {
       pointer: 'age',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

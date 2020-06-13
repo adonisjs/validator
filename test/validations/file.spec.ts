@@ -54,6 +54,7 @@ test.group('File', () => {
       pointer: 'avatar',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -79,6 +80,7 @@ test.group('File', () => {
       pointer: 'avatar',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -104,6 +106,7 @@ test.group('File', () => {
       pointer: 'avatar',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -129,6 +132,7 @@ test.group('File', () => {
       pointer: 'avatar',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

@@ -46,6 +46,13 @@ const COMPILED_CACHE: { [key: string]: CompilerOutput<any> } = {}
 const NOOP_MESSAGES = {}
 
 /**
+ * An object of refs to use as fallback, when no custom
+ * refs are defined.
+ */
+const NOOP_REFS = {}
+
+/**
+ * Performs validation on the validator node
  */
 const validate = <T extends ParsedTypedSchema<TypedSchema>>(
   validator: ValidatorNode<T>
@@ -79,6 +86,7 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
       validations,
       reporter,
       helpers,
+      validator.refs || NOOP_REFS,
     ) as Promise<T['props']>
   }
 
@@ -94,7 +102,7 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
   /**
    * Execute compiled function
    */
-  return compiledFn(validator.data, validations, reporter, helpers)
+  return compiledFn(validator.data, validations, reporter, helpers, validator.refs || NOOP_REFS)
 }
 
 /**

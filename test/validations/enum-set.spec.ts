@@ -39,6 +39,7 @@ test.group('enum set', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -62,6 +63,7 @@ test.group('enum set', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -85,6 +87,7 @@ test.group('enum set', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

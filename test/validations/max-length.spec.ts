@@ -53,6 +53,7 @@ test.group('Max Length', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -67,6 +68,7 @@ test.group('Max Length', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -88,6 +90,7 @@ test.group('Max Length', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -109,6 +112,7 @@ test.group('Max Length', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -123,6 +127,7 @@ test.group('Max Length', () => {
       pointer: 'username',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

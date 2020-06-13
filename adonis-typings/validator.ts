@@ -28,6 +28,12 @@ declare module '@ioc:Adonis/Core/Validator' {
     options?: any,
   }
 
+  export type SchemaRef<T extends unknown> = {
+    readonly __$isRef: true,
+    value: T,
+    key: string,
+  }
+
   /**
    * The shape of rule after it has been passed
    */
@@ -81,6 +87,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     tip: any,
     field: string,
     pointer: string,
+    refs: { [key: string]: SchemaRef<unknown> },
     arrayExpressionPointer?: string,
     errorReporter: ErrorReporterContract,
     mutate: ((newValue: any) => void),
@@ -177,7 +184,8 @@ declare module '@ioc:Adonis/Core/Validator' {
       data: any,
       validations: { [rule: string]: ValidationContract<any> },
       errorReporter: ErrorReporterContract,
-      helpers: { exists: ((value: any) => boolean), isObject: ((value: any) => boolean) }
+      helpers: { exists: ((value: any) => boolean), isObject: ((value: any) => boolean) },
+      refs: { [key: string]: SchemaRef<unknown> },
     ): Promise<T>
   }
 
@@ -296,15 +304,43 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Signature to define an enum type
+   * Options accepted by the enum type
+   */
+  export type AllowedEnumOptions = SchemaRef<unknown> | readonly unknown[]
+
+  /**
+   * Conditionally finds the return value for the Enum options
+   */
+  export type EnumReturnValue<Options extends AllowedEnumOptions> =
+    Options extends SchemaRef<infer R>
+      ? R extends readonly unknown[] ? R[number] : unknown
+      : Options extends readonly unknown[] ? Options[number] : never
+
+  /**
+   * Conditionally finds the return value for the EnumSet options
+   */
+  export type EnumSetReturnValue<Options extends AllowedEnumOptions> =
+    Options extends SchemaRef<infer R>
+      ? R extends readonly unknown[] ? R[number][] : unknown
+      : Options extends readonly unknown[] ? Options[number][] : never
+
+  /**
+   * Signature to define an enum type. We accept a static list of enum
+   * values or a ref that is resolved lazily.
    */
   export interface EnumType {
-    <Options extends any> (options: readonly Options[], rules?: Rule[]): {
-      t: Options,
+    <Options extends AllowedEnumOptions> (
+      options: Options,
+      rules?: Rule[],
+    ): {
+      t: EnumReturnValue<Options>,
       getTree (): SchemaLiteral
     },
-    optional<Options extends any> (options: readonly Options[], rules?: Rule[]): {
-      t?: Options,
+    optional<Options extends AllowedEnumOptions> (
+      options: Options,
+      rules?: Rule[],
+    ): {
+      t?: EnumReturnValue<Options>,
       getTree (): SchemaLiteral
     },
   }
@@ -313,12 +349,18 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define an enum set type
    */
   export interface EnumSetType {
-    <Options extends any> (options: readonly Options[], rules?: Rule[]): {
-      t: Options[],
+    <Options extends AllowedEnumOptions> (
+      options: Options,
+      rules?: Rule[],
+    ): {
+      t: EnumSetReturnValue<Options>,
       getTree (): SchemaLiteral
     },
-    optional<Options extends any> (options: readonly Options[], rules?: Rule[]): {
-      t?: Options[],
+    optional<Options extends AllowedEnumOptions> (
+      options: Options,
+      rules?: Rule[],
+    ): {
+      t?: EnumSetReturnValue<Options>,
       getTree (): SchemaLiteral
     },
   }
@@ -358,7 +400,8 @@ declare module '@ioc:Adonis/Core/Validator' {
     object: ObjectType,
     array: ArrayType,
     file: FileType,
-    create <T extends TypedSchema> (schema: T): ParsedTypedSchema<T>
+    refs: <T extends Object>(refs: T) => { [K in keyof T]: SchemaRef<T[K]> },
+    create <T extends TypedSchema> (schema: T): ParsedTypedSchema<T>,
   }
 
   /**
@@ -376,6 +419,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type ValidatorNode<T extends ParsedTypedSchema<TypedSchema>> = {
     schema: T,
     data: any,
+    refs?: { [key: string]: SchemaRef<unknown> },
     cacheKey?: string,
     messages?: { [key: string]: string },
     existsStrict?: boolean,

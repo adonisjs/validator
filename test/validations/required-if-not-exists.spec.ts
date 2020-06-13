@@ -53,6 +53,7 @@ test.group('Required If Not Exists', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -75,6 +76,7 @@ test.group('Required If Not Exists', () => {
         token: null,
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -96,6 +98,7 @@ test.group('Required If Not Exists', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -118,6 +121,7 @@ test.group('Required If Not Exists', () => {
         token: '10100110',
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -133,6 +137,7 @@ test.group('Required If Not Exists', () => {
       tip: {
       },
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

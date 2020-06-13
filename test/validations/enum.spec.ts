@@ -9,12 +9,13 @@
 
 import test from 'japa'
 import { rules } from '../../src/Rules'
+import { schema } from '../../src/Schema'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { oneOf } from '../../src/Validations/primitives/enum'
 
-function compile (choices: any[]) {
+function compile (choices: any) {
   return oneOf.compile('literal', 'enum', rules['enum'](choices).options)
 }
 
@@ -39,6 +40,7 @@ test.group('enum', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -60,6 +62,7 @@ test.group('enum', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -81,9 +84,59 @@ test.group('enum', () => {
       pointer: 'points',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('define options as a reference', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'points',
+      pointer: 'points',
+      tip: {},
+      root: {},
+      refs: schema.refs({
+        points: ['1', '2'],
+      }),
+      mutate: () => {},
+    }
+
+    const compiled = compile(validator.refs.points).compiledOptions!
+    oneOf.validate('1', compiled, validator)
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('re-use the same compiled schema with different refs', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'points',
+      pointer: 'points',
+      tip: {},
+      root: {},
+      refs: schema.refs({
+        points: ['1', '2'],
+      }),
+      mutate: () => {},
+    }
+
+    const compiled = compile(validator.refs.points).compiledOptions!
+    oneOf.validate('1', compiled, validator)
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+
+    validator.refs = schema.refs({ points: [] })
+    oneOf.validate('1', compiled, validator)
+    assert.deepEqual(reporter.toJSON(), { errors: [{
+      rule: 'enum',
+      field: 'points',
+      message: 'enum validation failed',
+      args: {
+        choices: [],
+      },
+    }] })
   })
 })

@@ -15,6 +15,7 @@ import {
   DateType,
   EnumType,
   FileType,
+  SchemaRef,
   ArrayType,
   StringType,
   ObjectType,
@@ -144,6 +145,20 @@ file.optional = function optionalFile (options: any, rules?: Rule[]) {
 }
 
 /**
+ * Define refs, which are resolved at runtime vs the compile time
+ */
+function refs<T extends Object> (schemaRefs: T): { [P in keyof T]: SchemaRef<T[P]> } {
+  return Object.keys(schemaRefs).reduce((result, key: string) => {
+    result[key] = {
+      __$isRef: true,
+      value: schemaRefs[key],
+      key: key,
+    }
+    return result
+  }, {} as { [P in keyof T]: SchemaRef<T[P]> })
+}
+
+/**
  * List of available schema methods. One can add custom types by
  * using the extend method
  */
@@ -157,6 +172,7 @@ export const schema: Schema = {
   enum: oneOf as unknown as EnumType,
   enumSet: enumSet as unknown as EnumSetType,
   file,
+  refs,
 
   /**
    * Create a new schema compiled schema tree

@@ -79,6 +79,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -99,6 +100,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`users.\${index_0}\`,
@@ -119,6 +121,7 @@ test.group('Array Compiler', () => {
             }
             const val_2_options = {
               root,
+              refs,
               field: 'username',
               tip: val_1,
               pointer: \`users.\${index_0}.username\`,
@@ -188,6 +191,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -208,6 +212,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`users.\${index_0}\`,
@@ -291,6 +296,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -369,6 +375,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -389,6 +396,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`users.\${index_0}\`,
@@ -409,6 +417,7 @@ test.group('Array Compiler', () => {
             }
             const val_2_options = {
               root,
+              refs,
               field: 'username',
               tip: val_1,
               pointer: \`users.\${index_0}.username\`,
@@ -491,6 +500,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -511,6 +521,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`users.\${index_0}\`,
@@ -531,6 +542,7 @@ test.group('Array Compiler', () => {
             }
             const val_2_options = {
               root,
+              refs,
               field: 'username',
               tip: val_1,
               pointer: \`users.\${index_0}.username\`,
@@ -611,6 +623,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'geolocation',
         tip: root,
         pointer: 'geolocation',
@@ -631,6 +644,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`geolocation.\${index_0}\`,
@@ -652,6 +666,7 @@ test.group('Array Compiler', () => {
               }
               const val_2_options = {
                 root,
+                refs,
                 field: index_1,
                 tip: val_1,
                 pointer: \`geolocation.\${index_0}\.\${index_1}\`,
@@ -746,6 +761,7 @@ test.group('Array Compiler', () => {
       }
       const val_0_options = {
         root,
+        refs,
         field: 'users',
         tip: root,
         pointer: 'users',
@@ -766,6 +782,7 @@ test.group('Array Compiler', () => {
           }
           const val_1_options = {
             root,
+            refs,
             field: index_0,
             tip: val_0,
             pointer: \`users.\${index_0}\`,
@@ -786,6 +803,7 @@ test.group('Array Compiler', () => {
             }
             const val_2_options = {
               root,
+              refs,
               field: 'scores',
               tip: val_1,
               pointer: \`users.\${index_0}.scores\`,
@@ -807,6 +825,7 @@ test.group('Array Compiler', () => {
                 }
                 const val_3_options = {
                   root,
+                  refs,
                   field: index_1,
                   tip: val_2,
                   pointer: \`users.\${index_0}\.scores.\${index_1}\`,

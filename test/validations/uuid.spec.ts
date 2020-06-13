@@ -35,6 +35,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -49,6 +50,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -69,6 +71,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -83,6 +86,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -103,6 +107,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -117,6 +122,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 
@@ -131,6 +137,7 @@ test.group('UUID', () => {
       pointer: 'uuid',
       tip: {},
       root: {},
+      refs: {},
       mutate: () => {},
     })
 

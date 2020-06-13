@@ -122,6 +122,20 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
+   * Shape of custom messages accepted the validator
+   */
+  export type CustomMessages = {
+    '*'?: ((
+      field: string,
+      rule: string,
+      arrayExpressionPointer?: string,
+      args?: any,
+    ) => string)
+  } | {
+    [key: string]: string
+  }
+
+  /**
    * Returns the most appropriate message for the current
    * validation error.
    */
@@ -412,7 +426,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     data: any,
     refs?: { [key: string]: SchemaRef<unknown> },
     cacheKey?: string,
-    messages?: { [key: string]: string },
+    messages?: CustomMessages,
     existsStrict?: boolean,
     reporter?: ErrorReporterConstructorContract,
     bail?: boolean,

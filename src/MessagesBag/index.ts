@@ -8,14 +8,18 @@
 */
 
 import { pope } from 'pope'
-import { MessagesBagContract } from '@ioc:Adonis/Core/Validator'
+import { MessagesBagContract, CustomMessages } from '@ioc:Adonis/Core/Validator'
 
 /**
  * Message bag exposes the API to pull the most appropriate message for a
  * given validation failure.
  */
 export class MessagesBag implements MessagesBagContract {
-  constructor (private messages: { [key: string]: string }) {}
+  private wildCardCallback = typeof (this.messages['*']) === 'function'
+    ? this.messages['*']
+    : undefined
+
+  constructor (private messages: CustomMessages) {}
 
   /**
    * Transform message by replace placeholders with runtime values
@@ -63,8 +67,13 @@ export class MessagesBag implements MessagesBagContract {
     }
 
     /**
-     * Transform and return message
+     * Transform and return message. The wildcard callback is invoked when custom message
+     * is not defined
      */
-    return validationMessage ? this.transform(validationMessage, rule, pointer, args) : message
+    return validationMessage
+      ? this.transform(validationMessage, rule, pointer, args)
+      : (this.wildCardCallback
+        ? this.wildCardCallback(pointer, rule, arrayExpressionPointer, args)
+        : message)
   }
 }

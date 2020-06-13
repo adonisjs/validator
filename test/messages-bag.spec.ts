@@ -91,4 +91,28 @@ test.group('Message Bag', () => {
       'username is required when foo = bar',
     )
   })
+
+  test('invoke wildcard callback when no messages are defined', (assert) => {
+    const messages = new MessagesBag({
+      '*': () => 'Validation failed',
+    })
+
+    assert.equal(
+      messages.get('username', 'required', 'required validation field', 'users.*.username'),
+      'Validation failed',
+    )
+  })
+
+  test('do not invoke wildcard callback when message for the pointer is defined', (assert) => {
+    const messages = new MessagesBag({
+      '*': () => 'Validation failed',
+      'username.required': 'username is required',
+    })
+
+    assert.equal(
+      messages.get('username', 'required', 'required validation field', 'users.*.username'),
+      'username is required',
+    )
+  })
 })
+

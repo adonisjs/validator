@@ -531,9 +531,9 @@ declare module '@ioc:Adonis/Core/Validator' {
      */
     regex (regexPattern: RegExp): Rule
     email (options?: EmailRuleOptions): Rule
-    ip (options?: { version?: '4' | '6' }): Rule
+    ip (options?: { version?: '4' | 4 | 6 | '6' }): Rule
     uuid (options?: { version?: UUIDVersion }): Rule
-    mobile (optioms?: { strict?: boolean, locale?: validatorJs.MobilePhoneLocale[] }): Rule
+    mobile (options?: { strict?: boolean, locales?: validatorJs.MobilePhoneLocale[] }): Rule
 
     /**
      * String or array must have defined maximum length

@@ -18,11 +18,16 @@ const DEFAULT_MESSAGE = 'ip validation failed'
  * Validation signature for the "ip" regex. Non-string values are
  * ignored.
  */
-export const ip: SyncValidation<{ version?: '4' | '6' }> = {
+export const ip: SyncValidation<{ version?: 4 | 6 }> = {
   compile: wrapCompile(RULE_NAME, ['string'], ([ options ]) => {
+    let version = options && options.version
+    if (version && typeof (version) === 'string') {
+      version = Number(version)
+    }
+
     return {
       compiledOptions: {
-        version: options && options.version,
+        version: version,
       },
     }
   }),

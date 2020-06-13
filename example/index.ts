@@ -1,4 +1,4 @@
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { schema, validator } from '@ioc:Adonis/Core/Validator'
 
 enum Statuses {
   ACTIVE = 'ACTIVE',
@@ -32,3 +32,11 @@ export class Foo {
     status: schema.enumSet(this.refs.statuses),
   })
 }
+
+// validator.rule('phone', (value, options) => {
+//   options
+// }).acceptOptions((options) => {
+//   return {
+//     isUndefined: true,
+//   }
+// })

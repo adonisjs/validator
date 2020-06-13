@@ -31,9 +31,9 @@ test.group('Max Length', () => {
     assert.throw(fn, 'The limit value for "maxLength" must be defined as a number')
   })
 
-  test('do not compile node subtype is not array or string', (assert) => {
+  test('do not compile when node subtype is not an array or string', (assert) => {
     const fn = () => maxLength.compile('literal', 'object', [])
-    assert.throw(fn, 'Cannot use "maxLength" rule on "object" data type')
+    assert.throw(fn, 'maxLength: Rule can only be used with "schema.<string,array>" type(s)')
   })
 
   test('compile with options', (assert) => {

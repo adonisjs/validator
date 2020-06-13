@@ -9,7 +9,7 @@
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'file validation failed'
 const RULE_NAME = 'file'
@@ -18,17 +18,11 @@ const RULE_NAME = 'file'
  * Ensure the value is a valid file instance
  */
 export const file: SyncValidation<Partial<FileValidationOptions>> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [options] = args
-
+  compile: wrapCompile(RULE_NAME, [], ([ options ]) => {
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: options ? { size: options.size, extnames: options.extnames } : {},
     }
-  },
+  }),
   validate (
     fileToValidate: MultipartFileContract,
     compiledOptions,

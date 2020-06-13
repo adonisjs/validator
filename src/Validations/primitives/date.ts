@@ -8,14 +8,11 @@
 */
 
 import { DateTime } from 'luxon'
-import { ensureValidArgs } from '../../Validator/helpers'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
-const RULE_NAME = 'date'
+import { wrapCompile } from '../../Validator/helpers'
 
-/**
- * Validation messages
- */
+const RULE_NAME = 'date'
 const DEFAULT_MESSAGE = 'date validation failed'
 const CANNOT_BE_VALIDATED = 'cannot validate data instance against a date format'
 
@@ -33,17 +30,11 @@ const PREDEFINED_FORMATS = {
  * Ensure the value is a valid date instance
  */
 export const date: SyncValidation<{ format?: string }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [options] = args
-
+  compile: wrapCompile(RULE_NAME, [], ([ options ]) => {
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: { format: options && options.format },
     }
-  },
+  }),
   validate (value, compiledOptions, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
     let dateTime: DateTime | undefined
 

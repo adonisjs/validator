@@ -11,7 +11,7 @@ import isEmail from 'validator/lib/isEmail'
 import normalizeEmail from 'validator/lib/normalizeEmail'
 import { SyncValidation, EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
 
-import { isObject, ensureValidArgs } from '../../Validator/helpers'
+import { isObject, wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'email'
 const DEFAULT_MESSAGE = 'email validation failed'
@@ -31,12 +31,7 @@ type CompiledOptions = Parameters<typeof isEmail>[1] & {
  * ignored.
  */
 export const email: SyncValidation<CompiledOptions> = {
-  compile (_, subtype, args) {
-    if (subtype !== 'string') {
-      throw new Error(`Cannot use email rule on "${subtype}" data type.`)
-    }
-
-    ensureValidArgs(RULE_NAME, args)
+  compile: wrapCompile(RULE_NAME, ['string'], (args) => {
     const options = Object.assign({
       domainSpecificValidation: false,
       allowIpDomain: false,
@@ -57,9 +52,6 @@ export const email: SyncValidation<CompiledOptions> = {
     }
 
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: {
         domain_specific_validation: options.domainSpecificValidation,
         allow_ip_domain: options.allowIpDomain,
@@ -67,7 +59,7 @@ export const email: SyncValidation<CompiledOptions> = {
         sanitize: sanitizationOptions,
       },
     }
-  },
+  }),
   validate (value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, mutate }) {
     /**
      * Ignore non-string values. The user must apply string rule

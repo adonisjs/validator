@@ -9,7 +9,7 @@
 
 import escape from 'validator/lib/escape'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'string validation failed'
 const RULE_NAME = 'string'
@@ -19,20 +19,14 @@ const RULE_NAME = 'string'
  * @type {SyncValidation}
  */
 export const string: SyncValidation<{ escape: boolean, trim: boolean }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [options] = args
-
+  compile: wrapCompile(RULE_NAME, [], ([ options ]) => {
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: {
         escape: !!(options && options.escape),
         trim: options && options.trim === false ? false : true,
       },
     }
-  },
+  }),
   validate (value, compiledOptions, { pointer, errorReporter, arrayExpressionPointer, mutate }) {
     if (typeof (value) !== 'string') {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)

@@ -219,7 +219,7 @@ test.group('Validator | addType', () => {
             name: 'required',
             async: false,
             allowUndefineds: true,
-            compiledOptions: undefined,
+            compiledOptions: [],
           },
           {
             name: 'unicorn',

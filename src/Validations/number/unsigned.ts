@@ -8,23 +8,13 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
+import { wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'unsigned'
 const DEFAULT_MESSAGE = 'unsigned validation failed'
 
 export const unsigned: SyncValidation = {
-  compile (_, subtype) {
-    if (subtype !== 'number') {
-      throw new Error(`Cannot use ${RULE_NAME} rule on "${subtype}" data type.`)
-    }
-
-    return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: undefined,
-    }
-  },
+  compile: wrapCompile(RULE_NAME, ['number']),
   validate (value, _, { errorReporter, arrayExpressionPointer, pointer }) {
     if (typeof (value) !== 'number') {
       return

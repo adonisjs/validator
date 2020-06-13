@@ -8,6 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'number validation failed'
 const RULE_NAME = 'number'
@@ -17,14 +18,7 @@ const RULE_NAME = 'number'
  * to valid numbers
  */
 export const number: SyncValidation = {
-  compile () {
-    return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: undefined,
-    }
-  },
+  compile: wrapCompile(RULE_NAME),
   validate (value, _, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
     if (typeof (value) === 'number') {
       return

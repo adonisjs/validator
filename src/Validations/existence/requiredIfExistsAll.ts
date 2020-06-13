@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue, ensureValidArgs } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'requiredIfExistsAll'
 const DEFAULT_MESSAGE = 'requiredIfExistsAll validation failed'
@@ -18,31 +18,22 @@ const DEFAULT_MESSAGE = 'requiredIfExistsAll validation failed'
  * fails the validation
  */
 export const requiredIfExistsAll: SyncValidation<{ fields: string[] }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [fields] = args
-
-    /**
-     * Ensure "fields" are defined
-     */
+  compile: wrapCompile(RULE_NAME, [], ([ fields ]) => {
     if (!fields) {
       throw new Error(`${RULE_NAME}: expects an array of "fields"`)
     }
 
-    /**
-     * Ensure "fields" is an array
-     */
     if (!Array.isArray(fields)) {
       throw new Error(`${RULE_NAME}: expects "fields" to be an array`)
     }
 
     return {
       allowUndefineds: true,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: { fields },
+      compiledOptions: {
+        fields,
+      },
     }
-  },
+  }),
   validate (
     value,
     compiledOptions,

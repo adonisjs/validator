@@ -16,7 +16,7 @@ import * as validations from '../Validations'
  */
 export function getRuleFn (name: string) {
   return function ruleFn (...args: any): Rule {
-    return { name, options: args }
+    return { name, options: args[0] === undefined ? []: args }
   }
 }
 

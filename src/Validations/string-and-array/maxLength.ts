@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'maxLength'
 const DEFAULT_MESSAGE = 'maxLength validation failed'
@@ -18,25 +18,17 @@ const DEFAULT_MESSAGE = 'maxLength validation failed'
  * defined length
  */
 export const maxLength: SyncValidation<{ maxLength: number }> = {
-  compile (_, subtype, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [limit] = args
-
-    if (!['string', 'array'].includes(subtype)) {
-      throw new Error(`Cannot use "${RULE_NAME}" rule on "${subtype}" data type`)
-    }
-
+  compile: wrapCompile(RULE_NAME, ['string', 'array'], ([ limit ]) => {
     if (typeof (limit) !== 'number') {
       throw new Error(`The limit value for "${RULE_NAME}" must be defined as a number`)
     }
 
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: { maxLength: limit },
+      compiledOptions: {
+        maxLength: limit,
+      },
     }
-  },
+  }),
   validate (value, compiledOptions, { errorReporter, pointer, arrayExpressionPointer }) {
     if (typeof (value) !== 'string' && !Array.isArray(value)) {
       return

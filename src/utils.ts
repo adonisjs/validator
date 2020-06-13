@@ -80,8 +80,8 @@ export function getObjectType (
       return {
         type: 'object' as const,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [{ name: 'required', options: {} }])
-          .concat(hasSubTypeRule ? [] : [{ name: 'object', options: {} }])
+          .concat(isOptional ? [] : [{ name: 'required', options: [] }])
+          .concat(hasSubTypeRule ? [] : [{ name: 'object', options: [] }])
           .concat(rules)
           .map((rule) => compileRule('object', 'object', rule)),
         children: children,
@@ -105,8 +105,8 @@ export function getArrayType (
       return {
         type: 'array' as const,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [{ name: 'required', options: {} }])
-          .concat(hasSubTypeRule ? [] : [{ name: 'array', options: {} }])
+          .concat(isOptional ? [] : [{ name: 'required', options: [] }])
+          .concat(hasSubTypeRule ? [] : [{ name: 'array', options: [] }])
           .concat(rules)
           .map((rule) => compileRule('array', 'array', rule)),
         ...(each ? { each } : {}),

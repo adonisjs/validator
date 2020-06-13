@@ -93,6 +93,9 @@ declare module '@ioc:Adonis/Core/Validator' {
     mutate: ((newValue: any) => void),
   }
 
+  export type NodeType = 'array' | 'object' | 'literal'
+  export type NodeSubType = Exclude<keyof Schema, 'create' | 'refs'>
+
   /**
    * Compiler internal representation of a field to produce
    * the compiled output
@@ -105,29 +108,17 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Shape of an async validation function
    */
-  export type AsyncValidation<T extends any = undefined> = {
-    compile (type: 'array' | 'object' | 'literal', subtype: string, options?: any): ParsedRule<T>
-    validate (
-      value: any,
-      compiledOptions: any,
-      runtimeOptions: ValidationRuntimeOptions,
-    ): Promise<void>
+  export type AsyncValidation<T extends any = unknown> = {
+    compile (type: NodeType, subtype: NodeSubType, options?: any): ParsedRule<T>
+    validate (value: any, compiledOptions: T, runtimeOptions: ValidationRuntimeOptions): Promise<void>
   }
 
   /**
    * Shape of an sync validation function
    */
-  export type SyncValidation<T extends any = undefined> = {
-    compile (
-      type: 'array' | 'object' | 'literal',
-      subtype: string,
-      options?: any,
-    ): ParsedRule<T>
-    validate (
-      value: any,
-      compiledOptions: T,
-      runtimeOptions: ValidationRuntimeOptions,
-    ): void
+  export type SyncValidation<T extends any = unknown> = {
+    compile (type: NodeType, subtype: NodeSubType, options?: any): ParsedRule<T>
+    validate (value: any, compiledOptions: T, runtimeOptions: ValidationRuntimeOptions): void
   }
 
   /**
@@ -581,6 +572,16 @@ declare module '@ioc:Adonis/Core/Validator' {
      * Add a new validation rule
      */
     addRule (name: string, ruleDefinition: ValidationContract<any>): void
+
+    /**
+     * Add a new validation rule
+     */
+    rule<Options extends any> (
+      name: string,
+      validateFn: SyncValidation<Options>['validate'],
+      compileFn?: (options: any[], type: NodeType, subtype: NodeSubType) => Partial<ParsedRule<Options>>,
+      restrictForTypes?: NodeSubType[],
+    ): void
 
     /**
      * Type definition is set to any, since one can pass in a function or

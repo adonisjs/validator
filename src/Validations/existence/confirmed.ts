@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'confirmed'
 const DEFAULT_MESSAGE = 'confirmed validation failed'
@@ -18,14 +18,7 @@ const DEFAULT_MESSAGE = 'confirmed validation failed'
  * Useful for password confirmation.
  */
 export const confirmed: SyncValidation = {
-  compile () {
-    return {
-      allowUndefineds: true,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: undefined,
-    }
-  },
+  compile: wrapCompile(RULE_NAME),
   validate (value, _, { errorReporter, field, pointer, arrayExpressionPointer, root, tip }) {
     if (!exists(value)) {
       return

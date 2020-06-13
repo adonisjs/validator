@@ -8,6 +8,7 @@
 */
 
 import { lodash } from '@poppinss/utils'
+import { NodeSubType, NodeType, ParsedRule } from '@ioc:Adonis/Core/Validator'
 
 /**
  * Ensure value is not `undefined`
@@ -47,10 +48,63 @@ export function getFieldValue (field: string, root: any, tip: any) {
 export function ensureValidArgs (ruleName: string, args: any): asserts args is any[] {
   /**
    * The compile method must receive an array of spread arguments. If not
-   * it means the end has not used `Rules.<rule>` in order to use the
-   * validation rule
+   * it means the user has not used `Rules.<rule>` in order to use the
+   * validation rule, since `Rules.<rule>` always passes an array of
+   * options.
    */
   if (!Array.isArray(args)) {
     throw new Error(`${ruleName}: The 3rd argument must be a combined array of arguments`)
+  }
+}
+
+/**
+ * Wraps the custom compile function to DRY the repetitive code inside every
+ * validation rule.
+ *
+ * - It ensures that options received by the compile methods is a valid array.
+ * - Validates for the restricted subtypes (if defined)
+ * - Prepares a default set of parsedRules properties.
+ * - Invokes the callback (if defined).
+ */
+export function wrapCompile<T extends any> (
+  name: string,
+  restrictForTypes?: NodeSubType[],
+  customCallback?: (
+    options: any[],
+    type: NodeType,
+    subtype: NodeSubType,
+  ) => Partial<ParsedRule<T>>,
+) {
+  return function (type: NodeType, subtype: NodeSubType, options: T): ParsedRule<T> {
+    /**
+     * Ensure options are defined as an array
+     */
+    ensureValidArgs(name, options)
+
+    /**
+     * Restrict sub-types when defined
+     */
+    if (restrictForTypes && restrictForTypes.length && !restrictForTypes.includes(subtype)) {
+      throw new Error(`${name}: Rule can only be used with "schema.<${restrictForTypes.join(',')}>" type(s)`)
+    }
+
+    /**
+     * Default options
+     */
+    const defaultOptions: ParsedRule<T> = {
+      name: name,
+      allowUndefineds: false,
+      async: false,
+      compiledOptions: options,
+    }
+
+    /**
+     * Invoke user defined callback and merge return value with defaults
+     */
+    if (typeof (customCallback) === 'function') {
+      Object.assign(defaultOptions, customCallback(options, type, subtype))
+    }
+
+    return defaultOptions
   }
 }

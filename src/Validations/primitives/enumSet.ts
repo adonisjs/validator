@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'enumSet validation failed'
 const RULE_NAME = 'enumSet'
@@ -24,13 +24,7 @@ function ensureChoicesAreArray (choices: unknown): asserts choices is any[] {
  * Ensure the input array is a subset of defined choices
  */
 export const enumSet: SyncValidation<{ choices: any[] | { key: string } }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-
-    /**
-     * The first argument is an array of choices
-     */
-    let [choices] = args
+  compile: wrapCompile(RULE_NAME, [], ([ choices ]) => {
     if (!choices || (!Array.isArray(choices) && !choices.__$isRef)) {
       throw new Error(
         `The "${RULE_NAME}" rule expects an array of choices or a value reference`,
@@ -44,12 +38,11 @@ export const enumSet: SyncValidation<{ choices: any[] | { key: string } }> = {
     }
 
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: { choices },
+      compiledOptions: {
+        choices,
+      },
     }
-  },
+  }),
   validate (value, compiledOptions, { errorReporter, pointer, refs, arrayExpressionPointer }) {
     if (!Array.isArray(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, compiledOptions)
@@ -58,8 +51,9 @@ export const enumSet: SyncValidation<{ choices: any[] | { key: string } }> = {
 
     let choices = compiledOptions.choices
     if (!Array.isArray(choices)) {
-      choices = refs[choices.key]
-      ensureChoicesAreArray(choices)
+      const runtimeChoices = refs[choices.key].value
+      ensureChoicesAreArray(runtimeChoices)
+      choices = runtimeChoices
     }
 
     if (!value.every((one) => (choices as any[]).includes(one))) {

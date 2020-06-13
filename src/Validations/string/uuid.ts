@@ -9,7 +9,7 @@
 
 import isUUID, { UUIDVersion } from 'validator/lib/isUUID'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'uuid validation failed'
 const RULE_NAME = 'uuid'
@@ -19,23 +19,13 @@ const RULE_NAME = 'uuid'
  * ignored.
  */
 export const uuid: SyncValidation<{ version?: UUIDVersion }> = {
-  compile (_, subtype, args) {
-    if (subtype !== 'string') {
-      throw new Error(`Cannot use ${RULE_NAME} rule on "${subtype}" data type.`)
-    }
-
-    ensureValidArgs(RULE_NAME, args)
-    const options = args[0]
-
+  compile: wrapCompile(RULE_NAME, ['string'], ([ options ]) => {
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: {
         version: options && options.version ? options.version : 4,
       },
     }
-  },
+  }),
   validate (value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
     /**
      * Ignor non-string values. The user must apply string rule

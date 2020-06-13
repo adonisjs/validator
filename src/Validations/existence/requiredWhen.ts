@@ -8,23 +8,23 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue, ensureValidArgs } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
 
-const DEFAULT_MESSAGE = 'requiredWhen validation failed'
 const RULE_NAME = 'requiredWhen'
+const DEFAULT_MESSAGE = 'requiredWhen validation failed'
 
 /**
  * Available operators
  */
 const OPERATORS = {
   'in': {
-    compile (comparisonValues) {
+    compile (comparisonValues: any) {
       if (!Array.isArray(comparisonValues)) {
         throw new Error(`${RULE_NAME}: "in" operator expects an array of "comparisonValues"`)
       }
     },
 
-    validate: (value: any, comparisonValues: any[]) => {
+    passes: (value: any, comparisonValues: any[]) => {
       return comparisonValues.includes(value)
     },
   },
@@ -36,19 +36,19 @@ const OPERATORS = {
       }
     },
 
-    validate: (value: any, comparisonValues: any[]) => {
+    passes: (value: any, comparisonValues: any[]) => {
       return !comparisonValues.includes(value)
     },
   },
 
   '=': {
-    validate: (value: any, comparisonValue: any) => {
+    passes: (value: any, comparisonValue: any) => {
       return value === comparisonValue
     },
   },
 
   '!=': {
-    validate: (value: any, comparisonValue: any) => {
+    passes: (value: any, comparisonValue: any) => {
       return value !== comparisonValue
     },
   },
@@ -60,7 +60,7 @@ const OPERATORS = {
       }
     },
 
-    validate: (value: number, comparisonValue: number) => {
+    passes: (value: number, comparisonValue: number) => {
       return value > comparisonValue
     },
   },
@@ -72,7 +72,7 @@ const OPERATORS = {
       }
     },
 
-    validate: (value: number, comparisonValue: number) => {
+    passes: (value: number, comparisonValue: number) => {
       return value < comparisonValue
     },
   },
@@ -84,7 +84,7 @@ const OPERATORS = {
       }
     },
 
-    validate: (value: number, comparisonValue: number) => {
+    passes: (value: number, comparisonValue: number) => {
       return value >= comparisonValue
     },
   },
@@ -96,7 +96,7 @@ const OPERATORS = {
       }
     },
 
-    validate: (value: number, comparisonValue: number) => {
+    passes: (value: number, comparisonValue: number) => {
       return value <= comparisonValue
     },
   },
@@ -111,10 +111,7 @@ export const requiredWhen: SyncValidation<{
   field: string,
   comparisonValues: any | any[],
 }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [field, operator, comparisonValues] = args
-
+  compile: wrapCompile(RULE_NAME, [], ([ field, operator, comparisonValues ]) => {
     /**
      * Ensure "field", "operator" and "comparisonValues" are defined
      */
@@ -139,24 +136,21 @@ export const requiredWhen: SyncValidation<{
 
     return {
       allowUndefineds: true,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: {
         operator,
         field,
         comparisonValues,
       },
     }
-  },
+  }),
   validate (
     value,
-    compiledOptions,
+    { operator, field, comparisonValues },
     { errorReporter, pointer, arrayExpressionPointer, root, tip },
   ) {
-    const otherFieldValue = getFieldValue(compiledOptions.field, root, tip)
-    const shouldBeRequired = OPERATORS[compiledOptions.operator].validate(
-      otherFieldValue,
-      compiledOptions.comparisonValues,
+    const shouldBeRequired = OPERATORS[operator].passes(
+      getFieldValue(field, root, tip),
+      comparisonValues,
     )
 
     if (shouldBeRequired && !exists(value)) {

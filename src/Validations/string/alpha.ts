@@ -8,6 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
+import { wrapCompile } from '../../Validator/helpers'
 
 const DEFAULT_MESSAGE = 'alpha validation failed'
 const RULE_NAME = 'alpha'
@@ -17,18 +18,7 @@ const RULE_NAME = 'alpha'
  * ignored.
  */
 export const alpha: SyncValidation = {
-  compile (_, subtype) {
-    if (subtype !== 'string') {
-      throw new Error(`Cannot use alpha rule on "${subtype}" data type.`)
-    }
-
-    return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: undefined,
-    }
-  },
+  compile: wrapCompile(RULE_NAME, ['string']),
   validate (value, _, { errorReporter, arrayExpressionPointer, pointer }) {
     /**
      * Ignore non-string values. The user must apply string rule

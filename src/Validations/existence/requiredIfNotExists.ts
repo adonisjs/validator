@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue, ensureValidArgs } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'requiredIfNotExists'
 const DEFAULT_MESSAGE = 'requiredIfNotExists validation failed'
@@ -18,24 +18,18 @@ const DEFAULT_MESSAGE = 'requiredIfNotExists validation failed'
  * fails the validation
  */
 export const requiredIfNotExists: SyncValidation<{ field: string }> = {
-  compile (_, __, args) {
-    ensureValidArgs(RULE_NAME, args)
-    const [field] = args
-
-    /**
-     * Ensure "field" is defined
-     */
+  compile: wrapCompile(RULE_NAME, [], ([ field ]) => {
     if (!field) {
       throw new Error(`${RULE_NAME}: expects a "field"`)
     }
 
     return {
       allowUndefineds: true,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: { field },
+      compiledOptions: {
+        field,
+      },
     }
-  },
+  }),
   validate (
     value,
     compiledOptions,

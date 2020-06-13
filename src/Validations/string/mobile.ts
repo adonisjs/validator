@@ -11,7 +11,7 @@ import validator from 'validator'
 import isMobilePhone from 'validator/lib/isMobilePhone'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
-import { ensureValidArgs } from '../../Validator/helpers'
+import { wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'mobile'
 const DEFAULT_MESSAGE = 'mobile validation failed'
@@ -21,24 +21,15 @@ const DEFAULT_MESSAGE = 'mobile validation failed'
  * ignored.
  */
 export const mobile: SyncValidation<{ strict: boolean, locale?: validator.MobilePhoneLocale[] }> = {
-  compile (_, subtype, args) {
-    if (subtype !== 'string') {
-      throw new Error(`Cannot use mobile rule on "${subtype}" data type.`)
-    }
-
-    ensureValidArgs(RULE_NAME, args)
-    const options = Object.assign({}, args[0])
-
+  compile: wrapCompile(RULE_NAME, ['string'], ([ options ]) => {
+    options = Object.assign({}, options)
     return {
-      allowUndefineds: false,
-      async: false,
-      name: RULE_NAME,
       compiledOptions: {
         strict: options.strict || false,
         locale: options.locale,
       },
     }
-  },
+  }),
   validate (value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
     /**
      * Ignore non-string values. The user must apply string rule

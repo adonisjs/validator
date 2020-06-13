@@ -33,7 +33,7 @@ test.group('Min Length', () => {
 
   test('do not compile node subtype is not array or string', (assert) => {
     const fn = () => minLength.compile('literal', 'object', [])
-    assert.throw(fn, 'Cannot use "minLength" rule on "object" data type')
+    assert.throw(fn, 'minLength: Rule can only be used with "schema.<string,array>" type(s)')
   })
 
   test('compile with options', (assert) => {

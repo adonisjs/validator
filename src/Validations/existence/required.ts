@@ -8,7 +8,7 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists } from '../../Validator/helpers'
+import { exists, wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'required'
 const DEFAULT_MESSAGE = 'required validation failed'
@@ -18,14 +18,11 @@ const DEFAULT_MESSAGE = 'required validation failed'
  * fails the validation
  */
 export const required: SyncValidation = {
-  compile () {
+  compile: wrapCompile(RULE_NAME, [], () => {
     return {
       allowUndefineds: true,
-      async: false,
-      name: RULE_NAME,
-      compiledOptions: undefined,
     }
-  },
+  }),
   validate (value, _, { errorReporter, pointer, arrayExpressionPointer }) {
     if (!exists(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)

@@ -40,20 +40,20 @@ string.optional = function optionalString (options?: { escape?: boolean, trim?: 
  * Boolean schema type
  */
 function boolean (rules?: Rule[]) {
-  return getLiteralType('boolean', false, {}, rules || []) as ReturnType<BooleanType>
+  return getLiteralType('boolean', false, undefined, rules || []) as ReturnType<BooleanType>
 }
 boolean.optional = function optionalBoolean (rules?: Rule[]) {
-  return getLiteralType('boolean', true, {}, rules || []) as ReturnType<BooleanType['optional']>
+  return getLiteralType('boolean', true, undefined, rules || []) as ReturnType<BooleanType['optional']>
 }
 
 /**
  * Number schema type
  */
 function number (rules?: Rule[]) {
-  return getLiteralType('number', false, {}, rules || []) as ReturnType<NumberType>
+  return getLiteralType('number', false, undefined, rules || []) as ReturnType<NumberType>
 }
 number.optional = function optionalNumber (rules?: Rule[]) {
-  return getLiteralType('number', true, {}, rules || []) as ReturnType<NumberType['optional']>
+  return getLiteralType('number', true, undefined, rules || []) as ReturnType<NumberType['optional']>
 }
 
 /**

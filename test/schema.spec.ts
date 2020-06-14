@@ -681,7 +681,7 @@ test.group('Schema | Array', () => {
           },
           {
             name: 'maxLength',
-            compiledOptions: { maxLength: 2 },
+            compiledOptions: { maxLength: 2, subtype: 'array' },
             allowUndefineds: false,
             async: false,
           },

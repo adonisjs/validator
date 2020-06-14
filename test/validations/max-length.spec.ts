@@ -8,18 +8,20 @@
 */
 
 import test from 'japa'
+import { NodeSubType } from '@ioc:Adonis/Core/Validator'
+
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { maxLength } from '../../src/Validations/string-and-array/maxLength'
 
-function compile (length: number) {
-  return maxLength.compile('literal', 'string', rules.maxLength(length).options)
+function compile (subtype: NodeSubType, length: number) {
+  return maxLength.compile('literal', subtype, rules.maxLength(length).options)
 }
 
 test.group('Max Length', () => {
-  validate(maxLength, test, 'helloworld', 'hello', compile(6))
+  validate(maxLength, test, 'helloworld', 'hello', compile('string', 6))
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => maxLength.compile('literal', 'array')
@@ -41,13 +43,13 @@ test.group('Max Length', () => {
       name: 'maxLength',
       allowUndefineds: false,
       async: false,
-      compiledOptions: { maxLength: 10 },
+      compiledOptions: { maxLength: 10, subtype: 'array' },
     })
   })
 
   test('skip when value is not an array or string', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    maxLength.validate({}, { maxLength: 10 }, {
+    maxLength.validate({}, { maxLength: 10, subtype: 'string' }, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -62,7 +64,7 @@ test.group('Max Length', () => {
 
   test('raise error when string length is over the maxLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    maxLength.validate('hello-world', compile(10).compiledOptions!, {
+    maxLength.validate('hello-world', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -84,7 +86,7 @@ test.group('Max Length', () => {
 
   test('raise error when array length is over the maxLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    maxLength.validate(['hello', 'world'], compile(1).compiledOptions!, {
+    maxLength.validate(['hello', 'world'], compile('array', 1).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -106,7 +108,7 @@ test.group('Max Length', () => {
 
   test('work fine when string length is under or equals maxLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    maxLength.validate('helloworld', compile(10).compiledOptions!, {
+    maxLength.validate('helloworld', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -121,7 +123,7 @@ test.group('Max Length', () => {
 
   test('work fine when array length is under or equals maxLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    maxLength.validate(['hello'], compile(1).compiledOptions!, {
+    maxLength.validate(['hello'], compile('array', 1).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',

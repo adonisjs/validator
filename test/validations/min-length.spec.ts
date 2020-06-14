@@ -8,18 +8,20 @@
 */
 
 import test from 'japa'
+import { NodeSubType } from '@ioc:Adonis/Core/Validator'
+
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { minLength } from '../../src/Validations/string-and-array/minLength'
 
-function compile (length: number) {
-  return minLength.compile('literal', 'string', rules.minLength(length).options)
+function compile (subtype: NodeSubType, length: number) {
+  return minLength.compile('literal', subtype, rules.minLength(length).options)
 }
 
 test.group('Min Length', () => {
-  validate(minLength, test, 'hello', 'helloworld', compile(6))
+  validate(minLength, test, 'hello', 'helloworld', compile('string', 6))
 
   test('do not compile when args are not defined', (assert) => {
     const fn = () => minLength.compile('literal', 'array')
@@ -41,13 +43,13 @@ test.group('Min Length', () => {
       name: 'minLength',
       allowUndefineds: false,
       async: false,
-      compiledOptions: { minLength: 10 },
+      compiledOptions: { minLength: 10, subtype: 'array' },
     })
   })
 
   test('skip when value is not an array or string', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    minLength.validate({}, { minLength: 10 }, {
+    minLength.validate({}, { minLength: 10, subtype: 'array' }, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -62,7 +64,7 @@ test.group('Min Length', () => {
 
   test('raise error when string length is under the minLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    minLength.validate('hello', compile(10).compiledOptions!, {
+    minLength.validate('hello', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -84,7 +86,7 @@ test.group('Min Length', () => {
 
   test('raise error when array length is under the minLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    minLength.validate(['hello', 'world'], compile(3).compiledOptions!, {
+    minLength.validate(['hello', 'world'], compile('array', 3).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -106,7 +108,7 @@ test.group('Min Length', () => {
 
   test('work fine when string length is above or equals minLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    minLength.validate('helloworld', compile(10).compiledOptions!, {
+    minLength.validate('helloworld', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',
@@ -121,7 +123,7 @@ test.group('Min Length', () => {
 
   test('work fine when array length is above or equals minLength', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    minLength.validate(['hello'], compile(1).compiledOptions!, {
+    minLength.validate(['hello'], compile('array', 1).compiledOptions!, {
       errorReporter: reporter,
       field: 'username',
       pointer: 'username',

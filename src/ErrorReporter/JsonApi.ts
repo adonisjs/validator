@@ -7,17 +7,13 @@
  * file that was distributed with this source code.
 */
 
-import { ErrorReporterContract, MessagesBagContract } from '@ioc:Adonis/Core/Validator'
-import { ValidationException } from '../ValidationException'
+import {
+  JsonApiErrorNode,
+  MessagesBagContract,
+  ErrorReporterContract,
+} from '@ioc:Adonis/Core/Validator'
 
-type JsonApiErrorNode = {
-  source: {
-    pointer: string,
-  }
-  code: string,
-  title: string,
-  meta?: any,
-}
+import { ValidationException } from '../ValidationException'
 
 /**
  * The JsonApiErrorReporter formats error messages as per the JSON API spec.

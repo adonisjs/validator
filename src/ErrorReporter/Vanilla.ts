@@ -7,7 +7,11 @@
  * file that was distributed with this source code.
 */
 
-import { ErrorReporterContract, MessagesBagContract } from '@ioc:Adonis/Core/Validator'
+import {
+  VanillaErrorNode,
+  MessagesBagContract,
+  ErrorReporterContract,
+} from '@ioc:Adonis/Core/Validator'
 import { ValidationException } from '../ValidationException'
 
 /**
@@ -15,13 +19,11 @@ import { ValidationException } from '../ValidationException'
  * reference to a given field. Tailored for displaying messages
  * next to a form field.
  */
-export class VanillaErrorReporter implements ErrorReporterContract<
-  { [field: string]: string[] }
-> {
+export class VanillaErrorReporter implements ErrorReporterContract<VanillaErrorNode> {
   /**
    * Collected errors
    */
-  private errors: { [field: string]: string[] } = {}
+  private errors: VanillaErrorNode = {}
 
   /**
    * A boolean to know if an error has been reported or

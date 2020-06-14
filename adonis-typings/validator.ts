@@ -176,6 +176,49 @@ declare module '@ioc:Adonis/Core/Validator' {
     ): ErrorReporterContract<Messages>
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | JSON API Error Reporter
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Shape of the JSON API error node
+   */
+  export type JsonApiErrorNode = {
+    source: {
+      pointer: string,
+    }
+    code: string,
+    title: string,
+    meta?: any,
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | API Error Reporter
+  |--------------------------------------------------------------------------
+  */
+  /**
+   * Shape of the API error node
+   */
+  export type ApiErrorNode = {
+    message: string,
+    field: string,
+    rule: string,
+    args?: any,
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Vanilla Error Reporter
+  |--------------------------------------------------------------------------
+  */
+  /**
+   * Shape of the Vanilla error node
+   */
+  export type VanillaErrorNode = { [field: string]: string[] }
+
   /**
    * The contract every validation must adhere to
    */
@@ -624,6 +667,15 @@ declare module '@ioc:Adonis/Core/Validator' {
       exists: (value: any) => boolean,
       isRef (value: any): value is SchemaRef<unknown>,
       existsStrict: (value: any) => boolean,
+    },
+
+    /**
+     * List of bundled reporters
+     */
+    reporters: {
+      api: ErrorReporterConstructorContract<{ errors: ApiErrorNode[] }>,
+      jsonapi: ErrorReporterConstructorContract<{ errors: JsonApiErrorNode[] }>,
+      vanilla: ErrorReporterConstructorContract<VanillaErrorNode>,
     }
   }
 

@@ -7,23 +7,14 @@
  * file that was distributed with this source code.
 */
 
-import { ErrorReporterContract, MessagesBagContract } from '@ioc:Adonis/Core/Validator'
+import { ErrorReporterContract, ApiErrorNode, MessagesBagContract } from '@ioc:Adonis/Core/Validator'
 import { ValidationException } from '../ValidationException'
-
-type ApiErrorNode = {
-  message: string,
-  field: string,
-  rule: string,
-  args?: any,
-}
 
 /**
  * The API Error reporter formats messages as an array of objects
  */
-export class ApiErrorReporter implements ErrorReporterContract<{
-  errors: ApiErrorNode[]
-}> {
-  private errors: { field: string, rule: string, message: string, args?: any }[] = []
+export class ApiErrorReporter implements ErrorReporterContract<{ errors: ApiErrorNode[] }> {
+  private errors: ApiErrorNode[] = []
 
   /**
    * A boolean to know if an error has been reported or

@@ -25,8 +25,8 @@ import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
 import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
-import { VanillaErrorReporter } from '../ErrorReporter'
 import { exists, existsStrict, isObject, wrapCompile, getFieldValue, isRef } from './helpers'
+import { VanillaErrorReporter, ApiErrorReporter, JsonApiErrorReporter } from '../ErrorReporter'
 
 /**
  * The compiled output runtime helpers
@@ -175,5 +175,10 @@ export const validator: typeof validatorStatic = {
     isRef,
     existsStrict,
     getFieldValue,
+  },
+  reporters: {
+    api: ApiErrorReporter,
+    jsonapi: JsonApiErrorReporter,
+    vanilla: VanillaErrorReporter,
   },
 }

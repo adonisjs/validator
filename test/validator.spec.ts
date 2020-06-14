@@ -159,30 +159,61 @@ test.group('Validator | validate', () => {
   })
 })
 
-test.group('Validator | addRule', () => {
+test.group('Validator | rule', () => {
   test('add a custom rule', (assert) => {
-    validator.addRule('isPhone', {
-      validate () {
-      },
-      compile () {
-        return {
-          async: false,
-          allowUndefineds: true,
-          name: 'isPhone',
-          compiledOptions: undefined,
-        }
-      },
+    validator.rule('isPhone', () => {})
+
+    assert.property(validations, 'isPhone')
+    assert.property(rules, 'isPhone')
+    assert.deepEqual(rules['isPhone'](), { name: 'isPhone', options: [] })
+    assert.deepEqual(rules['isPhone']('sample'), { name: 'isPhone', options: ['sample'] })
+    assert.deepEqual(validations['isPhone'].compile('literal', 'string', []), {
+      async: false,
+      allowUndefineds: false,
+      name: 'isPhone',
+      compiledOptions: [],
+    })
+  })
+
+  test('set allowUndefineds to true', (assert) => {
+    validator.rule('isPhone', () => {}, () => {
+      return {
+        allowUndefineds: true,
+      }
     })
 
     assert.property(validations, 'isPhone')
     assert.property(rules, 'isPhone')
     assert.deepEqual(rules['isPhone'](), { name: 'isPhone', options: [] })
     assert.deepEqual(rules['isPhone']('sample'), { name: 'isPhone', options: ['sample'] })
-    assert.deepEqual(validations['isPhone'].compile(), {
+    assert.deepEqual(validations['isPhone'].compile('literal', 'string', []), {
       async: false,
       allowUndefineds: true,
       name: 'isPhone',
-      compiledOptions: undefined,
+      compiledOptions: [],
+    })
+  })
+
+  test('return custom options', (assert) => {
+    validator.rule(
+      'isPhone',
+      () => {},
+      (options) => {
+        assert.isArray(options)
+        return {
+          compiledOptions: { foo: 'bar' },
+        }
+      })
+
+    assert.property(validations, 'isPhone')
+    assert.property(rules, 'isPhone')
+    assert.deepEqual(rules['isPhone'](), { name: 'isPhone', options: [] })
+    assert.deepEqual(rules['isPhone']('sample'), { name: 'isPhone', options: ['sample'] })
+    assert.deepEqual(validations['isPhone'].compile('literal', 'string', []), {
+      async: false,
+      allowUndefineds: false,
+      name: 'isPhone',
+      compiledOptions: { foo: 'bar' },
     })
   })
 })

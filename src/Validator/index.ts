@@ -8,11 +8,15 @@
 */
 
 import {
+  NodeType,
+  ParsedRule,
   TypedSchema,
+  NodeSubType,
   ValidatorNode,
   CompilerOutput,
   ParsedTypedSchema,
   ValidationContract,
+  validator as validatorStatic,
   ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
@@ -22,7 +26,7 @@ import { rules, getRuleFn } from '../Rules'
 import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
-import { exists, existsStrict, isObject } from './helpers'
+import { exists, existsStrict, isObject, wrapCompile } from './helpers'
 
 /**
  * The compiled output runtime helpers
@@ -109,10 +113,11 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
  * Extend validator by adding a new rule
  */
 const addRule = (name: string, ruleDefinition: ValidationContract<any>) => {
-  /**
-   * Adding to the rules object, so that one can reference the method. Also
-   * interface of rules list has to be extended seperately.
-   */
+  process.emitWarning(
+    'DeprecationWarning',
+    '"validator.addRule" has been depreciated. Use "validate.rule" instead',
+  )
+
   rules[name] = getRuleFn(name)
   validations[name] = ruleDefinition
 }
@@ -121,14 +126,48 @@ const addRule = (name: string, ruleDefinition: ValidationContract<any>) => {
  * Add a new type
  */
 const addType = (name: string, typeDefinition: any) => {
+  process.emitWarning(
+    'DeprecationWarning',
+    '"validator.addType" has been depreciated. Use "validate.type" instead',
+  )
+  type(name, typeDefinition)
+}
+
+/**
+ * Add a new type
+ */
+const type = (name: string, typeDefinition: any) => {
   schema[name] = typeDefinition
+}
+
+/**
+ * Define a custom validation rule. This method must be used
+ * over `addRule`
+ */
+const rule = (
+  name: string,
+  validateFn: ValidationContract<any>['validate'],
+  compileFn?: (options: any[], type: NodeType, subtype: NodeSubType) => Partial<ParsedRule<any>>,
+  restrictForTypes?: NodeSubType[],
+) => {
+  /**
+   * Adding to the rules object, so that one can reference the method. Also
+   * interface of rules list has to be extended seperately.
+   */
+  rules[name] = getRuleFn(name)
+  validations[name] = {
+    compile: wrapCompile(name, restrictForTypes, compileFn),
+    validate: validateFn,
+  }
 }
 
 /**
  * Module available methods/properties
  */
-export const validator = {
+export const validator: typeof validatorStatic = {
   addRule,
   addType,
   validate,
+  rule,
+  type,
 }

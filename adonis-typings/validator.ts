@@ -592,7 +592,7 @@ declare module '@ioc:Adonis/Core/Validator' {
      */
     rule<Options extends any> (
       name: string,
-      validateFn: SyncValidation<Options>['validate'],
+      validateFn: ValidationContract<Options>['validate'],
       compileFn?: (options: any[], type: NodeType, subtype: NodeSubType) => Partial<ParsedRule<Options>>,
       restrictForTypes?: NodeSubType[],
     ): void
@@ -605,6 +605,15 @@ declare module '@ioc:Adonis/Core/Validator' {
      * method on it.
      */
     addType (name: string, typeDefinition: any): void
+
+    /**
+     * Type definition is set to any, since one can pass in a function or
+     * an object that has chainable API. So there is no simple way
+     * to guard the type definition. However, the `schema.create`
+     * method will fail if the final outcome doesn't have `getTree`
+     * method on it.
+     */
+    type (name: string, typeDefinition: any): void
   }
 
   export { schema, rules, validator }

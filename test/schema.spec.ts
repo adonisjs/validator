@@ -80,7 +80,9 @@ test.group('Schema | String', () => {
             name: 'alpha',
             allowUndefineds: false,
             async: false,
-            compiledOptions: [],
+            compiledOptions: {
+              pattern: '^[a-zA-Z]+$',
+            },
           },
         ],
       },

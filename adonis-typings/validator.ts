@@ -538,7 +538,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * String must be alpha
      */
-    alpha (): Rule
+    alpha (options?: { allow?: ('space' | 'underscore' | 'dash')[] }): Rule
 
     /**
      * String must match regex

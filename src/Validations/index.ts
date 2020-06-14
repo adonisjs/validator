@@ -9,6 +9,7 @@
 
 export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'
+export { distinct } from './array/distinct'
 export { requiredIfExists } from './existence/requiredIfExists'
 export { requiredIfExistsAll } from './existence/requiredIfExistsAll'
 export { requiredIfExistsAny } from './existence/requiredIfExistsAny'

@@ -615,6 +615,15 @@ declare module '@ioc:Adonis/Core/Validator' {
      * method on it.
      */
     type (name: string, typeDefinition: any): void
+
+    /**
+     * Helpers required by the custom rules
+     */
+    helpers: {
+      getFieldValue: (field: string, root: any, tip: any) => any,
+      exists: (value: any) => boolean,
+      existsStrict: (value: any) => boolean,
+    }
   }
 
   export { schema, rules, validator }

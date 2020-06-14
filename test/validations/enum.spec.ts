@@ -29,7 +29,7 @@ test.group('enum', () => {
 
   test('do not compile when choices not an array of values', (assert) => {
     const fn = () => oneOf.compile('literal', 'string', ['foo'])
-    assert.throw(fn, 'The "enum" rule expects an array of choices')
+    assert.throw(fn, '"enum": expects an array of choices or a "ref"')
   })
 
   test('report error when value is not in the defined array', (assert) => {

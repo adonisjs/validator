@@ -9,6 +9,7 @@
 
 import test from 'japa'
 import { rules } from '../../src/Rules'
+import { schema } from '../../src/Schema'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
@@ -261,6 +262,30 @@ test.group('Required When [=]', () => {
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
+
+  test('work fine when comparisonValue is a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'twitter_handle',
+      pointer: 'twitter_handle',
+      tip: {
+        type: false,
+      },
+      root: {},
+      refs: schema.refs({
+        isRequired: false,
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen.validate(
+      '@AmanVirk1',
+      compile('type', '=', validator.refs.isRequired).compiledOptions!,
+      validator,
+    )
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })
 
 test.group('Required When [!=]', () => {
@@ -408,6 +433,26 @@ test.group('Required When [!=]', () => {
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
+
+  test('work fine when comparisonValue is a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'twitter_handle',
+      pointer: 'twitter_handle',
+      tip: {
+        type: 'twitter',
+      },
+      root: {},
+      refs: schema.refs({
+        socialApp: 'facebook',
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen.validate('@AmanVirk1', compile('type', '!=', validator.refs.socialApp).compiledOptions!, validator)
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })
 
 test.group('Required When [in]', () => {
@@ -542,6 +587,30 @@ test.group('Required When [in]', () => {
       mutate: () => {},
     })
 
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('work fine when comparisonValues are defined as a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'value',
+      pointer: 'value',
+      tip: {
+        calculation_type: 'FIXED',
+      },
+      root: {},
+      refs: schema.refs({
+        availableTypes: ['PERCENTAGE', 'FIXED'],
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen.validate(
+      '@AmanVirk1',
+      compile('calculation_type', 'in', validator.refs.availableTypes).compiledOptions!,
+      validator,
+    )
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
@@ -693,6 +762,28 @@ test.group('Required When [notIn]', () => {
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
+
+  test('work fine when comparisonValues is defined as a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'value',
+      pointer: 'value',
+      tip: {
+        calculation_type: 'FIXED',
+      },
+      root: {},
+      refs: schema.refs({
+        availableTypes: ['VARIABLE', 'FORMULA'],
+      }),
+      mutate: () => {},
+    }
+
+    const { compiledOptions } = compile('calculation_type', 'notIn', validator.refs.availableTypes)
+    requiredWhen.validate('@AmanVirk1', compiledOptions!, validator)
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })
 
 test.group('Required When [>]', () => {
@@ -827,6 +918,26 @@ test.group('Required When [>]', () => {
       mutate: () => {},
     })
 
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('work fine when comparisonValue is defined as a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'drivers_license',
+      pointer: 'drivers_license',
+      tip: {
+        age: 20,
+      },
+      root: {},
+      refs: schema.refs({
+        minAge: 18,
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen.validate('131002020', compile('age', '>', validator.refs.minAge).compiledOptions!, validator)
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })
@@ -965,6 +1076,26 @@ test.group('Required When [<]', () => {
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
+
+  test('work fine when comparisonValue is defined as a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'drivers_license',
+      pointer: 'drivers_license',
+      tip: {
+        age: 20,
+      },
+      root: {},
+      refs: schema.refs({
+        maxAge: 40,
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen.validate('131002020', compile('age', '<', validator.refs.maxAge).compiledOptions!, validator)
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })
 
 test.group('Required When [>=]', () => {
@@ -1098,6 +1229,28 @@ test.group('Required When [>=]', () => {
       refs: {},
       mutate: () => {},
     })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('work fine when comparisonValue is a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'drivers_license',
+      pointer: 'drivers_license',
+      tip: {
+        age: 18,
+      },
+      root: {},
+      refs: schema.refs({
+        minAge: 18,
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen
+      .validate('131002020', compile('age', '>=', validator.refs.minAge).compiledOptions!, validator)
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
@@ -1235,6 +1388,27 @@ test.group('Required When [<=]', () => {
       mutate: () => {},
     })
 
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
+
+  test('work fine when comparisonValue is a ref', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    const validator = {
+      errorReporter: reporter,
+      field: 'drivers_license',
+      pointer: 'drivers_license',
+      tip: {
+        age: 18,
+      },
+      root: {},
+      refs: schema.refs({
+        maxAge: 18,
+      }),
+      mutate: () => {},
+    }
+
+    requiredWhen
+      .validate('131002020', compile('age', '<=', validator.refs.maxAge).compiledOptions!, validator)
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 })

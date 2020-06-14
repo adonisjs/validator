@@ -8,7 +8,7 @@
 */
 
 import { lodash } from '@poppinss/utils'
-import { NodeSubType, NodeType, ParsedRule } from '@ioc:Adonis/Core/Validator'
+import { NodeSubType, NodeType, ParsedRule, SchemaRef } from '@ioc:Adonis/Core/Validator'
 
 /**
  * Ensure value is not `undefined`
@@ -30,6 +30,22 @@ export function exists (value: any) {
  */
 export function isObject (value: any) {
   return value !== null && typeof (value) === 'object' && !Array.isArray(value)
+}
+
+/**
+ * Enforces the value to be an array
+ */
+export function enforceArray (value: unknown, message?: string): asserts value is any[] {
+  if (!Array.isArray(value)) {
+    throw new Error(message || 'Expected value to be an array')
+  }
+}
+
+/**
+ * Returns a boolean telling value is a schema ref
+ */
+export function isRef (value: any): value is SchemaRef<unknown> {
+  return value && value.__$isRef === true
 }
 
 /**

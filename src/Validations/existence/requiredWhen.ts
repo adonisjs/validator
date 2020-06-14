@@ -8,15 +8,29 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile, isRef } from '../../Validator/helpers'
 
 const RULE_NAME = 'requiredWhen'
 const DEFAULT_MESSAGE = 'requiredWhen validation failed'
 
 /**
+ * Return value of the compile function
+ */
+type CompileReturnType = {
+  operator: keyof typeof OPERATORS,
+  field: string,
+  comparisonValues?: any | any[],
+  ref?: string,
+}
+
+/**
  * Available operators
  */
 const OPERATORS = {
+  /**
+   * Handles the "in" operator. Also ensures, the comparison values are an
+   * array or a ref.
+   */
   'in': {
     compile (comparisonValues: any) {
       if (!Array.isArray(comparisonValues)) {
@@ -29,6 +43,10 @@ const OPERATORS = {
     },
   },
 
+  /**
+   * Handles the "notIn" operator. Also ensures, the comparison values are an
+   * array or a ref.
+   */
   'notIn': {
     compile (comparisonValues: any[]) {
       if (!Array.isArray(comparisonValues)) {
@@ -41,18 +59,28 @@ const OPERATORS = {
     },
   },
 
+  /**
+   * Handles the "=" operator. No compile time checks are required here
+   */
   '=': {
     passes: (value: any, comparisonValue: any) => {
       return value === comparisonValue
     },
   },
 
+  /**
+   * Handles the "!=" operator. No compile time checks are required here
+   */
   '!=': {
     passes: (value: any, comparisonValue: any) => {
       return value !== comparisonValue
     },
   },
 
+  /**
+   * Handles the ">" operator. Ensures `comparisonValue` is a number
+   * or a ref
+   */
   '>': {
     compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
@@ -65,6 +93,10 @@ const OPERATORS = {
     },
   },
 
+  /**
+   * Handles the "<" operator. Ensures `comparisonValue` is a number
+   * or a ref
+   */
   '<': {
     compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
@@ -77,6 +109,10 @@ const OPERATORS = {
     },
   },
 
+  /**
+   * Handles the ">=" operator. Ensures `comparisonValue` is a number
+   * or a ref
+   */
   '>=': {
     compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
@@ -89,6 +125,10 @@ const OPERATORS = {
     },
   },
 
+  /**
+   * Handles the "<=" operator. Ensures `comparisonValue` is a number
+   * or a ref
+   */
   '<=': {
     compile (comparisonValue: number) {
       if (typeof (comparisonValue) !== 'number') {
@@ -106,12 +146,8 @@ const OPERATORS = {
  * Ensure the value exists when defined expectation passed.
  * `null`, `undefined` and `empty string` fails the validation.
  */
-export const requiredWhen: SyncValidation<{
-  operator: keyof typeof OPERATORS,
-  field: string,
-  comparisonValues: any | any[],
-}> = {
-  compile: wrapCompile(RULE_NAME, [], ([ field, operator, comparisonValues ]) => {
+export const requiredWhen: SyncValidation<CompileReturnType> = {
+  compile: wrapCompile<CompileReturnType>(RULE_NAME, [], ([ field, operator, comparisonValues ]) => {
     /**
      * Ensure "field", "operator" and "comparisonValues" are defined
      */
@@ -124,6 +160,20 @@ export const requiredWhen: SyncValidation<{
      */
     if (!OPERATORS[operator]) {
       throw new Error(`${RULE_NAME}: expects "operator" to be one of the whitelisted operators`)
+    }
+
+    /**
+     * Value is a ref
+     */
+    if (isRef(comparisonValues)) {
+      return {
+        allowUndefineds: true,
+        compiledOptions: {
+          operator,
+          field,
+          ref: comparisonValues.key,
+        },
+      }
     }
 
     /**
@@ -145,14 +195,31 @@ export const requiredWhen: SyncValidation<{
   }),
   validate (
     value,
-    { operator, field, comparisonValues },
-    { errorReporter, pointer, arrayExpressionPointer, root, tip },
+    compiledOptions,
+    { errorReporter, pointer, arrayExpressionPointer, root, tip, refs },
   ) {
-    const shouldBeRequired = OPERATORS[operator].passes(
-      getFieldValue(field, root, tip),
+    let comparisonValues: any
+
+    /**
+     * Resolve comparisonValues
+     */
+    if (compiledOptions.ref) {
+      comparisonValues = refs[compiledOptions.ref].value
+    } else {
+      comparisonValues = compiledOptions.comparisonValues
+    }
+
+    /**
+     * Finding if field should be required
+     */
+    const shouldBeRequired = OPERATORS[compiledOptions.operator].passes(
+      getFieldValue(compiledOptions.field, root, tip),
       comparisonValues,
     )
 
+    /**
+     * Validation
+     */
     if (shouldBeRequired && !exists(value)) {
       errorReporter.report(
         pointer,
@@ -160,8 +227,8 @@ export const requiredWhen: SyncValidation<{
         DEFAULT_MESSAGE,
         arrayExpressionPointer,
         {
-          operator,
-          otherField: field,
+          operator: compiledOptions.operator,
+          otherField: compiledOptions.field,
           values: comparisonValues,
         },
       )

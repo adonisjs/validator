@@ -517,17 +517,17 @@ declare module '@ioc:Adonis/Core/Validator' {
     requiredWhen (
       field: string,
       operator: 'in' | 'notIn',
-      comparisonValues: any[]
+      comparisonValues: any[] | SchemaRef<any[]>
     ): Rule
     requiredWhen (
       field: string,
       operator: '>' | '<' | '>=' | '<=',
-      comparisonValues: number,
+      comparisonValues: number | SchemaRef<number>,
     ): Rule
     requiredWhen (
       field: string,
       operator: 'in' | 'notIn' | '=' | '!=' | '>' | '<' | '>=' | '<=',
-      comparisonValues: any
+      comparisonValues: any | SchemaRef<any>
     ): Rule
 
     /**

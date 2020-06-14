@@ -26,9 +26,9 @@ test.group('enum set', () => {
     assert.throw(fn, 'enumSet: The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when choices not an array of values', (assert) => {
+  test('do not compile when choices not an array of values or a ref', (assert) => {
     const fn = () => enumSet.compile('literal', 'string', ['foo'])
-    assert.throw(fn, 'The "enumSet" rule expects an array of choices')
+    assert.throw(fn, '"enumSet": expects an array of choices or a "ref"')
   })
 
   test('report error when value all input values are not in the expected array', (assert) => {

@@ -8,54 +8,56 @@
 */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { wrapCompile } from '../../Validator/helpers'
+import { wrapCompile, enforceArray, isRef } from '../../Validator/helpers'
 
 const RULE_NAME = 'enum'
 const DEFAULT_MESSAGE = 'enum validation failed'
-const CHOICES_ERROR_MESSAGE = `The "${RULE_NAME}" rule expects an array of choices or a value reference`
 
-function ensureChoicesAreArray (choices: unknown): asserts choices is any[] {
-  if (!Array.isArray(choices)) {
-    throw new Error(CHOICES_ERROR_MESSAGE)
-  }
-}
+/**
+ * Return type of the compile function
+ */
+type CompileReturnType = { choices?: any[], ref?: string }
 
 /**
  * Ensure the value is one of the defined choices
  */
-export const oneOf: SyncValidation<{ choices: any[] | { key: string } }> = {
-  compile: wrapCompile(RULE_NAME, [], ([ choices ]) => {
-    if (!choices || (!Array.isArray(choices) && !choices.__$isRef)) {
-      throw new Error(
-        `The "${RULE_NAME}" rule expects an array of choices or a value reference`,
-      )
-    }
-
+export const oneOf: SyncValidation<CompileReturnType> = {
+  compile: wrapCompile<CompileReturnType>(RULE_NAME, [], ([ choices ]) => {
     /**
-     * Pick key from the choices object. We ignore the value and
-     * read it at the runtime.
+     * Choices are defined as a ref
      */
-    if (choices.__$isRef) {
-      choices = {
-        key: choices.key,
+    if (isRef(choices)) {
+      return {
+        compiledOptions: { ref: choices.key },
       }
     }
 
-    return {
-      compiledOptions: {
-        choices,
-      },
+    /**
+     * Ensure value is an array or a ref
+     */
+    if (!choices || !Array.isArray(choices)) {
+      throw new Error(`"${RULE_NAME}": expects an array of choices or a "ref"`)
     }
+
+    return { compiledOptions: { choices: choices } }
   }),
   validate (value, compiledOptions, { errorReporter, pointer, arrayExpressionPointer, refs }) {
-    let choices = compiledOptions.choices
+    let choices: any[] = []
 
-    if (!Array.isArray(choices)) {
-      const runtimeChoices = refs[choices.key].value
-      ensureChoicesAreArray(runtimeChoices)
+    /**
+     * Resolve choices from the ref or use as it is, if defined as an array
+     */
+    if (compiledOptions.ref) {
+      const runtimeChoices = refs[compiledOptions.ref].value
+      enforceArray(runtimeChoices, `"${RULE_NAME}": expects "refs.${compiledOptions.ref}" to be an array`)
       choices = runtimeChoices
+    } else if (compiledOptions.choices) {
+      choices = compiledOptions.choices
     }
 
+    /**
+     * Validation
+     */
     if (!choices.includes(value)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, { choices })
     }

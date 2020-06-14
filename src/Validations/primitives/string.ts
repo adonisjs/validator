@@ -23,7 +23,7 @@ export const string: SyncValidation<{ escape: boolean, trim: boolean }> = {
     return {
       compiledOptions: {
         escape: !!(options && options.escape),
-        trim: options && options.trim === false ? false : true,
+        trim: !!(options && options.trim),
       },
     }
   }),

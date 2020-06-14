@@ -26,7 +26,7 @@ import { rules, getRuleFn } from '../Rules'
 import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
 import { VanillaErrorReporter } from '../ErrorReporter'
-import { exists, existsStrict, isObject, wrapCompile, getFieldValue } from './helpers'
+import { exists, existsStrict, isObject, wrapCompile, getFieldValue, isRef } from './helpers'
 
 /**
  * The compiled output runtime helpers
@@ -172,6 +172,7 @@ export const validator: typeof validatorStatic = {
   type,
   helpers: {
     exists,
+    isRef,
     existsStrict,
     getFieldValue,
   },

@@ -622,6 +622,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     helpers: {
       getFieldValue: (field: string, root: any, tip: any) => any,
       exists: (value: any) => boolean,
+      isRef (value: any): value is SchemaRef<unknown>,
       existsStrict: (value: any) => boolean,
     }
   }

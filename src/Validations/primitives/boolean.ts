@@ -11,8 +11,8 @@ import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'boolean'
-const BOOLEAN_POSITIVES = [ '1', 1, 'on' ]
-const BOOLEAN_NEGATIVES = [ '0', 0, 'off' ]
+const BOOLEAN_POSITIVES = [ '1', 1, 'on', 'true' ]
+const BOOLEAN_NEGATIVES = [ '0', 0, 'off', 'false' ]
 const DEFAULT_MESSAGE = 'boolean validation failed'
 
 /**

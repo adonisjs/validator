@@ -162,6 +162,46 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
+  test('cast true keyword to a positive boolean', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = 'true'
+
+    boolean.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'terms',
+      pointer: 'terms',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, true)
+  })
+
+  test('cast false keyword to a negative boolean', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = 'false'
+
+    boolean.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'terms',
+      pointer: 'terms',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, false)
+  })
+
   test('work fine when value is a positive boolean', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = true

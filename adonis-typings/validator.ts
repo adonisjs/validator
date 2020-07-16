@@ -579,6 +579,11 @@ declare module '@ioc:Adonis/Core/Validator' {
     unsigned (): Rule
 
     /**
+     * Number must be in a specific range of values
+     */
+    range (start: number, stop: number): Rule
+
+    /**
      * String must be alpha
      */
     alpha (options?: { allow?: ('space' | 'underscore' | 'dash')[] }): Rule

@@ -19,6 +19,7 @@ export { requiredIfNotExistsAny } from './existence/requiredIfNotExistsAny'
 export { requiredWhen } from './existence/requiredWhen'
 
 export { unsigned } from './number/unsigned'
+export { range } from './number/range'
 export { array } from './primitives/array'
 export { boolean } from './primitives/boolean'
 export { date } from './primitives/date'

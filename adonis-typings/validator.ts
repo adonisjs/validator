@@ -574,6 +574,11 @@ declare module '@ioc:Adonis/Core/Validator' {
     ): Rule
 
     /**
+     * Number must be integer
+     */
+    integer (): Rule
+
+    /**
      * Number must be unsigned
      */
     unsigned (): Rule

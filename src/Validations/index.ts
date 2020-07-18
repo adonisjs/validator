@@ -18,6 +18,7 @@ export { requiredIfNotExistsAll } from './existence/requiredIfNotExistsAll'
 export { requiredIfNotExistsAny } from './existence/requiredIfNotExistsAny'
 export { requiredWhen } from './existence/requiredWhen'
 
+export { integer } from './number/integer'
 export { unsigned } from './number/unsigned'
 export { range } from './number/range'
 export { array } from './primitives/array'

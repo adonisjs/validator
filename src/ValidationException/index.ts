@@ -36,7 +36,7 @@ export class ValidationException extends Exception {
 		/**
 		 * Flash all input, except the `_csrf`.
 		 */
-		session.flashExcept(['_csrf'])
+		session.flashExcept(['_csrf', '_method'])
 
 		/**
 		 * Flash errors

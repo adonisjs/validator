@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { pope } from 'pope'
+import { interpolate } from '@poppinss/utils'
 import { MessagesBagContract, CustomMessages } from '@ioc:Adonis/Core/Validator'
 
 /**
@@ -31,7 +31,7 @@ export class MessagesBag implements MessagesBagContract {
 			return message
 		}
 
-		return pope(message, { rule, field: pointer, options: args || {} })
+		return interpolate(message, { rule, field: pointer, options: args || {} })
 	}
 
 	/**

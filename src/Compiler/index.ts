@@ -17,7 +17,6 @@ import {
 	CompilerOutput,
 } from '@ioc:Adonis/Core/Validator'
 
-import endent from 'endent'
 import { CompilerBuffer } from './Buffer'
 import { ArrayCompiler } from './Nodes/Array'
 import { ObjectCompiler } from './Nodes/Object'
@@ -78,11 +77,9 @@ export class Compiler {
 	 * or null are ignored and neither encouraged.
 	 */
 	public getVariableExistsDeclaration(variableName: string) {
-		return endent`
-      const ${this.getVariableExistsName(variableName)} = ${
+		return `const ${this.getVariableExistsName(variableName)} = ${
 			this.COMPILER_REFERENCES.exists
-		}(${variableName})
-    `
+		}(${variableName})`
 	}
 
 	/**
@@ -90,9 +87,9 @@ export class Compiler {
 	 * field.
 	 */
 	public getMutationFnDeclararationExpression(variableName: string) {
-		return endent`function ${this.getVariableMutationName(variableName)} (newValue) {
-      ${variableName} = newValue;
-    }`
+		return `function ${this.getVariableMutationName(variableName)} (newValue) {
+			${variableName} = newValue;
+		}`
 	}
 
 	/**
@@ -109,15 +106,15 @@ export class Compiler {
 			? `\n  arrayExpressionPointer: ${arrayExpressionPointer},`
 			: ''
 
-		return endent`const ${this.getVariableOptionsName(variableName)} = {
-      root,
-      refs,
-      field: ${field},
-      tip: ${tip},
-      pointer: ${pointer},${arrayExpressionPointerItem}
-      mutate: ${this.getVariableMutationName(variableName)},
-      ${this.COMPILER_REFERENCES.reportError}
-    }`
+		return `const ${this.getVariableOptionsName(variableName)} = {
+			root,
+			refs,
+			field: ${field},
+			tip: ${tip},
+			pointer: ${pointer},${arrayExpressionPointerItem}
+			mutate: ${this.getVariableMutationName(variableName)},
+			${this.COMPILER_REFERENCES.reportError}
+		}`
 	}
 
 	/**
@@ -260,13 +257,12 @@ export class Compiler {
 		 * Return the out value
 		 */
 		buffer.writeExpression(
-			endent`
-      if (errorReporter.hasErrors) {
-        throw errorReporter.toError();
-      }
+			`
+			if (errorReporter.hasErrors) {
+				throw errorReporter.toError();
+			}
 
-      return out
-    `,
+			return out`,
 			true
 		)
 		buffer.dedent()

@@ -8,7 +8,6 @@
  */
 
 import test from 'japa'
-import endent from 'endent'
 import { ArrayCompiler } from '../src/Compiler/Nodes/Array'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 import { Compiler } from '../src/Compiler'
@@ -71,9 +70,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -137,8 +138,9 @@ test.group('Array Compiler', () => {
             }
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -186,9 +188,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -230,8 +234,9 @@ test.group('Array Compiler', () => {
             out_0[index_0] = val_1;
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -294,9 +299,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -314,8 +321,9 @@ test.group('Array Compiler', () => {
       validations.array.validate(val_0, {}, val_0_options);
       if (val_0_exists) {
         out['users'] = val_0;
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -376,9 +384,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -442,8 +452,9 @@ test.group('Array Compiler', () => {
             }
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -504,9 +515,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -570,8 +583,9 @@ test.group('Array Compiler', () => {
             }
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -630,9 +644,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['geolocation']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['geolocation']
       let val_0 = root['geolocation'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -698,8 +714,9 @@ test.group('Array Compiler', () => {
             }
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -771,9 +788,11 @@ test.group('Array Compiler', () => {
 		objectCompiler.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['users']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -861,8 +880,9 @@ test.group('Array Compiler', () => {
             }
           }
         }
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 })

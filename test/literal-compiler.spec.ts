@@ -8,7 +8,6 @@
  */
 
 import test from 'japa'
-import endent from 'endent'
 
 import { Compiler } from '../src/Compiler'
 import { LiteralCompiler } from '../src/Compiler/Nodes/Literal'
@@ -73,9 +72,11 @@ test.group('Literal Compiler', () => {
 		literal.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -93,8 +94,9 @@ test.group('Literal Compiler', () => {
       validations.string.validate(val_0, {}, val_0_options);
       if (val_0_exists) {
         out['username'] = val_0;
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -130,9 +132,11 @@ test.group('Literal Compiler', () => {
 		literal.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -150,8 +154,9 @@ test.group('Literal Compiler', () => {
       val_0_exists && validations.string.validate(val_0, {}, val_0_options);
       if (val_0_exists) {
         out['username'] = val_0;
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -187,9 +192,11 @@ test.group('Literal Compiler', () => {
 		literal.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -207,8 +214,9 @@ test.group('Literal Compiler', () => {
       await validations.string.validate(val_0, {}, val_0_options);
       if (val_0_exists) {
         out['username'] = val_0;
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -244,9 +252,11 @@ test.group('Literal Compiler', () => {
 		literal.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -264,8 +274,9 @@ test.group('Literal Compiler', () => {
       val_0_exists && await validations.string.validate(val_0, {}, val_0_options);
       if (val_0_exists) {
         out['username'] = val_0;
-      }
-    `.split('\n')
+      }`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -294,12 +305,15 @@ test.group('Literal Compiler', () => {
 		literal.forceValueDeclaration = true
 		literal.compile(buff)
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
-    `.split('\n')
+      const val_0_exists = helpers.exists(val_0);`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 
@@ -336,9 +350,11 @@ test.group('Literal Compiler', () => {
 		literal.compile(buff)
 
 		assert.deepEqual(
-			buff.toString().split('\n'),
-			endent`
-      // Validate root['username']
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['username']
       let val_0 = root['username'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -353,8 +369,9 @@ test.group('Literal Compiler', () => {
         mutate: mutate_val_0,
         errorReporter
       };
-      val_0_exists && await validations.string.validate(val_0, {}, val_0_options);
-    `.split('\n')
+      val_0_exists && await validations.string.validate(val_0, {}, val_0_options);`
+				.split('\n')
+				.map((line) => line.trim())
 		)
 	})
 })

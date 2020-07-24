@@ -106,7 +106,6 @@
 		"@poppinss/utils": "^2.4.1",
 		"@types/luxon": "^1.24.3",
 		"@types/validator": "^13.1.0",
-		"endent": "^2.0.1",
 		"luxon": "^1.24.1",
 		"pope": "^2.0.2",
 		"validator": "^13.1.1"

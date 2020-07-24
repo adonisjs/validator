@@ -5,7 +5,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
-*/
+ */
 
 import test from 'japa'
 import endent from 'endent'
@@ -14,63 +14,65 @@ import { CompilerBuffer } from '../src/Compiler/Buffer'
 import { Compiler } from '../src/Compiler'
 
 test.group('Array Compiler', () => {
-  test('compile an array node with rules and members', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'object' as const,
-        rules: [
-          {
-            name: 'object',
-            compiledOptions: {},
-            async: false,
-            allowUndefineds: true,
-          },
-        ],
-        children: {
-          username: {
-            type: 'literal' as const,
-            subtype: 'string',
-            rules: [
-              {
-                name: 'string',
-                compiledOptions: {},
-                async: false,
-                allowUndefineds: true,
-              },
-            ],
-          },
-        },
-      },
-    }
+	test('compile an array node with rules and members', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'object' as const,
+				rules: [
+					{
+						name: 'object',
+						compiledOptions: {},
+						async: false,
+						allowUndefineds: true,
+					},
+				],
+				children: {
+					username: {
+						type: 'literal' as const,
+						subtype: 'string',
+						rules: [
+							{
+								name: 'string',
+								compiledOptions: {},
+								async: false,
+								allowUndefineds: true,
+							},
+						],
+					},
+				},
+			},
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -136,53 +138,56 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('compile an array node with rules and literal members', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'literal' as const,
-        subtype: 'string',
-        rules: [
-          {
-            name: 'string',
-            compiledOptions: {},
-            async: false,
-            allowUndefineds: true,
-          },
-        ],
-      },
-    }
+	test('compile an array node with rules and literal members', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'literal' as const,
+				subtype: 'string',
+				rules: [
+					{
+						name: 'string',
+						compiledOptions: {},
+						async: false,
+						allowUndefineds: true,
+					},
+				],
+			},
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -226,68 +231,71 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('do not output any code when array has no rules and members', async (assert) => {
-    const arrayNode = {
-      type: 'array' as const,
-      rules: [],
-    }
+	test('do not output any code when array has no rules and members', async (assert) => {
+		const arrayNode = {
+			type: 'array' as const,
+			rules: [],
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, arrayNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, arrayNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString(), '')
-  })
+		assert.deepEqual(buff.toString(), '')
+	})
 
-  test('do not output members validation code when no members are defined', async (assert) => {
-    const arrayNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-    }
+	test('do not output members validation code when no members are defined', async (assert) => {
+		const arrayNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, arrayNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, arrayNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -307,66 +315,69 @@ test.group('Array Compiler', () => {
       if (val_0_exists) {
         out['users'] = val_0;
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('use for of loop when any array immediate child has async rules', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'object' as const,
-        rules: [
-          {
-            name: 'object',
-            compiledOptions: {},
-            async: true,
-            allowUndefineds: true,
-          },
-        ],
-        children: {
-          username: {
-            type: 'literal' as const,
-            subtype: 'string',
-            rules: [
-              {
-                name: 'string',
-                compiledOptions: {},
-                async: false,
-                allowUndefineds: true,
-              },
-            ],
-          },
-        },
-      },
-    }
+	test('use for of loop when any array immediate child has async rules', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'object' as const,
+				rules: [
+					{
+						name: 'object',
+						compiledOptions: {},
+						async: true,
+						allowUndefineds: true,
+					},
+				],
+				children: {
+					username: {
+						type: 'literal' as const,
+						subtype: 'string',
+						rules: [
+							{
+								name: 'string',
+								compiledOptions: {},
+								async: false,
+								allowUndefineds: true,
+							},
+						],
+					},
+				},
+			},
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -432,66 +443,69 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('use for of loop when any of the nested children has async rules', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'object' as const,
-        rules: [
-          {
-            name: 'object',
-            compiledOptions: {},
-            async: false,
-            allowUndefineds: true,
-          },
-        ],
-        children: {
-          username: {
-            type: 'literal' as const,
-            subtype: 'string',
-            rules: [
-              {
-                name: 'string',
-                compiledOptions: {},
-                async: true,
-                allowUndefineds: true,
-              },
-            ],
-          },
-        },
-      },
-    }
+	test('use for of loop when any of the nested children has async rules', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'object' as const,
+				rules: [
+					{
+						name: 'object',
+						compiledOptions: {},
+						async: false,
+						allowUndefineds: true,
+					},
+				],
+				children: {
+					username: {
+						type: 'literal' as const,
+						subtype: 'string',
+						rules: [
+							{
+								name: 'string',
+								compiledOptions: {},
+								async: true,
+								allowUndefineds: true,
+							},
+						],
+					},
+				},
+			},
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -557,64 +571,67 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('compile nested arrays', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'array' as const,
-        rules: [
-          {
-            name: 'array',
-            compiledOptions: {},
-            async: false,
-            allowUndefineds: true,
-          },
-        ],
-        each: {
-          type: 'literal' as const,
-          subtype: 'string',
-          rules: [
-            {
-              name: 'string',
-              compiledOptions: {},
-              async: false,
-              allowUndefineds: true,
-            },
-          ],
-        },
-      },
-    }
+	test('compile nested arrays', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'array' as const,
+				rules: [
+					{
+						name: 'array',
+						compiledOptions: {},
+						async: false,
+						allowUndefineds: true,
+					},
+				],
+				each: {
+					type: 'literal' as const,
+					subtype: 'string',
+					rules: [
+						{
+							name: 'string',
+							compiledOptions: {},
+							async: false,
+							allowUndefineds: true,
+						},
+					],
+				},
+			},
+		}
 
-    const field = {
-      name: 'geolocation',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'geolocation',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['geolocation']
       let val_0 = root['geolocation'];
       const val_0_exists = helpers.exists(val_0);
@@ -682,77 +699,80 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 
-  test('compile array children that has nested arrays', async (assert) => {
-    const objectNode = {
-      type: 'array' as const,
-      rules: [
-        {
-          name: 'array',
-          compiledOptions: {},
-          async: false,
-          allowUndefineds: true,
-        },
-      ],
-      each: {
-        type: 'object' as const,
-        rules: [
-          {
-            name: 'object',
-            compiledOptions: {},
-            async: false,
-            allowUndefineds: true,
-          },
-        ],
-        children: {
-          scores: {
-            type: 'array' as const,
-            rules: [
-              {
-                name: 'array',
-                compiledOptions: {},
-                async: false,
-                allowUndefineds: true,
-              },
-            ],
-            each: {
-              type: 'literal' as const,
-              subtype: 'string',
-              rules: [
-                {
-                  name: 'string',
-                  compiledOptions: {},
-                  async: false,
-                  allowUndefineds: true,
-                },
-              ],
-            },
-          },
-        },
-      },
-    }
+	test('compile array children that has nested arrays', async (assert) => {
+		const objectNode = {
+			type: 'array' as const,
+			rules: [
+				{
+					name: 'array',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+			each: {
+				type: 'object' as const,
+				rules: [
+					{
+						name: 'object',
+						compiledOptions: {},
+						async: false,
+						allowUndefineds: true,
+					},
+				],
+				children: {
+					scores: {
+						type: 'array' as const,
+						rules: [
+							{
+								name: 'array',
+								compiledOptions: {},
+								async: false,
+								allowUndefineds: true,
+							},
+						],
+						each: {
+							type: 'literal' as const,
+							subtype: 'string',
+							rules: [
+								{
+									name: 'string',
+									compiledOptions: {},
+									async: false,
+									allowUndefineds: true,
+								},
+							],
+						},
+					},
+				},
+			},
+		}
 
-    const field = {
-      name: 'users',
-      type: 'literal' as const,
-    }
+		const field = {
+			name: 'users',
+			type: 'literal' as const,
+		}
 
-    const references = {
-      outVariable: 'out',
-      referenceVariable: 'root',
-      parentPointer: [],
-      arrayExpressionPointer: [],
-    }
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+			arrayExpressionPointer: [],
+		}
 
-    const compiler = new Compiler({})
-    const buff = new CompilerBuffer()
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
 
-    const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
-    objectCompiler.compile(buff)
+		const objectCompiler = new ArrayCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
 
-    assert.deepEqual(buff.toString().split('\n'), endent`
+		assert.deepEqual(
+			buff.toString().split('\n'),
+			endent`
       // Validate root['users']
       let val_0 = root['users'];
       const val_0_exists = helpers.exists(val_0);
@@ -842,6 +862,7 @@ test.group('Array Compiler', () => {
           }
         }
       }
-    `.split('\n'))
-  })
+    `.split('\n')
+		)
+	})
 })

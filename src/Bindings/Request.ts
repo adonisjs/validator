@@ -1,17 +1,17 @@
 /*
-* @adonisjs/validator
-*
-* (c) Harminder Virk <virk@adonisjs.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * @adonisjs/validator
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
 import {
-  validator,
-  RequestValidatorNode,
-  ErrorReporterConstructorContract,
+	validator,
+	RequestValidatorNode,
+	ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
 import * as ErrorReporters from '../ErrorReporter'
@@ -20,59 +20,57 @@ import * as ErrorReporters from '../ErrorReporter'
  * Extends the request class by adding `validate` method
  * to it
  */
-export default function extendRequest (
-  Request: RequestConstructorContract,
-  validate: typeof validator['validate'],
+export default function extendRequest(
+	Request: RequestConstructorContract,
+	validate: typeof validator['validate']
 ) {
-  Request.macro('validate', async function validateRequest (
-    Validator: RequestValidatorNode<any>,
-  ) {
-    let Reporter: ErrorReporterConstructorContract
+	Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {
+		let Reporter: ErrorReporterConstructorContract
 
-    /**
-     * Attempt to find the best error reporter for validation
-     */
-    if (this.ajax()) {
-      Reporter = ErrorReporters.ApiErrorReporter
-    } else {
-      switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
-        case 'html':
-        case null:
-          Reporter = ErrorReporters.VanillaErrorReporter
-          break
-        case 'json':
-          Reporter = ErrorReporters.ApiErrorReporter
-          break
-        case 'application/vnd.api+json':
-          Reporter = ErrorReporters.JsonApiErrorReporter
-          break
-      }
-    }
+		/**
+		 * Attempt to find the best error reporter for validation
+		 */
+		if (this.ajax()) {
+			Reporter = ErrorReporters.ApiErrorReporter
+		} else {
+			switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
+				case 'html':
+				case null:
+					Reporter = ErrorReporters.VanillaErrorReporter
+					break
+				case 'json':
+					Reporter = ErrorReporters.ApiErrorReporter
+					break
+				case 'application/vnd.api+json':
+					Reporter = ErrorReporters.JsonApiErrorReporter
+					break
+			}
+		}
 
-    /**
-     * Merging request body, files and the params. The params are nested, since
-     * it's possible that request body and params may have the same object
-     * properties.
-     */
-    const validatorNode = typeof (Validator) === 'function' ? new Validator(this.ctx!) : Validator
-    const data = validatorNode.data || {
-      ...this.all(),
-      ...this.allFiles(),
-      params: this.ctx!.params,
-    }
+		/**
+		 * Merging request body, files and the params. The params are nested, since
+		 * it's possible that request body and params may have the same object
+		 * properties.
+		 */
+		const validatorNode = typeof Validator === 'function' ? new Validator(this.ctx!) : Validator
+		const data = validatorNode.data || {
+			...this.all(),
+			...this.allFiles(),
+			params: this.ctx!.params,
+		}
 
-    /**
-     * Creating a new profiler action to profile the validation
-     */
-    const profilerAction = this.ctx!.profiler.profile('request:validate')
+		/**
+		 * Creating a new profiler action to profile the validation
+		 */
+		const profilerAction = this.ctx!.profiler.profile('request:validate')
 
-    try {
-      const validated = await validate({ data, reporter: Reporter, ...validatorNode })
-      profilerAction.end({ status: 'success' })
-      return validated
-    } catch (error) {
-      profilerAction.end({ status: 'error' })
-      throw error
-    }
-  })
+		try {
+			const validated = await validate({ data, reporter: Reporter, ...validatorNode })
+			profilerAction.end({ status: 'success' })
+			return validated
+		} catch (error) {
+			profilerAction.end({ status: 'error' })
+			throw error
+		}
+	})
 }

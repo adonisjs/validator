@@ -1,11 +1,11 @@
 /*
-* @adonisjs/validator
-*
-* (c) Harminder Virk <virk@adonisjs.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * @adonisjs/validator
+ *
+ * (c) Harminder Virk <virk@adonisjs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 import test from 'japa'
 import { Socket } from 'net'
@@ -20,212 +20,216 @@ import { validator } from '../src/Validator'
 import extendRequest from '../src/Bindings/Request'
 
 test.group('Request validator', (group) => {
-  group.before(() => {
-    extendRequest(Request as unknown as RequestConstructorContract, validator.validate)
-  })
+	group.before(() => {
+		extendRequest((Request as unknown) as RequestConstructorContract, validator.validate)
+	})
 
-  test('choose api reporter when accept header is application/json', async (assert) => {
-    assert.plan(1)
+	test('choose api reporter when accept header is application/json', async (assert) => {
+		assert.plan(1)
 
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.request.headers.accept = 'application/json'
+		ctx.request.allFiles = function () {
+			return {}
+		}
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
-    }
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
 
-    try {
-      await ctx.request.validate(Validator)
-    } catch (error) {
-      assert.deepEqual(error.messages, {
-        errors: [{
-          rule: 'required',
-          message: 'required validation failed',
-          field: 'username',
-        }],
-      })
-    }
-  })
+		try {
+			await ctx.request.validate(Validator)
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				errors: [
+					{
+						rule: 'required',
+						message: 'required validation failed',
+						field: 'username',
+					},
+				],
+			})
+		}
+	})
 
-  test('choose jsonapi reporter when accept header is application/vnd.api+json', async (assert) => {
-    assert.plan(1)
+	test('choose jsonapi reporter when accept header is application/vnd.api+json', async (assert) => {
+		assert.plan(1)
 
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.request.headers.accept = 'application/vnd.api+json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.request.headers.accept = 'application/vnd.api+json'
+		ctx.request.allFiles = function () {
+			return {}
+		}
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
-    }
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
 
-    try {
-      await ctx.request.validate(Validator)
-    } catch (error) {
-      assert.deepEqual(error.messages, {
-        errors: [{
-          code: 'required',
-          title: 'required validation failed',
-          source: {
-            pointer: 'username',
-          },
-        }],
-      })
-    }
-  })
+		try {
+			await ctx.request.validate(Validator)
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				errors: [
+					{
+						code: 'required',
+						title: 'required validation failed',
+						source: {
+							pointer: 'username',
+						},
+					},
+				],
+			})
+		}
+	})
 
-  test('choose vanilla reporter when no accept header is set', async (assert) => {
-    assert.plan(1)
+	test('choose vanilla reporter when no accept header is set', async (assert) => {
+		assert.plan(1)
 
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.allFiles = function () {
-      return {}
-    }
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.allFiles = function () {
+			return {}
+		}
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
-    }
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
 
-    try {
-      await ctx.request.validate(Validator)
-    } catch (error) {
-      assert.deepEqual(error.messages, {
-        username: ['required validation failed'],
-      })
-    }
-  })
+		try {
+			await ctx.request.validate(Validator)
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				username: ['required validation failed'],
+			})
+		}
+	})
 
-  test('profile using the profiler', async (assert) => {
-    assert.plan(3)
+	test('profile using the profiler', async (assert) => {
+		assert.plan(3)
 
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, { enabled: true })
-    profiler.process((packet) => {
-      if (packet.type === 'action') {
-        assert.deepEqual(packet.data, { status: 'error' })
-        assert.exists(packet.parent_id)
-        assert.equal(packet.label, 'request:validate')
-      }
-    })
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, { enabled: true })
+		profiler.process((packet) => {
+			if (packet.type === 'action') {
+				assert.deepEqual(packet.data, { status: 'error' })
+				assert.exists(packet.parent_id)
+				assert.equal(packet.label, 'request:validate')
+			}
+		})
 
-    const httpRow = profiler.create('http')
-    const router = new Router({})
-    const ctx = HttpContext.create('/', {}, logger, profiler.create('http'), {}, router, req, res)
-    ctx.request.allFiles = function () {
-      return {}
-    }
+		const httpRow = profiler.create('http')
+		const router = new Router({})
+		const ctx = HttpContext.create('/', {}, logger, profiler.create('http'), {}, router, req, res)
+		ctx.request.allFiles = function () {
+			return {}
+		}
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
-    }
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
 
-    try {
-      await ctx.request.validate(Validator)
-    } catch {}
+		try {
+			await ctx.request.validate(Validator)
+		} catch {}
 
-    httpRow.end()
-  })
+		httpRow.end()
+	})
 
-  test('return validated request body', async (assert) => {
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+	test('return validated request body', async (assert) => {
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
-    ctx.request.setInitialBody({ username: 'virk', age: 22 })
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.request.headers.accept = 'application/json'
+		ctx.request.allFiles = function () {
+			return {}
+		}
+		ctx.request.setInitialBody({ username: 'virk', age: 22 })
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
-    }
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
 
-    const validated = await ctx.request.validate(Validator)
-    assert.deepEqual(validated, { username: 'virk' })
-  })
+		const validated = await ctx.request.validate(Validator)
+		assert.deepEqual(validated, { username: 'virk' })
+	})
 
-  test('provide custom data', async (assert) => {
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+	test('provide custom data', async (assert) => {
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.request.headers.accept = 'application/json'
+		ctx.request.allFiles = function () {
+			return {}
+		}
 
-    class Validator {
-      public schema = schema.create({
-        username: schema.string(),
-      })
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
 
-      public data = { username: 'virk' }
-    }
+			public data = { username: 'virk' }
+		}
 
-    const validated = await ctx.request.validate(Validator)
-    assert.deepEqual(validated, { username: 'virk' })
-  })
+		const validated = await ctx.request.validate(Validator)
+		assert.deepEqual(validated, { username: 'virk' })
+	})
 
-  test('validate using vanilla object', async (assert) => {
-    const req = new IncomingMessage(new Socket())
-    const res = new ServerResponse(req)
-    const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
-    const profiler = new Profiler(__dirname, logger, {})
-    const router = new Router({})
+	test('validate using vanilla object', async (assert) => {
+		const req = new IncomingMessage(new Socket())
+		const res = new ServerResponse(req)
+		const logger = new FakeLogger({ enabled: true, name: 'adonisjs', level: 'trace' })
+		const profiler = new Profiler(__dirname, logger, {})
+		const router = new Router({})
 
-    const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
-    ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
-    ctx.request.setInitialBody({ username: 'virk', age: 22 })
+		const ctx = HttpContext.create('/', {}, logger, profiler.create(''), {}, router, req, res)
+		ctx.request.request.headers.accept = 'application/json'
+		ctx.request.allFiles = function () {
+			return {}
+		}
+		ctx.request.setInitialBody({ username: 'virk', age: 22 })
 
-    const validated = await ctx.request.validate({
-      schema: schema.create({
-        username: schema.string(),
-      }),
-    })
-    assert.deepEqual(validated, { username: 'virk' })
-  })
+		const validated = await ctx.request.validate({
+			schema: schema.create({
+				username: schema.string(),
+			}),
+		})
+		assert.deepEqual(validated, { username: 'virk' })
+	})
 })

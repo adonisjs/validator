@@ -325,6 +325,10 @@ declare module '@ioc:Adonis/Core/Validator' {
 				t: { [P in keyof T]: T[P]['t'] }
 				getTree(): SchemaObject
 			}
+			anyMembers(): {
+				t: { [key: string]: any }
+				getTree(): SchemaObject
+			}
 		}
 		optional(
 			rules?: Rule[]
@@ -333,6 +337,10 @@ declare module '@ioc:Adonis/Core/Validator' {
 				schema: T
 			): {
 				t?: { [P in keyof T]: T[P]['t'] }
+				getTree(): SchemaObject
+			}
+			anyMembers(): {
+				t?: { [key: string]: any }
 				getTree(): SchemaObject
 			}
 		}

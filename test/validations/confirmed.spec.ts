@@ -14,8 +14,8 @@ import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { confirmed } from '../../src/Validations/existence/confirmed'
 
-function compile() {
-	return confirmed.compile('literal', 'string', rules.confirmed().options)
+function compile(fieldName?: string) {
+	return confirmed.compile('literal', 'string', rules.confirmed(fieldName).options)
 }
 
 test.group('Confirmed', () => {
@@ -147,5 +147,47 @@ test.group('Confirmed', () => {
 		})
 
 		assert.deepEqual(reporter.toJSON(), { errors: [] })
+	})
+
+	test('define custom confirmation field name', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
+			errorReporter: reporter,
+			field: 'password',
+			pointer: 'password',
+			tip: {
+				passwordConfirmation: 'secret',
+			},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		assert.deepEqual(reporter.toJSON(), { errors: [] })
+	})
+
+	test('return error when custom confirmation field name is missing', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
+			errorReporter: reporter,
+			field: 'password',
+			pointer: 'password',
+			tip: {
+				password_confirmation: 'secret',
+			},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		assert.deepEqual(reporter.toJSON(), {
+			errors: [
+				{
+					field: 'password_confirmation',
+					rule: 'confirmed',
+					message: 'confirmed validation failed',
+				},
+			],
+		})
 	})
 })

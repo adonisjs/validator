@@ -18,11 +18,25 @@ const DEFAULT_MESSAGE = 'confirmed validation failed'
  * Useful for password confirmation.
  */
 export const confirmed: SyncValidation = {
-	compile: wrapCompile(RULE_NAME),
-	validate(value, _, { errorReporter, field, pointer, arrayExpressionPointer, root, tip }) {
+	compile: wrapCompile(RULE_NAME, ['string', 'boolean', 'number', 'enum'], (args: any[]) => {
+		const res = {
+			compiledOptions: {
+				confirmationFieldName: args[0],
+			},
+		}
+
+		return res
+	}),
+	validate(
+		value,
+		{ confirmationFieldName },
+		{ errorReporter, field, pointer, arrayExpressionPointer, root, tip }
+	) {
 		if (!exists(value)) {
 			return
 		}
+
+		confirmationFieldName = confirmationFieldName || `${field}_confirmation`
 
 		/**
 		 * We check to same value is not the type. Since it's possible that the original
@@ -37,7 +51,7 @@ export const confirmed: SyncValidation = {
 		 * confirmed rule will fail.
 		 */
 		// eslint-disable-next-line eqeqeq
-		if (getFieldValue(`${field}_confirmation`, root, tip) != value) {
+		if (getFieldValue(confirmationFieldName, root, tip) != value) {
 			errorReporter.report(
 				`${pointer}_confirmation`,
 				RULE_NAME,

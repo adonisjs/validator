@@ -643,7 +643,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 		/**
 		 * Confirm field to be exists and have the same value
 		 */
-		confirmed(): Rule
+		confirmed(fieldName?: string): Rule
 		distinct(field: string): Rule
 	}
 

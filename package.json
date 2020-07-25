@@ -70,7 +70,7 @@
 		"tag": "alpha"
 	},
 	"devDependencies": {
-		"@adonisjs/bodyparser": "^3.2.4",
+		"@adonisjs/bodyparser": "^4.0.4",
 		"@adonisjs/encryption": "^2.0.6",
 		"@adonisjs/fold": "^6.3.5",
 		"@adonisjs/http-server": "^3.0.1",

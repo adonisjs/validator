@@ -8,9 +8,9 @@
  */
 
 declare module '@ioc:Adonis/Core/Validator' {
-	import { DateTime } from 'luxon'
 	import { UUIDVersion } from 'validator/lib/isUUID'
 	import { default as validatorJs } from 'validator'
+	import { DateTime, DurationObjectUnits } from 'luxon'
 	import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 	import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
@@ -645,6 +645,16 @@ declare module '@ioc:Adonis/Core/Validator' {
 		 */
 		confirmed(fieldName?: string): Rule
 		distinct(field: string): Rule
+
+		/**
+		 * Date rules
+		 */
+		after(interval: number, duration: keyof DurationObjectUnits): Rule
+		after(date: SchemaRef<DateTime>): Rule
+		before(interval: number, duration: keyof DurationObjectUnits): Rule
+		before(date: SchemaRef<DateTime>): Rule
+		afterField(field: string): Rule
+		beforeField(field: string): Rule
 	}
 
 	/**

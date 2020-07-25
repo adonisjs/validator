@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { DateTime } from 'luxon'
 import { lodash } from '@poppinss/utils'
 import { NodeSubType, NodeType, ParsedRule, SchemaRef } from '@ioc:Adonis/Core/Validator'
 
@@ -38,6 +39,15 @@ export function isObject(value: any) {
 export function enforceArray(value: unknown, message?: string): asserts value is any[] {
 	if (!Array.isArray(value)) {
 		throw new Error(message || 'Expected value to be an array')
+	}
+}
+
+/**
+ * Enforces the value to be an instance of luxon DateTime object
+ */
+export function enforceDateTime(value: unknown, message?: string): asserts value is DateTime {
+	if (value instanceof DateTime === false) {
+		throw new Error(message || 'Expected value to be an instance of luxon DateTime object')
 	}
 }
 

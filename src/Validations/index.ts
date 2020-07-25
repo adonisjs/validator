@@ -7,9 +7,14 @@
  * file that was distributed with this source code.
  */
 
+export { distinct } from './array/distinct'
+export { before } from './date/before'
+export { after } from './date/after'
+export { afterField } from './date/afterField'
+export { beforeField } from './date/beforeField'
+
 export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'
-export { distinct } from './array/distinct'
 export { requiredIfExists } from './existence/requiredIfExists'
 export { requiredIfExistsAll } from './existence/requiredIfExistsAll'
 export { requiredIfExistsAny } from './existence/requiredIfExistsAny'

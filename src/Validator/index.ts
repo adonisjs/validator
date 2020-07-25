@@ -25,7 +25,15 @@ import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
 import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
-import { exists, existsStrict, isObject, wrapCompile, getFieldValue, isRef } from './helpers'
+import {
+	exists,
+	existsStrict,
+	isObject,
+	wrapCompile,
+	getFieldValue,
+	resolveAbsoluteName,
+	isRef,
+} from './helpers'
 import { VanillaErrorReporter, ApiErrorReporter, JsonApiErrorReporter } from '../ErrorReporter'
 
 /**
@@ -171,6 +179,7 @@ export const validator: typeof validatorStatic = {
 	rule,
 	type,
 	helpers: {
+		resolveAbsoluteName,
 		exists,
 		isRef,
 		existsStrict,

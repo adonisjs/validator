@@ -183,11 +183,86 @@ test.group('Confirmed', () => {
 		assert.deepEqual(reporter.toJSON(), {
 			errors: [
 				{
-					field: 'password_confirmation',
+					field: 'passwordConfirmation',
 					rule: 'confirmed',
 					message: 'confirmed validation failed',
 				},
 			],
 		})
+	})
+
+	test('return error when custom confirmation field name is missing inside nested object', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
+			errorReporter: reporter,
+			field: 'password',
+			pointer: 'user.password',
+			tip: {
+				password_confirmation: 'secret',
+			},
+			root: {
+				user: {
+					password_confirmation: 'secret',
+				},
+			},
+			refs: {},
+			mutate: () => {},
+		})
+
+		assert.deepEqual(reporter.toJSON(), {
+			errors: [
+				{
+					field: 'user.passwordConfirmation',
+					rule: 'confirmed',
+					message: 'confirmed validation failed',
+				},
+			],
+		})
+	})
+
+	test('return error when custom confirmation field name is missing at root level', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		confirmed.validate('secret', compile('/passwordConfirmation').compiledOptions, {
+			errorReporter: reporter,
+			field: 'password',
+			pointer: 'user.password',
+			tip: {
+				password_confirmation: 'secret',
+			},
+			root: {
+				password_confirmation: 'secret',
+			},
+			refs: {},
+			mutate: () => {},
+		})
+
+		assert.deepEqual(reporter.toJSON(), {
+			errors: [
+				{
+					field: 'passwordConfirmation',
+					rule: 'confirmed',
+					message: 'confirmed validation failed',
+				},
+			],
+		})
+	})
+
+	test('work fine when custom confirmation field name is present at root level', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		confirmed.validate('secret', compile('/passwordConfirmation').compiledOptions, {
+			errorReporter: reporter,
+			field: 'password',
+			pointer: 'user.password',
+			tip: {
+				password_confirmation: 'secret',
+			},
+			root: {
+				passwordConfirmation: 'secret',
+			},
+			refs: {},
+			mutate: () => {},
+		})
+
+		assert.deepEqual(reporter.toJSON(), { errors: [] })
 	})
 })

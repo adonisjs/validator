@@ -8,7 +8,7 @@
  */
 
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { exists, getFieldValue, wrapCompile } from '../../Validator/helpers'
+import { exists, getFieldValue, wrapCompile, resolveAbsoluteName } from '../../Validator/helpers'
 
 const RULE_NAME = 'confirmed'
 const DEFAULT_MESSAGE = 'confirmed validation failed'
@@ -53,7 +53,7 @@ export const confirmed: SyncValidation = {
 		// eslint-disable-next-line eqeqeq
 		if (getFieldValue(confirmationFieldName, root, tip) != value) {
 			errorReporter.report(
-				`${pointer}_confirmation`,
+				resolveAbsoluteName(confirmationFieldName, pointer),
 				RULE_NAME,
 				DEFAULT_MESSAGE,
 				arrayExpressionPointer

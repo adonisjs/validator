@@ -68,6 +68,17 @@ export function getFieldValue(field: string, root: any, tip: any) {
 }
 
 /**
+ * Resolves the field name in relation to the other field. If field name
+ * starts with `/` it is returned as it is by removing `/`. Otherwise
+ * the other field pointer is used to make the absolute name
+ */
+export function resolveAbsoluteName(field: string, otherField: string): string {
+	return field[0] === '/'
+		? field.slice(1)
+		: otherField.split('.').slice(0, -1).concat(field).join('.')
+}
+
+/**
  * Validates to ensure that arguments passed to validations compile method
  * is an array
  */

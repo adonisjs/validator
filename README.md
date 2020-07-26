@@ -25,11 +25,11 @@
 
 <div align="center">
   <h3>
-    <a href="https://adonisjs.com">
+    <a href="https://preview.adonisjs.com">
       Website
     </a>
     <span> | </span>
-    <a href="https://adonisjs.com/docs">
+    <a href="https://preview.adonisjs.com/guides/validator/introduction">
       Guides
     </a>
     <span> | </span>
@@ -40,7 +40,7 @@
 </div>
 
 <div align="center">
-  <sub>Built with ❤︎ by <a href="https://github.com/thetutlage">Harminder Virk</a>
+	<sub>Built with ❤︎ by <a href="https://twitter.com/AmanVirk1">Harminder Virk</a>
 </div>
 
 [circleci-image]: https://img.shields.io/circleci/project/github/adonisjs/validator/master.svg?style=for-the-badge&logo=circleci

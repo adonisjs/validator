@@ -6,7 +6,7 @@
 
 <div align="center">
   <h3>AdonisJS Validator</h3>
-  <p>A fluent and super fast validation engine for AdonisJS. In performance AdonisJS validator out performs many of its competitors.</p>
+  <p> Fluent and super fast validation library used by AdonisJS. It out performs many of the other validation libraries in terms of performance. </p>
 </div>
 
 <br />

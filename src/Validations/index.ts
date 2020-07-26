@@ -8,10 +8,14 @@
  */
 
 export { distinct } from './array/distinct'
-export { before } from './date/before'
+
 export { after } from './date/after'
 export { afterField } from './date/afterField'
+export { afterOrEqualToField } from './date/afterOrEqualToField'
+
+export { before } from './date/before'
 export { beforeField } from './date/beforeField'
+export { beforeOrEqualToField } from './date/beforeOrEqualToField'
 
 export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'

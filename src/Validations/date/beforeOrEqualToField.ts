@@ -12,14 +12,14 @@ import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 import { wrapCompile } from '../../Validator/helpers'
 import { compile, validate, CompileReturnType } from './helpers/field'
 
-const RULE_NAME = 'beforeField'
-const DEFAULT_MESSAGE = 'before date validation failed'
+const RULE_NAME = 'beforeOrEqualToField'
+const DEFAULT_MESSAGE = 'before or equal to date validation failed'
 
 /**
  * Ensure the date is after the defined field.
  */
-export const beforeField: SyncValidation<CompileReturnType> = {
-	compile: wrapCompile(RULE_NAME, [], (options) => compile(RULE_NAME, '<', options)),
+export const beforeOrEqualToField: SyncValidation<CompileReturnType> = {
+	compile: wrapCompile(RULE_NAME, [], (options) => compile(RULE_NAME, '<=', options)),
 	validate(value, compiledOptions, runtimeOptions) {
 		return validate(RULE_NAME, DEFAULT_MESSAGE, value, compiledOptions, runtimeOptions)
 	},

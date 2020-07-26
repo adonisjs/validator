@@ -602,7 +602,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 		requiredWhen(
 			field: string,
 			operator: '>' | '<' | '>=' | '<=',
-			comparisonValues: number | SchemaRef<number>
+			comparisonValue: number | SchemaRef<number>
 		): Rule
 		requiredWhen(
 			field: string,
@@ -629,32 +629,104 @@ declare module '@ioc:Adonis/Core/Validator' {
 		 * String must match regex
 		 */
 		regex(regexPattern: RegExp): Rule
+
+		/**
+		 * Value must be a valid email address
+		 */
 		email(options?: EmailRuleOptions): Rule
+
+		/**
+		 * Value must be valid as ip address regex. Optionally you can
+		 * define a ipv version
+		 */
 		ip(options?: { version?: '4' | 4 | 6 | '6' }): Rule
+
+		/**
+		 * Value must be valid as per uuid format. Optionally you can
+		 * define a uuid version
+		 */
 		uuid(options?: { version?: UUIDVersion }): Rule
+
+		/**
+		 * Value must pass the mobile regex rule
+		 */
 		mobile(options?: { strict?: boolean; locales?: validatorJs.MobilePhoneLocale[] }): Rule
 
 		/**
-		 * String or array must have defined maximum length
+		 * Length of string or array must be below or same as the defined length
 		 */
 		maxLength(length: number): Rule
+
+		/**
+		 * Length of string or array must be above the defined length
+		 */
 		minLength(length: number): Rule
 
 		/**
 		 * Confirm field to be exists and have the same value
 		 */
-		confirmed(fieldName?: string): Rule
+		confirmed(field?: string): Rule
+
+		/**
+		 * The value of field must be distinct inside the array
+		 */
 		distinct(field: string): Rule
 
 		/**
-		 * Date rules
+		 * The value of date must be after a given duration
 		 */
-		after(interval: number, duration: keyof DurationObjectUnits): Rule
+		after(duration: number, unit: keyof DurationObjectUnits): Rule
+
+		/**
+		 * The value of date must be after a given date
+		 */
 		after(date: SchemaRef<DateTime>): Rule
-		before(interval: number, duration: keyof DurationObjectUnits): Rule
+
+		/**
+		 * The value of date must be after the given keyword.
+		 *
+		 * After "today" is equivalent to 0, days
+		 * After "tomorrow" is equivalent to 1, day
+		 */
+		after(keyword: 'today' | 'tomorrow'): Rule
+
+		/**
+		 * The value of date must be before a given duration
+		 */
+		before(duration: number, unit: keyof DurationObjectUnits): Rule
+
+		/**
+		 * The value of date must be before a given date
+		 */
 		before(date: SchemaRef<DateTime>): Rule
+
+		/**
+		 * The value of date must be before the given keyword.
+		 *
+		 * Before "today" is equivalent to 0, days
+		 * Before "yesterday" is equivalent to 1, day
+		 */
+		before(keyword: 'today' | 'yesterday'): Rule
+
+		/**
+		 * The value of date must be after a given date
+		 */
 		afterField(field: string): Rule
+
+		/**
+		 * The value of date must be after or equal to a given date
+		 */
+		afterOrEqualToField(field: string): Rule
+
+		/**
+		 * The value of date must be before a given date
+		 */
 		beforeField(field: string): Rule
+
+		/**
+		 * The value of date must be before or equal to a given date
+		 */
+		beforeOrEqualToField(field: string): Rule
 	}
 
 	/**

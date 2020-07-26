@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { DateTime } from 'luxon'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
-import { getFieldValue, wrapCompile } from '../../Validator/helpers'
+
+import { wrapCompile } from '../../Validator/helpers'
+import { compile, validate, CompileReturnType } from './helpers/field'
 
 const RULE_NAME = 'afterField'
 const DEFAULT_MESSAGE = 'after date validation failed'
@@ -17,29 +18,9 @@ const DEFAULT_MESSAGE = 'after date validation failed'
 /**
  * Ensure the date is after the defined field.
  */
-export const afterField: SyncValidation<{ field: string }> = {
-	compile: wrapCompile(RULE_NAME, [], ([field]) => {
-		if (!field) {
-			throw new Error(`${RULE_NAME}: expects a "field"`)
-		}
-
-		return {
-			allowUndefineds: true,
-			compiledOptions: {
-				field,
-			},
-		}
-	}),
-	validate(value, compiledOptions, { root, tip, errorReporter, pointer, arrayExpressionPointer }) {
-		const otherFieldValue = getFieldValue(compiledOptions.field, root, tip)
-		if (value instanceof DateTime === false || otherFieldValue instanceof DateTime === false) {
-			return
-		}
-
-		if (value <= otherFieldValue) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
-				otherField: compiledOptions.field,
-			})
-		}
+export const afterField: SyncValidation<CompileReturnType> = {
+	compile: wrapCompile(RULE_NAME, [], (options) => compile(RULE_NAME, '>', options)),
+	validate(value, compiledOptions, runtimeOptions) {
+		return validate(RULE_NAME, DEFAULT_MESSAGE, value, compiledOptions, runtimeOptions)
 	},
 }

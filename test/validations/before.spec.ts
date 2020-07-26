@@ -12,20 +12,26 @@ import { DateTime, DurationObjectUnits } from 'luxon'
 import { SchemaRef, ParsedRule } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../../src/Rules'
-// import { schema } from '../../src/Schema'
+import { schema } from '../../src/Schema'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { before } from '../../src/Validations/date/before'
 
+function compile(keyword: 'today' | 'yesterday'): ParsedRule<any>
 function compile(date: SchemaRef<DateTime>): ParsedRule<any>
 function compile(interval: number, duration: keyof DurationObjectUnits): ParsedRule<any>
 function compile(
-	interval: number | SchemaRef<DateTime>,
+	interval: number | SchemaRef<DateTime> | 'today' | 'yesterday',
 	duration?: keyof DurationObjectUnits
 ): ParsedRule<any> {
 	const { options } =
-		typeof interval === 'number' ? rules.after(interval, duration!) : rules.after(interval)
+		typeof interval === 'number'
+			? rules.before(interval, duration!)
+			: typeof interval === 'string'
+			? rules.before(interval)
+			: rules.before(interval)
+
 	return before.compile('literal', 'date', options)
 }
 
@@ -34,17 +40,17 @@ test.group('Date | Before', () => {
 
 	test('do not compile when one argument is passed and is not a ref', (assert) => {
 		const fn = () => before.compile('literal', 'date', ['foo'])
-		assert.throw(fn, '"before": expects an offset "interval" and "duration" or a "ref"')
+		assert.throw(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
 	})
 
 	test('do not compile when interval is not a number', (assert) => {
 		const fn = () => before.compile('literal', 'date', ['foo', 'days'])
-		assert.throw(fn, '"before": expects an "interval" to be a number')
+		assert.throw(fn, '"before": expects "duration" to be a number')
 	})
 
 	test('do not compile when interval no arguments are defined', (assert) => {
 		const fn = () => before.compile('literal', 'date', [])
-		assert.throw(fn, '"before": expects an offset "interval" and "duration" or a "ref"')
+		assert.throw(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
 	})
 })
 
@@ -99,6 +105,84 @@ test.group('Date | Before | Day', () => {
 		const publishedOn = DateTime.local().minus({ days: 2 }).toISO()
 
 		before.validate(DateTime.fromISO(publishedOn!), compile(1, 'day').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+
+	test('report error when date is not before today', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().toISODate()
+
+		before.validate(DateTime.fromISO(publishedOn!), compile('today').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_on')
+		assert.equal(errors.errors[0].rule, 'before')
+		assert.equal(errors.errors[0].message, 'before date validation failed')
+	})
+
+	test('work fine when date is before today', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().minus({ days: 1 }).toISODate()
+
+		before.validate(DateTime.fromISO(publishedOn!), compile('today').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+
+	test('report error when date is not yesterday today', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().minus({ days: 1 }).toISODate()
+
+		before.validate(DateTime.fromISO(publishedOn!), compile('yesterday').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_on')
+		assert.equal(errors.errors[0].rule, 'before')
+		assert.equal(errors.errors[0].message, 'before date validation failed')
+	})
+
+	test('work fine when date is before yesterday', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().minus({ days: 2 }).toISODate()
+
+		before.validate(DateTime.fromISO(publishedOn!), compile('yesterday').compiledOptions!, {
 			errorReporter: reporter,
 			field: 'published_on',
 			pointer: 'published_on',
@@ -190,164 +274,166 @@ test.group('Date | Before | Minutes', () => {
 	})
 })
 
-// test.group('Date | After | Ref', () => {
-// 	test('report error when date is before the defined ref', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().toISODate()
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ days: 10 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+test.group('Date | Before | Ref', () => {
+	test('report error when date is not before the defined ref', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().toISODate()
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ days: 10 }),
+			}),
+			mutate: () => {},
+		}
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 1)
-// 		assert.equal(errors.errors[0].field, 'published_at')
-// 		assert.equal(errors.errors[0].rule, 'after')
-// 		assert.equal(errors.errors[0].message, 'after date validation failed')
-// 	})
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
 
-// 	test('report error when datetime is before the defined ref', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().toISO()
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_at')
+		assert.equal(errors.errors[0].rule, 'before')
+		assert.equal(errors.errors[0].message, 'before date validation failed')
+	})
 
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ minutes: 30 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+	test('report error when datetime is not before the defined ref', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().toISO()
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ minutes: 30 }),
+			}),
+			mutate: () => {},
+		}
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 1)
-// 		assert.equal(errors.errors[0].field, 'published_at')
-// 		assert.equal(errors.errors[0].rule, 'after')
-// 		assert.equal(errors.errors[0].message, 'after date validation failed')
-// 	})
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
 
-// 	test('report error when time is not defined for the same day', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().plus({ minutes: 30 }).toISODate()
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ minutes: 10 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_at')
+		assert.equal(errors.errors[0].rule, 'before')
+		assert.equal(errors.errors[0].message, 'before date validation failed')
+	})
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+	test('work fine when time is not defined for the same day', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().minus({ minutes: 5 }).toISODate()
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 1)
-// 		assert.equal(errors.errors[0].field, 'published_at')
-// 		assert.equal(errors.errors[0].rule, 'after')
-// 		assert.equal(errors.errors[0].message, 'after date validation failed')
-// 	})
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ minutes: 10 }),
+			}),
+			mutate: () => {},
+		}
 
-// 	test('work fine when date is after the defined ref', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().plus({ days: 11 }).toISODate()
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ days: 10 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 0)
-// 	})
+	test('work fine when date is before the defined ref', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().minus({ days: 11 }).toISODate()
 
-// 	test('work fine when datetime is after the defined ref', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().plus({ minutes: 30 }).toISO()
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ minutes: 10 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ days: 10 }),
+			}),
+			mutate: () => {},
+		}
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 0)
-// 	})
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
 
-// 	test('work fine when time is not defined for the next day', (assert) => {
-// 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-// 		const publishedAt = DateTime.local().plus({ days: 1 }).toISODate()
-// 		const validator = {
-// 			errorReporter: reporter,
-// 			field: 'published_at',
-// 			pointer: 'published_at',
-// 			tip: {},
-// 			root: {},
-// 			refs: schema.refs({
-// 				afterDate: DateTime.local().plus({ minutes: 10 }),
-// 			}),
-// 			mutate: () => {},
-// 		}
+	test('work fine when datetime is before the defined ref', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().minus({ minutes: 30 }).toISO()
 
-// 		after.validate(
-// 			DateTime.fromISO(publishedAt!),
-// 			compile(validator.refs.afterDate).compiledOptions!,
-// 			validator
-// 		)
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ minutes: 10 }),
+			}),
+			mutate: () => {},
+		}
 
-// 		const errors = reporter.toJSON()
-// 		assert.lengthOf(errors.errors, 0)
-// 	})
-// })
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+
+	test('work fine when time is not defined for the previous day', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedAt = DateTime.local().minus({ days: 1 }).toISODate()
+
+		const validator = {
+			errorReporter: reporter,
+			field: 'published_at',
+			pointer: 'published_at',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				beforeDate: DateTime.local().minus({ minutes: 10 }),
+			}),
+			mutate: () => {},
+		}
+
+		before.validate(
+			DateTime.fromISO(publishedAt!),
+			compile(validator.refs.beforeDate).compiledOptions!,
+			validator
+		)
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+})

@@ -18,14 +18,20 @@ import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { after } from '../../src/Validations/date/after'
 
+function compile(keyword: 'today' | 'tomorrow'): ParsedRule<any>
 function compile(date: SchemaRef<DateTime>): ParsedRule<any>
 function compile(interval: number, duration: keyof DurationObjectUnits): ParsedRule<any>
 function compile(
-	interval: number | SchemaRef<DateTime>,
+	interval: number | SchemaRef<DateTime> | 'today' | 'tomorrow',
 	duration?: keyof DurationObjectUnits
 ): ParsedRule<any> {
 	const { options } =
-		typeof interval === 'number' ? rules.after(interval, duration!) : rules.after(interval)
+		typeof interval === 'number'
+			? rules.after(interval, duration!)
+			: typeof interval === 'string'
+			? rules.after(interval)
+			: rules.after(interval)
+
 	return after.compile('literal', 'date', options)
 }
 
@@ -34,17 +40,17 @@ test.group('Date | After', () => {
 
 	test('do not compile when one argument is passed and is not a ref', (assert) => {
 		const fn = () => after.compile('literal', 'date', ['foo'])
-		assert.throw(fn, '"after": expects an offset "interval" and "duration" or a "ref"')
+		assert.throw(fn, '"after": expects a date offset "duration" and "unit" or a "ref"')
 	})
 
 	test('do not compile when interval is not a number', (assert) => {
 		const fn = () => after.compile('literal', 'date', ['foo', 'days'])
-		assert.throw(fn, '"after": expects an "interval" to be a number')
+		assert.throw(fn, '"after": expects "duration" to be a number')
 	})
 
 	test('do not compile when interval no arguments are defined', (assert) => {
 		const fn = () => after.compile('literal', 'date', [])
-		assert.throw(fn, '"after": expects an offset "interval" and "duration" or a "ref"')
+		assert.throw(fn, '"after": expects a date offset "duration" and "unit" or a "ref"')
 	})
 })
 
@@ -99,6 +105,84 @@ test.group('Date | After | Day', () => {
 		const publishedOn = DateTime.local().plus({ days: 2 }).toISO()
 
 		after.validate(DateTime.fromISO(publishedOn!), compile(1, 'day').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+
+	test('return error when date is not after today', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().toISODate()
+
+		after.validate(DateTime.fromISO(publishedOn!), compile('today').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_on')
+		assert.equal(errors.errors[0].rule, 'after')
+		assert.equal(errors.errors[0].message, 'after date validation failed')
+	})
+
+	test('work fine when date is after today', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().plus({ days: 1 }).toISODate()
+
+		after.validate(DateTime.fromISO(publishedOn!), compile('today').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 0)
+	})
+
+	test('return error when date is not after tomorrow', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().plus({ days: 1 }).toISODate()
+
+		after.validate(DateTime.fromISO(publishedOn!), compile('tomorrow').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'published_on',
+			pointer: 'published_on',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
+
+		const errors = reporter.toJSON()
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'published_on')
+		assert.equal(errors.errors[0].rule, 'after')
+		assert.equal(errors.errors[0].message, 'after date validation failed')
+	})
+
+	test('work fine when date is after tomorrow', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+		const publishedOn = DateTime.local().plus({ days: 2 }).toISODate()
+
+		after.validate(DateTime.fromISO(publishedOn!), compile('tomorrow').compiledOptions!, {
 			errorReporter: reporter,
 			field: 'published_on',
 			pointer: 'published_on',

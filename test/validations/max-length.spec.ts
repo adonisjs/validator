@@ -25,7 +25,7 @@ test.group('Max Length', () => {
 
 	test('do not compile when args are not defined', (assert) => {
 		const fn = () => maxLength.compile('literal', 'array')
-		assert.throw(fn, 'maxLength: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"maxLength": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('do not compile when length is not defined', (assert) => {
@@ -35,7 +35,7 @@ test.group('Max Length', () => {
 
 	test('do not compile when node subtype is not an array or string', (assert) => {
 		const fn = () => maxLength.compile('literal', 'object', [])
-		assert.throw(fn, 'maxLength: Rule can only be used with "schema.<string,array>" type(s)')
+		assert.throw(fn, '"maxLength": Rule can only be used with "schema.<string,array>" type(s)')
 	})
 
 	test('compile with options', (assert) => {

@@ -27,7 +27,7 @@ test.group('blacklist', () => {
 
 	test('do not compile when keywords are not defined', (assert) => {
 		const fn = () => blacklist.compile('literal', 'string')
-		assert.throw(fn, 'blacklist: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"blacklist": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('do not compile when blacklist is not an array of values', (assert) => {
@@ -204,19 +204,15 @@ test.group('blacklist | date', () => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 		const publicHolidays = ['2020-12-25', '2021-01-01']
 
-		blacklist.validate(
-			'2020-12-25',
-			compile(publicHolidays, 'date').compiledOptions!,
-			{
-				errorReporter: reporter,
-				field: 'points',
-				pointer: 'points',
-				tip: {},
-				root: {},
-				refs: {},
-				mutate: () => {},
-			}
-		)
+		blacklist.validate('2020-12-25', compile(publicHolidays, 'date').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'points',
+			pointer: 'points',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
 
 		assert.deepEqual(reporter.toJSON(), { errors: [] })
 	})
@@ -226,19 +222,15 @@ test.group('blacklist | array', () => {
 	test('report error when value is part of blacklist keywords', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
-		blacklist.validate(
-			['1', '2', '3'],
-			compile(['10', '3', '6'], 'array').compiledOptions!,
-			{
-				errorReporter: reporter,
-				field: 'points',
-				pointer: 'points',
-				tip: {},
-				root: {},
-				refs: {},
-				mutate: () => {},
-			}
-		)
+		blacklist.validate(['1', '2', '3'], compile(['10', '3', '6'], 'array').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'points',
+			pointer: 'points',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
 
 		assert.deepEqual(reporter.toJSON(), {
 			errors: [
@@ -255,19 +247,15 @@ test.group('blacklist | array', () => {
 	test('work fine when value is not part of blacklist keywords', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
-		blacklist.validate(
-			['1', '2', '4'],
-			compile(['10', '3', '6'], 'array').compiledOptions!,
-			{
-				errorReporter: reporter,
-				field: 'points',
-				pointer: 'points',
-				tip: {},
-				root: {},
-				refs: {},
-				mutate: () => {},
-			}
-		)
+		blacklist.validate(['1', '2', '4'], compile(['10', '3', '6'], 'array').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'points',
+			pointer: 'points',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
 
 		assert.deepEqual(reporter.toJSON(), { errors: [] })
 	})
@@ -275,19 +263,15 @@ test.group('blacklist | array', () => {
 	test('skip when value is not an array', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
-		blacklist.validate(
-			'3',
-			compile(['10', '3', '6'], 'array').compiledOptions!,
-			{
-				errorReporter: reporter,
-				field: 'points',
-				pointer: 'points',
-				tip: {},
-				root: {},
-				refs: {},
-				mutate: () => {},
-			}
-		)
+		blacklist.validate('3', compile(['10', '3', '6'], 'array').compiledOptions!, {
+			errorReporter: reporter,
+			field: 'points',
+			pointer: 'points',
+			tip: {},
+			root: {},
+			refs: {},
+			mutate: () => {},
+		})
 
 		assert.deepEqual(reporter.toJSON(), { errors: [] })
 	})
@@ -304,7 +288,7 @@ test.group('blacklist | refs', () => {
 			tip: {},
 			root: {},
 			refs: schema.refs({
-				blacklistKeywords: ['3', '4']
+				blacklistKeywords: ['3', '4'],
 			}),
 			mutate: () => {},
 		}
@@ -333,7 +317,7 @@ test.group('blacklist | refs', () => {
 			tip: {},
 			root: {},
 			refs: schema.refs({
-				blacklistKeywords: ['3', '4']
+				blacklistKeywords: ['3', '4'],
 			}),
 			mutate: () => {},
 		}

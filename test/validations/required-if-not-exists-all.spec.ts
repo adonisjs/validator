@@ -31,18 +31,18 @@ test.group('Required If Not Exists All', () => {
 		const fn = () => requiredIfNotExistsAll.compile('literal', 'string')
 		assert.throw(
 			fn,
-			'requiredIfNotExistsAll: The 3rd argument must be a combined array of arguments'
+			'"requiredIfNotExistsAll": The 3rd argument must be a combined array of arguments'
 		)
 	})
 
 	test('do not compile when fields are not defined', (assert) => {
 		const fn = () => requiredIfNotExistsAll.compile('literal', 'string', [])
-		assert.throw(fn, 'requiredIfNotExistsAll: expects an array of "fields"')
+		assert.throw(fn, '"requiredIfNotExistsAll": expects an array of "fields"')
 	})
 
 	test('do not compile when fields are not defined as array', (assert) => {
 		const fn = () => requiredIfNotExistsAll.compile('literal', 'string', ['foo'])
-		assert.throw(fn, 'requiredIfNotExistsAll: expects "fields" to be an array')
+		assert.throw(fn, '"requiredIfNotExistsAll": expects "fields" to be an array')
 	})
 
 	test('compile with options', (assert) => {

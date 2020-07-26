@@ -40,7 +40,7 @@ test.group('File', () => {
 
 	test('do not compile when args are not defined', (assert) => {
 		const fn = () => file.compile('literal', 'file')
-		assert.throw(fn, 'file: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"file": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('compile with empty object when options are not defined', (assert) => {

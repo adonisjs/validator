@@ -20,11 +20,11 @@ const DEFAULT_MESSAGE = 'requiredIfNotExistsAny validation failed'
 export const requiredIfNotExistsAny: SyncValidation<{ fields: string[] }> = {
 	compile: wrapCompile(RULE_NAME, [], ([fields]) => {
 		if (!fields) {
-			throw new Error(`${RULE_NAME}: expects an array of "fields"`)
+			throw new Error(`"${RULE_NAME}": expects an array of "fields"`)
 		}
 
 		if (!Array.isArray(fields)) {
-			throw new Error(`${RULE_NAME}: expects "fields" to be an array`)
+			throw new Error(`"${RULE_NAME}": expects "fields" to be an array`)
 		}
 
 		return {

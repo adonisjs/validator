@@ -25,15 +25,15 @@ import * as validations from './Validations'
 export function compileRule(type: string, subtype: string, rule: Rule): ParsedRule {
 	const ruleValidation = validations[rule.name]
 	if (!ruleValidation) {
-		throw new Error(`${rule.name} rule is not registered. Use rules.extend to add the rule.`)
+		throw new Error(`"${rule.name}" rule is not registered. Use "validator.rule" to add the rule.`)
 	}
 
 	if (typeof ruleValidation.compile !== 'function') {
-		throw new Error(`${rule.name} rule must implement the compile function`)
+		throw new Error(`"${rule.name}" rule must implement the compile function`)
 	}
 
 	if (typeof ruleValidation.validate !== 'function') {
-		throw new Error(`${rule.name} rule must implement the validate function`)
+		throw new Error(`"${rule.name}" rule must implement the validate function`)
 	}
 
 	return ruleValidation.compile(type, subtype, rule.options)

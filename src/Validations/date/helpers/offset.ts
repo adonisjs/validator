@@ -149,7 +149,10 @@ export function validate(
 		comparisonDate = getDateTime(compiledOptions.operator, compiledOptions.offset)
 	}
 
-	enforceDateTime(comparisonDate)
+	enforceDateTime(
+		comparisonDate,
+		`"${ruleName}": expects "refs.${compiledOptions.ref}" to be an array`
+	)
 
 	if (!compareDateTime(value, comparisonDate, compiledOptions.operator, compiledOptions.offset)) {
 		errorReporter.report(pointer, ruleName, errorMessage, arrayExpressionPointer, {

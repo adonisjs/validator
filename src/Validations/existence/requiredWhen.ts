@@ -34,7 +34,7 @@ const OPERATORS = {
 	'in': {
 		compile(comparisonValues: any) {
 			if (!Array.isArray(comparisonValues)) {
-				throw new Error(`${RULE_NAME}: "in" operator expects an array of "comparisonValues"`)
+				throw new Error(`"${RULE_NAME}": "in" operator expects an array of "comparisonValues"`)
 			}
 		},
 
@@ -50,7 +50,7 @@ const OPERATORS = {
 	'notIn': {
 		compile(comparisonValues: any[]) {
 			if (!Array.isArray(comparisonValues)) {
-				throw new Error(`${RULE_NAME}: "notIn" operator expects an array of "comparisonValues"`)
+				throw new Error(`"${RULE_NAME}": "notIn" operator expects an array of "comparisonValues"`)
 			}
 		},
 
@@ -84,7 +84,7 @@ const OPERATORS = {
 	'>': {
 		compile(comparisonValue: number) {
 			if (typeof comparisonValue !== 'number') {
-				throw new Error(`${RULE_NAME}: ">" operator expects "comparisonValue" to be a number`)
+				throw new Error(`"${RULE_NAME}": ">" operator expects "comparisonValue" to be a number`)
 			}
 		},
 
@@ -100,7 +100,7 @@ const OPERATORS = {
 	'<': {
 		compile(comparisonValue: number) {
 			if (typeof comparisonValue !== 'number') {
-				throw new Error(`${RULE_NAME}: "<" operator expects "comparisonValue" to be a number`)
+				throw new Error(`"${RULE_NAME}": "<" operator expects "comparisonValue" to be a number`)
 			}
 		},
 
@@ -116,7 +116,7 @@ const OPERATORS = {
 	'>=': {
 		compile(comparisonValue: number) {
 			if (typeof comparisonValue !== 'number') {
-				throw new Error(`${RULE_NAME}: ">=" operator expects "comparisonValue" to be a number`)
+				throw new Error(`"${RULE_NAME}": ">=" operator expects "comparisonValue" to be a number`)
 			}
 		},
 
@@ -132,7 +132,7 @@ const OPERATORS = {
 	'<=': {
 		compile(comparisonValue: number) {
 			if (typeof comparisonValue !== 'number') {
-				throw new Error(`${RULE_NAME}: "<=" operator expects "comparisonValue" to be a number`)
+				throw new Error(`"${RULE_NAME}": "<=" operator expects "comparisonValue" to be a number`)
 			}
 		},
 
@@ -152,14 +152,14 @@ export const requiredWhen: SyncValidation<CompileReturnType> = {
 		 * Ensure "field", "operator" and "comparisonValues" are defined
 		 */
 		if (!field || !operator || comparisonValues === undefined) {
-			throw new Error(`${RULE_NAME}: expects a "field", "operator" and "comparisonValue"`)
+			throw new Error(`"${RULE_NAME}": expects a "field", "operator" and "comparisonValue"`)
 		}
 
 		/**
 		 * Ensure "operator" is defined
 		 */
 		if (!OPERATORS[operator]) {
-			throw new Error(`${RULE_NAME}: expects "operator" to be one of the whitelisted operators`)
+			throw new Error(`"${RULE_NAME}": expects "operator" to be one of the whitelisted operators`)
 		}
 
 		/**

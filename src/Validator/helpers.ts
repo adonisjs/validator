@@ -90,7 +90,7 @@ export function ensureValidArgs(ruleName: string, args: any): asserts args is an
 	 * options.
 	 */
 	if (!Array.isArray(args)) {
-		throw new Error(`${ruleName}: The 3rd argument must be a combined array of arguments`)
+		throw new Error(`"${ruleName}": The 3rd argument must be a combined array of arguments`)
 	}
 }
 
@@ -119,7 +119,7 @@ export function wrapCompile<T extends any>(
 		 */
 		if (restrictForTypes && restrictForTypes.length && !restrictForTypes.includes(subtype)) {
 			throw new Error(
-				`${name}: Rule can only be used with "schema.<${restrictForTypes.join(',')}>" type(s)`
+				`"${name}": Rule can only be used with "schema.<${restrictForTypes.join(',')}>" type(s)`
 			)
 		}
 

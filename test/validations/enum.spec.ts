@@ -24,7 +24,7 @@ test.group('enum', () => {
 
 	test('do not compile when choices are not defined', (assert) => {
 		const fn = () => oneOf.compile('literal', 'string')
-		assert.throw(fn, 'enum: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"enum": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('do not compile when choices not an array of values', (assert) => {

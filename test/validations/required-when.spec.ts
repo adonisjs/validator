@@ -36,38 +36,38 @@ test.group('Required When (compile)', () => {
 
 	test('do not compile when args are not defined', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string')
-		assert.throw(fn, 'requiredWhen: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"requiredWhen": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('do not compile when field is not defined', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', [])
-		assert.throw(fn, 'requiredWhen: expects a "field", "operator" and "comparisonValue"')
+		assert.throw(fn, '"requiredWhen": expects a "field", "operator" and "comparisonValue"')
 	})
 
 	test('do not compile when operator is not defined', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', ['value'])
-		assert.throw(fn, 'requiredWhen: expects a "field", "operator" and "comparisonValue"')
+		assert.throw(fn, '"requiredWhen": expects a "field", "operator" and "comparisonValue"')
 	})
 
 	test('do not compile when comparisonValue is not defined', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', ['value', '='])
 
-		assert.throw(fn, 'requiredWhen: expects a "field", "operator" and "comparisonValue"')
+		assert.throw(fn, '"requiredWhen": expects a "field", "operator" and "comparisonValue"')
 	})
 
 	test('do not compile when operator is not one of the whitelisted ones', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', ['value', 'foo', 'bar'])
-		assert.throw(fn, 'requiredWhen: expects "operator" to be one of the whitelisted operators')
+		assert.throw(fn, '"requiredWhen": expects "operator" to be one of the whitelisted operators')
 	})
 
 	test('do not compile when comparisonValues is not an array when using in operator', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', ['value', 'in', 'bar'])
-		assert.throw(fn, 'requiredWhen: "in" operator expects an array of "comparisonValues"')
+		assert.throw(fn, '"requiredWhen": "in" operator expects an array of "comparisonValues"')
 	})
 
 	test('do not compile when comparisonValues is not an array when using notIn operator', (assert) => {
 		const fn = () => requiredWhen.compile('literal', 'string', ['value', 'notIn', 'bar'])
-		assert.throw(fn, 'requiredWhen: "notIn" operator expects an array of "comparisonValues"')
+		assert.throw(fn, '"requiredWhen": "notIn" operator expects an array of "comparisonValues"')
 	})
 
 	test('do not compile when comparisonValues is not a number and using arithmetic operator', (assert) => {
@@ -76,10 +76,10 @@ test.group('Required When (compile)', () => {
 		const gteq = () => requiredWhen.compile('literal', 'string', ['value', '>=', 'bar'])
 		const lteq = () => requiredWhen.compile('literal', 'string', ['value', '<=', 'bar'])
 
-		assert.throw(gt, 'requiredWhen: ">" operator expects "comparisonValue" to be a number')
-		assert.throw(lt, 'requiredWhen: "<" operator expects "comparisonValue" to be a number')
-		assert.throw(gteq, 'requiredWhen: ">=" operator expects "comparisonValue" to be a number')
-		assert.throw(lteq, 'requiredWhen: "<=" operator expects "comparisonValue" to be a number')
+		assert.throw(gt, '"requiredWhen": ">" operator expects "comparisonValue" to be a number')
+		assert.throw(lt, '"requiredWhen": "<" operator expects "comparisonValue" to be a number')
+		assert.throw(gteq, '"requiredWhen": ">=" operator expects "comparisonValue" to be a number')
+		assert.throw(lteq, '"requiredWhen": "<=" operator expects "comparisonValue" to be a number')
 	})
 })
 

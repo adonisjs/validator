@@ -25,7 +25,7 @@ test.group('Min Length', () => {
 
 	test('do not compile when args are not defined', (assert) => {
 		const fn = () => minLength.compile('literal', 'array')
-		assert.throw(fn, 'minLength: The 3rd argument must be a combined array of arguments')
+		assert.throw(fn, '"minLength": The 3rd argument must be a combined array of arguments')
 	})
 
 	test('do not compile when length is not defined', (assert) => {
@@ -35,7 +35,7 @@ test.group('Min Length', () => {
 
 	test('do not compile node subtype is not array or string', (assert) => {
 		const fn = () => minLength.compile('literal', 'object', [])
-		assert.throw(fn, 'minLength: Rule can only be used with "schema.<string,array>" type(s)')
+		assert.throw(fn, '"minLength": Rule can only be used with "schema.<string,array>" type(s)')
 	})
 
 	test('compile with options', (assert) => {

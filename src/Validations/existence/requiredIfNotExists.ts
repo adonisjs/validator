@@ -20,7 +20,7 @@ const DEFAULT_MESSAGE = 'requiredIfNotExists validation failed'
 export const requiredIfNotExists: SyncValidation<{ field: string }> = {
 	compile: wrapCompile(RULE_NAME, [], ([field]) => {
 		if (!field) {
-			throw new Error(`${RULE_NAME}: expects a "field"`)
+			throw new Error(`"${RULE_NAME}": expects a "field"`)
 		}
 
 		return {

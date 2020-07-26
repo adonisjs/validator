@@ -1,24 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of contents
-
-- [AdonisJS Validator](#adonisjs-validator)
-- [
-    
-      Website
-    
-     | 
-    
-      Guides
-    
-     | 
-    
-      Contributing
-    
-  ](#website%0A----%0A------%0A----%0A------guides%0A----%0A------%0A----%0A------contributing)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 <div align="center">
   <img src="https://res.cloudinary.com/adonisjs/image/upload/q_100/v1558612869/adonis-readme_zscycu.jpg" width="600px">
 </div>
@@ -34,7 +13,7 @@
 
 <div align="center">
 
-[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]
+[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![audit-report-image]][audit-report-url]
 
 </div>
 
@@ -75,3 +54,6 @@
 
 [license-image]: https://img.shields.io/npm/l/@adonisjs/validator?color=blueviolet&style=for-the-badge
 [license-url]: LICENSE.md "license"
+
+[audit-report-image]: https://img.shields.io/badge/-Audit%20Report-blueviolet?style=for-the-badge
+[audit-report-url]: https://htmlpreview.github.io/?https://github.com/adonisjs/validator/blob/develop/npm-audit.html "audit-report"

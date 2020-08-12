@@ -177,6 +177,67 @@ test.group('Validator | rule', () => {
 		})
 	})
 
+	test('rule recieves correct arguments', async (assert) => {
+		assert.plan(14)
+
+		const name = 'testArguments'
+
+		const refs = schema.refs({
+			username: 'ruby',
+		})
+
+		const options = [
+			{
+				operator: '=',
+			},
+		]
+
+		const data = {
+			users: ['virk'],
+		}
+
+		validator.rule(
+			name,
+			(value, compiledOptions, runtimeOptions) => {
+				assert.equal(value, 'virk')
+				assert.deepEqual(compiledOptions, options)
+				assert.hasAllKeys(runtimeOptions, [
+					'root',
+					'tip',
+					'field',
+					'pointer',
+					'arrayExpressionPointer',
+					'refs',
+					'errorReporter',
+					'mutate',
+				])
+				assert.deepEqual(runtimeOptions.root, data)
+				assert.deepEqual(runtimeOptions.tip, ['virk'])
+				assert.equal(runtimeOptions.field, '0')
+				assert.equal(runtimeOptions.pointer, 'users.0')
+				assert.equal(runtimeOptions.arrayExpressionPointer, 'users.*')
+				assert.deepEqual(runtimeOptions.refs, refs)
+				assert.instanceOf(runtimeOptions.errorReporter, ApiErrorReporter)
+				assert.isFunction(runtimeOptions.mutate)
+			},
+			(opts, type, subtype) => {
+				assert.deepEqual(opts, options)
+				assert.equal(type, 'literal')
+				assert.equal(subtype, 'string')
+				return {}
+			}
+		)
+
+		await validator.validate({
+			refs,
+			schema: schema.create({
+				users: schema.array().members(schema.string({}, [{ name, options }])),
+			}),
+			data,
+			reporter: ApiErrorReporter,
+		})
+	})
+
 	test('set allowUndefineds to true', (assert) => {
 		validator.rule(
 			'isPhone',

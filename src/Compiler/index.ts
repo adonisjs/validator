@@ -238,7 +238,7 @@ export class Compiler {
 		 * - `exists` checks whether the value is defined or not.
 		 */
 		buffer.wrappingCode([
-			'return async function (root, validations, errorReporter, helpers, validator) {',
+			'return async function (root, validations, errorReporter, helpers, refs) {',
 			'}',
 		])
 
@@ -277,13 +277,6 @@ export class Compiler {
 	 * Compiles the schema tree to an executable function
 	 */
 	public compile<T extends any>(): CompilerOutput<T> {
-		return new Function(
-			'root',
-			'validations',
-			'errorReporter',
-			'helpers',
-			'refs',
-			this.compileAsString()
-		)()
+		return new Function(this.compileAsString())()
 	}
 }

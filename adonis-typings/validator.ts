@@ -736,7 +736,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 		/**
 		 * The value of string must be equalToValue
 		 */
-		equalTo(equalToValue: string): Rule
+		equalTo(equalToValue: string | SchemaRef<string>): Rule
 	}
 
 	/**

@@ -10,18 +10,19 @@
 import test from 'japa'
 
 import { rules } from '../../src/Rules'
+import { schema } from '../../src/Schema'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { equalTo } from '../../src/Validations/string/equalTo'
 
-function compile() {
+function compile(equalToValue: any) {
 	// Regex Example for tax id validation from Brazil
-	return equalTo.compile('literal', 'string', rules.equalTo('foo').options)
+	return equalTo.compile('literal', 'string', rules.equalTo(equalToValue).options)
 }
 
-test.group('EqualTo', () => {
-	validate(equalTo, test, 'bar', 'foo', compile())
+test.group('equalTo', () => {
+	validate(equalTo, test, 'bar', 'foo', compile('foo'))
 
 	test('compile equalTo rule', (assert) => {
 		const { compiledOptions } = equalTo.compile('literal', 'string', rules.equalTo('foo').options)
@@ -30,7 +31,7 @@ test.group('EqualTo', () => {
 
 	test('ignore validation when value is not a valid string', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate(null, compile().compiledOptions, {
+		equalTo.validate(null, compile('foo').compiledOptions, {
 			errorReporter: reporter,
 			field: 'username',
 			pointer: 'username',
@@ -45,7 +46,7 @@ test.group('EqualTo', () => {
 
 	test('report error when value fails the equalTo validation', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate('bar', compile().compiledOptions, {
+		equalTo.validate('bar', compile('foo').compiledOptions, {
 			errorReporter: reporter,
 			field: 'username',
 			pointer: 'username',
@@ -68,7 +69,7 @@ test.group('EqualTo', () => {
 
 	test('work fine when value passes the equalTo validation', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate('foo', compile().compiledOptions, {
+		equalTo.validate('foo', compile('foo').compiledOptions, {
 			errorReporter: reporter,
 			field: 'username',
 			pointer: 'username',
@@ -77,6 +78,26 @@ test.group('EqualTo', () => {
 			refs: {},
 			mutate: () => {},
 		})
+
+		assert.deepEqual(reporter.toJSON(), { errors: [] })
+	})
+
+	test('work fine when value passes the equalTo validation with refs', (assert) => {
+		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+
+		const validator = {
+			errorReporter: reporter,
+			field: 'username',
+			pointer: 'username',
+			tip: {},
+			root: {},
+			refs: schema.refs({
+				refValue: 'foo',
+			}),
+			mutate: () => {},
+		}
+
+		equalTo.validate('foo', compile(validator.refs.refValue).compiledOptions!, validator)
 
 		assert.deepEqual(reporter.toJSON(), { errors: [] })
 	})

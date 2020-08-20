@@ -21,14 +21,14 @@ type CompileReturnType = { fieldValue?: string; ref?: string }
  */
 export const equalTo: SyncValidation<CompileReturnType> = {
 	compile: wrapCompile<CompileReturnType>(RULE_NAME, ['string'], ([equalToValue], _) => {
-		if (!equalToValue || typeof equalToValue !== 'string') {
-			throw new Error(`The "${RULE_NAME}" rule expects equalToValue to be a string`)
-		}
-
 		if (isRef(equalToValue)) {
 			return {
 				compiledOptions: { ref: equalToValue.key },
 			}
+		}
+
+		if (!equalToValue || typeof equalToValue !== 'string') {
+			throw new Error(`The "${RULE_NAME}" rule expects equalToValue to be a string`)
 		}
 
 		return {

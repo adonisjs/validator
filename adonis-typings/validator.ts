@@ -732,6 +732,11 @@ declare module '@ioc:Adonis/Core/Validator' {
 		 * Blacklist an array of values
 		 */
 		blacklist(keywords: (number | string)[] | SchemaRef<(number | string)[]>): Rule
+
+		/**
+		 * The value of string must be equalToValue
+		 */
+		equalTo(equalToValue: string | SchemaRef<string>): Rule
 	}
 
 	/**

@@ -30,14 +30,15 @@ export const minLength: SyncValidation<{ minLength: number; subtype: NodeSubType
 			},
 		}
 	}),
-	validate(value, compiledOptions, { errorReporter, pointer, arrayExpressionPointer }) {
+	validate(value, compiledOptions, { field, tip, errorReporter, pointer, arrayExpressionPointer }) {
 		if (compiledOptions.subtype === 'array' && !Array.isArray(value)) {
 			return
 		} else if (compiledOptions.subtype === 'string' && typeof value !== 'string') {
 			return
 		}
 
-		if (value.length < compiledOptions.minLength) {
+		const originalValue = compiledOptions.subtype === 'string' ? tip[field] : value
+		if (originalValue.length < compiledOptions.minLength) {
 			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
 				minLength: compiledOptions.minLength,
 			})

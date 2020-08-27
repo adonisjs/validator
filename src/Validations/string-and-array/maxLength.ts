@@ -30,14 +30,15 @@ export const maxLength: SyncValidation<{ maxLength: number; subtype: NodeSubType
 			},
 		}
 	}),
-	validate(value, compiledOptions, { errorReporter, pointer, arrayExpressionPointer }) {
+	validate(value, compiledOptions, { tip, field, errorReporter, pointer, arrayExpressionPointer }) {
 		if (compiledOptions.subtype === 'array' && !Array.isArray(value)) {
 			return
 		} else if (compiledOptions.subtype === 'string' && typeof value !== 'string') {
 			return
 		}
 
-		if (value.length > compiledOptions.maxLength) {
+		const originalValue = compiledOptions.subtype === 'string' ? tip[field] : value
+		if (originalValue.length > compiledOptions.maxLength) {
 			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
 				maxLength: compiledOptions.maxLength,
 			})

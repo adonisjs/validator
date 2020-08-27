@@ -159,6 +159,44 @@ test.group('Validator | validate', () => {
 			reporter: ApiErrorReporter,
 		})
 	})
+
+	test('min rule should check against the original value', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					username: schema.string({ escape: true }, [rules.minLength(5)]),
+				}),
+				data: {
+					username: '\\0',
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { username: ['minLength validation failed'] })
+		}
+	})
+
+	test('min rule should check against the original nested value', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					profile: schema.object().members({
+						username: schema.string({ escape: true }, [rules.minLength(5)]),
+					}),
+				}),
+				data: {
+					profile: {
+						username: '\\0',
+					},
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { 'profile.username': ['minLength validation failed'] })
+		}
+	})
 })
 
 test.group('Validator | rule', () => {

@@ -37,7 +37,7 @@ export const minLength: SyncValidation<{ minLength: number; subtype: NodeSubType
 			return
 		}
 
-		const originalValue = compiledOptions.subtype === 'string' ? tip[field] : value
+		const originalValue = compiledOptions.subtype === 'string' ? tip[field] || value : value
 		if (originalValue.length < compiledOptions.minLength) {
 			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
 				minLength: compiledOptions.minLength,

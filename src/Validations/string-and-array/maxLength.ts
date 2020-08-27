@@ -37,7 +37,7 @@ export const maxLength: SyncValidation<{ maxLength: number; subtype: NodeSubType
 			return
 		}
 
-		const originalValue = compiledOptions.subtype === 'string' ? tip[field] : value
+		const originalValue = compiledOptions.subtype === 'string' ? tip[field] || value : value
 		if (originalValue.length > compiledOptions.maxLength) {
 			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
 				maxLength: compiledOptions.maxLength,

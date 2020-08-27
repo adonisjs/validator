@@ -9,6 +9,8 @@
 
 import { DateTime } from 'luxon'
 import { ValidationRuntimeOptions } from '@ioc:Adonis/Core/Validator'
+
+import { toLuxon } from './toLuxon'
 import { getFieldValue } from '../../../Validator/helpers'
 
 /**
@@ -17,6 +19,7 @@ import { getFieldValue } from '../../../Validator/helpers'
 export type CompileReturnType = {
 	operator: '>' | '<' | '>=' | '<='
 	field: string
+	format?: string
 }
 
 /**
@@ -45,7 +48,8 @@ function compareDateTime(
 export function compile(
 	ruleName: string,
 	operator: '>' | '<' | '>=' | '<=',
-	[field]: any[]
+	[field]: any[],
+	rulesTree: any
 ): { compiledOptions: CompileReturnType } {
 	if (!field) {
 		throw new Error(`${ruleName}: expects a comparison "field"`)
@@ -55,6 +59,7 @@ export function compile(
 		compiledOptions: {
 			operator,
 			field,
+			format: rulesTree.date?.format,
 		},
 	}
 }
@@ -66,7 +71,7 @@ export function validate(
 	ruleName: string,
 	errorMessage: string,
 	value: any,
-	{ field, operator }: CompileReturnType,
+	{ field, operator, format }: CompileReturnType,
 	{ root, tip, errorReporter, pointer, arrayExpressionPointer }: ValidationRuntimeOptions
 ) {
 	/**
@@ -77,19 +82,23 @@ export function validate(
 		return
 	}
 
-	const comparisonValue = getFieldValue(field, root, tip)
+	const comparisonValue = toLuxon(getFieldValue(field, root, tip), format)
 
 	/**
-	 * Skip when comparison value is not a date time instance. One must use date schema
-	 * type and put this field above the current field.
+	 * Raise error when comparison field is not a valid date
 	 */
-	if (comparisonValue instanceof DateTime === false) {
+	if (!comparisonValue || !comparisonValue.isValid) {
+		errorReporter.report(pointer, ruleName, errorMessage, arrayExpressionPointer, {
+			otherField: field,
+			otherFieldValue: comparisonValue,
+		})
 		return
 	}
 
 	if (!compareDateTime(value, comparisonValue, operator)) {
 		errorReporter.report(pointer, ruleName, errorMessage, arrayExpressionPointer, {
 			otherField: field,
+			otherFieldValue: comparisonValue,
 		})
 	}
 }

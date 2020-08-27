@@ -22,7 +22,7 @@ import * as validations from './Validations'
 /**
  * Compiles the `Rule` object and returns `ParsedRule` object.
  */
-export function compileRule(type: string, subtype: string, rule: Rule): ParsedRule {
+export function compileRule(type: string, subtype: string, rule: Rule, tree: any): ParsedRule {
 	const ruleValidation = validations[rule.name]
 	if (!ruleValidation) {
 		throw new Error(`"${rule.name}" rule is not registered. Use "validator.rule" to add the rule.`)
@@ -36,7 +36,10 @@ export function compileRule(type: string, subtype: string, rule: Rule): ParsedRu
 		throw new Error(`"${rule.name}" rule must implement the validate function`)
 	}
 
-	return ruleValidation.compile(type, subtype, rule.options)
+	const options = ruleValidation.compile(type, subtype, rule.options, tree)
+	tree[rule.name] = options.compiledOptions
+
+	return options
 }
 
 /**
@@ -48,7 +51,8 @@ export function getLiteralType(
 	ruleOptions: any,
 	rules: Rule[]
 ): { getTree(): SchemaLiteral } {
-	const hasSubTypeRule = rules.find((rule) => rule.name === subtype)
+	const subTypeRule = rules.find((rule) => rule.name === subtype)
+	const optionsTree = {}
 
 	return {
 		getTree() {
@@ -57,9 +61,9 @@ export function getLiteralType(
 				subtype: subtype,
 				rules: ([] as Rule[])
 					.concat(isOptional ? [] : [schemaRules.required()])
-					.concat(hasSubTypeRule ? [] : [schemaRules[subtype](ruleOptions)])
+					.concat(subTypeRule ? [] : [schemaRules[subtype](ruleOptions)])
 					.concat(rules)
-					.map((rule) => compileRule('literal', subtype, rule)),
+					.map((rule) => compileRule('literal', subtype, rule, optionsTree)),
 			}
 		},
 	}
@@ -73,7 +77,8 @@ export function getObjectType(
 	children: ParsedSchemaTree,
 	rules: Rule[]
 ): { getTree(): SchemaObject } {
-	const hasSubTypeRule = rules.find((rule) => rule.name === 'object')
+	const subTypeRule = rules.find((rule) => rule.name === 'object')
+	const optionsTree = {}
 
 	return {
 		getTree() {
@@ -81,9 +86,9 @@ export function getObjectType(
 				type: 'object' as const,
 				rules: ([] as Rule[])
 					.concat(isOptional ? [] : [{ name: 'required', options: [] }])
-					.concat(hasSubTypeRule ? [] : [{ name: 'object', options: [] }])
+					.concat(subTypeRule ? [] : [{ name: 'object', options: [] }])
 					.concat(rules)
-					.map((rule) => compileRule('object', 'object', rule)),
+					.map((rule) => compileRule('object', 'object', rule, optionsTree)),
 				children: children,
 			}
 		},
@@ -98,7 +103,8 @@ export function getArrayType(
 	each: SchemaLiteral | SchemaObject | SchemaArray | null,
 	rules: Rule[]
 ): { getTree(): SchemaArray } {
-	const hasSubTypeRule = rules.find((rule) => rule.name === 'array')
+	const subTypeRule = rules.find((rule) => rule.name === 'array')
+	const optionsTree = {}
 
 	return {
 		getTree() {
@@ -106,9 +112,9 @@ export function getArrayType(
 				type: 'array' as const,
 				rules: ([] as Rule[])
 					.concat(isOptional ? [] : [{ name: 'required', options: [] }])
-					.concat(hasSubTypeRule ? [] : [{ name: 'array', options: [] }])
+					.concat(subTypeRule ? [] : [{ name: 'array', options: [] }])
 					.concat(rules)
-					.map((rule) => compileRule('array', 'array', rule)),
+					.map((rule) => compileRule('array', 'array', rule, optionsTree)),
 				...(each ? { each } : {}),
 			}
 		},

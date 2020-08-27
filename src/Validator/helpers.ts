@@ -106,9 +106,19 @@ export function ensureValidArgs(ruleName: string, args: any): asserts args is an
 export function wrapCompile<T extends any>(
 	name: string,
 	restrictForTypes?: NodeSubType[],
-	customCallback?: (options: any[], type: NodeType, subtype: NodeSubType) => Partial<ParsedRule<T>>
+	customCallback?: (
+		options: any[],
+		type: NodeType,
+		subtype: NodeSubType,
+		rulesTree: any
+	) => Partial<ParsedRule<T>>
 ) {
-	return function (type: NodeType, subtype: NodeSubType, options: T): ParsedRule<T> {
+	return function (
+		type: NodeType,
+		subtype: NodeSubType,
+		options: T,
+		rulesTree: any
+	): ParsedRule<T> {
 		/**
 		 * Ensure options are defined as an array
 		 */
@@ -137,7 +147,7 @@ export function wrapCompile<T extends any>(
 		 * Invoke user defined callback and merge return value with defaults
 		 */
 		if (typeof customCallback === 'function') {
-			Object.assign(defaultOptions, customCallback(options, type, subtype))
+			Object.assign(defaultOptions, customCallback(options, type, subtype, rulesTree))
 		}
 
 		return defaultOptions

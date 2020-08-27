@@ -7,24 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { DateTime } from 'luxon'
 import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 import { wrapCompile } from '../../Validator/helpers'
+import { toLuxon } from '../date/helpers/toLuxon'
 
 const RULE_NAME = 'date'
 const DEFAULT_MESSAGE = 'date validation failed'
-const CANNOT_BE_VALIDATED = 'cannot validate data instance against a date format'
-
-/**
- * A list of pre-defined formats and their luxon specific methods
- */
-const PREDEFINED_FORMATS = {
-	rfc2822: 'fromRFC2822',
-	http: 'fromHTTP',
-	sql: 'fromSQL',
-	iso: 'fromISO',
-}
 
 /**
  * Ensure the value is a valid date instance
@@ -36,31 +25,7 @@ export const date: SyncValidation<{ format?: string }> = {
 		}
 	}),
 	validate(value, compiledOptions, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
-		let dateTime: DateTime | undefined
-
-		const { format } = compiledOptions
-		const isDateInstance = value instanceof Date === true
-
-		/**
-		 * If value is a valid datetime instance and format is defined, then
-		 * report an error and return early. Format is not allowed with
-		 * date instances
-		 */
-		if (isDateInstance && format) {
-			errorReporter.report(pointer, RULE_NAME, CANNOT_BE_VALIDATED, arrayExpressionPointer)
-			return
-		}
-
-		/**
-		 * If value is a date instance or a string, then convert it to an instance
-		 * of luxon.DateTime.
-		 */
-		if (isDateInstance) {
-			dateTime = DateTime.fromJSDate(value)
-		} else if (typeof value === 'string') {
-			const formatterFn = PREDEFINED_FORMATS[format || 'iso']
-			dateTime = formatterFn ? DateTime[formatterFn](value) : DateTime.fromFormat(value, format!)
-		}
+		const dateTime = toLuxon(value, compiledOptions.format)
 
 		/**
 		 * If `dateTime` is still undefined, it means it is not an instance of

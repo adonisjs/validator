@@ -8,6 +8,7 @@
  */
 
 import test from 'japa'
+import { DateTime } from 'luxon'
 import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../src/Rules'
@@ -158,44 +159,6 @@ test.group('Validator | validate', () => {
 			cacheKey: 'foo',
 			reporter: ApiErrorReporter,
 		})
-	})
-
-	test('min rule should check against the original value', async (assert) => {
-		assert.plan(1)
-
-		try {
-			await validator.validate({
-				schema: schema.create({
-					username: schema.string({ escape: true }, [rules.minLength(5)]),
-				}),
-				data: {
-					username: '\\0',
-				},
-			})
-		} catch (error) {
-			assert.deepEqual(error.messages, { username: ['minLength validation failed'] })
-		}
-	})
-
-	test('min rule should check against the original nested value', async (assert) => {
-		assert.plan(1)
-
-		try {
-			await validator.validate({
-				schema: schema.create({
-					profile: schema.object().members({
-						username: schema.string({ escape: true }, [rules.minLength(5)]),
-					}),
-				}),
-				data: {
-					profile: {
-						username: '\\0',
-					},
-				},
-			})
-		} catch (error) {
-			assert.deepEqual(error.messages, { 'profile.username': ['minLength validation failed'] })
-		}
 	})
 })
 
@@ -385,6 +348,131 @@ test.group('Validator | validations with non-serialized options', () => {
 			})
 		} catch (error) {
 			assert.deepEqual(error.messages, { username: ['regex validation failed'] })
+		}
+	})
+})
+
+test.group('Min Max Rules', () => {
+	test('min rule should check against the original value', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					username: schema.string({ escape: true }, [rules.minLength(5)]),
+				}),
+				data: {
+					username: '\\0',
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { username: ['minLength validation failed'] })
+		}
+	})
+
+	test('min rule should check against the original nested value', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					profile: schema.object().members({
+						username: schema.string({ escape: true }, [rules.minLength(5)]),
+					}),
+				}),
+				data: {
+					profile: {
+						username: '\\0',
+					},
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { 'profile.username': ['minLength validation failed'] })
+		}
+	})
+})
+
+test.group('After Before Field', () => {
+	test('fail when value is not after the defined field value', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					after: schema.date({}, [rules.afterField('before')]),
+					before: schema.date({}),
+				}),
+				data: {
+					before: '2020-10-20',
+					after: '2020-10-19',
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { after: ['after date validation failed'] })
+		}
+	})
+
+	test('pass when value is after the defined field value', async (assert) => {
+		const { before, after } = await validator.validate({
+			schema: schema.create({
+				after: schema.date({}, [rules.afterField('before')]),
+				before: schema.date({}),
+			}),
+			data: {
+				before: '2020-10-20',
+				after: '2020-10-22',
+			},
+		})
+
+		assert.instanceOf(before, DateTime)
+		assert.instanceOf(after, DateTime)
+	})
+
+	test('handle date formatting', async (assert) => {
+		const { before, after } = await validator.validate({
+			schema: schema.create({
+				after: schema.date({ format: 'LLLL dd yyyy' }, [rules.afterField('before')]),
+				before: schema.date({ format: 'LLLL dd yyyy' }),
+			}),
+			data: {
+				before: 'October 10 2020',
+				after: 'October 12 2020',
+			},
+		})
+
+		assert.instanceOf(before, DateTime)
+		assert.instanceOf(after, DateTime)
+	})
+
+	test('handle use case when comparison field is not valid separately', async (assert) => {
+		const { after } = await validator.validate({
+			schema: schema.create({
+				after: schema.date({ format: 'LLLL dd yyyy' }, [rules.afterField('before')]),
+			}),
+			data: {
+				before: 'October 10 2020',
+				after: 'October 12 2020',
+			},
+		})
+
+		assert.instanceOf(after, DateTime)
+	})
+
+	test('fail when format mis-match', async (assert) => {
+		assert.plan(1)
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					after: schema.date({ format: 'LLLL dd yyyy' }, [rules.afterField('before')]),
+				}),
+				data: {
+					after: 'October 12 2020',
+					before: '2020-10-10',
+				},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, { after: ['after date validation failed'] })
 		}
 	})
 })

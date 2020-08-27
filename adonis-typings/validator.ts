@@ -109,7 +109,12 @@ declare module '@ioc:Adonis/Core/Validator' {
 	 * Shape of an async validation function
 	 */
 	export type AsyncValidation<T extends any = unknown> = {
-		compile(type: NodeType, subtype: NodeSubType, options?: any): ParsedRule<T>
+		compile(
+			type: NodeType,
+			subtype: NodeSubType,
+			options?: any,
+			rulesTree?: { [key: string]: any }
+		): ParsedRule<T>
 		validate(
 			value: any,
 			compiledOptions: T,
@@ -121,7 +126,12 @@ declare module '@ioc:Adonis/Core/Validator' {
 	 * Shape of an sync validation function
 	 */
 	export type SyncValidation<T extends any = unknown> = {
-		compile(type: NodeType, subtype: NodeSubType, options?: any): ParsedRule<T>
+		compile(
+			type: NodeType,
+			subtype: NodeSubType,
+			options?: any,
+			rulesTree?: { [key: string]: any }
+		): ParsedRule<T>
 		validate(value: any, compiledOptions: T, runtimeOptions: ValidationRuntimeOptions): void
 	}
 

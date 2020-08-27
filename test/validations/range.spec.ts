@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { range } from '../../src/Validations/number/range'
 
 function compile(start: number, stop: number) {
-	return range.compile('literal', 'number', rules.range(start, stop).options)
+	return range.compile('literal', 'number', rules.range(start, stop).options, {})
 }
 
 test.group('range', () => {

@@ -19,7 +19,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { blacklist } from '../../src/Validations/miscellaneous/blacklist'
 
 function compile(keywords: any, subtype?: NodeSubType) {
-	return blacklist.compile('literal', subtype || 'string', rules.blacklist(keywords).options)
+	return blacklist.compile('literal', subtype || 'string', rules.blacklist(keywords).options, {})
 }
 
 test.group('blacklist', () => {

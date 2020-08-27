@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { confirmed } from '../../src/Validations/existence/confirmed'
 
 function compile(fieldName?: string) {
-	return confirmed.compile('literal', 'string', rules.confirmed(fieldName).options)
+	return confirmed.compile('literal', 'string', rules.confirmed(fieldName).options, {})
 }
 
 test.group('Confirmed', () => {

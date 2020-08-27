@@ -16,7 +16,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { alpha } from '../../src/Validations/string/alpha'
 
 function compile(options?: { allow?: ('space' | 'underscore' | 'dash')[] }) {
-	return alpha.compile('literal', 'string', rules.alpha(options).options)
+	return alpha.compile('literal', 'string', rules.alpha(options).options, {})
 }
 
 test.group('Alpha', () => {

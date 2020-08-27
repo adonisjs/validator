@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { number } from '../../src/Validations/primitives/number'
 
 function compile() {
-	return number.compile('literal', 'number', rules['number']().options)
+	return number.compile('literal', 'number', rules['number']().options, {})
 }
 
 test.group('Number', () => {

@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { required } from '../../src/Validations/existence/required'
 
 function compile() {
-	return required.compile('literal', 'string', rules.required().options)
+	return required.compile('literal', 'string', rules.required().options, {})
 }
 
 test.group('Required', () => {

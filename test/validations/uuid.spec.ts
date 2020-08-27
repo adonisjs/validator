@@ -17,7 +17,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { uuid } from '../../src/Validations/string/uuid'
 
 function compile(options?: { version?: UUIDVersion }) {
-	return uuid.compile('literal', 'string', rules.uuid(options).options)
+	return uuid.compile('literal', 'string', rules.uuid(options).options, {})
 }
 
 const v3 = '94ccbc1e-862e-31ea-bc55-0242ac130003'

@@ -21,7 +21,7 @@ function compile(subtype: NodeSubType, length: number) {
 }
 
 test.group('Min Length', () => {
-	validate(minLength, test, 'hello', 'helloworld', compile('string', 6))
+	validate(minLength, test, 'hello', 'helloworld', compile('string', 6), {})
 
 	test('do not compile when args are not defined', (assert) => {
 		const fn = () => minLength.compile('literal', 'array')

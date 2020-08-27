@@ -23,7 +23,8 @@ function compile(
 	return requiredWhen.compile(
 		'literal',
 		'string',
-		rules.requiredWhen(field, operator, comparisonValue).options
+		rules.requiredWhen(field, operator, comparisonValue).options,
+		{}
 	)
 }
 

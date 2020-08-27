@@ -17,7 +17,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { mobile } from '../../src/Validations/string/mobile'
 
 function compile(options?: { strict?: boolean; locale?: validator.MobilePhoneLocale[] }) {
-	return mobile.compile('literal', 'string', rules.mobile(options).options)
+	return mobile.compile('literal', 'string', rules.mobile(options).options, {})
 }
 
 test.group('Mobile', () => {

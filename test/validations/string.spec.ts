@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { string } from '../../src/Validations/primitives/string'
 
 function compile(options?: { escape: true }) {
-	return string.compile('literal', 'string', rules['string'](options).options)
+	return string.compile('literal', 'string', rules['string'](options).options, {})
 }
 
 test.group('String', () => {

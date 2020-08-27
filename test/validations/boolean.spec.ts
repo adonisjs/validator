@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { boolean } from '../../src/Validations/primitives/boolean'
 
 function compile() {
-	return boolean.compile('literal', 'boolean', rules['boolean']().options)
+	return boolean.compile('literal', 'boolean', rules['boolean']().options, {})
 }
 
 test.group('boolean', () => {

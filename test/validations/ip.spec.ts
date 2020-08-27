@@ -16,7 +16,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { ip } from '../../src/Validations/string/ip'
 
 function compile(options?: { version?: '4' | '6' }) {
-	return ip.compile('literal', 'string', rules.ip(options).options)
+	return ip.compile('literal', 'string', rules.ip(options).options, {})
 }
 
 test.group('IP Address', () => {

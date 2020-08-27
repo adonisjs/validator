@@ -18,7 +18,7 @@ import { validate } from '../fixtures/rules/index'
 import { file } from '../../src/Validations/primitives/file'
 
 function compile(options: Partial<FileValidationOptions>) {
-	return file.compile('literal', 'file', rules['file'](options).options)
+	return file.compile('literal', 'file', rules['file'](options).options, {})
 }
 
 test.group('File', () => {

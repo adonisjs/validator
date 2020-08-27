@@ -18,7 +18,12 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { beforeOrEqualToField } from '../../src/Validations/date/beforeOrEqualToField'
 
 function compile(field: string): ParsedRule<any> {
-	return beforeOrEqualToField.compile('literal', 'date', rules.beforeOrEqualToField(field).options)
+	return beforeOrEqualToField.compile(
+		'literal',
+		'date',
+		rules.beforeOrEqualToField(field).options,
+		{}
+	)
 }
 
 test.group('Date | Before Or Equal To Field', () => {
@@ -30,7 +35,7 @@ test.group('Date | Before Or Equal To Field', () => {
 		compile('end_date'),
 		{
 			tip: {
-				end_date: DateTime.fromISO(DateTime.local().toISODate()!),
+				end_date: DateTime.local().toISODate()!,
 			},
 		}
 	)
@@ -74,7 +79,7 @@ test.group('Date | Before Or Equal To Field', () => {
 				field: 'start_date',
 				pointer: 'start_date',
 				tip: {
-					end_date: DateTime.fromISO(DateTime.local().toISODate()!),
+					end_date: DateTime.local().toISODate()!,
 				},
 				root: {},
 				refs: {},
@@ -98,7 +103,7 @@ test.group('Date | Before Or Equal To Field', () => {
 				field: 'start_date',
 				pointer: 'start_date',
 				tip: {
-					end_date: DateTime.fromISO(DateTime.local().toISODate()!),
+					end_date: DateTime.local().toISODate()!,
 				},
 				root: {},
 				refs: {},
@@ -131,7 +136,10 @@ test.group('Date | Before Or Equal To Field', () => {
 		)
 
 		const errors = reporter.toJSON()
-		assert.lengthOf(errors.errors, 0)
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'start_date')
+		assert.equal(errors.errors[0].rule, 'beforeOrEqualToField')
+		assert.equal(errors.errors[0].message, 'before or equal to date validation failed')
 	})
 
 	test('skip validation when field value is not a datetime instance', (assert) => {

@@ -16,7 +16,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { distinct } from '../../src/Validations/array/distinct'
 
 function compile(field: string) {
-	return distinct.compile('literal', 'array', rules.distinct(field).options)
+	return distinct.compile('literal', 'array', rules.distinct(field).options, {})
 }
 
 test.group('Distinct', () => {

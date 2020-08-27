@@ -17,7 +17,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { maxLength } from '../../src/Validations/string-and-array/maxLength'
 
 function compile(subtype: NodeSubType, length: number) {
-	return maxLength.compile('literal', subtype, rules.maxLength(length).options)
+	return maxLength.compile('literal', subtype, rules.maxLength(length).options, {})
 }
 
 test.group('Max Length', () => {

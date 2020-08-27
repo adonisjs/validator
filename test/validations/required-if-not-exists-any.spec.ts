@@ -18,7 +18,8 @@ function compile(fields: string[]) {
 	return requiredIfNotExistsAny.compile(
 		'literal',
 		'string',
-		rules.requiredIfNotExistsAny(fields).options
+		rules.requiredIfNotExistsAny(fields).options,
+		{}
 	)
 }
 

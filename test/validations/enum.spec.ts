@@ -16,7 +16,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { oneOf } from '../../src/Validations/primitives/enum'
 
 function compile(choices: any) {
-	return oneOf.compile('literal', 'enum', rules['enum'](choices).options)
+	return oneOf.compile('literal', 'enum', rules['enum'](choices).options, {})
 }
 
 test.group('enum', () => {

@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { array } from '../../src/Validations/primitives/array'
 
 function compile() {
-	return array.compile('array', 'array', rules['array']().options)
+	return array.compile('array', 'array', rules['array']().options, {})
 }
 
 test.group('array', () => {

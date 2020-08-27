@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { enumSet } from '../../src/Validations/primitives/enumSet'
 
 function compile(choices: any[]) {
-	return enumSet.compile('literal', 'enumSet', rules['enumSet'](choices).options)
+	return enumSet.compile('literal', 'enumSet', rules['enumSet'](choices).options, {})
 }
 
 test.group('enum set', () => {

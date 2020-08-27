@@ -36,7 +36,7 @@ function compile(
 }
 
 test.group('Date | After', () => {
-	validate(after, test, DateTime.local(), DateTime.local().plus({ days: 2 }), compile(1, 'day'))
+	validate(after, test, DateTime.local(), DateTime.local().plus({ days: 2 }), compile(1, 'day'), {})
 
 	test('do not compile when one argument is passed and is not a ref', (assert) => {
 		const fn = () => after.compile('literal', 'date', ['foo'])

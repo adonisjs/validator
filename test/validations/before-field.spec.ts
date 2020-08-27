@@ -18,7 +18,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { beforeField } from '../../src/Validations/date/beforeField'
 
 function compile(field: string): ParsedRule<any> {
-	return beforeField.compile('literal', 'date', rules.beforeField(field).options)
+	return beforeField.compile('literal', 'date', rules.beforeField(field).options, {})
 }
 
 test.group('Date | Before Field', () => {
@@ -30,7 +30,7 @@ test.group('Date | Before Field', () => {
 		compile('end_date'),
 		{
 			tip: {
-				end_date: DateTime.fromISO(DateTime.local().toISODate()!),
+				end_date: DateTime.local().toISODate()!,
 			},
 		}
 	)
@@ -67,7 +67,7 @@ test.group('Date | Before Field', () => {
 			field: 'start_date',
 			pointer: 'start_date',
 			tip: {
-				end_date: DateTime.fromISO(DateTime.local().toISODate()!),
+				end_date: DateTime.local().toISODate()!,
 			},
 			root: {},
 			refs: {},
@@ -78,7 +78,7 @@ test.group('Date | Before Field', () => {
 		assert.lengthOf(errors.errors, 0)
 	})
 
-	test('skip validation when comparison field value is not a datetime instance', (assert) => {
+	test('raise error when comparison value cannot be converted to date time', (assert) => {
 		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 		const startDate = DateTime.local().plus({ day: 1 }).toISODate()
 
@@ -95,7 +95,10 @@ test.group('Date | Before Field', () => {
 		})
 
 		const errors = reporter.toJSON()
-		assert.lengthOf(errors.errors, 0)
+		assert.lengthOf(errors.errors, 1)
+		assert.equal(errors.errors[0].field, 'start_date')
+		assert.equal(errors.errors[0].rule, 'beforeField')
+		assert.equal(errors.errors[0].message, 'before date validation failed')
 	})
 
 	test('skip validation when field value is not a datetime instance', (assert) => {

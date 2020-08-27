@@ -18,7 +18,7 @@ import { equalTo } from '../../src/Validations/string/equalTo'
 
 function compile(equalToValue: any) {
 	// Regex Example for tax id validation from Brazil
-	return equalTo.compile('literal', 'string', rules.equalTo(equalToValue).options)
+	return equalTo.compile('literal', 'string', rules.equalTo(equalToValue).options, {})
 }
 
 test.group('equalTo', () => {

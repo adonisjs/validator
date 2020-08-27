@@ -17,7 +17,7 @@ import { email } from '../../src/Validations/string/email'
 import { EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
 
 function compile(options?: EmailRuleOptions) {
-	return email.compile('literal', 'string', rules.email(options).options)
+	return email.compile('literal', 'string', rules.email(options).options, {})
 }
 
 test.group('Email', () => {

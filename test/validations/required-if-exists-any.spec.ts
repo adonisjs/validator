@@ -15,7 +15,12 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfExistsAny } from '../../src/Validations/existence/requiredIfExistsAny'
 
 function compile(fields: string[]) {
-	return requiredIfExistsAny.compile('literal', 'string', rules.requiredIfExistsAny(fields).options)
+	return requiredIfExistsAny.compile(
+		'literal',
+		'string',
+		rules.requiredIfExistsAny(fields).options,
+		{}
+	)
 }
 
 test.group('Required If Exists Any', () => {

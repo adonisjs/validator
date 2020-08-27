@@ -16,7 +16,7 @@ import { date } from '../../src/Validations/primitives/date'
 import { DateTime } from 'luxon'
 
 function compile(options: { format?: string }) {
-	return date.compile('literal', 'date', rules['date'](options).options)
+	return date.compile('literal', 'date', rules['date'](options).options, {})
 }
 
 test.group('Date', () => {
@@ -191,7 +191,7 @@ test.group('Date', () => {
 				{
 					field: 'dob',
 					rule: 'date',
-					message: 'cannot validate data instance against a date format',
+					message: 'cannot validate date instance against a date format',
 				},
 			],
 		})

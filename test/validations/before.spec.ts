@@ -32,7 +32,7 @@ function compile(
 			? rules.before(interval)
 			: rules.before(interval)
 
-	return before.compile('literal', 'date', options)
+	return before.compile('literal', 'date', options, {})
 }
 
 test.group('Date | Before', () => {

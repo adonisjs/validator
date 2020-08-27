@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { object } from '../../src/Validations/primitives/object'
 
 function compile() {
-	return object.compile('object', 'object', rules['object']().options)
+	return object.compile('object', 'object', rules['object']().options, {})
 }
 
 test.group('Object', () => {

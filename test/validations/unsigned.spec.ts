@@ -15,7 +15,7 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { unsigned } from '../../src/Validations/number/unsigned'
 
 function compile() {
-	return unsigned.compile('literal', 'number', rules.unsigned().options)
+	return unsigned.compile('literal', 'number', rules.unsigned().options, {})
 }
 
 test.group('unsigned', () => {

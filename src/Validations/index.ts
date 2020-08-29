@@ -12,10 +12,12 @@ export { distinct } from './array/distinct'
 export { after } from './date/after'
 export { afterField } from './date/afterField'
 export { afterOrEqualToField } from './date/afterOrEqualToField'
+export { afterOrEqualTo } from './date/afterOrEqualTo'
 
 export { before } from './date/before'
 export { beforeField } from './date/beforeField'
 export { beforeOrEqualToField } from './date/beforeOrEqualToField'
+export { beforeOrEqualTo } from './date/beforeOrEqualTo'
 
 export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'

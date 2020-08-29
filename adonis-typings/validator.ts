@@ -729,6 +729,11 @@ declare module '@ioc:Adonis/Core/Validator' {
 		afterOrEqualToField(field: string): Rule
 
 		/**
+		 * The value of date must be after or equal a given date
+		 */
+		afterOrEqualTo(otherValue: SchemaRef<DateTime>): Rule
+
+		/**
 		 * The value of date must be before a given date
 		 */
 		beforeField(field: string): Rule
@@ -737,6 +742,11 @@ declare module '@ioc:Adonis/Core/Validator' {
 		 * The value of date must be before or equal to a given date
 		 */
 		beforeOrEqualToField(field: string): Rule
+
+		/**
+		 * The value of date must be before or equal a given date
+		 */
+		beforeOrEqualTo(otherValue: SchemaRef<DateTime>): Rule
 
 		/**
 		 * Blacklist an array of values

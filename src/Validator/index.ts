@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import Cache from 'tmp-cache'
+
 import {
 	NodeType,
 	ParsedRule,
@@ -25,15 +27,17 @@ import { Compiler } from '../Compiler'
 import { rules, getRuleFn } from '../Rules'
 import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
+
 import {
 	exists,
-	existsStrict,
+	isRef,
 	isObject,
 	wrapCompile,
+	existsStrict,
 	getFieldValue,
 	resolveAbsoluteName,
-	isRef,
 } from './helpers'
+
 import { VanillaErrorReporter, ApiErrorReporter, JsonApiErrorReporter } from '../ErrorReporter'
 
 /**
@@ -49,7 +53,7 @@ const STRICT_HELPERS = { exists: existsStrict, isObject }
 /**
  * Cache to store the compiled schemas
  */
-const COMPILED_CACHE: { [key: string]: CompilerOutput<any> } = {}
+const COMPILED_CACHE = new Cache<string, CompilerOutput<any>>(100)
 
 /**
  * An object of messages to use as fallback, when no custom
@@ -105,10 +109,10 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
 	/**
 	 * Look for compiled function or compile one
 	 */
-	let compiledFn = COMPILED_CACHE[validator.cacheKey]
+	let compiledFn = COMPILED_CACHE.get(validator.cacheKey)
 	if (!compiledFn) {
 		compiledFn = new Compiler(validator.schema.tree).compile()
-		COMPILED_CACHE[validator.cacheKey] = compiledFn
+		COMPILED_CACHE.set(validator.cacheKey, compiledFn)
 	}
 
 	/**

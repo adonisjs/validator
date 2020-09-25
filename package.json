@@ -109,7 +109,7 @@
 		"validator": "^13.1.17"
 	},
 	"peerDependencies": {
-		"@adonisjs/http-server": "^3.0.0"
+		"@adonisjs/http-server": "^4.0.0"
 	},
 	"peerDependenciesMeta": {
 		"@adonisjs/http-server": {

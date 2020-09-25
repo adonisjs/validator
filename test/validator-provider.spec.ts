@@ -8,28 +8,24 @@
  */
 
 import test from 'japa'
-import { join } from 'path'
-import { Registrar, Ioc } from '@adonisjs/fold'
 
-import { validator } from '../src/Validator'
-import { schema } from '../src/Schema'
 import { rules } from '../src/Rules'
+import { schema } from '../src/Schema'
+import { validator } from '../src/Validator'
+import { setupApp, fs } from '../test-helpers'
 
-test.group('Encryption Provider', () => {
+test.group('Encryption Provider', (group) => {
+	group.afterEach(async () => {
+		await fs.cleanup()
+	})
+
 	test('register encryption provider', async (assert) => {
-		const ioc = new Ioc()
-		const registrar = new Registrar(ioc, join(__dirname, '..'))
-		await registrar.useProviders(['./providers/ValidatorProvider']).registerAndBoot()
-		assert.deepEqual(ioc.use('Adonis/Core/Validator'), { validator, schema, rules })
+		const app = await setupApp(['../../providers/ValidatorProvider'])
+		assert.deepEqual(app.container.use('Adonis/Core/Validator'), { validator, schema, rules })
 	})
 
 	test('extend request class by adding the validate method', async (assert) => {
-		const ioc = new Ioc()
-		const registrar = new Registrar(ioc, join(__dirname, '..'))
-		await registrar
-			.useProviders(['@adonisjs/http-server', './providers/ValidatorProvider'])
-			.registerAndBoot()
-
-		assert.property(ioc.use('Adonis/Core/Request').prototype, 'validate')
+		const app = await setupApp(['../../providers/ValidatorProvider'])
+		assert.property(app.container.use('Adonis/Core/Request').prototype, 'validate')
 	})
 })

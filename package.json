@@ -70,15 +70,15 @@
 		"tag": "alpha"
 	},
 	"devDependencies": {
+		"@adonisjs/application": "^3.0.0",
 		"@adonisjs/bodyparser": "^5.0.0",
 		"@adonisjs/encryption": "^2.0.6",
 		"@adonisjs/fold": "^6.4.0",
-		"@adonisjs/http-server": "^3.0.3",
-		"@adonisjs/logger": "^2.1.0",
+		"@adonisjs/http-server": "^4.0.0",
 		"@adonisjs/mrm-preset": "^2.4.0",
-		"@adonisjs/profiler": "^4.0.1",
 		"@adonisjs/require-ts": "^1.0.0",
 		"@hapi/joi": "^17.1.1",
+		"@poppinss/dev-utils": "^1.0.10",
 		"@types/node": "^14.11.2",
 		"benchmark": "^2.1.4",
 		"class-validator": "^0.12.2",

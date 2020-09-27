@@ -22,8 +22,11 @@ export async function setupApp(providers?: string[]) {
 		'config/app.ts',
 		`
 		export const appKey = 'averylongrandom32charssecret'
+		export const profiler = {
+			enabled: true
+		}
 		export const http = {
-			cookie: {}
+			cookie: {},
 		}
 	`
 	)

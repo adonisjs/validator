@@ -7,18 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { IocContract } from '@adonisjs/fold'
-import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import { validator } from '../src/Validator'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 /**
  * Provider to register validator with the IoC container
  */
 export default class ValidationProvider {
-	constructor(protected container: IocContract) {}
+	constructor(protected app: ApplicationContract) {}
 
 	public register() {
-		this.container.singleton('Adonis/Core/Validator', () => {
+		this.app.container.singleton('Adonis/Core/Validator', () => {
 			return {
 				validator: require('../src/Validator').validator,
 				schema: require('../src/Schema').schema,
@@ -28,9 +26,9 @@ export default class ValidationProvider {
 	}
 
 	public async boot() {
-		this.container.with(
+		this.app.container.with(
 			['Adonis/Core/Request', 'Adonis/Core/Validator'],
-			(Request: RequestConstructorContract, Validator: { validator: typeof validator }) => {
+			(Request, Validator) => {
 				require('../src/Bindings/Request').default(Request, Validator.validator.validate)
 			}
 		)

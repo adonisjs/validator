@@ -184,8 +184,6 @@ test.group('Request validator', (group) => {
 		assert.plan(2)
 
 		const app = await setupApp()
-		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
-
 		app.container.use('Adonis/Core/Profiler').process((packet: any) => {
 			if (packet.type === 'action') {
 				assert.deepEqual(packet.data, { status: 'error' })
@@ -193,6 +191,7 @@ test.group('Request validator', (group) => {
 			}
 		})
 
+		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 		ctx.request.allFiles = function () {
 			return {}
 		}

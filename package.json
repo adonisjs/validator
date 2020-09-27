@@ -70,11 +70,10 @@
 		"tag": "next"
 	},
 	"devDependencies": {
-		"@adonisjs/application": "^3.0.0",
-		"@adonisjs/bodyparser": "^5.0.0",
-		"@adonisjs/encryption": "^2.0.6",
-		"@adonisjs/fold": "^6.4.0",
-		"@adonisjs/http-server": "^4.0.0",
+		"@adonisjs/application": "^3.0.5",
+		"@adonisjs/bodyparser": "^5.0.1",
+		"@adonisjs/encryption": "^3.0.1",
+		"@adonisjs/http-server": "^4.0.1",
 		"@adonisjs/mrm-preset": "^2.4.0",
 		"@adonisjs/require-ts": "^1.0.0",
 		"@hapi/joi": "^17.1.1",
@@ -85,8 +84,8 @@
 		"commitizen": "^4.2.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"del-cli": "^3.0.1",
-		"eslint": "^7.9.0",
-		"eslint-config-prettier": "^6.11.0",
+		"eslint": "^7.10.0",
+		"eslint-config-prettier": "^6.12.0",
 		"eslint-plugin-adonis": "^1.0.15",
 		"eslint-plugin-prettier": "^3.1.4",
 		"execa": "^4.0.3",
@@ -94,7 +93,7 @@
 		"husky": "^4.3.0",
 		"indicative": "^7.4.4",
 		"japa": "^3.1.1",
-		"kleur": "^4.1.1",
+		"kleur": "^4.1.2",
 		"mrm": "^2.5.1",
 		"np": "^6.5.0",
 		"npm-audit-html": "^1.4.3",
@@ -108,5 +107,10 @@
 		"luxon": "^1.25.0",
 		"tmp-cache": "^1.1.0",
 		"validator": "^13.1.17"
+	},
+	"peerDependencies": {
+		"@adonisjs/application": "^3.0.0",
+		"@adonisjs/bodyparser": "^5.0.0",
+		"@adonisjs/http-server": "^4.0.0"
 	}
 }

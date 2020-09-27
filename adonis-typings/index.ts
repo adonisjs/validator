@@ -8,4 +8,5 @@
  */
 
 /// <reference path="./request.ts" />
+/// <reference path="./container.ts" />
 /// <reference path="./validator.ts" />

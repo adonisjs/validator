@@ -1,6 +1,6 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "8.0.0",
+	"version": "8.0.1",
 	"description": "Validator for adonis framework",
 	"main": "build/providers/ValidatorProvider.js",
 	"files": [

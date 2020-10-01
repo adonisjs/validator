@@ -26,6 +26,7 @@ export async function setupApp(providers?: string[]) {
 			enabled: true
 		}
 		export const http = {
+			trustProxy: () => true,
 			cookie: {},
 		}
 	`

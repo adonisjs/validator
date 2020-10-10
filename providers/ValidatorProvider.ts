@@ -15,6 +15,8 @@ import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 export default class ValidationProvider {
 	constructor(protected app: ApplicationContract) {}
 
+	public static needsApplication = true
+
 	public register() {
 		this.app.container.singleton('Adonis/Core/Validator', () => {
 			return {

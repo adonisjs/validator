@@ -107,7 +107,7 @@ export class ArrayCompiler {
 			return this.hasAsyncChildren(node.each)
 		}
 
-		if (node.type === 'object') {
+		if (node.type === 'object' && node.children) {
 			const children = Object.keys(node.children)
 			for (let child of children) {
 				if (this.hasAsyncChildren(node.children[child])) {

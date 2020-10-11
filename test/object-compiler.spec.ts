@@ -14,33 +14,6 @@ import { ObjectCompiler } from '../src/Compiler/Nodes/Object'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 
 test.group('Object Compiler', () => {
-	test('do not output compiled code when field has no rules or children have been defined', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			subtype: 'string',
-			rules: [],
-			children: {},
-		}
-
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
-
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
-
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
-
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
-		assert.deepEqual(buff.toString(), '')
-	})
-
 	test('compile an object node with rules', async (assert) => {
 		const objectNode = {
 			type: 'object' as const,
@@ -316,9 +289,65 @@ test.group('Object Compiler', () => {
         errorReporter
       };
       validations.object.validate(val_0, {}, val_0_options);
-      if (val_0_exists) {
-        out['user'] = val_0;
-      }`
+        out['user'] = {};`
+				.split('\n')
+				.map((line) => line.trim())
+		)
+	})
+
+	test('do not output code for members validation when children are undefined', async (assert) => {
+		const objectNode = {
+			type: 'object' as const,
+			subtype: 'string',
+			rules: [
+				{
+					name: 'object',
+					compiledOptions: {},
+					async: false,
+					allowUndefineds: true,
+				},
+			],
+		}
+
+		const field = {
+			name: 'user',
+			type: 'literal' as const,
+		}
+
+		const references = {
+			outVariable: 'out',
+			referenceVariable: 'root',
+			parentPointer: [],
+		}
+
+		const compiler = new Compiler({})
+		const buff = new CompilerBuffer()
+
+		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+		objectCompiler.compile(buff)
+
+		assert.deepEqual(
+			buff
+				.toString()
+				.split('\n')
+				.map((line) => line.trim()),
+			`// Validate root['user']
+      let val_0 = root['user'];
+      const val_0_exists = helpers.exists(val_0);
+      function mutate_val_0 (newValue) {
+        val_0 = newValue;
+      }
+      const val_0_options = {
+        root,
+        refs,
+        field: 'user',
+        tip: root,
+        pointer: 'user',
+        mutate: mutate_val_0,
+        errorReporter
+      };
+      validations.object.validate(val_0, {}, val_0_options);
+			out['user'] = val_0;`
 				.split('\n')
 				.map((line) => line.trim())
 		)

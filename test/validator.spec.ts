@@ -476,3 +476,66 @@ test.group('After Before Field', () => {
 		}
 	})
 })
+
+test.group('Validator | object', () => {
+	test('validate object with any members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profile: schema.object().anyMembers(),
+			}),
+			data: {
+				profile: {
+					username: 'virk',
+					age: 30,
+				},
+			},
+		})
+
+		assert.deepEqual(output, { profile: { username: 'virk', age: 30 } })
+	})
+
+	test('validate optional object with any members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profile: schema.object.optional().anyMembers(),
+			}),
+			data: {},
+		})
+		assert.deepEqual(output, { profile: undefined })
+	})
+
+	test('validate object with zero members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profile: schema.object().members({}),
+			}),
+			data: {
+				profile: {
+					username: 'virk',
+					age: 30,
+				},
+			},
+		})
+
+		assert.deepEqual(output, { profile: {} })
+	})
+
+	test('validate optional object with zero members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profile: schema.object.optional().members({}),
+			}),
+			data: {},
+		})
+
+		assert.deepEqual(output, { profile: {} })
+	})
+})

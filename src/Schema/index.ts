@@ -88,6 +88,9 @@ function object(rules?: Rule[]) {
 				rules || []
 			)
 		},
+		anyMembers() {
+			return getObjectType(false, null, rules || [])
+		},
 	} as ReturnType<ObjectType>
 }
 object.optional = function optionalObject(rules?: Rule[]) {
@@ -101,6 +104,9 @@ object.optional = function optionalObject(rules?: Rule[]) {
 				}, {}),
 				rules || []
 			)
+		},
+		anyMembers() {
+			return getObjectType(true, null, rules || [])
 		},
 	} as ReturnType<ObjectType['optional']>
 }

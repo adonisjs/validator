@@ -59,7 +59,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 	export type SchemaObject = {
 		type: 'object'
 		rules: ParsedRule[]
-		children: ParsedSchemaTree
+		children?: ParsedSchemaTree
 	}
 
 	/**

@@ -595,6 +595,33 @@ test.group('Schema | Object', () => {
 			}
 		)
 	})
+
+	test('define schema object with any members', (assert) => {
+		assert.deepEqual(
+			schema.create({
+				profile: schema.object().anyMembers(),
+			}).tree,
+			{
+				profile: {
+					type: 'object',
+					rules: [
+						{
+							name: 'required',
+							allowUndefineds: true,
+							async: false,
+							compiledOptions: [],
+						},
+						{
+							name: 'object',
+							allowUndefineds: false,
+							async: false,
+							compiledOptions: [],
+						},
+					],
+				},
+			}
+		)
+	})
 })
 
 test.group('Schema | Array', () => {

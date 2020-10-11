@@ -74,7 +74,7 @@ export function getLiteralType(
  */
 export function getObjectType(
 	isOptional: boolean,
-	children: ParsedSchemaTree,
+	children: ParsedSchemaTree | null,
 	rules: Rule[]
 ): { getTree(): SchemaObject } {
 	const subTypeRule = rules.find((rule) => rule.name === 'object')
@@ -89,7 +89,7 @@ export function getObjectType(
 					.concat(subTypeRule ? [] : [{ name: 'object', options: [] }])
 					.concat(rules)
 					.map((rule) => compileRule('object', 'object', rule, optionsTree)),
-				children: children,
+				...(children ? { children } : {}),
 			}
 		},
 	}

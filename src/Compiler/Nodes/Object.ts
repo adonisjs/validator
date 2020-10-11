@@ -33,11 +33,20 @@ export class ObjectCompiler {
 	 * Declaring the out variable as an empty object. As the validations
 	 * will progress, this object will receive new properties
 	 */
-	private declareOutVariable(buffer: CompilerBuffer, outVariable: string) {
+	private declareOutVariable(
+		buffer: CompilerBuffer,
+		outVariable: string,
+		outValue: string,
+		constAssigment: boolean
+	) {
 		const referenceExpression = this.compiler.pointerToExpression(this.field)
-		buffer.writeExpression(
-			`const ${outVariable} = ${this.references.outVariable}[${referenceExpression}] = {}`
-		)
+		if (constAssigment) {
+			buffer.writeExpression(
+				`const ${outVariable} = ${this.references.outVariable}[${referenceExpression}] = ${outValue}`
+			)
+		} else {
+			buffer.writeExpression(`${this.references.outVariable}[${referenceExpression}] = ${outValue}`)
+		}
 	}
 
 	/**
@@ -66,15 +75,7 @@ export class ObjectCompiler {
 	 * Converts the object node to compiled Javascript statement.
 	 */
 	public compile(buffer: CompilerBuffer) {
-		const children = Object.keys(this.node.children)
-
-		/**
-		 * Do not compile the object node, when it has zero rules on itself and
-		 * no children have been defined either
-		 */
-		if (!this.node.rules.length && !children.length) {
-			return
-		}
+		const children = this.node.children ? Object.keys(this.node.children) : null
 
 		/**
 		 * Parsing the object as a literal node with `object` subtype.
@@ -95,34 +96,34 @@ export class ObjectCompiler {
 		 * object as it is and instead create a fresh object and only set
 		 * validated fields on it
 		 */
-		literal.disableOutVariable = children.length > 0
+		literal.disableOutVariable = true
 		literal.forceValueDeclaration = true
 		literal.compile(buffer)
+		const outVariable = `out_${this.compiler.outVariableCounter++}`
 
 		/**
-		 * Do not output code when object node has been defined with zero
-		 * children (less likely to happen).
+		 * Set output variable right away when no children are defined
+		 * or any children are accepted. There is no need to build
+		 * the object gradually.
 		 */
-		if (!children.length) {
+		if (!children || children.length === 0) {
+			this.declareOutVariable(buffer, outVariable, children ? '{}' : literal.variableName, false)
 			return
 		}
-
-		buffer.newLine()
 
 		/**
 		 * The object members validation is wrapped inside the if guard
 		 */
+		buffer.newLine()
 		this.startIfGuard(buffer, literal.variableName)
-
-		const outVariable = `out_${this.compiler.outVariableCounter++}`
-		this.declareOutVariable(buffer, outVariable)
+		this.declareOutVariable(buffer, outVariable, '{}', true)
 		buffer.newLine()
 
 		/**
 		 * Recursively parse children of the object
 		 */
 		this.compiler.compileTree(
-			this.node.children,
+			this.node.children || {},
 			buffer,
 			this.references.parentPointer.concat(this.field),
 			literal.variableName,

@@ -38,11 +38,21 @@ export class ArrayCompiler {
 	 * Declaring the out variable as an empty array. As the validations
 	 * will progress, this object will receive new properties
 	 */
-	private declareOutVariable(buffer: CompilerBuffer, outVariable: string) {
+	private declareOutVariable(
+		buffer: CompilerBuffer,
+		outVariable: string,
+		outValue: string,
+		constAssigment: boolean
+	) {
 		const referenceExpression = this.compiler.pointerToExpression(this.field)
-		buffer.writeExpression(
-			`const ${outVariable} = ${this.references.outVariable}[${referenceExpression}] = []`
-		)
+
+		if (constAssigment) {
+			buffer.writeExpression(
+				`const ${outVariable} = ${this.references.outVariable}[${referenceExpression}] = ${outValue}`
+			)
+		} else {
+			buffer.writeExpression(`${this.references.outVariable}[${referenceExpression}] = ${outValue}`)
+		}
 	}
 
 	/**
@@ -142,10 +152,10 @@ export class ArrayCompiler {
 		)
 
 		/**
-		 * Disable output variable when the array node has members. Since we start
-		 * with an empty array and only collect the validated properties
+		 * Disable output variable since we start with an empty array and
+		 * only collect the validated properties.
 		 */
-		literal.disableOutVariable = !!this.node.each
+		literal.disableOutVariable = true
 
 		/**
 		 * Always declare the value variable so that we can reference it to validate
@@ -154,11 +164,14 @@ export class ArrayCompiler {
 		literal.forceValueDeclaration = true
 		literal.compile(buff)
 
+		const outVariable = `out_${this.compiler.outVariableCounter++}`
+
 		/**
 		 * Do not output the compiled code for validating children, when no children
 		 * have been defined on the array
 		 */
 		if (!this.node.each) {
+			this.declareOutVariable(buff, outVariable, literal.variableName, false)
 			return
 		}
 
@@ -173,11 +186,11 @@ export class ArrayCompiler {
 		this.startIfGuard(buff, literal.variableName)
 
 		const indexVariable = `index_${this.compiler.arrayIndexVariableCounter++}`
+
 		/**
 		 * Declaring the out variable as an empty array
 		 */
-		const outVariable = `out_${this.compiler.outVariableCounter++}`
-		this.declareOutVariable(buff, outVariable)
+		this.declareOutVariable(buff, outVariable, '[]', true)
 
 		/**
 		 * Add the for loop

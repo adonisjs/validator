@@ -319,9 +319,7 @@ test.group('Array Compiler', () => {
         errorReporter
       };
       validations.array.validate(val_0, {}, val_0_options);
-      if (val_0_exists) {
-        out['users'] = val_0;
-      }`
+      out['users'] = val_0;`
 				.split('\n')
 				.map((line) => line.trim())
 		)

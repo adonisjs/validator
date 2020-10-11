@@ -539,3 +539,38 @@ test.group('Validator | object', () => {
 		assert.deepEqual(output, { profile: {} })
 	})
 })
+
+test.group('Validator | array', () => {
+	test('validate array with any members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profiles: schema.array().anyMembers(),
+			}),
+			data: {
+				profiles: [
+					{
+						username: 'virk',
+						age: 30,
+					},
+				],
+			},
+		})
+
+		assert.deepEqual(output, { profiles: [{ username: 'virk', age: 30 }] })
+	})
+
+	test('validate optional array with any members', async (assert) => {
+		assert.plan(1)
+
+		const output = await validator.validate({
+			schema: schema.create({
+				profiles: schema.array.optional().anyMembers(),
+			}),
+			data: {},
+		})
+
+		assert.deepEqual(output, { profiles: undefined })
+	})
+})

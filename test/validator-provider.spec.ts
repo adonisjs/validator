@@ -8,18 +8,28 @@
  */
 
 import test from 'japa'
+import { VanillaErrorReporter } from '../src/ErrorReporter'
 
 import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 import { validator } from '../src/Validator'
 import { setupApp, fs } from '../test-helpers'
 
-test.group('Encryption Provider', (group) => {
+test.group('Validation Provider', (group) => {
 	group.afterEach(async () => {
 		await fs.cleanup()
+
+		/**
+		 * reset config
+		 */
+		validator.configure({
+			bail: false,
+			existsStrict: false,
+			reporter: VanillaErrorReporter,
+		})
 	})
 
-	test('register encryption provider', async (assert) => {
+	test('register validation provider', async (assert) => {
 		const app = await setupApp(['../../providers/ValidatorProvider'])
 		assert.deepEqual(app.container.use('Adonis/Core/Validator'), { validator, schema, rules })
 	})

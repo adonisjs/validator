@@ -575,7 +575,18 @@ test.group('Validator | array', () => {
 	})
 })
 
-test.group('Validator | options', () => {
+test.group('Validator | options', (group) => {
+	group.afterEach(() => {
+		/**
+		 * reset config
+		 */
+		validator.configure({
+			bail: false,
+			existsStrict: false,
+			reporter: VanillaErrorReporter,
+		})
+	})
+
 	test('use options reporter when defined', async (assert) => {
 		assert.plan(1)
 		validator.configure({ reporter: ApiErrorReporter })

@@ -17,6 +17,15 @@ import { ApiErrorReporter, VanillaErrorReporter } from '../src/ErrorReporter'
 test.group('Request validator', (group) => {
 	group.afterEach(async () => {
 		await fs.cleanup()
+
+		/**
+		 * reset config
+		 */
+		validator.configure({
+			bail: false,
+			existsStrict: false,
+			reporter: VanillaErrorReporter,
+		})
 	})
 
 	test('choose api reporter when accept header is application/json', async (assert) => {

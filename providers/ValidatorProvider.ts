@@ -19,8 +19,16 @@ export default class ValidationProvider {
 
 	public register() {
 		this.app.container.singleton('Adonis/Core/Validator', () => {
+			const { validator } = require('../src/Validator')
+
+			/**
+			 * Configure validator
+			 */
+			const validatorConfig = this.app.container.use('Adonis/Core/Config').get('app.validator', {})
+			validator.configure(validatorConfig)
+
 			return {
-				validator: require('../src/Validator').validator,
+				validator: validator,
 				schema: require('../src/Schema').schema,
 				rules: require('../src/Rules').rules,
 			}

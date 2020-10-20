@@ -73,7 +73,7 @@
 		"@adonisjs/application": "^3.0.19",
 		"@adonisjs/bodyparser": "^5.0.4",
 		"@adonisjs/encryption": "^3.0.4",
-		"@adonisjs/http-server": "^4.0.6",
+		"@adonisjs/http-server": "^4.0.7",
 		"@adonisjs/mrm-preset": "^2.4.0",
 		"@adonisjs/require-ts": "^1.0.4",
 		"@hapi/joi": "^17.1.1",

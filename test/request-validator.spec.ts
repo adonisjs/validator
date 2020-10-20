@@ -151,35 +151,6 @@ test.group('Request validator', (group) => {
 		}
 	})
 
-	test('choose vanilla reporter when X-Inertia header is set', async (assert) => {
-		assert.plan(2)
-
-		const app = await setupApp()
-		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
-		ctx.request.request.headers.accept = 'application/json'
-		ctx.request.request.headers['x-inertia'] = 'true'
-		ctx.request.request.headers['x-requested-with'] = 'XMLHttpRequest'
-
-		ctx.request.allFiles = function () {
-			return {}
-		}
-
-		class Validator {
-			public schema = schema.create({
-				username: schema.string(),
-			})
-		}
-
-		try {
-			await ctx.request.validate(Validator)
-		} catch (error) {
-			assert.equal(error.flashToSession, true)
-			assert.deepEqual(error.messages, {
-				username: ['required validation failed'],
-			})
-		}
-	})
-
 	test('profile using the profiler', async (assert) => {
 		assert.plan(2)
 

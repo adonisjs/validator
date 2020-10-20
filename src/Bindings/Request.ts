@@ -30,7 +30,7 @@ export default function extendRequest(
 		/**
 		 * Attempt to find the best error reporter for validation
 		 */
-		if (this.header('X-Inertia')) {
+		if (this.inertia()) {
 			Reporter = ErrorReporters.VanillaErrorReporter
 		} else if (this.ajax()) {
 			Reporter = ErrorReporters.ApiErrorReporter

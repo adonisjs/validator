@@ -9,7 +9,17 @@
 
 import { DateTime } from 'luxon'
 import { lodash } from '@poppinss/utils'
-import { NodeSubType, NodeType, ParsedRule, SchemaRef } from '@ioc:Adonis/Core/Validator'
+
+import {
+	NodeType,
+	SchemaRef,
+	ParsedRule,
+	NodeSubType,
+	ErrorReporterConstructorContract,
+} from '@ioc:Adonis/Core/Validator'
+
+import { RequestContract } from '@ioc:Adonis/Core/Request'
+import * as ErrorReporters from '../ErrorReporter'
 
 /**
  * Ensure value is not `undefined`
@@ -151,5 +161,24 @@ export function wrapCompile<T extends any>(
 		}
 
 		return defaultOptions
+	}
+}
+
+/**
+ * Returns the error reporter for the current HTTP request
+ */
+export function getRequestReporter(request: RequestContract): ErrorReporterConstructorContract {
+	if (request.ajax()) {
+		return ErrorReporters.ApiErrorReporter
+	}
+
+	switch (request.accepts(['html', 'application/vnd.api+json', 'json'])) {
+		case 'html':
+		case null:
+			return ErrorReporters.VanillaErrorReporter
+		case 'json':
+			return ErrorReporters.ApiErrorReporter
+		case 'application/vnd.api+json':
+			return ErrorReporters.JsonApiErrorReporter
 	}
 }

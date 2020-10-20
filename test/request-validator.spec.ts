@@ -9,19 +9,12 @@
 
 import test from 'japa'
 
-import { Request } from '@adonisjs/http-server/build/standalone'
-import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-
 import { schema } from '../src/Schema'
 import { validator } from '../src/Validator'
 import { setupApp, fs } from '../test-helpers'
-import extendRequest from '../src/Bindings/Request'
+import { ApiErrorReporter, VanillaErrorReporter } from '../src/ErrorReporter'
 
 test.group('Request validator', (group) => {
-	group.before(() => {
-		extendRequest((Request as unknown) as RequestConstructorContract, validator.validate)
-	})
-
 	group.afterEach(async () => {
 		await fs.cleanup()
 	})
@@ -29,7 +22,7 @@ test.group('Request validator', (group) => {
 	test('choose api reporter when accept header is application/json', async (assert) => {
 		assert.plan(1)
 
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
 		ctx.request.request.headers.accept = 'application/json'
@@ -61,7 +54,7 @@ test.group('Request validator', (group) => {
 	test('choose jsonapi reporter when accept header is application/vnd.api+json', async (assert) => {
 		assert.plan(1)
 
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
 		ctx.request.request.headers.accept = 'application/vnd.api+json'
@@ -95,7 +88,7 @@ test.group('Request validator', (group) => {
 	test('choose vanilla reporter when no accept header is set', async (assert) => {
 		assert.plan(2)
 
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
 		ctx.request.allFiles = function () {
@@ -121,7 +114,7 @@ test.group('Request validator', (group) => {
 	test('choose json reporter when its an ajax request', async (assert) => {
 		assert.plan(2)
 
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 		ctx.request.request.headers['x-requested-with'] = 'XMLHttpRequest'
 
@@ -154,7 +147,7 @@ test.group('Request validator', (group) => {
 	test('profile using the profiler', async (assert) => {
 		assert.plan(2)
 
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		app.container.use('Adonis/Core/Profiler').process((packet: any) => {
 			if (packet.type === 'action') {
 				assert.deepEqual(packet.data, { status: 'error' })
@@ -179,7 +172,7 @@ test.group('Request validator', (group) => {
 	})
 
 	test('return validated request body', async (assert) => {
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
 		ctx.request.request.headers.accept = 'application/json'
@@ -199,7 +192,7 @@ test.group('Request validator', (group) => {
 	})
 
 	test('provide custom data', async (assert) => {
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 		ctx.request.request.headers.accept = 'application/json'
 		ctx.request.allFiles = function () {
@@ -219,7 +212,7 @@ test.group('Request validator', (group) => {
 	})
 
 	test('validate using vanilla object', async (assert) => {
-		const app = await setupApp()
+		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
 		ctx.request.request.headers.accept = 'application/json'
@@ -234,5 +227,62 @@ test.group('Request validator', (group) => {
 			}),
 		})
 		assert.deepEqual(validated, { username: 'virk' })
+	})
+
+	test('use requestReporter from config when defined', async (assert) => {
+		assert.plan(1)
+		validator.configure({ requestReporter: () => ApiErrorReporter })
+
+		const app = await setupApp(['../../providers/ValidatorProvider'])
+		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+		ctx.request.allFiles = function () {
+			return {}
+		}
+
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+		}
+
+		try {
+			await ctx.request.validate(Validator)
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				errors: [
+					{
+						rule: 'required',
+						message: 'required validation failed',
+						field: 'username',
+					},
+				],
+			})
+		}
+	})
+
+	test('use inline validator reporter over requestReporter', async (assert) => {
+		assert.plan(1)
+		validator.configure({ requestReporter: () => ApiErrorReporter })
+
+		const app = await setupApp(['../../providers/ValidatorProvider'])
+		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+		ctx.request.allFiles = function () {
+			return {}
+		}
+
+		class Validator {
+			public schema = schema.create({
+				username: schema.string(),
+			})
+			public reporter = VanillaErrorReporter
+		}
+
+		try {
+			await ctx.request.validate(Validator)
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				username: ['required validation failed'],
+			})
+		}
 	})
 })

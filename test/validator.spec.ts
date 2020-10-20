@@ -15,7 +15,7 @@ import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 import { getLiteralType } from '../src/utils'
 import * as validations from '../src/Validations'
-import { ApiErrorReporter } from '../src/ErrorReporter'
+import { ApiErrorReporter, VanillaErrorReporter } from '../src/ErrorReporter'
 import { validator as validatorBase } from '../src/Validator'
 
 const validator = (validatorBase as unknown) as typeof validatorType
@@ -572,5 +572,50 @@ test.group('Validator | array', () => {
 		})
 
 		assert.deepEqual(output, { profiles: undefined })
+	})
+})
+
+test.group('Validator | options', () => {
+	test('use options reporter when defined', async (assert) => {
+		assert.plan(1)
+		validator.configure({ reporter: ApiErrorReporter })
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					username: schema.string(),
+				}),
+				data: {},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				errors: [
+					{
+						message: 'required validation failed',
+						field: 'username',
+						rule: 'required',
+					},
+				],
+			})
+		}
+	})
+
+	test('use inline reporter over config reporter', async (assert) => {
+		assert.plan(1)
+		validator.configure({ reporter: ApiErrorReporter })
+
+		try {
+			await validator.validate({
+				schema: schema.create({
+					username: schema.string(),
+				}),
+				reporter: VanillaErrorReporter,
+				data: {},
+			})
+		} catch (error) {
+			assert.deepEqual(error.messages, {
+				username: ['required validation failed'],
+			})
+		}
 	})
 })

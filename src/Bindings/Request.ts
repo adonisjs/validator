@@ -8,13 +8,8 @@
  */
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import {
-	validator,
-	RequestValidatorNode,
-	ErrorReporterConstructorContract,
-} from '@ioc:Adonis/Core/Validator'
-
-import * as ErrorReporters from '../ErrorReporter'
+import { validator, ValidatorConfig, RequestValidatorNode } from '@ioc:Adonis/Core/Validator'
+import { getRequestReporter } from '../Validator/helpers'
 
 /**
  * Extends the request class by adding `validate` method
@@ -22,31 +17,10 @@ import * as ErrorReporters from '../ErrorReporter'
  */
 export default function extendRequest(
 	Request: RequestConstructorContract,
-	validate: typeof validator['validate']
+	validate: typeof validator['validate'],
+	config: ValidatorConfig
 ) {
 	Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {
-		let Reporter: ErrorReporterConstructorContract
-
-		/**
-		 * Attempt to find the best error reporter for validation
-		 */
-		if (this.ajax()) {
-			Reporter = ErrorReporters.ApiErrorReporter
-		} else {
-			switch (this.accepts(['html', 'application/vnd.api+json', 'json'])) {
-				case 'html':
-				case null:
-					Reporter = ErrorReporters.VanillaErrorReporter
-					break
-				case 'json':
-					Reporter = ErrorReporters.ApiErrorReporter
-					break
-				case 'application/vnd.api+json':
-					Reporter = ErrorReporters.JsonApiErrorReporter
-					break
-			}
-		}
-
 		/**
 		 * Merging request body, files and the params. The params are nested, since
 		 * it's possible that request body and params may have the same object
@@ -60,12 +34,25 @@ export default function extendRequest(
 		}
 
 		/**
+		 * Choosing the correct reporter for the given HTTP request. This is how it works
+		 *
+		 * - The first preference is given to the inline reporter
+		 * - Next we check the existence of "config.requestReporter" function and use its return value
+		 * - Otherwise use custom content negotiation.
+		 */
+		const reporter = validatorNode.reporter
+			? validatorNode.reporter
+			: config.requestReporter
+			? config.requestReporter(this)
+			: getRequestReporter(this)
+
+		/**
 		 * Creating a new profiler action to profile the validation
 		 */
 		const profilerAction = this.ctx!.profiler.profile('request:validate')
 
 		try {
-			const validated = await validate({ data, reporter: Reporter, ...validatorNode })
+			const validated = await validate({ data, reporter, ...validatorNode })
 			profilerAction.end({ status: 'success' })
 			return validated
 		} catch (error) {

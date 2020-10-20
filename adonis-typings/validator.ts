@@ -498,11 +498,13 @@ declare module '@ioc:Adonis/Core/Validator' {
 	}
 
 	/**
-	 * Shape of validator config
+	 * Shape of validator config.
 	 */
 	export type ValidatorConfig = {
-		bail: boolean
-		reporter: ErrorReporterConstructorContract
+		bail?: boolean
+		existsStrict?: boolean
+		reporter?: ErrorReporterConstructorContract
+		requestReporter?: (request: HttpContextContract['request']) => ErrorReporterConstructorContract
 	}
 
 	/**
@@ -763,6 +765,8 @@ declare module '@ioc:Adonis/Core/Validator' {
 	 * Shape of validator module
 	 */
 	const validator: {
+		config: ValidatorConfig
+
 		/**
 		 * Validate is a shorthand to compile + exec. If cache
 		 * key is defined, then it will also cache the
@@ -816,6 +820,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 			exists: (value: any) => boolean
 			isRef(value: any): value is SchemaRef<unknown>
 			existsStrict: (value: any) => boolean
+			getRequestReporter: Exclude<ValidatorConfig['requestReporter'], undefined>
 		}
 
 		/**
@@ -826,6 +831,11 @@ declare module '@ioc:Adonis/Core/Validator' {
 			jsonapi: ErrorReporterConstructorContract<{ errors: JsonApiErrorNode[] }>
 			vanilla: ErrorReporterConstructorContract<VanillaErrorNode>
 		}
+
+		/**
+		 * Configure validator global configuration
+		 */
+		configure(config: ValidatorConfig): void
 	}
 
 	export { schema, rules, validator }

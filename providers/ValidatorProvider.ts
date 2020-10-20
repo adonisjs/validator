@@ -31,7 +31,11 @@ export default class ValidationProvider {
 		this.app.container.with(
 			['Adonis/Core/Request', 'Adonis/Core/Validator'],
 			(Request, Validator) => {
-				require('../src/Bindings/Request').default(Request, Validator.validator.validate)
+				require('../src/Bindings/Request').default(
+					Request,
+					Validator.validator.validate,
+					Validator.validator.config
+				)
 			}
 		)
 	}

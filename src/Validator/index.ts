@@ -16,6 +16,7 @@ import {
 	NodeSubType,
 	ValidatorNode,
 	CompilerOutput,
+	ValidatorConfig,
 	ParsedTypedSchema,
 	ValidationContract,
 	validator as validatorStatic,
@@ -35,6 +36,7 @@ import {
 	wrapCompile,
 	existsStrict,
 	getFieldValue,
+	getRequestReporter,
 	resolveAbsoluteName,
 } from './helpers'
 
@@ -68,6 +70,15 @@ const NOOP_MESSAGES = {}
 const NOOP_REFS = {}
 
 /**
+ * Global options for the validator
+ */
+const OPTIONS: ValidatorConfig = {
+	bail: false,
+	existsStrict: false,
+	reporter: VanillaErrorReporter,
+}
+
+/**
  * Performs validation on the validator node
  */
 const validate = <T extends ParsedTypedSchema<TypedSchema>>(
@@ -76,12 +87,12 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
 	/**
 	 * The reporter to use. Defaults to the [[VanillaErrorReporter]]
 	 */
-	let Reporter: ErrorReporterConstructorContract = validator.reporter || VanillaErrorReporter
+	let Reporter: ErrorReporterConstructorContract = validator.reporter || OPTIONS.reporter!
 
 	/**
 	 * Whether or not fail on the first error message
 	 */
-	const bail = validator.bail === undefined ? false : validator.bail
+	const bail = validator.bail !== undefined ? validator.bail : OPTIONS.bail!
 
 	/**
 	 * Reporter instance
@@ -91,7 +102,10 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
 	/**
 	 * The helpers to use
 	 */
-	const helpers = validator.existsStrict === true ? STRICT_HELPERS : HELPERS
+	const helpers =
+		(validator.existsStrict !== undefined ? validator.existsStrict : OPTIONS.existsStrict!) === true
+			? STRICT_HELPERS
+			: HELPERS
 
 	/**
 	 * Compile everytime, when no cache is defined
@@ -183,11 +197,16 @@ export const validator: typeof validatorStatic = {
 	rule,
 	type,
 	helpers: {
-		resolveAbsoluteName,
 		exists,
 		isRef,
 		existsStrict,
 		getFieldValue,
+		getRequestReporter,
+		resolveAbsoluteName,
+	},
+	config: OPTIONS,
+	configure: (config: ValidatorConfig) => {
+		Object.assign(OPTIONS, config)
 	},
 	reporters: {
 		api: ApiErrorReporter,

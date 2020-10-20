@@ -16,9 +16,10 @@ import {
 	NodeSubType,
 	ValidatorNode,
 	CompilerOutput,
-	ValidatorConfig,
+	RequestNegotiator,
 	ParsedTypedSchema,
 	ValidationContract,
+	ValidatorResolvedConfig,
 	validator as validatorStatic,
 	ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
@@ -72,10 +73,11 @@ const NOOP_REFS = {}
 /**
  * Global options for the validator
  */
-const OPTIONS: ValidatorConfig = {
+const OPTIONS: ValidatorResolvedConfig = {
 	bail: false,
 	existsStrict: false,
 	reporter: VanillaErrorReporter,
+	negotiator: getRequestReporter,
 }
 
 /**
@@ -201,12 +203,14 @@ export const validator: typeof validatorStatic = {
 		isRef,
 		existsStrict,
 		getFieldValue,
-		getRequestReporter,
 		resolveAbsoluteName,
 	},
 	config: OPTIONS,
-	configure: (config: ValidatorConfig) => {
+	configure: (config: Omit<ValidatorResolvedConfig, 'negotiator'>) => {
 		Object.assign(OPTIONS, config)
+	},
+	negotiator: (callback: RequestNegotiator) => {
+		OPTIONS.negotiator = callback
 	},
 	reporters: {
 		api: ApiErrorReporter,

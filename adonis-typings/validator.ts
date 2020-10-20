@@ -11,6 +11,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 	import { UUIDVersion } from 'validator/lib/isUUID'
 	import { default as validatorJs } from 'validator'
 	import { DateTime, DurationObjectUnits } from 'luxon'
+	import { RequestContract } from '@ioc:Adonis/Core/Request'
 	import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 	import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
@@ -503,8 +504,25 @@ declare module '@ioc:Adonis/Core/Validator' {
 	export type ValidatorConfig = {
 		bail?: boolean
 		existsStrict?: boolean
+		reporter?: () =>
+			| Promise<ErrorReporterConstructorContract>
+			| Promise<{ default: ErrorReporterConstructorContract }>
+	}
+
+	/**
+	 * Method to use content negotiation to define a custom per http request
+	 * repoter
+	 */
+	export type RequestNegotiator = (request: RequestContract) => ErrorReporterConstructorContract
+
+	/**
+	 * Resolved config passed to the configure method and use internally
+	 */
+	export type ValidatorResolvedConfig = {
+		bail?: boolean
+		existsStrict?: boolean
 		reporter?: ErrorReporterConstructorContract
-		requestReporter?: (request: HttpContextContract['request']) => ErrorReporterConstructorContract
+		negotiator: RequestNegotiator
 	}
 
 	/**
@@ -765,7 +783,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 	 * Shape of validator module
 	 */
 	const validator: {
-		config: ValidatorConfig
+		config: ValidatorResolvedConfig
 
 		/**
 		 * Validate is a shorthand to compile + exec. If cache
@@ -820,8 +838,12 @@ declare module '@ioc:Adonis/Core/Validator' {
 			exists: (value: any) => boolean
 			isRef(value: any): value is SchemaRef<unknown>
 			existsStrict: (value: any) => boolean
-			getRequestReporter: Exclude<ValidatorConfig['requestReporter'], undefined>
 		}
+
+		/**
+		 * Define a custom content negotiator
+		 */
+		negotiator: (callback: RequestNegotiator) => void
 
 		/**
 		 * List of bundled reporters
@@ -835,7 +857,7 @@ declare module '@ioc:Adonis/Core/Validator' {
 		/**
 		 * Configure validator global configuration
 		 */
-		configure(config: ValidatorConfig): void
+		configure(config: Omit<ValidatorResolvedConfig, 'negotiator'>): void
 	}
 
 	export { schema, rules, validator }

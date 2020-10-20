@@ -240,7 +240,7 @@ test.group('Request validator', (group) => {
 
 	test('use requestReporter from config when defined', async (assert) => {
 		assert.plan(1)
-		validator.configure({ requestReporter: () => ApiErrorReporter })
+		validator.negotiator(() => ApiErrorReporter)
 
 		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
@@ -271,7 +271,7 @@ test.group('Request validator', (group) => {
 
 	test('use inline validator reporter over requestReporter', async (assert) => {
 		assert.plan(1)
-		validator.configure({ requestReporter: () => ApiErrorReporter })
+		validator.negotiator(() => ApiErrorReporter)
 
 		const app = await setupApp(['../../providers/ValidatorProvider'])
 		const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})

@@ -8,8 +8,11 @@
  */
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
-import { validator, ValidatorConfig, RequestValidatorNode } from '@ioc:Adonis/Core/Validator'
-import { getRequestReporter } from '../Validator/helpers'
+import {
+	validator,
+	RequestValidatorNode,
+	ValidatorResolvedConfig,
+} from '@ioc:Adonis/Core/Validator'
 
 /**
  * Extends the request class by adding `validate` method
@@ -18,7 +21,7 @@ import { getRequestReporter } from '../Validator/helpers'
 export default function extendRequest(
 	Request: RequestConstructorContract,
 	validate: typeof validator['validate'],
-	config: ValidatorConfig
+	config: ValidatorResolvedConfig
 ) {
 	Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {
 		/**
@@ -37,14 +40,9 @@ export default function extendRequest(
 		 * Choosing the correct reporter for the given HTTP request. This is how it works
 		 *
 		 * - The first preference is given to the inline reporter
-		 * - Next we check the existence of "config.requestReporter" function and use its return value
-		 * - Otherwise use custom content negotiation.
+		 * - Otherwise use the negotiator
 		 */
-		const reporter = validatorNode.reporter
-			? validatorNode.reporter
-			: config.requestReporter
-			? config.requestReporter(this)
-			: getRequestReporter(this)
+		const reporter = validatorNode.reporter ? validatorNode.reporter : config.negotiator(this)
 
 		/**
 		 * Creating a new profiler action to profile the validation

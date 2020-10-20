@@ -8,7 +8,7 @@
  */
 
 import test from 'japa'
-import { VanillaErrorReporter } from '../src/ErrorReporter'
+import { VanillaErrorReporter, ApiErrorReporter } from '../src/ErrorReporter'
 
 import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
@@ -32,6 +32,15 @@ test.group('Validation Provider', (group) => {
 	test('register validation provider', async (assert) => {
 		const app = await setupApp(['../../providers/ValidatorProvider'])
 		assert.deepEqual(app.container.use('Adonis/Core/Validator'), { validator, schema, rules })
+		assert.isUndefined(app.container.use('Adonis/Core/Validator').validator.config.reporter)
+	})
+
+	test('resolve reporter before passing it to the validator', async (assert) => {
+		const app = await setupApp(['../../providers/ValidatorProvider'], 'api')
+		assert.deepEqual(
+			app.container.use('Adonis/Core/Validator').validator.config.reporter,
+			ApiErrorReporter
+		)
 	})
 
 	test('extend request class by adding the validate method', async (assert) => {

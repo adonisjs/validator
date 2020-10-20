@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { esmResolver } from '@poppinss/utils'
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 /**
@@ -14,19 +15,34 @@ import { ApplicationContract } from '@ioc:Adonis/Core/Application'
  */
 export default class ValidationProvider {
 	constructor(protected app: ApplicationContract) {}
-
 	public static needsApplication = true
 
+	/**
+	 * Configures validator with the user defined options. We need to
+	 * resolve the imported reporter (when defined)
+	 */
+	private async configureValidator() {
+		const Config = this.app.container.use('Adonis/Core/Config')
+		const { validator } = this.app.container.use('Adonis/Core/Validator')
+
+		/**
+		 * Resolve reporter when defined
+		 */
+		const validatorConfig = Object.assign({}, Config.get('app.validator'))
+		if (validatorConfig.reporter) {
+			validatorConfig.reporter = esmResolver(await validatorConfig.reporter())
+		}
+
+		validator.configure(validatorConfig)
+		return validator
+	}
+
+	/**
+	 * Register validator
+	 */
 	public register() {
 		this.app.container.singleton('Adonis/Core/Validator', () => {
 			const { validator } = require('../src/Validator')
-
-			/**
-			 * Configure validator
-			 */
-			const validatorConfig = this.app.container.use('Adonis/Core/Config').get('app.validator', {})
-			validator.configure(validatorConfig)
-
 			return {
 				validator: validator,
 				schema: require('../src/Schema').schema,
@@ -36,15 +52,9 @@ export default class ValidationProvider {
 	}
 
 	public async boot() {
-		this.app.container.with(
-			['Adonis/Core/Request', 'Adonis/Core/Validator'],
-			(Request, Validator) => {
-				require('../src/Bindings/Request').default(
-					Request,
-					Validator.validator.validate,
-					Validator.validator.config
-				)
-			}
-		)
+		const validator = await this.configureValidator()
+		this.app.container.with(['Adonis/Core/Request'], (Request) => {
+			require('../src/Bindings/Request').default(Request, validator.validate, validator.config)
+		})
 	}
 }

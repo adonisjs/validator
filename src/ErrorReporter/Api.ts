@@ -8,9 +8,9 @@
  */
 
 import {
-	ErrorReporterContract,
 	ApiErrorNode,
 	MessagesBagContract,
+	ErrorReporterContract,
 } from '@ioc:Adonis/Core/Validator'
 import { ValidationException } from '../ValidationException'
 

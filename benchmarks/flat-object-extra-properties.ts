@@ -10,7 +10,7 @@
 |
 */
 
-import Joi from '@hapi/joi'
+import Joi from 'joi'
 import { Suite } from 'benchmark'
 import { validateAll, schema as indicativeSchema } from 'indicative/validator'
 

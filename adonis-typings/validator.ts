@@ -571,6 +571,21 @@ declare module '@ioc:Adonis/Core/Validator' {
 	}
 
 	/**
+	 * Url validation options
+	 */
+	export type UrlRuleOptions = {
+		protocols?: ('http' | 'https' | 'ftp')[]
+		requireTld?: boolean
+		requireProtocol?: boolean
+		requireHost?: boolean
+		hostWhitelist?: string[]
+		hostBlacklist?: string[]
+		validateLength?: boolean
+		ensureProtocol?: string | boolean
+		stripWWW?: boolean
+	}
+
+	/**
 	 * List of available validation rules. The rules are not the validation
 	 * implementations, but instead a pointer to the validation implementation
 	 * by it's name.
@@ -664,6 +679,11 @@ declare module '@ioc:Adonis/Core/Validator' {
 		 * Value must be a valid email address
 		 */
 		email(options?: EmailRuleOptions): Rule
+
+		/**
+		 * Value must be a valid url
+		 */
+		url(options?: UrlRuleOptions): Rule
 
 		/**
 		 * Value must be valid as ip address regex. Optionally you can

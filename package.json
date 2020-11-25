@@ -105,6 +105,7 @@
 		"@types/luxon": "^1.25.0",
 		"@types/validator": "^13.1.0",
 		"luxon": "^1.25.0",
+		"normalize-url": "^5.3.0",
 		"tmp-cache": "^1.1.0",
 		"validator": "^13.1.17"
 	},

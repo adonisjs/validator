@@ -8,7 +8,7 @@
  */
 
 import normalizeUrl from 'normalize-url'
-import isUrl, { IsURLOptions } from 'validator/lib/isUrl'
+import isUrl, { IsURLOptions } from 'validator/lib/isURL'
 import { SyncValidation, UrlRuleOptions } from '@ioc:Adonis/Core/Validator'
 import { wrapCompile } from '../../Validator/helpers'
 

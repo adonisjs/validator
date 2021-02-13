@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate } from '@poppinss/utils'
+import { interpolate } from '@poppinss/utils/build/helpers'
 import { MessagesBagContract, CustomMessages } from '@ioc:Adonis/Core/Validator'
 
 /**

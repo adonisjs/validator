@@ -43,8 +43,9 @@ export async function setupApp(
 	const app = new Application(fs.basePath, 'web', {
 		providers: ['@adonisjs/encryption', '@adonisjs/http-server'].concat(providers || []),
 	})
-	app.setup()
-	app.registerProviders()
+
+	await app.setup()
+	await app.registerProviders()
 	await app.bootProviders()
 
 	return app

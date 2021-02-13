@@ -19,8 +19,11 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { before } from '../../src/Validations/date/before'
 
 function compile(keyword: 'today' | 'yesterday'): ParsedRule<any>
+// eslint-disable-next-line no-redeclare
 function compile(date: SchemaRef<DateTime>): ParsedRule<any>
+// eslint-disable-next-line no-redeclare
 function compile(interval: number, duration: keyof DurationObjectUnits): ParsedRule<any>
+// eslint-disable-next-line no-redeclare
 function compile(
 	interval: number | SchemaRef<DateTime> | 'today' | 'yesterday',
 	duration?: keyof DurationObjectUnits

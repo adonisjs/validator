@@ -22,8 +22,8 @@ export default class ValidationProvider {
 	 * resolve the imported reporter (when defined)
 	 */
 	private async configureValidator() {
-		const Config = this.app.container.use('Adonis/Core/Config')
-		const { validator } = this.app.container.use('Adonis/Core/Validator')
+		const Config = this.app.container.resolveBinding('Adonis/Core/Config')
+		const { validator } = this.app.container.resolveBinding('Adonis/Core/Validator')
 
 		/**
 		 * Resolve reporter when defined
@@ -53,7 +53,7 @@ export default class ValidationProvider {
 
 	public async boot() {
 		const validator = await this.configureValidator()
-		this.app.container.with(['Adonis/Core/Request'], (Request) => {
+		this.app.container.withBindings(['Adonis/Core/Request'], (Request) => {
 			require('../src/Bindings/Request').default(Request, validator.validate, validator.config)
 		})
 	}

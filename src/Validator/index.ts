@@ -175,7 +175,11 @@ const type = (name: string, typeDefinition: any) => {
 const rule = (
 	name: string,
 	validateFn: ValidationContract<any>['validate'],
-	compileFn?: (options: any[], type: NodeType, subtype: NodeSubType) => Partial<ParsedRule<any>>,
+	compileFn?: (
+		options: any[],
+		nodeType: NodeType,
+		subtype: NodeSubType
+	) => Partial<ParsedRule<any>>,
 	restrictForTypes?: NodeSubType[]
 ) => {
 	/**

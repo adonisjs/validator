@@ -216,4 +216,24 @@ test.group('Date', () => {
     assert.instanceOf(value, DateTime)
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
+
+  test('work fine when value is an instance of luxon date time', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = DateTime.local()
+
+    date.validate(value, compile({}).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'dob',
+      pointer: 'dob',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.instanceOf(value, DateTime)
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })

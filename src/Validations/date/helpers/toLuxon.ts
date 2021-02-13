@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { date } from 'joi'
 import { DateTime } from 'luxon'
 
 /**
@@ -25,14 +26,14 @@ const PREDEFINED_FORMATS = {
 export function toLuxon(value: any, format: string | undefined): DateTime | undefined {
   let dateTime: DateTime | undefined
 
-  const isDateInstance = value instanceof Date === true
-
   /**
    * If value is a date instance or a string, then convert it to an instance
    * of luxon.DateTime.
    */
-  if (isDateInstance) {
+  if (value instanceof Date === true) {
     dateTime = DateTime.fromJSDate(value)
+  } else if (value instanceof DateTime) {
+    dateTime = value
   } else if (typeof value === 'string') {
     const formatterFn = PREDEFINED_FORMATS[format || 'iso']
     dateTime = formatterFn ? DateTime[formatterFn](value) : DateTime.fromFormat(value, format!)

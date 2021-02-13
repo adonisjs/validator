@@ -44,6 +44,7 @@ export default class ValidationProvider {
 		this.app.container.singleton('Adonis/Core/Validator', () => {
 			const { validator } = require('../src/Validator')
 			return {
+				ValidationException: require('../src/ValidationException').ValidationException,
 				validator: validator,
 				schema: require('../src/Schema').schema,
 				rules: require('../src/Rules').rules,

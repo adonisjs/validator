@@ -880,5 +880,12 @@ declare module '@ioc:Adonis/Core/Validator' {
 		configure(config: Omit<ValidatorResolvedConfig, 'negotiator'>): void
 	}
 
-	export { schema, rules, validator }
+	export interface ValidationExceptionContract {
+		new (flashToSession: boolean, messages?: any): {
+			handle(error: InstanceType<ValidationExceptionContract>, ctx: HttpContextContract): any
+		}
+	}
+
+	const ValidationException: ValidationExceptionContract
+	export { schema, rules, validator, ValidationException }
 }

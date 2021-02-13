@@ -14,6 +14,7 @@ import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 import { validator } from '../src/Validator'
 import { setupApp, fs } from '../test-helpers'
+import { ValidationException } from '../src/ValidationException'
 
 test.group('Validation Provider', (group) => {
 	group.afterEach(async () => {
@@ -31,8 +32,21 @@ test.group('Validation Provider', (group) => {
 
 	test('register validation provider', async (assert) => {
 		const app = await setupApp(['../../providers/ValidatorProvider'])
-		assert.deepEqual(app.container.use('Adonis/Core/Validator'), { validator, schema, rules })
+		assert.deepEqual(app.container.use('Adonis/Core/Validator'), {
+			validator,
+			schema,
+			rules,
+			ValidationException,
+		})
 		assert.isUndefined(app.container.use('Adonis/Core/Validator').validator.config.reporter)
+	})
+
+	test('export validation exception class', async (assert) => {
+		const app = await setupApp(['../../providers/ValidatorProvider'], 'api')
+		assert.deepEqual(
+			app.container.use('Adonis/Core/Validator').ValidationException,
+			ValidationException
+		)
 	})
 
 	test('resolve reporter before passing it to the validator', async (assert) => {

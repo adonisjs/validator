@@ -16,5 +16,5 @@ import { VanillaErrorReporter } from '../src/ErrorReporter/Vanilla'
 const helpers = { exists, isObject }
 
 export function validate(fn: CompilerOutput<any>, data: any) {
-	return fn(data, validations, new VanillaErrorReporter(new MessagesBag({}), true), helpers, {})
+  return fn(data, validations, new VanillaErrorReporter(new MessagesBag({}), true), helpers, {})
 }

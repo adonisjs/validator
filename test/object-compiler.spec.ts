@@ -14,56 +14,56 @@ import { ObjectCompiler } from '../src/Compiler/Nodes/Object'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 
 test.group('Object Compiler', () => {
-	test('compile an object node with rules', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			rules: [
-				{
-					name: 'object',
-					compiledOptions: {},
-					async: false,
-					allowUndefineds: true,
-				},
-			],
-			children: {
-				username: {
-					type: 'literal' as const,
-					subtype: 'string',
-					rules: [
-						{
-							name: 'string',
-							compiledOptions: {},
-							async: false,
-							allowUndefineds: true,
-						},
-					],
-				},
-			},
-		}
+  test('compile an object node with rules', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      rules: [
+        {
+          name: 'object',
+          compiledOptions: {},
+          async: false,
+          allowUndefineds: true,
+        },
+      ],
+      children: {
+        username: {
+          type: 'literal' as const,
+          subtype: 'string',
+          rules: [
+            {
+              name: 'string',
+              compiledOptions: {},
+              async: false,
+              allowUndefineds: true,
+            },
+          ],
+        },
+      },
+    }
 
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
 
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
 
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
 
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
 
-		assert.deepEqual(
-			buff
-				.toString()
-				.split('\n')
-				.map((line) => line.trim()),
-			`// Validate root['user']
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
       let val_0 = root['user'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -103,74 +103,74 @@ test.group('Object Compiler', () => {
           out_0['username'] = val_1;
         }
       }`
-				.split('\n')
-				.map((line) => line.trim())
-		)
-	})
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
 
-	test('compile a nested object node with rules', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			rules: [
-				{
-					name: 'object',
-					compiledOptions: {},
-					async: false,
-					allowUndefineds: true,
-				},
-			],
-			children: {
-				profile: {
-					type: 'object' as const,
-					rules: [
-						{
-							name: 'object',
-							compiledOptions: {},
-							async: false,
-							allowUndefineds: true,
-						},
-					],
-					children: {
-						username: {
-							type: 'literal' as const,
-							subtype: 'string',
-							rules: [
-								{
-									name: 'string',
-									compiledOptions: {},
-									async: false,
-									allowUndefineds: true,
-								},
-							],
-						},
-					},
-				},
-			},
-		}
+  test('compile a nested object node with rules', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      rules: [
+        {
+          name: 'object',
+          compiledOptions: {},
+          async: false,
+          allowUndefineds: true,
+        },
+      ],
+      children: {
+        profile: {
+          type: 'object' as const,
+          rules: [
+            {
+              name: 'object',
+              compiledOptions: {},
+              async: false,
+              allowUndefineds: true,
+            },
+          ],
+          children: {
+            username: {
+              type: 'literal' as const,
+              subtype: 'string',
+              rules: [
+                {
+                  name: 'string',
+                  compiledOptions: {},
+                  async: false,
+                  allowUndefineds: true,
+                },
+              ],
+            },
+          },
+        },
+      },
+    }
 
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
 
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
 
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
 
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
 
-		assert.deepEqual(
-			buff
-				.toString()
-				.split('\n')
-				.map((line) => line.trim()),
-			`// Validate root['user']
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
       let val_0 = root['user'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -231,49 +231,49 @@ test.group('Object Compiler', () => {
           }
         }
       }`
-				.split('\n')
-				.map((line) => line.trim())
-		)
-	})
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
 
-	test('do not output code for members validation when node has no children', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			subtype: 'string',
-			rules: [
-				{
-					name: 'object',
-					compiledOptions: {},
-					async: false,
-					allowUndefineds: true,
-				},
-			],
-			children: {},
-		}
+  test('do not output code for members validation when node has no children', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      subtype: 'string',
+      rules: [
+        {
+          name: 'object',
+          compiledOptions: {},
+          async: false,
+          allowUndefineds: true,
+        },
+      ],
+      children: {},
+    }
 
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
 
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
 
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
 
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
 
-		assert.deepEqual(
-			buff
-				.toString()
-				.split('\n')
-				.map((line) => line.trim()),
-			`// Validate root['user']
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
       let val_0 = root['user'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -290,48 +290,48 @@ test.group('Object Compiler', () => {
       };
       validations.object.validate(val_0, {}, val_0_options);
         out['user'] = {};`
-				.split('\n')
-				.map((line) => line.trim())
-		)
-	})
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
 
-	test('do not output code for members validation when children are undefined', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			subtype: 'string',
-			rules: [
-				{
-					name: 'object',
-					compiledOptions: {},
-					async: false,
-					allowUndefineds: true,
-				},
-			],
-		}
+  test('do not output code for members validation when children are undefined', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      subtype: 'string',
+      rules: [
+        {
+          name: 'object',
+          compiledOptions: {},
+          async: false,
+          allowUndefineds: true,
+        },
+      ],
+    }
 
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
 
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
 
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
 
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
 
-		assert.deepEqual(
-			buff
-				.toString()
-				.split('\n')
-				.map((line) => line.trim()),
-			`// Validate root['user']
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
       let val_0 = root['user'];
       const val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
@@ -348,55 +348,55 @@ test.group('Object Compiler', () => {
       };
       validations.object.validate(val_0, {}, val_0_options);
 			out['user'] = val_0;`
-				.split('\n')
-				.map((line) => line.trim())
-		)
-	})
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
 
-	test('do not output code for object validation when no rules have been defined', async (assert) => {
-		const objectNode = {
-			type: 'object' as const,
-			subtype: 'string',
-			rules: [],
-			children: {
-				username: {
-					type: 'literal' as const,
-					subtype: 'string',
-					rules: [
-						{
-							name: 'string',
-							compiledOptions: {},
-							async: false,
-							allowUndefineds: true,
-						},
-					],
-				},
-			},
-		}
+  test('do not output code for object validation when no rules have been defined', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      subtype: 'string',
+      rules: [],
+      children: {
+        username: {
+          type: 'literal' as const,
+          subtype: 'string',
+          rules: [
+            {
+              name: 'string',
+              compiledOptions: {},
+              async: false,
+              allowUndefineds: true,
+            },
+          ],
+        },
+      },
+    }
 
-		const field = {
-			name: 'user',
-			type: 'literal' as const,
-		}
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
 
-		const references = {
-			outVariable: 'out',
-			referenceVariable: 'root',
-			parentPointer: [],
-		}
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
 
-		const compiler = new Compiler({})
-		const buff = new CompilerBuffer()
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
 
-		const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
-		objectCompiler.compile(buff)
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
 
-		assert.deepEqual(
-			buff
-				.toString()
-				.split('\n')
-				.map((line) => line.trim()),
-			`// Validate root['user']
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
       let val_0 = root['user'];
       const val_0_exists = helpers.exists(val_0);
 
@@ -423,8 +423,8 @@ test.group('Object Compiler', () => {
           out_0['username'] = val_1;
         }
       }`
-				.split('\n')
-				.map((line) => line.trim())
-		)
-	})
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
 })

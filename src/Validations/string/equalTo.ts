@@ -20,41 +20,41 @@ type CompileReturnType = { fieldValue?: string; ref?: string }
  * ignored.
  */
 export const equalTo: SyncValidation<CompileReturnType> = {
-	compile: wrapCompile<CompileReturnType>(RULE_NAME, ['string'], ([equalToValue], _) => {
-		if (isRef(equalToValue)) {
-			return {
-				compiledOptions: { ref: equalToValue.key },
-			}
-		}
+  compile: wrapCompile<CompileReturnType>(RULE_NAME, ['string'], ([equalToValue], _) => {
+    if (isRef(equalToValue)) {
+      return {
+        compiledOptions: { ref: equalToValue.key },
+      }
+    }
 
-		if (!equalToValue || typeof equalToValue !== 'string') {
-			throw new Error(`The "${RULE_NAME}" rule expects equalToValue to be a string`)
-		}
+    if (!equalToValue || typeof equalToValue !== 'string') {
+      throw new Error(`The "${RULE_NAME}" rule expects equalToValue to be a string`)
+    }
 
-		return {
-			compiledOptions: { fieldValue: equalToValue },
-		}
-	}),
-	validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, refs }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+    return {
+      compiledOptions: { fieldValue: equalToValue },
+    }
+  }),
+  validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, refs }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		let fieldValue
+    let fieldValue
 
-		if (compiledOptions.ref) {
-			const runtimeFieldValue = refs[compiledOptions.ref].value
-			fieldValue = runtimeFieldValue
-		} else if (compiledOptions.fieldValue) {
-			fieldValue = compiledOptions.fieldValue
-		}
+    if (compiledOptions.ref) {
+      const runtimeFieldValue = refs[compiledOptions.ref].value
+      fieldValue = runtimeFieldValue
+    } else if (compiledOptions.fieldValue) {
+      fieldValue = compiledOptions.fieldValue
+    }
 
-		if (value !== fieldValue) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-		}
-	},
+    if (value !== fieldValue) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+    }
+  },
 }

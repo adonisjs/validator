@@ -15,90 +15,90 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { number } from '../../src/Validations/primitives/number'
 
 function compile() {
-	return number.compile('literal', 'number', rules['number']().options, {})
+  return number.compile('literal', 'number', rules['number']().options, {})
 }
 
 test.group('Number', () => {
-	validate(number, test, 'helloworld', 10, compile())
+  validate(number, test, 'helloworld', 10, compile())
 
-	test('report error when value is not a valid number', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		number.validate(null, compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'age',
-			pointer: 'age',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when value is not a valid number', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    number.validate(null, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'age',
+      pointer: 'age',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'age',
-					rule: 'number',
-					message: 'number validation failed',
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'age',
+          rule: 'number',
+          message: 'number validation failed',
+        },
+      ],
+    })
+  })
 
-	test('cast number like string to a valid number', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		let value: any = '22'
+  test('cast number like string to a valid number', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = '22'
 
-		number.validate(value, compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'age',
-			pointer: 'age',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: (newValue) => {
-				value = newValue
-			},
-		})
+    number.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'age',
+      pointer: 'age',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-		assert.equal(value, 22)
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, 22)
+  })
 
-	test('work fine when value is a valid number', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		number.validate(22, compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'age',
-			pointer: 'age',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when value is a valid number', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    number.validate(22, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'age',
+      pointer: 'age',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 
-	test('report error when value is a string that cannot be casted to a number', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		number.validate('hello-world', compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'age',
-			pointer: 'age',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when value is a string that cannot be casted to a number', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    number.validate('hello-world', compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'age',
+      pointer: 'age',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'age',
-					rule: 'number',
-					message: 'number validation failed',
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'age',
+          rule: 'number',
+          message: 'number validation failed',
+        },
+      ],
+    })
+  })
 })

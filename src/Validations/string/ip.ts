@@ -19,29 +19,29 @@ const DEFAULT_MESSAGE = 'ip validation failed'
  * ignored.
  */
 export const ip: SyncValidation<{ version?: 4 | 6 }> = {
-	compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
-		let version = options && options.version
-		if (version && typeof version === 'string') {
-			version = Number(version)
-		}
+  compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
+    let version = options && options.version
+    if (version && typeof version === 'string') {
+      version = Number(version)
+    }
 
-		return {
-			compiledOptions: {
-				version: version,
-			},
-		}
-	}),
-	validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+    return {
+      compiledOptions: {
+        version: version,
+      },
+    }
+  }),
+  validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		if (!isIP(value, compiledOptions.version)) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-		}
-	},
+    if (!isIP(value, compiledOptions.version)) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+    }
+  },
 }

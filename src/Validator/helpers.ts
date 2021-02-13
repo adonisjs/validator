@@ -11,11 +11,11 @@ import { DateTime } from 'luxon'
 import { lodash } from '@poppinss/utils'
 
 import {
-	NodeType,
-	SchemaRef,
-	ParsedRule,
-	NodeSubType,
-	ErrorReporterConstructorContract,
+  NodeType,
+  SchemaRef,
+  ParsedRule,
+  NodeSubType,
+  ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
 import { RequestContract } from '@ioc:Adonis/Core/Request'
@@ -25,7 +25,7 @@ import * as ErrorReporters from '../ErrorReporter'
  * Ensure value is not `undefined`
  */
 export function existsStrict(value: any) {
-	return value !== undefined && value !== null
+  return value !== undefined && value !== null
 }
 
 /**
@@ -33,39 +33,39 @@ export function existsStrict(value: any) {
  * fails the exists check.
  */
 export function exists(value: any) {
-	return !!value || value === false || value === 0
+  return !!value || value === false || value === 0
 }
 
 /**
  * Ensure value is a valid Object. Returns false for `Array` and `null`
  */
 export function isObject(value: any) {
-	return value !== null && typeof value === 'object' && !Array.isArray(value)
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 /**
  * Enforces the value to be an array
  */
 export function enforceArray(value: unknown, message?: string): asserts value is any[] {
-	if (!Array.isArray(value)) {
-		throw new Error(message || 'Expected value to be an array')
-	}
+  if (!Array.isArray(value)) {
+    throw new Error(message || 'Expected value to be an array')
+  }
 }
 
 /**
  * Enforces the value to be an instance of luxon DateTime object
  */
 export function enforceDateTime(value: unknown, message?: string): asserts value is DateTime {
-	if (value instanceof DateTime === false) {
-		throw new Error(message || 'Expected value to be an instance of luxon DateTime object')
-	}
+  if (value instanceof DateTime === false) {
+    throw new Error(message || 'Expected value to be an instance of luxon DateTime object')
+  }
 }
 
 /**
  * Returns a boolean telling value is a schema ref
  */
 export function isRef(value: any): value is SchemaRef<unknown> {
-	return value && value.__$isRef === true
+  return value && value.__$isRef === true
 }
 
 /**
@@ -74,7 +74,7 @@ export function isRef(value: any): value is SchemaRef<unknown> {
  * object, otherwise it's searched from the nearest tip
  */
 export function getFieldValue(field: string, root: any, tip: any) {
-	return field[0] === '/' ? lodash.get(root, field.slice(1)) : tip[field]
+  return field[0] === '/' ? lodash.get(root, field.slice(1)) : tip[field]
 }
 
 /**
@@ -83,9 +83,9 @@ export function getFieldValue(field: string, root: any, tip: any) {
  * the other field pointer is used to make the absolute name
  */
 export function resolveAbsoluteName(field: string, otherField: string): string {
-	return field[0] === '/'
-		? field.slice(1)
-		: otherField.split('.').slice(0, -1).concat(field).join('.')
+  return field[0] === '/'
+    ? field.slice(1)
+    : otherField.split('.').slice(0, -1).concat(field).join('.')
 }
 
 /**
@@ -93,15 +93,15 @@ export function resolveAbsoluteName(field: string, otherField: string): string {
  * is an array
  */
 export function ensureValidArgs(ruleName: string, args: any): asserts args is any[] {
-	/**
-	 * The compile method must receive an array of spread arguments. If not
-	 * it means the user has not used `Rules.<rule>` in order to use the
-	 * validation rule, since `Rules.<rule>` always passes an array of
-	 * options.
-	 */
-	if (!Array.isArray(args)) {
-		throw new Error(`"${ruleName}": The 3rd argument must be a combined array of arguments`)
-	}
+  /**
+   * The compile method must receive an array of spread arguments. If not
+   * it means the user has not used `Rules.<rule>` in order to use the
+   * validation rule, since `Rules.<rule>` always passes an array of
+   * options.
+   */
+  if (!Array.isArray(args)) {
+    throw new Error(`"${ruleName}": The 3rd argument must be a combined array of arguments`)
+  }
 }
 
 /**
@@ -114,71 +114,71 @@ export function ensureValidArgs(ruleName: string, args: any): asserts args is an
  * - Invokes the callback (if defined).
  */
 export function wrapCompile<T extends any>(
-	name: string,
-	restrictForTypes?: NodeSubType[],
-	customCallback?: (
-		options: any[],
-		type: NodeType,
-		subtype: NodeSubType,
-		rulesTree: any
-	) => Partial<ParsedRule<T>>
+  name: string,
+  restrictForTypes?: NodeSubType[],
+  customCallback?: (
+    options: any[],
+    type: NodeType,
+    subtype: NodeSubType,
+    rulesTree: any
+  ) => Partial<ParsedRule<T>>
 ) {
-	return function (
-		type: NodeType,
-		subtype: NodeSubType,
-		options: T,
-		rulesTree: any
-	): ParsedRule<T> {
-		/**
-		 * Ensure options are defined as an array
-		 */
-		ensureValidArgs(name, options)
+  return function (
+    type: NodeType,
+    subtype: NodeSubType,
+    options: T,
+    rulesTree: any
+  ): ParsedRule<T> {
+    /**
+     * Ensure options are defined as an array
+     */
+    ensureValidArgs(name, options)
 
-		/**
-		 * Restrict sub-types when defined
-		 */
-		if (restrictForTypes && restrictForTypes.length && !restrictForTypes.includes(subtype)) {
-			throw new Error(
-				`"${name}": Rule can only be used with "schema.<${restrictForTypes.join(',')}>" type(s)`
-			)
-		}
+    /**
+     * Restrict sub-types when defined
+     */
+    if (restrictForTypes && restrictForTypes.length && !restrictForTypes.includes(subtype)) {
+      throw new Error(
+        `"${name}": Rule can only be used with "schema.<${restrictForTypes.join(',')}>" type(s)`
+      )
+    }
 
-		/**
-		 * Default options
-		 */
-		const defaultOptions: ParsedRule<T> = {
-			name: name,
-			allowUndefineds: false,
-			async: false,
-			compiledOptions: options,
-		}
+    /**
+     * Default options
+     */
+    const defaultOptions: ParsedRule<T> = {
+      name: name,
+      allowUndefineds: false,
+      async: false,
+      compiledOptions: options,
+    }
 
-		/**
-		 * Invoke user defined callback and merge return value with defaults
-		 */
-		if (typeof customCallback === 'function') {
-			Object.assign(defaultOptions, customCallback(options, type, subtype, rulesTree))
-		}
+    /**
+     * Invoke user defined callback and merge return value with defaults
+     */
+    if (typeof customCallback === 'function') {
+      Object.assign(defaultOptions, customCallback(options, type, subtype, rulesTree))
+    }
 
-		return defaultOptions
-	}
+    return defaultOptions
+  }
 }
 
 /**
  * Returns the error reporter for the current HTTP request
  */
 export function getRequestReporter(request: RequestContract): ErrorReporterConstructorContract {
-	if (request.ajax()) {
-		return ErrorReporters.ApiErrorReporter
-	}
+  if (request.ajax()) {
+    return ErrorReporters.ApiErrorReporter
+  }
 
-	switch (request.accepts(['html', 'application/vnd.api+json', 'json'])) {
-		case 'html':
-		case null:
-			return ErrorReporters.VanillaErrorReporter
-		case 'json':
-			return ErrorReporters.ApiErrorReporter
-		case 'application/vnd.api+json':
-			return ErrorReporters.JsonApiErrorReporter
-	}
+  switch (request.accepts(['html', 'application/vnd.api+json', 'json'])) {
+    case 'html':
+    case null:
+      return ErrorReporters.VanillaErrorReporter
+    case 'json':
+      return ErrorReporters.ApiErrorReporter
+    case 'application/vnd.api+json':
+      return ErrorReporters.JsonApiErrorReporter
+  }
 }

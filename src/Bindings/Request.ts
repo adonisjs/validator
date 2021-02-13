@@ -9,9 +9,9 @@
 
 import { RequestConstructorContract } from '@ioc:Adonis/Core/Request'
 import {
-	validator,
-	RequestValidatorNode,
-	ValidatorResolvedConfig,
+  validator,
+  RequestValidatorNode,
+  ValidatorResolvedConfig,
 } from '@ioc:Adonis/Core/Validator'
 
 /**
@@ -19,43 +19,43 @@ import {
  * to it
  */
 export default function extendRequest(
-	Request: RequestConstructorContract,
-	validate: typeof validator['validate'],
-	config: ValidatorResolvedConfig
+  Request: RequestConstructorContract,
+  validate: typeof validator['validate'],
+  config: ValidatorResolvedConfig
 ) {
-	Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {
-		/**
-		 * Merging request body, files and the params. The params are nested, since
-		 * it's possible that request body and params may have the same object
-		 * properties.
-		 */
-		const validatorNode = typeof Validator === 'function' ? new Validator(this.ctx!) : Validator
-		const data = validatorNode.data || {
-			...this.all(),
-			...this.allFiles(),
-			params: this.ctx!.params,
-		}
+  Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {
+    /**
+     * Merging request body, files and the params. The params are nested, since
+     * it's possible that request body and params may have the same object
+     * properties.
+     */
+    const validatorNode = typeof Validator === 'function' ? new Validator(this.ctx!) : Validator
+    const data = validatorNode.data || {
+      ...this.all(),
+      ...this.allFiles(),
+      params: this.ctx!.params,
+    }
 
-		/**
-		 * Choosing the correct reporter for the given HTTP request. This is how it works
-		 *
-		 * - The first preference is given to the inline reporter
-		 * - Otherwise use the negotiator
-		 */
-		const reporter = validatorNode.reporter ? validatorNode.reporter : config.negotiator(this)
+    /**
+     * Choosing the correct reporter for the given HTTP request. This is how it works
+     *
+     * - The first preference is given to the inline reporter
+     * - Otherwise use the negotiator
+     */
+    const reporter = validatorNode.reporter ? validatorNode.reporter : config.negotiator(this)
 
-		/**
-		 * Creating a new profiler action to profile the validation
-		 */
-		const profilerAction = this.ctx!.profiler.profile('request:validate')
+    /**
+     * Creating a new profiler action to profile the validation
+     */
+    const profilerAction = this.ctx!.profiler.profile('request:validate')
 
-		try {
-			const validated = await validate({ data, reporter, ...validatorNode })
-			profilerAction.end({ status: 'success' })
-			return validated
-		} catch (error) {
-			profilerAction.end({ status: 'error' })
-			throw error
-		}
-	})
+    try {
+      const validated = await validate({ data, reporter, ...validatorNode })
+      profilerAction.end({ status: 'success' })
+      return validated
+    } catch (error) {
+      profilerAction.end({ status: 'error' })
+      throw error
+    }
+  })
 }

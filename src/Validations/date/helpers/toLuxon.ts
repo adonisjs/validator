@@ -13,30 +13,30 @@ import { DateTime } from 'luxon'
  * A list of pre-defined formats and their luxon specific methods
  */
 const PREDEFINED_FORMATS = {
-	rfc2822: 'fromRFC2822',
-	http: 'fromHTTP',
-	sql: 'fromSQL',
-	iso: 'fromISO',
+  rfc2822: 'fromRFC2822',
+  http: 'fromHTTP',
+  sql: 'fromSQL',
+  iso: 'fromISO',
 }
 
 /**
  * Convers a value to an instance of datetime
  */
 export function toLuxon(value: any, format: string | undefined): DateTime | undefined {
-	let dateTime: DateTime | undefined
+  let dateTime: DateTime | undefined
 
-	const isDateInstance = value instanceof Date === true
+  const isDateInstance = value instanceof Date === true
 
-	/**
-	 * If value is a date instance or a string, then convert it to an instance
-	 * of luxon.DateTime.
-	 */
-	if (isDateInstance) {
-		dateTime = DateTime.fromJSDate(value)
-	} else if (typeof value === 'string') {
-		const formatterFn = PREDEFINED_FORMATS[format || 'iso']
-		dateTime = formatterFn ? DateTime[formatterFn](value) : DateTime.fromFormat(value, format!)
-	}
+  /**
+   * If value is a date instance or a string, then convert it to an instance
+   * of luxon.DateTime.
+   */
+  if (isDateInstance) {
+    dateTime = DateTime.fromJSDate(value)
+  } else if (typeof value === 'string') {
+    const formatterFn = PREDEFINED_FORMATS[format || 'iso']
+    dateTime = formatterFn ? DateTime[formatterFn](value) : DateTime.fromFormat(value, format!)
+  }
 
-	return dateTime
+  return dateTime
 }

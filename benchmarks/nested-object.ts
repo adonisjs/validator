@@ -21,24 +21,24 @@ import { validate } from './validate'
  * Adonis pre compiled validation function
  */
 const adonisValidate = new Compiler(
-	schema.create({
-		username: schema.string(),
-		name: schema.string(),
-		profile: schema.object().members({
-			twitterHandle: schema.string(),
-		}),
-	}).tree
+  schema.create({
+    username: schema.string(),
+    name: schema.string(),
+    profile: schema.object().members({
+      twitterHandle: schema.string(),
+    }),
+  }).tree
 ).compile()
 
 /**
  * Joi pre compile validation function
  */
 const joiValidate = Joi.object({
-	username: Joi.string().required(),
-	name: Joi.string().required(),
-	profile: Joi.object({
-		twitterHandle: Joi.string().required(),
-	}).required(),
+  username: Joi.string().required(),
+  name: Joi.string().required(),
+  profile: Joi.object({
+    twitterHandle: Joi.string().required(),
+  }).required(),
 })
 
 /**
@@ -49,30 +49,30 @@ const joiValidate = Joi.object({
  * validator.
  */
 class Profile {
-	@IsString()
-	public twitterHandle: string
+  @IsString()
+  public twitterHandle: string
 }
 
 class User {
-	@IsString()
-	public username: string
+  @IsString()
+  public username: string
 
-	@IsString()
-	public name: string
+  @IsString()
+  public name: string
 
-	@ValidateNested()
-	public profile: Profile
+  @ValidateNested()
+  public profile: Profile
 }
 
 /**
  * Indicative schema
  */
 const indicativeCompiled = indicativeSchema.new({
-	username: indicativeSchema.string(),
-	name: indicativeSchema.string(),
-	profile: indicativeSchema.object().members({
-		twitterHandle: indicativeSchema.string(),
-	}),
+  username: indicativeSchema.string(),
+  name: indicativeSchema.string(),
+  profile: indicativeSchema.object().members({
+    twitterHandle: indicativeSchema.string(),
+  }),
 })
 
 /**
@@ -80,18 +80,18 @@ const indicativeCompiled = indicativeSchema.new({
  * once with a cache key caches the compiled schema
  */
 validateAll(
-	{
-		username: 'virk',
-		name: 'Virk',
-		profile: {
-			twitterHandle: '@AmanVirk1',
-		},
-	},
-	indicativeCompiled,
-	{},
-	{
-		cacheKey: 'nested-object',
-	}
+  {
+    username: 'virk',
+    name: 'Virk',
+    profile: {
+      twitterHandle: '@AmanVirk1',
+    },
+  },
+  indicativeCompiled,
+  {},
+  {
+    cacheKey: 'nested-object',
+  }
 )
 
 type Deferred = { resolve(): any }
@@ -100,68 +100,68 @@ type Deferred = { resolve(): any }
  * Starting benchmark
  */
 new Suite()
-	.add('AdonisJS', {
-		defer: true,
-		fn(deferred: Deferred) {
-			validate(adonisValidate, {
-				username: 'virk',
-				name: 'Virk',
-				profile: {
-					twitterHandle: '@AmanVirk1',
-				},
-			}).then(() => deferred.resolve())
-		},
-	})
-	.add('Joi', {
-		defer: true,
-		fn(deferred: Deferred) {
-			joiValidate
-				.validateAsync({
-					username: 'virk',
-					name: 'Virk',
-					profile: {
-						twitterHandle: '@AmanVirk1',
-					},
-				})
-				.then(() => deferred.resolve())
-		},
-	})
-	.add('Indicative', {
-		defer: true,
-		fn(deferred: Deferred) {
-			validateAll(
-				{
-					username: 'virk',
-					name: 'Virk',
-					profile: {
-						twitterHandle: '@AmanVirk1',
-					},
-				},
-				indicativeCompiled,
-				{},
-				{
-					cacheKey: 'nested-object',
-				}
-			).then(() => deferred.resolve())
-		},
-	})
-	.add('Class Validator', {
-		defer: true,
-		fn(deferred: Deferred) {
-			const user = new User()
-			const profile = new Profile()
-			profile.twitterHandle = '@AmanVirk1'
+  .add('AdonisJS', {
+    defer: true,
+    fn(deferred: Deferred) {
+      validate(adonisValidate, {
+        username: 'virk',
+        name: 'Virk',
+        profile: {
+          twitterHandle: '@AmanVirk1',
+        },
+      }).then(() => deferred.resolve())
+    },
+  })
+  .add('Joi', {
+    defer: true,
+    fn(deferred: Deferred) {
+      joiValidate
+        .validateAsync({
+          username: 'virk',
+          name: 'Virk',
+          profile: {
+            twitterHandle: '@AmanVirk1',
+          },
+        })
+        .then(() => deferred.resolve())
+    },
+  })
+  .add('Indicative', {
+    defer: true,
+    fn(deferred: Deferred) {
+      validateAll(
+        {
+          username: 'virk',
+          name: 'Virk',
+          profile: {
+            twitterHandle: '@AmanVirk1',
+          },
+        },
+        indicativeCompiled,
+        {},
+        {
+          cacheKey: 'nested-object',
+        }
+      ).then(() => deferred.resolve())
+    },
+  })
+  .add('Class Validator', {
+    defer: true,
+    fn(deferred: Deferred) {
+      const user = new User()
+      const profile = new Profile()
+      profile.twitterHandle = '@AmanVirk1'
 
-			user.name = 'Virk'
-			user.username = 'virk'
-			user.profile = profile
-			validateOrReject(user).then(() => deferred.resolve())
-		},
-	})
-	.on('cycle', function cycle(event: any) {
-		console.log(String(event.target))
-	})
-	.on('complete', function () {
-		console.log('Fastest is ' + this.filter('fastest').map('name'))
-	})
-	.run({ async: true })
+      user.name = 'Virk'
+      user.username = 'virk'
+      user.profile = profile
+      validateOrReject(user).then(() => deferred.resolve())
+    },
+  })
+  .on('cycle', function cycle(event: any) {
+    console.log(String(event.target))
+  })
+  .on('complete', function () {
+    console.log('Fastest is ' + this.filter('fastest').map('name'))
+  })
+  .run({ async: true })

@@ -18,33 +18,33 @@ const DEFAULT_MESSAGE = 'regex validation failed'
  * ignored.
  */
 export const regex: SyncValidation<{ pattern: string; flags: string }> = {
-	compile: wrapCompile(RULE_NAME, ['string'], ([regexPattern]) => {
-		if (!regexPattern || regexPattern instanceof RegExp === false) {
-			throw new Error(`The "${RULE_NAME}" rule expects pattern to be a valid regex`)
-		}
+  compile: wrapCompile(RULE_NAME, ['string'], ([regexPattern]) => {
+    if (!regexPattern || regexPattern instanceof RegExp === false) {
+      throw new Error(`The "${RULE_NAME}" rule expects pattern to be a valid regex`)
+    }
 
-		const match = regexPattern.toString().match(/^\/(.*)\/([gimuy]*)$/)
-		if (!match) {
-			throw new Error(
-				'Unable to serialize regex. Please open an issue in "@adonisjs/validator" repo'
-			)
-		}
+    const match = regexPattern.toString().match(/^\/(.*)\/([gimuy]*)$/)
+    if (!match) {
+      throw new Error(
+        'Unable to serialize regex. Please open an issue in "@adonisjs/validator" repo'
+      )
+    }
 
-		return {
-			compiledOptions: { pattern: match[1], flags: match[2] },
-		}
-	}),
-	validate(value, { pattern, flags }, { errorReporter, arrayExpressionPointer, pointer }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+    return {
+      compiledOptions: { pattern: match[1], flags: match[2] },
+    }
+  }),
+  validate(value, { pattern, flags }, { errorReporter, arrayExpressionPointer, pointer }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		if (!new RegExp(pattern, flags).test(value)) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-		}
-	},
+    if (!new RegExp(pattern, flags).test(value)) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+    }
+  },
 }

@@ -18,58 +18,58 @@ const DEFAULT_MESSAGE = 'alpha validation failed'
  * ignored.
  */
 export const alpha: SyncValidation<{ pattern: string }> = {
-	compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
-		let charactersMatch = 'a-zA-Z'
+  compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
+    let charactersMatch = 'a-zA-Z'
 
-		/**
-		 * Allow only alpha characters
-		 */
-		if (!options || !options.allow || !Array.isArray(options.allow)) {
-			return {
-				compiledOptions: {
-					pattern: `^[${charactersMatch}]+$`,
-				},
-			}
-		}
+    /**
+     * Allow only alpha characters
+     */
+    if (!options || !options.allow || !Array.isArray(options.allow)) {
+      return {
+        compiledOptions: {
+          pattern: `^[${charactersMatch}]+$`,
+        },
+      }
+    }
 
-		/**
-		 * Allow spaces
-		 */
-		if (options.allow.includes('space')) {
-			charactersMatch += '\\s'
-		}
+    /**
+     * Allow spaces
+     */
+    if (options.allow.includes('space')) {
+      charactersMatch += '\\s'
+    }
 
-		/**
-		 * Allow dash charcater
-		 */
-		if (options.allow.includes('dash')) {
-			charactersMatch += '-'
-		}
+    /**
+     * Allow dash charcater
+     */
+    if (options.allow.includes('dash')) {
+      charactersMatch += '-'
+    }
 
-		/**
-		 * Allow underscores
-		 */
-		if (options.allow.includes('underscore')) {
-			charactersMatch += '_'
-		}
+    /**
+     * Allow underscores
+     */
+    if (options.allow.includes('underscore')) {
+      charactersMatch += '_'
+    }
 
-		return {
-			compiledOptions: {
-				pattern: `^[${charactersMatch}]+$`,
-			},
-		}
-	}),
-	validate(value, { pattern }, { errorReporter, arrayExpressionPointer, pointer }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+    return {
+      compiledOptions: {
+        pattern: `^[${charactersMatch}]+$`,
+      },
+    }
+  }),
+  validate(value, { pattern }, { errorReporter, arrayExpressionPointer, pointer }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		if (!new RegExp(pattern).test(value)) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-		}
-	},
+    if (!new RegExp(pattern).test(value)) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+    }
+  },
 }

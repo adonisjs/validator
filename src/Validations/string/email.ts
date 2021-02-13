@@ -21,9 +21,9 @@ const DEFAULT_MESSAGE = 'email validation failed'
  * sanitization and validation options
  */
 type CompiledOptions = Parameters<typeof isEmail>[1] & {
-	sanitize?: {
-		all_lowercase: boolean
-	}
+  sanitize?: {
+    all_lowercase: boolean
+  }
 }
 
 /**
@@ -31,60 +31,60 @@ type CompiledOptions = Parameters<typeof isEmail>[1] & {
  * ignored.
  */
 export const email: SyncValidation<CompiledOptions> = {
-	compile: wrapCompile(RULE_NAME, ['string'], (args) => {
-		const options = Object.assign(
-			{
-				domainSpecificValidation: false,
-				allowIpDomain: false,
-				ignoreMaxLength: false,
-				sanitize: false,
-			},
-			args[0]
-		) as Required<EmailRuleOptions>
+  compile: wrapCompile(RULE_NAME, ['string'], (args) => {
+    const options = Object.assign(
+      {
+        domainSpecificValidation: false,
+        allowIpDomain: false,
+        ignoreMaxLength: false,
+        sanitize: false,
+      },
+      args[0]
+    ) as Required<EmailRuleOptions>
 
-		/**
-		 * Compute sanitization options
-		 */
-		let sanitizationOptions: CompiledOptions['sanitize']
-		if (options.sanitize) {
-			if (options.sanitize === true) {
-				sanitizationOptions = { all_lowercase: true }
-			} else if (isObject(options.sanitize)) {
-				sanitizationOptions = { all_lowercase: options.sanitize.lowerCase }
-			}
-		}
+    /**
+     * Compute sanitization options
+     */
+    let sanitizationOptions: CompiledOptions['sanitize']
+    if (options.sanitize) {
+      if (options.sanitize === true) {
+        sanitizationOptions = { all_lowercase: true }
+      } else if (isObject(options.sanitize)) {
+        sanitizationOptions = { all_lowercase: options.sanitize.lowerCase }
+      }
+    }
 
-		return {
-			compiledOptions: {
-				domain_specific_validation: options.domainSpecificValidation,
-				allow_ip_domain: options.allowIpDomain,
-				ignore_max_length: options.ignoreMaxLength,
-				sanitize: sanitizationOptions,
-			},
-		}
-	}),
-	validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, mutate }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string.
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+    return {
+      compiledOptions: {
+        domain_specific_validation: options.domainSpecificValidation,
+        allow_ip_domain: options.allowIpDomain,
+        ignore_max_length: options.ignoreMaxLength,
+        sanitize: sanitizationOptions,
+      },
+    }
+  }),
+  validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer, mutate }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string.
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		/**
-		 * Invalid email
-		 */
-		if (!isEmail(value, compiledOptions)) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-			return
-		}
+    /**
+     * Invalid email
+     */
+    if (!isEmail(value, compiledOptions)) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      return
+    }
 
-		/**
-		 * Apply lower case sanitization
-		 */
-		if (compiledOptions.sanitize?.all_lowercase) {
-			mutate(normalizeEmail(value, compiledOptions.sanitize))
-		}
-	},
+    /**
+     * Apply lower case sanitization
+     */
+    if (compiledOptions.sanitize?.all_lowercase) {
+      mutate(normalizeEmail(value, compiledOptions.sanitize))
+    }
+  },
 }

@@ -21,30 +21,30 @@ const DEFAULT_MESSAGE = 'mobile validation failed'
  * ignored.
  */
 export const mobile: SyncValidation<{ strict: boolean; locale?: validator.MobilePhoneLocale[] }> = {
-	compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
-		options = Object.assign({}, options)
-		return {
-			compiledOptions: {
-				strict: options.strict || false,
-				locale: options.locale,
-			},
-		}
-	}),
-	validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
-		/**
-		 * Ignore non-string values. The user must apply string rule
-		 * to validate string.
-		 */
-		if (typeof value !== 'string') {
-			return
-		}
+  compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
+    options = Object.assign({}, options)
+    return {
+      compiledOptions: {
+        strict: options.strict || false,
+        locale: options.locale,
+      },
+    }
+  }),
+  validate(value, compiledOptions, { errorReporter, arrayExpressionPointer, pointer }) {
+    /**
+     * Ignore non-string values. The user must apply string rule
+     * to validate string.
+     */
+    if (typeof value !== 'string') {
+      return
+    }
 
-		/**
-		 * Invalid mobile number
-		 */
-		if (!isMobilePhone(value, compiledOptions.locale, { strictMode: compiledOptions.strict })) {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-			return
-		}
-	},
+    /**
+     * Invalid mobile number
+     */
+    if (!isMobilePhone(value, compiledOptions.locale, { strictMode: compiledOptions.strict })) {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      return
+    }
+  },
 }

@@ -15,178 +15,178 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { requiredIfExistsAny } from '../../src/Validations/existence/requiredIfExistsAny'
 
 function compile(fields: string[]) {
-	return requiredIfExistsAny.compile(
-		'literal',
-		'string',
-		rules.requiredIfExistsAny(fields).options,
-		{}
-	)
+  return requiredIfExistsAny.compile(
+    'literal',
+    'string',
+    rules.requiredIfExistsAny(fields).options,
+    {}
+  )
 }
 
 test.group('Required If Exists Any', () => {
-	validate(requiredIfExistsAny, test, undefined, 'foo', compile(['id', 'type']), {
-		tip: {
-			id: 1,
-		},
-	})
+  validate(requiredIfExistsAny, test, undefined, 'foo', compile(['id', 'type']), {
+    tip: {
+      id: 1,
+    },
+  })
 
-	test('do not compile when args are not defined', (assert) => {
-		const fn = () => requiredIfExistsAny.compile('literal', 'string')
-		assert.throw(
-			fn,
-			'"requiredIfExistsAny": The 3rd argument must be a combined array of arguments'
-		)
-	})
+  test('do not compile when args are not defined', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string')
+    assert.throw(
+      fn,
+      '"requiredIfExistsAny": The 3rd argument must be a combined array of arguments'
+    )
+  })
 
-	test('do not compile when fields are not defined', (assert) => {
-		const fn = () => requiredIfExistsAny.compile('literal', 'string', [])
-		assert.throw(fn, '"requiredIfExistsAny": expects an array of "fields"')
-	})
+  test('do not compile when fields are not defined', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string', [])
+    assert.throw(fn, '"requiredIfExistsAny": expects an array of "fields"')
+  })
 
-	test('do not compile when fields are not defined as an array', (assert) => {
-		const fn = () => requiredIfExistsAny.compile('literal', 'string', ['foo'])
-		assert.throw(fn, '"requiredIfExistsAny": expects "fields" to be an array')
-	})
+  test('do not compile when fields are not defined as an array', (assert) => {
+    const fn = () => requiredIfExistsAny.compile('literal', 'string', ['foo'])
+    assert.throw(fn, '"requiredIfExistsAny": expects "fields" to be an array')
+  })
 
-	test('compile with options', (assert) => {
-		assert.deepEqual(requiredIfExistsAny.compile('literal', 'string', [['foo']]), {
-			name: 'requiredIfExistsAny',
-			allowUndefineds: true,
-			async: false,
-			compiledOptions: { fields: ['foo'] },
-		})
-	})
+  test('compile with options', (assert) => {
+    assert.deepEqual(requiredIfExistsAny.compile('literal', 'string', [['foo']]), {
+      name: 'requiredIfExistsAny',
+      allowUndefineds: true,
+      async: false,
+      compiledOptions: { fields: ['foo'] },
+    })
+  })
 
-	test('report error when expectation matches and field is null', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate(null, compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {
-				user_id: 1,
-			},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when expectation matches and field is null', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate(null, compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        user_id: 1,
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'profile_id',
-					rule: 'requiredIfExistsAny',
-					message: 'requiredIfExistsAny validation failed',
-					args: {
-						otherFields: ['type', 'user_id'],
-					},
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'profile_id',
+          rule: 'requiredIfExistsAny',
+          message: 'requiredIfExistsAny validation failed',
+          args: {
+            otherFields: ['type', 'user_id'],
+          },
+        },
+      ],
+    })
+  })
 
-	test('report error when expectation matches and field is null', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {
-				type: 'twitter',
-			},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when expectation matches and field is null', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        type: 'twitter',
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'profile_id',
-					rule: 'requiredIfExistsAny',
-					message: 'requiredIfExistsAny validation failed',
-					args: {
-						otherFields: ['type', 'user_id'],
-					},
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'profile_id',
+          rule: 'requiredIfExistsAny',
+          message: 'requiredIfExistsAny validation failed',
+          args: {
+            otherFields: ['type', 'user_id'],
+          },
+        },
+      ],
+    })
+  })
 
-	test('report error when expectation matches and field is empty string', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {
-				type: 'twitter',
-			},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when expectation matches and field is empty string', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        type: 'twitter',
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'profile_id',
-					rule: 'requiredIfExistsAny',
-					message: 'requiredIfExistsAny validation failed',
-					args: {
-						otherFields: ['type', 'user_id'],
-					},
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'profile_id',
+          rule: 'requiredIfExistsAny',
+          message: 'requiredIfExistsAny validation failed',
+          args: {
+            otherFields: ['type', 'user_id'],
+          },
+        },
+      ],
+    })
+  })
 
-	test('work fine when all of the target fields are undefined', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when all of the target fields are undefined', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 
-	test('work fine when all of target fields are null or undefined', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {
-				user_id: null,
-			},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when all of target fields are null or undefined', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate('', compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        user_id: null,
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 
-	test('work fine when expectation matches and field has value', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		requiredIfExistsAny.validate('hello', compile(['type', 'user_id']).compiledOptions!, {
-			errorReporter: reporter,
-			field: 'profile_id',
-			pointer: 'profile_id',
-			tip: {
-				type: 'twitter',
-			},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when expectation matches and field has value', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    requiredIfExistsAny.validate('hello', compile(['type', 'user_id']).compiledOptions!, {
+      errorReporter: reporter,
+      field: 'profile_id',
+      pointer: 'profile_id',
+      tip: {
+        type: 'twitter',
+      },
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })

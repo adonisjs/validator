@@ -10,18 +10,18 @@
 import Cache from 'tmp-cache'
 
 import {
-	NodeType,
-	ParsedRule,
-	TypedSchema,
-	NodeSubType,
-	ValidatorNode,
-	CompilerOutput,
-	RequestNegotiator,
-	ParsedTypedSchema,
-	ValidationContract,
-	ValidatorResolvedConfig,
-	validator as validatorStatic,
-	ErrorReporterConstructorContract,
+  NodeType,
+  ParsedRule,
+  TypedSchema,
+  NodeSubType,
+  ValidatorNode,
+  CompilerOutput,
+  RequestNegotiator,
+  ParsedTypedSchema,
+  ValidationContract,
+  ValidatorResolvedConfig,
+  validator as validatorStatic,
+  ErrorReporterConstructorContract,
 } from '@ioc:Adonis/Core/Validator'
 
 import { schema } from '../Schema'
@@ -31,14 +31,14 @@ import { MessagesBag } from '../MessagesBag'
 import * as validations from '../Validations'
 
 import {
-	exists,
-	isRef,
-	isObject,
-	wrapCompile,
-	existsStrict,
-	getFieldValue,
-	getRequestReporter,
-	resolveAbsoluteName,
+  exists,
+  isRef,
+  isObject,
+  wrapCompile,
+  existsStrict,
+  getFieldValue,
+  getRequestReporter,
+  resolveAbsoluteName,
 } from './helpers'
 
 import { VanillaErrorReporter, ApiErrorReporter, JsonApiErrorReporter } from '../ErrorReporter'
@@ -74,98 +74,98 @@ const NOOP_REFS = {}
  * Global options for the validator
  */
 const OPTIONS: ValidatorResolvedConfig = {
-	bail: false,
-	existsStrict: false,
-	reporter: VanillaErrorReporter,
-	negotiator: getRequestReporter,
+  bail: false,
+  existsStrict: false,
+  reporter: VanillaErrorReporter,
+  negotiator: getRequestReporter,
 }
 
 /**
  * Performs validation on the validator node
  */
 const validate = <T extends ParsedTypedSchema<TypedSchema>>(
-	validator: ValidatorNode<T>
+  validator: ValidatorNode<T>
 ): Promise<T['props']> => {
-	/**
-	 * The reporter to use. Defaults to the [[VanillaErrorReporter]]
-	 */
-	let Reporter: ErrorReporterConstructorContract = validator.reporter || OPTIONS.reporter!
+  /**
+   * The reporter to use. Defaults to the [[VanillaErrorReporter]]
+   */
+  let Reporter: ErrorReporterConstructorContract = validator.reporter || OPTIONS.reporter!
 
-	/**
-	 * Whether or not fail on the first error message
-	 */
-	const bail = validator.bail !== undefined ? validator.bail : OPTIONS.bail!
+  /**
+   * Whether or not fail on the first error message
+   */
+  const bail = validator.bail !== undefined ? validator.bail : OPTIONS.bail!
 
-	/**
-	 * Reporter instance
-	 */
-	const reporter = new Reporter(new MessagesBag(validator.messages || NOOP_MESSAGES), bail)
+  /**
+   * Reporter instance
+   */
+  const reporter = new Reporter(new MessagesBag(validator.messages || NOOP_MESSAGES), bail)
 
-	/**
-	 * The helpers to use
-	 */
-	const helpers =
-		(validator.existsStrict !== undefined ? validator.existsStrict : OPTIONS.existsStrict!) === true
-			? STRICT_HELPERS
-			: HELPERS
+  /**
+   * The helpers to use
+   */
+  const helpers =
+    (validator.existsStrict !== undefined ? validator.existsStrict : OPTIONS.existsStrict!) === true
+      ? STRICT_HELPERS
+      : HELPERS
 
-	/**
-	 * Compile everytime, when no cache is defined
-	 */
-	if (!validator.cacheKey) {
-		return new Compiler(validator.schema.tree).compile()(
-			validator.data,
-			validations,
-			reporter,
-			helpers,
-			validator.refs || NOOP_REFS
-		) as Promise<T['props']>
-	}
+  /**
+   * Compile everytime, when no cache is defined
+   */
+  if (!validator.cacheKey) {
+    return new Compiler(validator.schema.tree).compile()(
+      validator.data,
+      validations,
+      reporter,
+      helpers,
+      validator.refs || NOOP_REFS
+    ) as Promise<T['props']>
+  }
 
-	/**
-	 * Look for compiled function or compile one
-	 */
-	let compiledFn = COMPILED_CACHE.get(validator.cacheKey)
-	if (!compiledFn) {
-		compiledFn = new Compiler(validator.schema.tree).compile()
-		COMPILED_CACHE.set(validator.cacheKey, compiledFn)
-	}
+  /**
+   * Look for compiled function or compile one
+   */
+  let compiledFn = COMPILED_CACHE.get(validator.cacheKey)
+  if (!compiledFn) {
+    compiledFn = new Compiler(validator.schema.tree).compile()
+    COMPILED_CACHE.set(validator.cacheKey, compiledFn)
+  }
 
-	/**
-	 * Execute compiled function
-	 */
-	return compiledFn(validator.data, validations, reporter, helpers, validator.refs || NOOP_REFS)
+  /**
+   * Execute compiled function
+   */
+  return compiledFn(validator.data, validations, reporter, helpers, validator.refs || NOOP_REFS)
 }
 
 /**
  * Extend validator by adding a new rule
  */
 const addRule = (name: string, ruleDefinition: ValidationContract<any>) => {
-	process.emitWarning(
-		'DeprecationWarning',
-		'"validator.addRule" has been depreciated. Use "validate.rule" instead'
-	)
+  process.emitWarning(
+    'DeprecationWarning',
+    '"validator.addRule" has been depreciated. Use "validate.rule" instead'
+  )
 
-	rules[name] = getRuleFn(name)
-	validations[name] = ruleDefinition
+  rules[name] = getRuleFn(name)
+  validations[name] = ruleDefinition
 }
 
 /**
  * Add a new type
  */
 const addType = (name: string, typeDefinition: any) => {
-	process.emitWarning(
-		'DeprecationWarning',
-		'"validator.addType" has been depreciated. Use "validate.type" instead'
-	)
-	type(name, typeDefinition)
+  process.emitWarning(
+    'DeprecationWarning',
+    '"validator.addType" has been depreciated. Use "validate.type" instead'
+  )
+  type(name, typeDefinition)
 }
 
 /**
  * Add a new type
  */
 const type = (name: string, typeDefinition: any) => {
-	schema[name] = typeDefinition
+  schema[name] = typeDefinition
 }
 
 /**
@@ -173,52 +173,52 @@ const type = (name: string, typeDefinition: any) => {
  * over `addRule`
  */
 const rule = (
-	name: string,
-	validateFn: ValidationContract<any>['validate'],
-	compileFn?: (
-		options: any[],
-		nodeType: NodeType,
-		subtype: NodeSubType
-	) => Partial<ParsedRule<any>>,
-	restrictForTypes?: NodeSubType[]
+  name: string,
+  validateFn: ValidationContract<any>['validate'],
+  compileFn?: (
+    options: any[],
+    nodeType: NodeType,
+    subtype: NodeSubType
+  ) => Partial<ParsedRule<any>>,
+  restrictForTypes?: NodeSubType[]
 ) => {
-	/**
-	 * Adding to the rules object, so that one can reference the method. Also
-	 * interface of rules list has to be extended seperately.
-	 */
-	rules[name] = getRuleFn(name)
-	validations[name] = {
-		compile: wrapCompile(name, restrictForTypes, compileFn),
-		validate: validateFn,
-	}
+  /**
+   * Adding to the rules object, so that one can reference the method. Also
+   * interface of rules list has to be extended seperately.
+   */
+  rules[name] = getRuleFn(name)
+  validations[name] = {
+    compile: wrapCompile(name, restrictForTypes, compileFn),
+    validate: validateFn,
+  }
 }
 
 /**
  * Module available methods/properties
  */
 export const validator: typeof validatorStatic = {
-	addRule,
-	addType,
-	validate,
-	rule,
-	type,
-	helpers: {
-		exists,
-		isRef,
-		existsStrict,
-		getFieldValue,
-		resolveAbsoluteName,
-	},
-	config: OPTIONS,
-	configure: (config: Omit<ValidatorResolvedConfig, 'negotiator'>) => {
-		Object.assign(OPTIONS, config)
-	},
-	negotiator: (callback: RequestNegotiator) => {
-		OPTIONS.negotiator = callback
-	},
-	reporters: {
-		api: ApiErrorReporter,
-		jsonapi: JsonApiErrorReporter,
-		vanilla: VanillaErrorReporter,
-	},
+  addRule,
+  addType,
+  validate,
+  rule,
+  type,
+  helpers: {
+    exists,
+    isRef,
+    existsStrict,
+    getFieldValue,
+    resolveAbsoluteName,
+  },
+  config: OPTIONS,
+  configure: (config: Omit<ValidatorResolvedConfig, 'negotiator'>) => {
+    Object.assign(OPTIONS, config)
+  },
+  negotiator: (callback: RequestNegotiator) => {
+    OPTIONS.negotiator = callback
+  },
+  reporters: {
+    api: ApiErrorReporter,
+    jsonapi: JsonApiErrorReporter,
+    vanilla: VanillaErrorReporter,
+  },
 }

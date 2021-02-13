@@ -15,49 +15,49 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { array } from '../../src/Validations/primitives/array'
 
 function compile() {
-	return array.compile('array', 'array', rules['array']().options, {})
+  return array.compile('array', 'array', rules['array']().options, {})
 }
 
 test.group('array', () => {
-	validate(array, test, null, [], compile())
+  validate(array, test, null, [], compile())
 
-	test('report error when value is not a valid array', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		array.validate(null, compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'addresses',
-			pointer: 'addresses',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when value is not a valid array', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    array.validate(null, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'addresses',
+      pointer: 'addresses',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'addresses',
-					rule: 'array',
-					message: 'array validation failed',
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'addresses',
+          rule: 'array',
+          message: 'array validation failed',
+        },
+      ],
+    })
+  })
 
-	test('work fine when value is a valid array', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		array.validate([], compile().compiledOptions, {
-			errorReporter: reporter,
-			field: 'addresses',
-			pointer: 'terms',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when value is a valid array', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    array.validate([], compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'addresses',
+      pointer: 'terms',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [],
+    })
+  })
 })

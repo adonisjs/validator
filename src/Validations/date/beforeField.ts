@@ -19,10 +19,10 @@ const DEFAULT_MESSAGE = 'before date validation failed'
  * Ensure the date is after the defined field.
  */
 export const beforeField: SyncValidation<CompileReturnType> = {
-	compile: wrapCompile(RULE_NAME, [], (options, _, __, rulesTree) => {
-		return compile(RULE_NAME, '<', options, rulesTree)
-	}),
-	validate(value, compiledOptions, runtimeOptions) {
-		return validate(RULE_NAME, DEFAULT_MESSAGE, value, compiledOptions, runtimeOptions)
-	},
+  compile: wrapCompile(RULE_NAME, [], (options, _, __, rulesTree) => {
+    return compile(RULE_NAME, '<', options, rulesTree)
+  }),
+  validate(value, compiledOptions, runtimeOptions) {
+    return validate(RULE_NAME, DEFAULT_MESSAGE, value, compiledOptions, runtimeOptions)
+  },
 }

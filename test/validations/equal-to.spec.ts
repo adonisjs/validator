@@ -17,88 +17,88 @@ import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { equalTo } from '../../src/Validations/string/equalTo'
 
 function compile(equalToValue: any) {
-	// Regex Example for tax id validation from Brazil
-	return equalTo.compile('literal', 'string', rules.equalTo(equalToValue).options, {})
+  // Regex Example for tax id validation from Brazil
+  return equalTo.compile('literal', 'string', rules.equalTo(equalToValue).options, {})
 }
 
 test.group('equalTo', () => {
-	validate(equalTo, test, 'bar', 'foo', compile('foo'))
+  validate(equalTo, test, 'bar', 'foo', compile('foo'))
 
-	test('compile equalTo rule', (assert) => {
-		const { compiledOptions } = equalTo.compile('literal', 'string', rules.equalTo('foo').options)
-		assert.deepEqual(compiledOptions, { fieldValue: 'foo' })
-	})
+  test('compile equalTo rule', (assert) => {
+    const { compiledOptions } = equalTo.compile('literal', 'string', rules.equalTo('foo').options)
+    assert.deepEqual(compiledOptions, { fieldValue: 'foo' })
+  })
 
-	test('ignore validation when value is not a valid string', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate(null, compile('foo').compiledOptions, {
-			errorReporter: reporter,
-			field: 'username',
-			pointer: 'username',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('ignore validation when value is not a valid string', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    equalTo.validate(null, compile('foo').compiledOptions, {
+      errorReporter: reporter,
+      field: 'username',
+      pointer: 'username',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 
-	test('report error when value fails the equalTo validation', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate('bar', compile('foo').compiledOptions, {
-			errorReporter: reporter,
-			field: 'username',
-			pointer: 'username',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('report error when value fails the equalTo validation', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    equalTo.validate('bar', compile('foo').compiledOptions, {
+      errorReporter: reporter,
+      field: 'username',
+      pointer: 'username',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), {
-			errors: [
-				{
-					field: 'username',
-					rule: 'equalTo',
-					message: 'equalTo validation failed',
-				},
-			],
-		})
-	})
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'username',
+          rule: 'equalTo',
+          message: 'equalTo validation failed',
+        },
+      ],
+    })
+  })
 
-	test('work fine when value passes the equalTo validation', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-		equalTo.validate('foo', compile('foo').compiledOptions, {
-			errorReporter: reporter,
-			field: 'username',
-			pointer: 'username',
-			tip: {},
-			root: {},
-			refs: {},
-			mutate: () => {},
-		})
+  test('work fine when value passes the equalTo validation', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    equalTo.validate('foo', compile('foo').compiledOptions, {
+      errorReporter: reporter,
+      field: 'username',
+      pointer: 'username',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: () => {},
+    })
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 
-	test('work fine when value passes the equalTo validation with refs', (assert) => {
-		const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+  test('work fine when value passes the equalTo validation with refs', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
-		const validator = {
-			errorReporter: reporter,
-			field: 'username',
-			pointer: 'username',
-			tip: {},
-			root: {},
-			refs: schema.refs({
-				refValue: 'foo',
-			}),
-			mutate: () => {},
-		}
+    const validator = {
+      errorReporter: reporter,
+      field: 'username',
+      pointer: 'username',
+      tip: {},
+      root: {},
+      refs: schema.refs({
+        refValue: 'foo',
+      }),
+      mutate: () => {},
+    }
 
-		equalTo.validate('foo', compile(validator.refs.refValue).compiledOptions!, validator)
+    equalTo.validate('foo', compile(validator.refs.refValue).compiledOptions!, validator)
 
-		assert.deepEqual(reporter.toJSON(), { errors: [] })
-	})
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+  })
 })

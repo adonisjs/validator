@@ -19,38 +19,38 @@ const RULE_NAME = 'string'
  * @type {SyncValidation}
  */
 export const string: SyncValidation<{ escape: boolean; trim: boolean }> = {
-	compile: wrapCompile(RULE_NAME, [], ([options]) => {
-		return {
-			compiledOptions: {
-				escape: !!(options && options.escape),
-				trim: !!(options && options.trim),
-			},
-		}
-	}),
-	validate(value, compiledOptions, { pointer, errorReporter, arrayExpressionPointer, mutate }) {
-		if (typeof value !== 'string') {
-			errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-			return
-		}
+  compile: wrapCompile(RULE_NAME, [], ([options]) => {
+    return {
+      compiledOptions: {
+        escape: !!(options && options.escape),
+        trim: !!(options && options.trim),
+      },
+    }
+  }),
+  validate(value, compiledOptions, { pointer, errorReporter, arrayExpressionPointer, mutate }) {
+    if (typeof value !== 'string') {
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      return
+    }
 
-		let mutated = false
+    let mutated = false
 
-		/**
-		 * Escape string
-		 */
-		if (compiledOptions.escape) {
-			mutated = true
-			value = escape(value)
-		}
+    /**
+     * Escape string
+     */
+    if (compiledOptions.escape) {
+      mutated = true
+      value = escape(value)
+    }
 
-		/**
-		 * Trim whitespaces
-		 */
-		if (compiledOptions.trim) {
-			mutated = true
-			value = value.trim()
-		}
+    /**
+     * Trim whitespaces
+     */
+    if (compiledOptions.trim) {
+      mutated = true
+      value = value.trim()
+    }
 
-		mutated && mutate(value)
-	},
+    mutated && mutate(value)
+  },
 }

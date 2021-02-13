@@ -17,13 +17,13 @@ export const fs = new Filesystem(join(__dirname, 'app'))
  * Setup AdonisJS application
  */
 export async function setupApp(
-	providers?: string[],
-	configReporter?: 'api' | 'vanilla' | 'jsonapi'
+  providers?: string[],
+  configReporter?: 'api' | 'vanilla' | 'jsonapi'
 ) {
-	await fs.add('.env', '')
-	await fs.add(
-		'config/app.ts',
-		`
+  await fs.add('.env', '')
+  await fs.add(
+    'config/app.ts',
+    `
 		const use = global[Symbol.for('ioc.use')]
 
 		export const appKey = 'averylongrandom32charssecret'
@@ -38,15 +38,15 @@ export async function setupApp(
 			reporter: async () => use('Adonis/Core/Validator').validator.reporters['${configReporter}']
 		}
 	`
-	)
+  )
 
-	const app = new Application(fs.basePath, 'web', {
-		providers: ['@adonisjs/encryption', '@adonisjs/http-server'].concat(providers || []),
-	})
+  const app = new Application(fs.basePath, 'web', {
+    providers: ['@adonisjs/encryption', '@adonisjs/http-server'].concat(providers || []),
+  })
 
-	await app.setup()
-	await app.registerProviders()
-	await app.bootProviders()
+  await app.setup()
+  await app.registerProviders()
+  await app.bootProviders()
 
-	return app
+  return app
 }

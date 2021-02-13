@@ -13,7 +13,7 @@
 
 <div align="center">
 
-[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![audit-report-image]][audit-report-url]
+[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![synk-image]][synk-url]
 
 </div>
 
@@ -55,5 +55,5 @@
 [license-image]: https://img.shields.io/npm/l/@adonisjs/validator?color=blueviolet&style=for-the-badge
 [license-url]: LICENSE.md "license"
 
-[audit-report-image]: https://img.shields.io/badge/-Audit%20Report-blueviolet?style=for-the-badge
-[audit-report-url]: https://htmlpreview.github.io/?https://github.com/adonisjs/validator/blob/develop/npm-audit.html "audit-report"
+[synk-image]: https://img.shields.io/snyk/vulnerabilities/github/adonisjs/validator?label=Synk%20Vulnerabilities&style=for-the-badge
+[synk-url]: https://snyk.io/test/github/adonisjs/validator?targetFile=package.json "synk"

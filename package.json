@@ -66,7 +66,7 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"tag": "alpha"
+		"tag": "latest"
 	},
 	"devDependencies": {
 		"@adonisjs/application": "^5.0.0",

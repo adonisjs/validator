@@ -135,13 +135,13 @@ test.group('Url', () => {
     })
   })
 
-  test('report error when url hostname is not part of whitelist', (assert) => {
+  test('report error when url hostname is not part of allowedHosts', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'http://google.com',
       compile({
         requireProtocol: true,
-        hostWhitelist: ['twitter.com'],
+        allowedHosts: ['twitter.com'],
       }).compiledOptions,
       {
         errorReporter: reporter,
@@ -165,13 +165,13 @@ test.group('Url', () => {
     })
   })
 
-  test('report error when url hostname is part of blacklist', (assert) => {
+  test('report error when url hostname is part of bannedHosts', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'http://twitter.com',
       compile({
         requireProtocol: true,
-        hostBlacklist: ['twitter.com'],
+        bannedHosts: ['twitter.com'],
       }).compiledOptions,
       {
         errorReporter: reporter,

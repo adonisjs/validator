@@ -27,7 +27,7 @@ export { requiredIfNotExistsAll } from './existence/requiredIfNotExistsAll'
 export { requiredIfNotExistsAny } from './existence/requiredIfNotExistsAny'
 export { requiredWhen } from './existence/requiredWhen'
 
-export { blacklist } from './miscellaneous/blacklist'
+export { notIn } from './miscellaneous/notIn'
 
 export { unsigned } from './number/unsigned'
 export { range } from './number/range'

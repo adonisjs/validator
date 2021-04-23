@@ -159,7 +159,7 @@ export const requiredWhen: SyncValidation<CompileReturnType> = {
      * Ensure "operator" is defined
      */
     if (!OPERATORS[operator]) {
-      throw new Error(`"${RULE_NAME}": expects "operator" to be one of the whitelisted operators`)
+      throw new Error(`"${RULE_NAME}": expects "operator" to be one of the allowed values`)
     }
 
     /**

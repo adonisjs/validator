@@ -47,8 +47,8 @@ export const url: SyncValidation<CompiledOptions> = {
           require_host: options.requireHost === false ? false : true,
           require_valid_protocol: !!(options.protocols && options.protocols.length),
           validate_length: options.validateLength === false ? false : true,
-          ...(options.hostWhitelist ? { host_whitelist: options.hostWhitelist } : {}),
-          ...(options.hostBlacklist ? { host_blacklist: options.hostBlacklist } : {}),
+          ...(options.allowedHosts ? { host_whitelist: options.allowedHosts } : {}),
+          ...(options.bannedHosts ? { host_blacklist: options.bannedHosts } : {}),
         },
         sanitizationOptions: {
           normalizeProtocol:

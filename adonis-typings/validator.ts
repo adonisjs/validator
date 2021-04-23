@@ -578,8 +578,8 @@ declare module '@ioc:Adonis/Core/Validator' {
     requireTld?: boolean
     requireProtocol?: boolean
     requireHost?: boolean
-    hostWhitelist?: string[]
-    hostBlacklist?: string[]
+    allowedHosts?: string[]
+    bannedHosts?: string[]
     validateLength?: boolean
     ensureProtocol?: string | boolean
     stripWWW?: boolean
@@ -779,9 +779,9 @@ declare module '@ioc:Adonis/Core/Validator' {
     beforeOrEqualToField(field: string): Rule
 
     /**
-     * Blacklist an array of values
+     * Ensure value is not in the defined array
      */
-    blacklist(keywords: (number | string)[] | SchemaRef<(number | string)[]>): Rule
+    notIn(keywords: (number | string)[] | SchemaRef<(number | string)[]>): Rule
 
     /**
      * The value of string must be equalToValue

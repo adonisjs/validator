@@ -11,29 +11,29 @@ import { DateTime } from 'luxon'
 import { SyncValidation, NodeSubType } from '@ioc:Adonis/Core/Validator'
 import { wrapCompile, enforceArray, isRef } from '../../Validator/helpers'
 
-const RULE_NAME = 'blacklist'
-const DEFAULT_MESSAGE = 'blacklist validation failed'
+const RULE_NAME = 'notIn'
+const DEFAULT_MESSAGE = 'notIn validation failed'
 
 const VERIFIERS = {
-  string(value: any, keywords: (string | number)[]) {
+  string(value: any, values: (string | number)[]) {
     if (typeof value !== 'string') {
       return true
     }
-    return !keywords.includes(value)
+    return !values.includes(value)
   },
-  number(value: any, keywords: (string | number)[]) {
+  number(value: any, values: (string | number)[]) {
     if (typeof value !== 'number') {
       return true
     }
-    return !keywords.includes(value)
+    return !values.includes(value)
   },
-  array(value: any, keywords: (string | number)[]) {
+  array(value: any, values: (string | number)[]) {
     if (!Array.isArray(value)) {
       return true
     }
-    return !value.find((one) => keywords.includes(one))
+    return !value.find((one) => values.includes(one))
   },
-  date(value: DateTime, keywords: (string | number)[]) {
+  date(value: DateTime, values: (string | number)[]) {
     if (value instanceof DateTime === false) {
       return true
     }
@@ -43,65 +43,65 @@ const VERIFIERS = {
       return true
     }
 
-    return !keywords.includes(isoDate)
+    return !values.includes(isoDate)
   },
 }
 
 /**
  * Return type of the compile function
  */
-type CompileReturnType = { keywords?: (string | number)[]; ref?: string; subtype: NodeSubType }
+type CompileReturnType = { values?: (string | number)[]; ref?: string; subtype: NodeSubType }
 
 /**
  * Ensure the value is one of the defined choices
  */
-export const blacklist: SyncValidation<CompileReturnType> = {
+export const notIn: SyncValidation<CompileReturnType> = {
   compile: wrapCompile<CompileReturnType>(
     RULE_NAME,
     ['string', 'number', 'array', 'date'],
-    ([keywords], _, subtype) => {
+    ([values], _, subtype) => {
       /**
        * Choices are defined as a ref
        */
-      if (isRef(keywords)) {
+      if (isRef(values)) {
         return {
-          compiledOptions: { ref: keywords.key, subtype },
+          compiledOptions: { ref: values.key, subtype },
         }
       }
 
       /**
        * Ensure value is an array or a ref
        */
-      if (!keywords || !Array.isArray(keywords)) {
-        throw new Error(`"${RULE_NAME}": expects an array of "blacklist keywords" or a "ref"`)
+      if (!values || !Array.isArray(values)) {
+        throw new Error(`"${RULE_NAME}": expects an array of "notIn values" or a "ref"`)
       }
 
-      return { compiledOptions: { keywords, subtype } }
+      return { compiledOptions: { values, subtype } }
     }
   ),
   validate(value, compiledOptions, { errorReporter, pointer, arrayExpressionPointer, refs }) {
-    let keywords: (string | number)[] = []
+    let values: (string | number)[] = []
 
     /**
-     * Resolve keywords from the ref or use as it is, if defined as an array
+     * Resolve values from the ref or use as it is, if defined as an array
      */
     if (compiledOptions.ref) {
-      const runtimeKeywords = refs[compiledOptions.ref].value
+      const runtimevalues = refs[compiledOptions.ref].value
       enforceArray(
-        runtimeKeywords,
+        runtimevalues,
         `"${RULE_NAME}": expects "refs.${compiledOptions.ref}" to be an array`
       )
-      keywords = runtimeKeywords
-    } else if (compiledOptions.keywords) {
-      keywords = compiledOptions.keywords
+      values = runtimevalues
+    } else if (compiledOptions.values) {
+      values = compiledOptions.values
     }
 
     /**
      * Validation
      */
-    if (!VERIFIERS[compiledOptions.subtype](value, keywords)) {
+    if (!VERIFIERS[compiledOptions.subtype](value, values)) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
-        keywords,
+        values,
       })
     }
   },

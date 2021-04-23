@@ -56,9 +56,9 @@ test.group('Required When (compile)', () => {
     assert.throw(fn, '"requiredWhen": expects a "field", "operator" and "comparisonValue"')
   })
 
-  test('do not compile when operator is not one of the whitelisted ones', (assert) => {
+  test('do not compile when operator is not one of the allowed values', (assert) => {
     const fn = () => requiredWhen.compile('literal', 'string', ['value', 'foo', 'bar'])
-    assert.throw(fn, '"requiredWhen": expects "operator" to be one of the whitelisted operators')
+    assert.throw(fn, '"requiredWhen": expects "operator" to be one of the allowed values')
   })
 
   test('do not compile when comparisonValues is not an array when using in operator', (assert) => {

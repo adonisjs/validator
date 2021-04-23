@@ -135,6 +135,59 @@ test.group('Url', () => {
     })
   })
 
+  test("report error when url protocol doesn't match and requireProtocol is not explicitly enabled", (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    url.validate(
+      'google.com',
+      compile({
+        protocols: ['https'],
+      }).compiledOptions,
+      {
+        errorReporter: reporter,
+        field: 'website',
+        pointer: 'website',
+        tip: {},
+        root: {},
+        refs: {},
+        mutate: () => {},
+      }
+    )
+
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'website',
+          rule: 'url',
+          message: 'url validation failed',
+        },
+      ],
+    })
+  })
+
+  test("allow value when url protocol doesn't match and requireProtocol is explicitly disabled", (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    url.validate(
+      'google.com',
+      compile({
+        requireProtocol: false,
+        protocols: ['https'],
+      }).compiledOptions,
+      {
+        errorReporter: reporter,
+        field: 'website',
+        pointer: 'website',
+        tip: {},
+        root: {},
+        refs: {},
+        mutate: () => {},
+      }
+    )
+
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [],
+    })
+  })
+
   test('report error when url hostname is not part of allowedHosts', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(

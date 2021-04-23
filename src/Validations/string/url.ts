@@ -43,7 +43,10 @@ export const url: SyncValidation<CompiledOptions> = {
         validationOptions: {
           protocols: options.protocols || ['http', 'https', 'ftp'],
           require_tld: options.requireTld === false ? false : true,
-          require_protocol: options.requireProtocol === true ? true : false,
+          require_protocol:
+            options.requireProtocol === undefined
+              ? options.protocols !== undefined // Set to true when protocols are defined
+              : options.requireProtocol, // Otherwise use user defined value
           require_host: options.requireHost === false ? false : true,
           require_valid_protocol: !!(options.protocols && options.protocols.length),
           validate_length: options.validateLength === false ? false : true,

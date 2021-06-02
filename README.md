@@ -13,7 +13,7 @@
 
 <div align="center">
 
-[![circleci-image]][circleci-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![synk-image]][synk-url]
+[![gh-workflow-image]][gh-workflow-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![synk-image]][synk-url]
 
 </div>
 
@@ -43,8 +43,8 @@
 	<sub>Built with ❤︎ by <a href="https://twitter.com/AmanVirk1">Harminder Virk</a>
 </div>
 
-[circleci-image]: https://img.shields.io/circleci/project/github/adonisjs/validator/master.svg?style=for-the-badge&logo=circleci
-[circleci-url]: https://circleci.com/gh/adonisjs/validator "circleci"
+[gh-workflow-image]: https://img.shields.io/github/workflow/status/adonisjs/validator/test?style=for-the-badge
+[gh-workflow-url]: https://github.com/adonisjs/validator/actions/workflows/test.yml "Github action"
 
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
 [typescript-url]:  "typescript"

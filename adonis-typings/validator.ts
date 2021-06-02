@@ -300,9 +300,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: boolean
       getTree(): SchemaLiteral
     }
-    optional(
-      rules?: Rule[]
-    ): {
+    optional(rules?: Rule[]): {
       t?: boolean
       getTree(): SchemaLiteral
     }
@@ -316,9 +314,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: number
       getTree(): SchemaLiteral
     }
-    optional(
-      rules?: Rule[]
-    ): {
+    optional(rules?: Rule[]): {
       t?: number
       getTree(): SchemaLiteral
     }
@@ -341,9 +337,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaObject
       }
     }
-    optional(
-      rules?: Rule[]
-    ): {
+    optional(rules?: Rule[]): {
       members<T extends TypedSchema>(
         schema: T
       ): {
@@ -374,9 +368,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaArray
       }
     }
-    optional(
-      rules?: Rule[]
-    ): {
+    optional(rules?: Rule[]): {
       members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
         schema: T
       ): {

@@ -192,8 +192,8 @@ export const schema: Schema = {
   date,
   object,
   array,
-  enum: (oneOf as unknown) as EnumType,
-  enumSet: (enumSet as unknown) as EnumSetType,
+  enum: oneOf as unknown as EnumType,
+  enumSet: enumSet as unknown as EnumSetType,
   file,
   refs,
 

@@ -18,7 +18,7 @@ import * as validations from '../src/Validations'
 import { ApiErrorReporter, VanillaErrorReporter } from '../src/ErrorReporter'
 import { validator as validatorBase } from '../src/Validator'
 
-const validator = (validatorBase as unknown) as typeof validatorType
+const validator = validatorBase as unknown as typeof validatorType
 
 test.group('Validator | validate', () => {
   test('validate schema object against runtime data', async (assert) => {

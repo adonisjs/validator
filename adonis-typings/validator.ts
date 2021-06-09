@@ -262,12 +262,12 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a string or optional string type
    */
   export interface StringType {
-    (options?: { escape?: boolean; trim?: boolean }, rules?: Rule[]): {
+    (options?: StringOptions, rules?: Rule[]): {
       t: string
       getTree(): SchemaLiteral
     }
     optional(
-      options?: { escape?: boolean; trim?: boolean },
+      options?: StringOptions,
       rules?: Rule[]
     ): {
       t?: string
@@ -575,6 +575,29 @@ declare module '@ioc:Adonis/Core/Validator' {
     validateLength?: boolean
     ensureProtocol?: string | boolean
     stripWWW?: boolean
+  }
+
+  /**
+   * String validation options
+   */
+  export type StringOptions = {
+    case?:
+      | 'lowerCase'
+      | 'upperCase'
+      | 'camelCase'
+      | 'snakeCase'
+      | 'dashCase'
+      | 'pascalCase'
+      | 'capitalCase'
+      | 'sentenceCase'
+      | 'dotCase'
+      | 'titleCase'
+      | 'noCase'
+    pluralize?: boolean
+    singularize?: boolean
+    condenseWhitespace?: boolean
+    escape?: boolean
+    trim?: boolean
   }
 
   /**

@@ -24,18 +24,16 @@ import {
   BooleanType,
   TypedSchema,
   ParsedSchemaTree,
+  StringOptions,
 } from '@ioc:Adonis/Core/Validator'
 
 /**
  * String schema type
  */
-function string(options?: { escape?: boolean; trim?: boolean }, rules?: Rule[]) {
+function string(options?: StringOptions, rules?: Rule[]) {
   return getLiteralType('string', false, options, rules || []) as ReturnType<StringType>
 }
-string.optional = function optionalString(
-  options?: { escape?: boolean; trim?: boolean },
-  rules?: Rule[]
-) {
+string.optional = function optionalString(options?: StringOptions, rules?: Rule[]) {
   return getLiteralType('string', true, options, rules || []) as ReturnType<StringType['optional']>
 }
 

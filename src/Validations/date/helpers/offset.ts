@@ -151,7 +151,7 @@ export function validate(
 
   enforceDateTime(
     comparisonDate,
-    `"${ruleName}": expects "refs.${compiledOptions.ref}" to be an array`
+    `"${ruleName}": expects "refs.${compiledOptions.ref}" to be an instance of luxon DateTime object`
   )
 
   if (!compareDateTime(value, comparisonDate, compiledOptions.operator, compiledOptions.offset)) {

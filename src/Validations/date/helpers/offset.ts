@@ -136,7 +136,7 @@ export function validate(
   /**
    * Do not run validation when original value is not a dateTime instance.
    */
-  if (value instanceof DateTime === false) {
+  if (DateTime.isDateTime(value) === false) {
     return
   }
 

@@ -78,7 +78,7 @@ export function validate(
    * Skip when value is not a date time instance. One must use date schema
    * type
    */
-  if (value instanceof DateTime === false) {
+  if (DateTime.isDateTime(value) === false) {
     return
   }
 

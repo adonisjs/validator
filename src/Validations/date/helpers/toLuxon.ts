@@ -31,7 +31,7 @@ export function toLuxon(value: any, format: string | undefined): DateTime | unde
    */
   if (value instanceof Date === true) {
     dateTime = DateTime.fromJSDate(value)
-  } else if (value instanceof DateTime) {
+  } else if (DateTime.isDateTime(value)) {
     dateTime = value
   } else if (typeof value === 'string') {
     const formatterFn = PREDEFINED_FORMATS[format || 'iso']

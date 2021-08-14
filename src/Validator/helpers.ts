@@ -56,7 +56,7 @@ export function enforceArray(value: unknown, message?: string): asserts value is
  * Enforces the value to be an instance of luxon DateTime object
  */
 export function enforceDateTime(value: unknown, message?: string): asserts value is DateTime {
-  if (value instanceof DateTime === false) {
+  if (DateTime.isDateTime(value) === false) {
     throw new Error(message || 'Expected value to be an instance of luxon DateTime object')
   }
 }

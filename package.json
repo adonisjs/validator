@@ -70,7 +70,7 @@
 	},
 	"devDependencies": {
 		"@adonisjs/application": "^5.1.5",
-		"@adonisjs/bodyparser": "^7.1.4",
+		"@adonisjs/bodyparser": "^8.0.0",
 		"@adonisjs/encryption": "^4.0.5",
 		"@adonisjs/http-server": "^5.5.1",
 		"@adonisjs/mrm-preset": "^4.1.2",
@@ -98,7 +98,7 @@
 	},
 	"dependencies": {
 		"@poppinss/utils": "^3.1.5",
-		"@types/luxon": "^1.27.1",
+		"@types/luxon": "^2.0.0",
 		"@types/validator": "^13.6.3",
 		"luxon": "^2.0.1",
 		"normalize-url": "^6.1.0",

@@ -34,7 +34,7 @@ const VERIFIERS = {
     return !value.find((one) => values.includes(one))
   },
   date(value: DateTime, values: (string | number)[]) {
-    if (value instanceof DateTime === false) {
+    if (DateTime.isDateTime(value) === false) {
       return true
     }
 

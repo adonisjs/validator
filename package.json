@@ -107,7 +107,7 @@
 	},
 	"peerDependencies": {
 		"@adonisjs/application": "^5.0.0",
-		"@adonisjs/bodyparser": "^7.0.0",
+		"@adonisjs/bodyparser": "^8.0.0",
 		"@adonisjs/http-server": "^5.0.0"
 	}
 }

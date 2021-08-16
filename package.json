@@ -71,6 +71,7 @@
 	"devDependencies": {
 		"@adonisjs/application": "^5.1.5",
 		"@adonisjs/bodyparser": "^8.0.0",
+		"@adonisjs/drive": "^2.0.2",
 		"@adonisjs/encryption": "^4.0.5",
 		"@adonisjs/http-server": "^5.5.1",
 		"@adonisjs/mrm-preset": "^4.1.2",

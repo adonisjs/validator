@@ -8,13 +8,14 @@
  */
 
 import test from 'japa'
-import { rules } from '../../src/Rules'
-import { MessagesBag } from '../../src/MessagesBag'
-import { ApiErrorReporter } from '../../src/ErrorReporter'
+
 import { FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 import { File } from '@adonisjs/bodyparser/build/src/Multipart/File'
 
+import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
+import { MessagesBag } from '../../src/MessagesBag'
+import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { file } from '../../src/Validations/primitives/file'
 
 function compile(options: Partial<FileValidationOptions>) {
@@ -22,7 +23,11 @@ function compile(options: Partial<FileValidationOptions>) {
 }
 
 test.group('File', () => {
-  const multipartFile = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {})
+  const multipartFile = new File(
+    { fieldName: 'avatar', clientName: 'avatar', headers: {} },
+    {},
+    {} as any
+  )
   multipartFile.state = 'consumed'
   multipartFile.size = 8
   multipartFile.extname = 'jpg'
@@ -77,7 +82,7 @@ test.group('File', () => {
   })
 
   test('report error when size validation fails', (assert) => {
-    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {})
+    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20
     mp.extname = 'jpg'
@@ -106,7 +111,7 @@ test.group('File', () => {
   })
 
   test('report error when extension validation fails', (assert) => {
-    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {})
+    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20
     mp.extname = 'png'
@@ -135,7 +140,7 @@ test.group('File', () => {
   })
 
   test('work fine when field is a valid file', (assert) => {
-    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {})
+    const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20
     mp.extname = 'png'

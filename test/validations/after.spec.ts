@@ -8,7 +8,7 @@
  */
 
 import test from 'japa'
-import { DateTime, DurationObjectUnits } from 'luxon'
+import { DateTime, DurationObject } from 'luxon'
 import { SchemaRef, ParsedRule } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../../src/Rules'
@@ -22,11 +22,11 @@ function compile(keyword: 'today' | 'tomorrow'): ParsedRule<any>
 // eslint-disable-next-line no-redeclare
 function compile(date: SchemaRef<DateTime>): ParsedRule<any>
 // eslint-disable-next-line no-redeclare
-function compile(interval: number, duration: keyof DurationObjectUnits): ParsedRule<any>
+function compile(interval: number, duration: keyof DurationObject): ParsedRule<any>
 // eslint-disable-next-line no-redeclare
 function compile(
   interval: number | SchemaRef<DateTime> | 'today' | 'tomorrow',
-  duration?: keyof DurationObjectUnits
+  duration?: keyof DurationObject
 ): ParsedRule<any> {
   const { options } =
     typeof interval === 'number'

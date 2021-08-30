@@ -10,10 +10,27 @@
 declare module '@ioc:Adonis/Core/Validator' {
   import { UUIDVersion } from 'validator/lib/isUUID'
   import { default as validatorJs } from 'validator'
-  import { DateTime, DurationObject } from 'luxon'
+  import { DateTime, DurationObjectUnits } from 'luxon'
   import { RequestContract } from '@ioc:Adonis/Core/Request'
   import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
+
+  /**
+   * Accepted duration units. Luxon has removed support for
+   * singular unit names, but we are supporting them to
+   * avoid breaking changes
+   */
+  export type DurationUnits =
+    | keyof DurationObjectUnits
+    | 'year'
+    | 'quarter'
+    | 'month'
+    | 'week'
+    | 'day'
+    | 'hour'
+    | 'minute'
+    | 'second'
+    | 'millisecond'
 
   /**
    * Helper
@@ -717,7 +734,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * The value of date must be after a given duration
      */
-    after(duration: number, unit: keyof DurationObject): Rule
+    after(duration: number, unit: DurationUnits): Rule
 
     /**
      * The value of date must be after a given date
@@ -735,7 +752,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * The value of date must be before a given duration
      */
-    before(duration: number, unit: keyof DurationObject): Rule
+    before(duration: number, unit: DurationUnits): Rule
 
     /**
      * The value of date must be before a given date

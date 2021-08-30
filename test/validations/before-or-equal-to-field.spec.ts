@@ -42,7 +42,7 @@ test.group('Date | Before Or Equal To Field', () => {
 
   test('report error when date is not before or equal to defined field', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    const startDate = DateTime.local().plus({ day: 1 }).toISODate()
+    const startDate = DateTime.local().plus({ days: 1 }).toISODate()
 
     beforeOrEqualToField.validate(
       DateTime.fromISO(startDate!),
@@ -69,7 +69,7 @@ test.group('Date | Before Or Equal To Field', () => {
 
   test('work fine when value is before to the defined field value', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    const startDate = DateTime.local().minus({ day: 1 }).toISODate()
+    const startDate = DateTime.local().minus({ days: 1 }).toISODate()
 
     beforeOrEqualToField.validate(
       DateTime.fromISO(startDate!),
@@ -117,7 +117,7 @@ test.group('Date | Before Or Equal To Field', () => {
 
   test('skip validation when comparison field value is not a datetime instance', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    const startDate = DateTime.local().plus({ day: 1 }).toISODate()
+    const startDate = DateTime.local().plus({ days: 1 }).toISODate()
 
     beforeOrEqualToField.validate(
       DateTime.fromISO(startDate!),

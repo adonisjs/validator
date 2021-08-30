@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { DurationObject, DateTime } from 'luxon'
-import { ValidationRuntimeOptions } from '@ioc:Adonis/Core/Validator'
+import { DateTime } from 'luxon'
+import { ValidationRuntimeOptions, DurationUnits } from '@ioc:Adonis/Core/Validator'
 import { isRef, enforceDateTime } from '../../../Validator/helpers'
 
 /**
@@ -16,7 +16,7 @@ import { isRef, enforceDateTime } from '../../../Validator/helpers'
  */
 export type CompileReturnType = {
   operator: '>' | '<'
-  offset?: { duration: number; unit: keyof DurationObject; hasDayDuration: boolean }
+  offset?: { duration: number; unit: DurationUnits; hasDayDuration: boolean }
   ref?: string
 }
 

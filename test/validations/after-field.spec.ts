@@ -60,7 +60,7 @@ test.group('Date | After Field', () => {
 
   test('work fine when value is after the defined field value', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    const endDate = DateTime.local().plus({ day: 1 }).toISODate()
+    const endDate = DateTime.local().plus({ days: 1 }).toISODate()
 
     afterField.validate(DateTime.fromISO(endDate!), compile('start_date').compiledOptions!, {
       errorReporter: reporter,
@@ -80,7 +80,7 @@ test.group('Date | After Field', () => {
 
   test('raise error when comparison value cannot be converted to date time', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    const endDate = DateTime.local().plus({ day: 1 }).toISODate()
+    const endDate = DateTime.local().plus({ days: 1 }).toISODate()
 
     afterField.validate(DateTime.fromISO(endDate!), compile('start_date').compiledOptions!, {
       errorReporter: reporter,

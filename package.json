@@ -30,7 +30,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/adonisjs/adonis-validation-provider.git"
+		"url": "git+https://github.com/adonisjs/validator.git"
 	},
 	"keywords": [
 		"validator",
@@ -39,9 +39,9 @@
 		"indicative"
 	],
 	"bugs": {
-		"url": "https://github.com/adonisjs/adonis-validation-provider/issues"
+		"url": "https://github.com/adonisjs/validator/issues"
 	},
-	"homepage": "https://github.com/adonisjs/adonis-validation-provider#readme",
+	"homepage": "https://github.com/adonisjs/validator#readme",
 	"nyc": {
 		"exclude": [
 			"test"

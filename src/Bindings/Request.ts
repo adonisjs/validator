@@ -13,7 +13,6 @@ import {
   RequestValidatorNode,
   ValidatorResolvedConfig,
 } from '@ioc:Adonis/Core/Validator'
-import { options } from 'joi'
 
 /**
  * Extends the request class by adding `validate` method

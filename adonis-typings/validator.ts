@@ -525,12 +525,18 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type RequestNegotiator = (request: RequestContract) => ErrorReporterConstructorContract
 
   /**
+   * A callback method to return default messages for validation.
+   */
+  export type DefaultMessagesCallback = (ctx?: HttpContextContract) => CustomMessages
+
+  /**
    * Resolved config passed to the configure method and use internally
    */
   export type ValidatorResolvedConfig = {
     bail?: boolean
     existsStrict?: boolean
     reporter?: ErrorReporterConstructorContract
+    messages?: DefaultMessagesCallback
     negotiator: RequestNegotiator
   }
 
@@ -868,6 +874,11 @@ declare module '@ioc:Adonis/Core/Validator' {
       isRef(value: any): value is SchemaRef<unknown>
       existsStrict: (value: any) => boolean
     }
+
+    /**
+     * Register a callback to return default messages.
+     */
+    messages: (callback: DefaultMessagesCallback) => void
 
     /**
      * Define a custom content negotiator

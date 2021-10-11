@@ -22,6 +22,8 @@ import {
   ValidatorResolvedConfig,
   validator as validatorStatic,
   ErrorReporterConstructorContract,
+  DefaultMessagesCallback,
+  CustomMessages,
 } from '@ioc:Adonis/Core/Validator'
 
 import { schema } from '../Schema'
@@ -71,6 +73,11 @@ const NOOP_MESSAGES = {}
 const NOOP_REFS = {}
 
 /**
+ * Default messages
+ */
+let DEFAULT_MESSAGES: CustomMessages
+
+/**
  * Global options for the validator
  */
 const OPTIONS: ValidatorResolvedConfig = {
@@ -97,9 +104,17 @@ const validate = <T extends ParsedTypedSchema<TypedSchema>>(
   const bail = validator.bail !== undefined ? validator.bail : OPTIONS.bail!
 
   /**
+   * Merge default messages with the validator messages
+   */
+  let messages = validator.messages || NOOP_MESSAGES
+  if (DEFAULT_MESSAGES) {
+    messages = { ...DEFAULT_MESSAGES, ...messages }
+  }
+
+  /**
    * Reporter instance
    */
-  const reporter = new Reporter(new MessagesBag(validator.messages || NOOP_MESSAGES), bail)
+  const reporter = new Reporter(new MessagesBag(messages), bail)
 
   /**
    * The helpers to use
@@ -209,8 +224,13 @@ export const validator: typeof validatorStatic = {
     getFieldValue,
     resolveAbsoluteName,
   },
+  messages: (callback: DefaultMessagesCallback) => {
+    DEFAULT_MESSAGES = callback()
+    OPTIONS.messages = callback
+  },
   config: OPTIONS,
   configure: (config: Omit<ValidatorResolvedConfig, 'negotiator'>) => {
+    DEFAULT_MESSAGES = {}
     Object.assign(OPTIONS, config)
   },
   negotiator: (callback: RequestNegotiator) => {

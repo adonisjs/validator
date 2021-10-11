@@ -13,6 +13,7 @@ import {
   RequestValidatorNode,
   ValidatorResolvedConfig,
 } from '@ioc:Adonis/Core/Validator'
+import { options } from 'joi'
 
 /**
  * Extends the request class by adding `validate` method
@@ -49,8 +50,17 @@ export default function extendRequest(
      */
     const profilerAction = this.ctx!.profiler.profile('request:validate')
 
+    /**
+     * Merge user defined messages with the default
+     * messages
+     */
+    let messages = validatorNode.messages
+    if (config.messages) {
+      messages = { ...config.messages(this.ctx), ...messages }
+    }
+
     try {
-      const validated = await validate({ data, reporter, ...validatorNode })
+      const validated = await validate({ data, reporter, ...validatorNode, messages })
       profilerAction.end({ status: 'success' })
       return validated
     } catch (error) {

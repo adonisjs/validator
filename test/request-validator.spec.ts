@@ -294,4 +294,78 @@ test.group('Request validator', (group) => {
       })
     }
   })
+
+  test('use default messages', async (assert) => {
+    assert.plan(1)
+    validator.messages(() => {
+      return {
+        required: 'field is required',
+      }
+    })
+
+    const app = await setupApp(['../../providers/ValidatorProvider'])
+    const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+    ctx.request.allFiles = function () {
+      return {}
+    }
+
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
+      })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        errors: [
+          {
+            rule: 'required',
+            message: 'field is required',
+            field: 'username',
+          },
+        ],
+      })
+    }
+  })
+
+  test('give priority to inline messages when defined', async (assert) => {
+    assert.plan(1)
+    validator.messages(() => {
+      return {
+        required: 'field is required',
+      }
+    })
+
+    const app = await setupApp(['../../providers/ValidatorProvider'])
+    const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+    ctx.request.allFiles = function () {
+      return {}
+    }
+
+    class Validator {
+      public schema = schema.create({
+        username: schema.string(),
+      })
+
+      public messages = {
+        required: 'username is required',
+      }
+    }
+
+    try {
+      await ctx.request.validate(Validator)
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        errors: [
+          {
+            rule: 'required',
+            message: 'username is required',
+            field: 'username',
+          },
+        ],
+      })
+    }
+  })
 })

@@ -74,6 +74,7 @@
 		"@adonisjs/drive": "^2.0.7",
 		"@adonisjs/encryption": "^4.0.5",
 		"@adonisjs/http-server": "^5.5.7",
+		"@adonisjs/i18n": "^1.0.2",
 		"@adonisjs/mrm-preset": "^4.1.2",
 		"@adonisjs/require-ts": "^2.0.8",
 		"@poppinss/dev-utils": "^1.1.5",

@@ -22,7 +22,12 @@ const DEFAULT_MESSAGE = 'email validation failed'
  */
 type CompiledOptions = Parameters<typeof isEmail>[1] & {
   sanitize?: {
-    all_lowercase: boolean
+    all_lowercase?: boolean
+    gmail_remove_dots?: boolean
+    gmail_remove_subaddress?: boolean
+    outlookdotcom_remove_subaddress?: boolean
+    yahoo_remove_subaddress?: boolean
+    icloud_remove_subaddress?: boolean
   }
 }
 
@@ -47,10 +52,27 @@ export const email: SyncValidation<CompiledOptions> = {
      */
     let sanitizationOptions: CompiledOptions['sanitize']
     if (options.sanitize) {
+      sanitizationOptions = {}
+
       if (options.sanitize === true) {
-        sanitizationOptions = { all_lowercase: true }
+        sanitizationOptions = {}
       } else if (isObject(options.sanitize)) {
-        sanitizationOptions = { all_lowercase: options.sanitize.lowerCase }
+        if (typeof options.sanitize.lowerCase === 'boolean') {
+          sanitizationOptions.all_lowercase = options.sanitize.lowerCase
+        }
+
+        if (typeof options.sanitize.removeDots === 'boolean') {
+          sanitizationOptions.gmail_remove_dots = options.sanitize.removeDots
+        }
+
+        if (typeof options.sanitize.removeSubaddress === 'boolean') {
+          Object.assign(sanitizationOptions, {
+            gmail_remove_subaddress: options.sanitize.removeSubaddress,
+            outlookdotcom_remove_subaddress: options.sanitize.removeSubaddress,
+            yahoo_remove_subaddress: options.sanitize.removeSubaddress,
+            icloud_remove_subaddress: options.sanitize.removeSubaddress,
+          })
+        }
       }
     }
 
@@ -83,7 +105,7 @@ export const email: SyncValidation<CompiledOptions> = {
     /**
      * Apply lower case sanitization
      */
-    if (compiledOptions.sanitize?.all_lowercase) {
+    if (isObject(compiledOptions.sanitize)) {
       mutate(normalizeEmail(value, compiledOptions.sanitize))
     }
   },

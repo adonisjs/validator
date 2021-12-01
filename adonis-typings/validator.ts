@@ -581,7 +581,9 @@ declare module '@ioc:Adonis/Core/Validator' {
     sanitize?:
       | boolean
       | {
-          lowerCase: boolean
+          lowerCase?: boolean
+          removeDots?: boolean
+          removeSubaddress?: boolean
         }
   }
 

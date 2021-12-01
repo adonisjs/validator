@@ -92,4 +92,54 @@ test.group('Email', () => {
 
     assert.equal(emailValue, 'foo@bar.com')
   })
+
+  test('sanitize email but keep gmail dots', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let emailValue = 'FOO.bar+2@gmail.com'
+
+    email.validate(
+      emailValue,
+      compile({
+        sanitize: {
+          removeDots: false,
+        },
+      }).compiledOptions,
+      {
+        errorReporter: reporter,
+        field: 'email',
+        pointer: 'email',
+        tip: {},
+        root: {},
+        refs: {},
+        mutate: (newValue) => (emailValue = newValue),
+      }
+    )
+
+    assert.equal(emailValue, 'foo.bar@gmail.com')
+  })
+
+  test('sanitize email but keep subaddress', (assert) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let emailValue = 'FOO.bar+2@gmail.com'
+
+    email.validate(
+      emailValue,
+      compile({
+        sanitize: {
+          removeSubaddress: false,
+        },
+      }).compiledOptions,
+      {
+        errorReporter: reporter,
+        field: 'email',
+        pointer: 'email',
+        tip: {},
+        root: {},
+        refs: {},
+        mutate: (newValue) => (emailValue = newValue),
+      }
+    )
+
+    assert.equal(emailValue, 'foobar+2@gmail.com')
+  })
 })

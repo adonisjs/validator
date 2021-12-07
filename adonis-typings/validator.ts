@@ -68,6 +68,8 @@ declare module '@ioc:Adonis/Core/Validator' {
   export type SchemaLiteral = {
     type: 'literal'
     subtype: string
+    nullable: boolean
+    optional: boolean
     rules: ParsedRule[]
   }
 
@@ -76,6 +78,8 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export type SchemaObject = {
     type: 'object'
+    nullable: boolean
+    optional: boolean
     rules: ParsedRule[]
     children?: ParsedSchemaTree
   }
@@ -85,6 +89,8 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export type SchemaArray = {
     type: 'array'
+    nullable: boolean
+    optional: boolean
     rules: ParsedRule[]
     each?: SchemaLiteral | SchemaObject | SchemaArray
   }
@@ -290,6 +296,20 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: string
       getTree(): SchemaLiteral
     }
+    nullable(
+      options?: { escape?: boolean; trim?: boolean },
+      rules?: Rule[]
+    ): {
+      t: string | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(
+      options?: { escape?: boolean; trim?: boolean },
+      rules?: Rule[]
+    ): {
+      t?: string | null
+      getTree(): SchemaLiteral
+    }
   }
 
   /**
@@ -307,6 +327,20 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: DateTime
       getTree(): SchemaLiteral
     }
+    nullable(
+      options?: { format?: string },
+      rules?: Rule[]
+    ): {
+      t: DateTime | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(
+      options?: { format?: string },
+      rules?: Rule[]
+    ): {
+      t?: DateTime | null
+      getTree(): SchemaLiteral
+    }
   }
 
   /**
@@ -321,6 +355,14 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: boolean
       getTree(): SchemaLiteral
     }
+    nullable(rules?: Rule[]): {
+      t: boolean | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      t?: boolean | null
+      getTree(): SchemaLiteral
+    }
   }
 
   /**
@@ -333,6 +375,14 @@ declare module '@ioc:Adonis/Core/Validator' {
     }
     optional(rules?: Rule[]): {
       t?: number
+      getTree(): SchemaLiteral
+    }
+    nullable(rules?: Rule[]): {
+      t: number | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      t?: number | null
       getTree(): SchemaLiteral
     }
   }
@@ -366,6 +416,30 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaObject
       }
     }
+    nullable(rules?: Rule[]): {
+      members<T extends TypedSchema>(
+        schema: T
+      ): {
+        t: { [P in keyof T]: T[P]['t'] } | null
+        getTree(): SchemaObject
+      }
+      anyMembers(): {
+        t: { [key: string]: any } | null
+        getTree(): SchemaObject
+      }
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      members<T extends TypedSchema>(
+        schema: T
+      ): {
+        t?: { [P in keyof T]: T[P]['t'] } | null
+        getTree(): SchemaObject
+      }
+      anyMembers(): {
+        t?: { [key: string]: any } | null
+        getTree(): SchemaObject
+      }
+    }
   }
 
   /**
@@ -394,6 +468,30 @@ declare module '@ioc:Adonis/Core/Validator' {
       }
       anyMembers(): {
         t?: any[]
+        getTree(): SchemaArray
+      }
+    }
+    nullable(rules?: Rule[]): {
+      members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
+        schema: T
+      ): {
+        t: T['t'][] | null
+        getTree(): SchemaArray
+      }
+      anyMembers(): {
+        t: any[] | null
+        getTree(): SchemaArray
+      }
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
+        schema: T
+      ): {
+        t?: T['t'][] | null
+        getTree(): SchemaArray
+      }
+      anyMembers(): {
+        t?: any[] | null
         getTree(): SchemaArray
       }
     }
@@ -446,6 +544,20 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: EnumReturnValue<Options>
       getTree(): SchemaLiteral
     }
+    nullable<Options extends AllowedEnumOptions>(
+      options: Options,
+      rules?: Rule[]
+    ): {
+      t: EnumReturnValue<Options> | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional<Options extends AllowedEnumOptions>(
+      options: Options,
+      rules?: Rule[]
+    ): {
+      t?: EnumReturnValue<Options> | null
+      getTree(): SchemaLiteral
+    }
   }
 
   /**
@@ -461,6 +573,20 @@ declare module '@ioc:Adonis/Core/Validator' {
       rules?: Rule[]
     ): {
       t?: EnumSetReturnValue<Options>
+      getTree(): SchemaLiteral
+    }
+    nullable<Options extends AllowedEnumOptions>(
+      options: Options,
+      rules?: Rule[]
+    ): {
+      t: EnumSetReturnValue<Options> | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional<Options extends AllowedEnumOptions>(
+      options: Options,
+      rules?: Rule[]
+    ): {
+      t?: EnumSetReturnValue<Options> | null
       getTree(): SchemaLiteral
     }
   }
@@ -480,13 +606,29 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: MultipartFileContract
       getTree(): SchemaLiteral
     }
+    nullable(
+      options?: Partial<FileValidationOptions>,
+      rules?: Rule[]
+    ): {
+      t: MultipartFileContract | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(
+      options?: Partial<FileValidationOptions>,
+      rules?: Rule[]
+    ): {
+      t?: MultipartFileContract | null
+      getTree(): SchemaLiteral
+    }
   }
 
   /**
    * Shape of `schema.create` output
    */
   export type ParsedTypedSchema<T extends TypedSchema> = {
-    props: { [P in keyof T]: T[P]['t'] }
+    props: {
+      [P in keyof T]: T[P]['t']
+    }
     tree: ParsedSchemaTree
   }
 
@@ -615,6 +757,12 @@ declare module '@ioc:Adonis/Core/Validator' {
      * Field under validation must always exists
      */
     required(): Rule
+
+    /**
+     * Field under validation can be nullable, but not undefined
+     * or an empty string
+     */
+    nullable(): Rule
 
     /**
      * Field under validation must always exists if the

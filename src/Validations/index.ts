@@ -19,6 +19,7 @@ export { beforeOrEqualToField } from './date/beforeOrEqualToField'
 
 export { confirmed } from './existence/confirmed'
 export { required } from './existence/required'
+export { nullable } from './existence/nullable'
 export { requiredIfExists } from './existence/requiredIfExists'
 export { requiredIfExistsAll } from './existence/requiredIfExistsAll'
 export { requiredIfExistsAny } from './existence/requiredIfExistsAny'

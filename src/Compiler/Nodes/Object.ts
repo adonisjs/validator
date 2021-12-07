@@ -85,6 +85,8 @@ export class ObjectCompiler {
       {
         type: 'literal' as const,
         subtype: 'object',
+        nullable: this.node.nullable,
+        optional: this.node.optional,
         rules: this.node.rules,
       },
       this.compiler,
@@ -107,7 +109,15 @@ export class ObjectCompiler {
      * the object gradually.
      */
     if (!children || children.length === 0) {
+      buffer.writeStatement(
+        `if (${this.compiler.getVariableExistsName(literal.variableName)}${
+          this.node.nullable ? ` || ${literal.variableName} === null` : ''
+        }) {`
+      )
+      buffer.indent()
       this.declareOutVariable(buffer, outVariable, children ? '{}' : literal.variableName, false)
+      buffer.dedent()
+      buffer.writeStatement('}')
       return
     }
 
@@ -131,5 +141,16 @@ export class ObjectCompiler {
     )
 
     this.endIfGuard(buffer)
+
+    /**
+     * Entertain null values
+     */
+    if (this.node.nullable) {
+      buffer.writeStatement(`else if (${literal.variableName} === null) {`)
+      buffer.indent()
+      this.declareOutVariable(buffer, outVariable, 'null', false)
+      buffer.dedent()
+      buffer.writeStatement(`}`)
+    }
   }
 }

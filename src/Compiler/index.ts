@@ -63,18 +63,14 @@ export class Compiler {
   }
 
   /**
-   * Returns the name of the variable that holds the boolean about whether
-   * original value exists or not. The mutations set value to undefined
-   * or null are ignored and neither encouraged.
+   * The variable name to hold the boolean if value is undefined or not
    */
   public getVariableExistsName(variableName: string) {
     return `${variableName}_exists`
   }
 
   /**
-   * Returns the name of the variable that holds the boolean about whether
-   * original value exists or not. The mutations set value to undefined
-   * or null are ignored and neither encouraged.
+   * Returns the declaration for the undefined and the null check
    */
   public getVariableExistsDeclaration(variableName: string) {
     return `const ${this.getVariableExistsName(variableName)} = ${
@@ -88,8 +84,8 @@ export class Compiler {
    */
   public getMutationFnDeclararationExpression(variableName: string) {
     return `function ${this.getVariableMutationName(variableName)} (newValue) {
-			${variableName} = newValue;
-		}`
+      ${variableName} = newValue;
+    }`
   }
 
   /**
@@ -107,14 +103,14 @@ export class Compiler {
       : ''
 
     return `const ${this.getVariableOptionsName(variableName)} = {
-			root,
-			refs,
-			field: ${field},
-			tip: ${tip},
-			pointer: ${pointer},${arrayExpressionPointerItem}
-			mutate: ${this.getVariableMutationName(variableName)},
-			${this.COMPILER_REFERENCES.reportError}
-		}`
+      root,
+      refs,
+      field: ${field},
+      tip: ${tip},
+      pointer: ${pointer},${arrayExpressionPointerItem}
+      mutate: ${this.getVariableMutationName(variableName)},
+      ${this.COMPILER_REFERENCES.reportError}
+    }`
   }
 
   /**
@@ -133,7 +129,7 @@ export class Compiler {
       : `${this.COMPILER_REFERENCES.validations}.${rule.name}.validate`
 
     /**
-     * If rule doesn't want to get executed on undefined values, then make
+     * If rule doesn't want to get executed on undefined and null values, then make
      * sure to add the `exists` guard first
      */
     const existsGuard = rule.allowUndefineds
@@ -258,11 +254,11 @@ export class Compiler {
      */
     buffer.writeExpression(
       `
-			if (errorReporter.hasErrors) {
-				throw errorReporter.toError();
-			}
+      if (errorReporter.hasErrors) {
+        throw errorReporter.toError();
+      }
 
-			return out`,
+      return out`,
       true
     )
     buffer.dedent()

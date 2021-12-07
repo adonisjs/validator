@@ -47,7 +47,8 @@ export function compileRule(type: string, subtype: string, rule: Rule, tree: any
  */
 export function getLiteralType(
   subtype: string,
-  isOptional: boolean,
+  optional: boolean,
+  nullable: boolean,
   ruleOptions: any,
   rules: Rule[]
 ): { getTree(): SchemaLiteral } {
@@ -58,9 +59,11 @@ export function getLiteralType(
     getTree() {
       return {
         type: 'literal' as const,
+        nullable,
+        optional,
         subtype: subtype,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [schemaRules.required()])
+          .concat(optional ? [] : nullable ? [schemaRules.nullable()] : [schemaRules.required()])
           .concat(subTypeRule ? [] : [schemaRules[subtype](ruleOptions)])
           .concat(rules)
           .map((rule) => compileRule('literal', subtype, rule, optionsTree)),
@@ -73,7 +76,8 @@ export function getLiteralType(
  * Dry function to define an object type
  */
 export function getObjectType(
-  isOptional: boolean,
+  optional: boolean,
+  nullable: boolean,
   children: ParsedSchemaTree | null,
   rules: Rule[]
 ): { getTree(): SchemaObject } {
@@ -84,8 +88,10 @@ export function getObjectType(
     getTree() {
       return {
         type: 'object' as const,
+        nullable,
+        optional,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [{ name: 'required', options: [] }])
+          .concat(optional ? [] : nullable ? [schemaRules.nullable()] : [schemaRules.required()])
           .concat(subTypeRule ? [] : [{ name: 'object', options: [] }])
           .concat(rules)
           .map((rule) => compileRule('object', 'object', rule, optionsTree)),
@@ -99,7 +105,8 @@ export function getObjectType(
  * Dry function to define an array type
  */
 export function getArrayType(
-  isOptional: boolean,
+  optional: boolean,
+  nullable: boolean,
   each: SchemaLiteral | SchemaObject | SchemaArray | null,
   rules: Rule[]
 ): { getTree(): SchemaArray } {
@@ -110,8 +117,10 @@ export function getArrayType(
     getTree() {
       return {
         type: 'array' as const,
+        nullable,
+        optional,
         rules: ([] as Rule[])
-          .concat(isOptional ? [] : [{ name: 'required', options: [] }])
+          .concat(optional ? [] : nullable ? [schemaRules.nullable()] : [schemaRules.required()])
           .concat(subTypeRule ? [] : [{ name: 'array', options: [] }])
           .concat(rules)
           .map((rule) => compileRule('array', 'array', rule, optionsTree)),

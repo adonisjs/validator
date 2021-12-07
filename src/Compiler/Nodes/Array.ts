@@ -132,7 +132,7 @@ export class ArrayCompiler {
   /**
    * Converts the array node to compiled Javascript statement.
    */
-  public compile(buff: CompilerBuffer) {
+  public compile(buffer: CompilerBuffer) {
     if (!this.node.rules.length && !this.node.each) {
       return
     }
@@ -145,6 +145,8 @@ export class ArrayCompiler {
       {
         type: 'literal' as const,
         subtype: 'array',
+        nullable: this.node.nullable,
+        optional: this.node.optional,
         rules: this.node.rules,
       },
       this.compiler,
@@ -162,7 +164,7 @@ export class ArrayCompiler {
      * the children of the array.
      */
     literal.forceValueDeclaration = true
-    literal.compile(buff)
+    literal.compile(buffer)
 
     const outVariable = `out_${this.compiler.outVariableCounter++}`
 
@@ -171,44 +173,52 @@ export class ArrayCompiler {
      * have been defined on the array
      */
     if (!this.node.each) {
-      this.declareOutVariable(buff, outVariable, literal.variableName, false)
+      buffer.writeStatement(
+        `if (${this.compiler.getVariableExistsName(literal.variableName)}${
+          this.node.nullable ? ` || ${literal.variableName} === null` : ''
+        }) {`
+      )
+      buffer.indent()
+      this.declareOutVariable(buffer, outVariable, literal.variableName, false)
+      buffer.dedent()
+      buffer.writeStatement('}')
       return
     }
 
     const hasAsyncChildren = this.hasAsyncChildren(this.node.each)
 
-    buff.newLine()
+    buffer.newLine()
 
     /**
      * Add a guard if statement to only validate children when the field
      * value is a valid array
      */
-    this.startIfGuard(buff, literal.variableName)
+    this.startIfGuard(buffer, literal.variableName)
 
     const indexVariable = `index_${this.compiler.arrayIndexVariableCounter++}`
 
     /**
      * Declaring the out variable as an empty array
      */
-    this.declareOutVariable(buff, outVariable, '[]', true)
+    this.declareOutVariable(buffer, outVariable, '[]', true)
 
     /**
      * Add the for loop
      */
     if (hasAsyncChildren) {
-      this.startAsyncForLoop(buff, literal.variableName, indexVariable)
+      this.startAsyncForLoop(buffer, literal.variableName, indexVariable)
     } else {
-      this.startForLoop(buff, literal.variableName, indexVariable)
+      this.startForLoop(buffer, literal.variableName, indexVariable)
     }
 
     /**
      * Parse members
      */
-    buff.newLine()
+    buffer.newLine()
     this.compiler.compileNode(
       { name: indexVariable, type: 'identifier' },
       this.node.each,
-      buff,
+      buffer,
       this.references.parentPointer.concat(this.field),
       literal.variableName,
       outVariable
@@ -217,7 +227,18 @@ export class ArrayCompiler {
     /**
      * End for loop and if guard
      */
-    this.endForLoop(buff)
-    this.endIfGuard(buff)
+    this.endForLoop(buffer)
+    this.endIfGuard(buffer)
+
+    /**
+     * Entertain null values
+     */
+    if (this.node.nullable) {
+      buffer.writeStatement(`else if (${literal.variableName} === null) {`)
+      buffer.indent()
+      this.declareOutVariable(buffer, outVariable, 'null', false)
+      buffer.dedent()
+      buffer.writeStatement(`}`)
+    }
   }
 }

@@ -1,11 +1,6 @@
-// import { schema, rules } from '@ioc:Adonis/Core/Validator'
-// import { DateTime } from 'luxon'
-//
-// const refs = schema.refs({
-// 	afterDate: DateTime.local(),
-// })
-//
+// import { schema } from '@ioc:Adonis/Core/Validator'
+
 // const data = schema.create({
-// 	username: schema.date({}, [rules.after('tomorrow'), rules.after(refs.afterDate)]),
-// 	profile: schema.object().anyMembers(),
+//   username: schema.date.nullable(),
+//   profile: schema.object.nullableAndOptional().anyMembers(),
 // }).props

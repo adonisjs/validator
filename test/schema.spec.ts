@@ -21,6 +21,8 @@ test.group('Schema | String', () => {
         username: {
           type: 'literal',
           subtype: 'string',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -49,6 +51,62 @@ test.group('Schema | String', () => {
         username: {
           type: 'literal',
           subtype: 'string',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'string',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: { escape: false, trim: false },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable string rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.string.nullable(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'string',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'string',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: { escape: false, trim: false },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both nullable and optional string rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.string.nullableAndOptional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'string',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'string',
@@ -71,6 +129,8 @@ test.group('Schema | String', () => {
         username: {
           type: 'literal',
           subtype: 'string',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -107,6 +167,8 @@ test.group('Schema | String', () => {
         username: {
           type: 'literal',
           subtype: 'string',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -135,6 +197,8 @@ test.group('Schema | String', () => {
         username: {
           type: 'literal',
           subtype: 'string',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -165,6 +229,8 @@ test.group('Schema | Boolean', () => {
         username: {
           type: 'literal',
           subtype: 'boolean',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -193,6 +259,62 @@ test.group('Schema | Boolean', () => {
         username: {
           type: 'literal',
           subtype: 'boolean',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'boolean',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable boolean rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.boolean.nullable(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'boolean',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'boolean',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both nullable and optional boolean rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.boolean.nullableAndOptional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'boolean',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'boolean',
@@ -217,6 +339,8 @@ test.group('Schema | Number', () => {
         username: {
           type: 'literal',
           subtype: 'number',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -245,6 +369,62 @@ test.group('Schema | Number', () => {
         username: {
           type: 'literal',
           subtype: 'number',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'number',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable number rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.number.nullable(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'number',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'number',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both optional and nullable number rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.number.nullableAndOptional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'number',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'number',
@@ -267,6 +447,8 @@ test.group('Schema | Number', () => {
         username: {
           type: 'literal',
           subtype: 'number',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -303,6 +485,8 @@ test.group('Schema | Date', () => {
         username: {
           type: 'literal',
           subtype: 'date',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -333,6 +517,66 @@ test.group('Schema | Date', () => {
         username: {
           type: 'literal',
           subtype: 'date',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'date',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: {
+                format: undefined,
+              },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable date rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.date.nullable(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'date',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'date',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: {
+                format: undefined,
+              },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both nullable and optional date rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.date.nullableAndOptional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'date',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'date',
@@ -357,6 +601,8 @@ test.group('Schema | Date', () => {
         username: {
           type: 'literal',
           subtype: 'date',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -385,6 +631,8 @@ test.group('Schema | Date', () => {
         username: {
           type: 'literal',
           subtype: 'date',
+          optional: true,
+          nullable: false,
           rules: [
             {
               name: 'date',
@@ -409,6 +657,8 @@ test.group('Schema | Enum', () => {
         username: {
           type: 'literal',
           subtype: 'enum',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -437,6 +687,62 @@ test.group('Schema | Enum', () => {
         username: {
           type: 'literal',
           subtype: 'enum',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'enum',
+              compiledOptions: { choices: ['1', '2'] },
+              allowUndefineds: false,
+              async: false,
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable enum rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.enum.nullable(['1', '2']),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'enum',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              compiledOptions: [],
+              allowUndefineds: true,
+              async: false,
+            },
+            {
+              name: 'enum',
+              compiledOptions: { choices: ['1', '2'] },
+              allowUndefineds: false,
+              async: false,
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both optional and nullable enum rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.enum.nullableAndOptional(['1', '2']),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'enum',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'enum',
@@ -461,6 +767,8 @@ test.group('Schema | Enum Set', () => {
         username: {
           type: 'literal',
           subtype: 'enumSet',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -489,6 +797,62 @@ test.group('Schema | Enum Set', () => {
         username: {
           type: 'literal',
           subtype: 'enumSet',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'enumSet',
+              compiledOptions: { choices: ['1', '2'] },
+              allowUndefineds: false,
+              async: false,
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable enumSet rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.enumSet.nullable(['1', '2']),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'enumSet',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              compiledOptions: [],
+              allowUndefineds: true,
+              async: false,
+            },
+            {
+              name: 'enumSet',
+              compiledOptions: { choices: ['1', '2'] },
+              allowUndefineds: false,
+              async: false,
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both optional and nullable enumSet rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.enumSet.nullableAndOptional(['1', '2']),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'enumSet',
+          optional: true,
+          nullable: true,
           rules: [
             {
               name: 'enumSet',
@@ -514,6 +878,8 @@ test.group('Schema | Object', () => {
       {
         profile: {
           type: 'object',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -532,6 +898,8 @@ test.group('Schema | Object', () => {
             username: {
               type: 'literal',
               subtype: 'string',
+              optional: false,
+              nullable: false,
               rules: [
                 {
                   name: 'required',
@@ -563,6 +931,8 @@ test.group('Schema | Object', () => {
       {
         profile: {
           type: 'object',
+          optional: true,
+          nullable: false,
           rules: [
             {
               name: 'object',
@@ -575,6 +945,108 @@ test.group('Schema | Object', () => {
             username: {
               type: 'literal',
               subtype: 'string',
+              optional: false,
+              nullable: false,
+              rules: [
+                {
+                  name: 'required',
+                  allowUndefineds: true,
+                  async: false,
+                  compiledOptions: [],
+                },
+                {
+                  name: 'string',
+                  allowUndefineds: false,
+                  async: false,
+                  compiledOptions: { escape: false, trim: false },
+                },
+              ],
+            },
+          },
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable object', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        profile: schema.object.nullable().members({
+          username: schema.string(),
+        }),
+      }).tree,
+      {
+        profile: {
+          type: 'object',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'object',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+          children: {
+            username: {
+              type: 'literal',
+              subtype: 'string',
+              optional: false,
+              nullable: false,
+              rules: [
+                {
+                  name: 'required',
+                  allowUndefineds: true,
+                  async: false,
+                  compiledOptions: [],
+                },
+                {
+                  name: 'string',
+                  allowUndefineds: false,
+                  async: false,
+                  compiledOptions: { escape: false, trim: false },
+                },
+              ],
+            },
+          },
+        },
+      }
+    )
+  })
+
+  test('define schema with both optional and nullable object', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        profile: schema.object.nullableAndOptional().members({
+          username: schema.string(),
+        }),
+      }).tree,
+      {
+        profile: {
+          type: 'object',
+          optional: true,
+          nullable: true,
+          rules: [
+            {
+              name: 'object',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+          children: {
+            username: {
+              type: 'literal',
+              subtype: 'string',
+              optional: false,
+              nullable: false,
               rules: [
                 {
                   name: 'required',
@@ -604,6 +1076,8 @@ test.group('Schema | Object', () => {
       {
         profile: {
           type: 'object',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -637,6 +1111,8 @@ test.group('Schema | Array', () => {
       {
         profile: {
           type: 'array',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -653,6 +1129,8 @@ test.group('Schema | Array', () => {
           ],
           each: {
             type: 'object',
+            optional: false,
+            nullable: false,
             rules: [
               {
                 name: 'required',
@@ -671,6 +1149,8 @@ test.group('Schema | Array', () => {
               username: {
                 type: 'literal',
                 subtype: 'string',
+                optional: false,
+                nullable: false,
                 rules: [
                   {
                     name: 'required',
@@ -705,6 +1185,8 @@ test.group('Schema | Array', () => {
       {
         profile: {
           type: 'array',
+          optional: true,
+          nullable: false,
           rules: [
             {
               name: 'array',
@@ -715,6 +1197,8 @@ test.group('Schema | Array', () => {
           ],
           each: {
             type: 'object',
+            optional: false,
+            nullable: false,
             rules: [
               {
                 name: 'required',
@@ -733,6 +1217,82 @@ test.group('Schema | Array', () => {
               username: {
                 type: 'literal',
                 subtype: 'string',
+                optional: false,
+                nullable: false,
+                rules: [
+                  {
+                    name: 'required',
+                    allowUndefineds: true,
+                    async: false,
+                    compiledOptions: [],
+                  },
+                  {
+                    name: 'string',
+                    allowUndefineds: false,
+                    async: false,
+                    compiledOptions: { escape: false, trim: false },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable array', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        profile: schema.array.nullable().members(
+          schema.object().members({
+            username: schema.string(),
+          })
+        ),
+      }).tree,
+      {
+        profile: {
+          type: 'array',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'array',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+          each: {
+            type: 'object',
+            optional: false,
+            nullable: false,
+            rules: [
+              {
+                name: 'required',
+                allowUndefineds: true,
+                async: false,
+                compiledOptions: [],
+              },
+              {
+                name: 'object',
+                allowUndefineds: false,
+                async: false,
+                compiledOptions: [],
+              },
+            ],
+            children: {
+              username: {
+                type: 'literal',
+                subtype: 'string',
+                optional: false,
+                nullable: false,
                 rules: [
                   {
                     name: 'required',
@@ -767,6 +1327,8 @@ test.group('Schema | Array', () => {
       {
         profile: {
           type: 'array',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -789,6 +1351,8 @@ test.group('Schema | Array', () => {
           ],
           each: {
             type: 'object',
+            optional: false,
+            nullable: false,
             rules: [
               {
                 name: 'required',
@@ -807,6 +1371,8 @@ test.group('Schema | Array', () => {
               username: {
                 type: 'literal',
                 subtype: 'string',
+                optional: false,
+                nullable: false,
                 rules: [
                   {
                     name: 'required',
@@ -837,6 +1403,8 @@ test.group('Schema | Array', () => {
       {
         profile: {
           type: 'array',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -864,6 +1432,8 @@ test.group('Schema | Array', () => {
       {
         profile: {
           type: 'array',
+          optional: true,
+          nullable: false,
           rules: [
             {
               name: 'array',
@@ -885,6 +1455,8 @@ test.group('Schema | Array', () => {
       {
         scores: {
           type: 'array',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -902,6 +1474,8 @@ test.group('Schema | Array', () => {
           each: {
             type: 'literal',
             subtype: 'string',
+            optional: false,
+            nullable: false,
             rules: [
               {
                 name: 'required',
@@ -930,6 +1504,8 @@ test.group('Schema | Array', () => {
       {
         scores: {
           type: 'array',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -947,6 +1523,8 @@ test.group('Schema | Array', () => {
           each: {
             type: 'literal',
             subtype: 'string',
+            optional: true,
+            nullable: false,
             rules: [
               {
                 name: 'string',
@@ -972,6 +1550,8 @@ test.group('Schema | File', () => {
         avatar: {
           type: 'literal',
           subtype: 'file',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -1000,6 +1580,8 @@ test.group('Schema | File', () => {
         avatar: {
           type: 'literal',
           subtype: 'file',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'required',
@@ -1031,7 +1613,39 @@ test.group('Schema | File', () => {
         avatar: {
           type: 'literal',
           subtype: 'file',
+          optional: true,
+          nullable: false,
           rules: [
+            {
+              name: 'file',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: {},
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable file rule', (assert) => {
+    assert.deepEqual(
+      schema.create({
+        avatar: schema.file.nullable(),
+      }).tree,
+      {
+        avatar: {
+          type: 'literal',
+          subtype: 'file',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
             {
               name: 'file',
               allowUndefineds: false,
@@ -1053,6 +1667,8 @@ test.group('Schema | File', () => {
         avatar: {
           type: 'literal',
           subtype: 'file',
+          optional: true,
+          nullable: false,
           rules: [
             {
               name: 'file',

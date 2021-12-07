@@ -16,6 +16,8 @@ test.group('Array Compiler', () => {
   test('compile an array node with rules and members', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -26,6 +28,8 @@ test.group('Array Compiler', () => {
       ],
       each: {
         type: 'object' as const,
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'object',
@@ -37,6 +41,8 @@ test.group('Array Compiler', () => {
         children: {
           username: {
             type: 'literal' as const,
+            optional: false,
+            nullable: false,
             subtype: 'string',
             rules: [
               {
@@ -147,6 +153,8 @@ test.group('Array Compiler', () => {
   test('compile an array node with rules and literal members', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -158,6 +166,8 @@ test.group('Array Compiler', () => {
       each: {
         type: 'literal' as const,
         subtype: 'string',
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'string',
@@ -243,6 +253,8 @@ test.group('Array Compiler', () => {
   test('do not output any code when array has no rules and members', async (assert) => {
     const arrayNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [],
     }
 
@@ -270,6 +282,8 @@ test.group('Array Compiler', () => {
   test('do not output members validation code when no members are defined', async (assert) => {
     const arrayNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -319,7 +333,9 @@ test.group('Array Compiler', () => {
         errorReporter
       };
       validations.array.validate(val_0, {}, val_0_options);
-      out['users'] = val_0;`
+      if (val_0_exists) {
+        out['users'] = val_0;
+      }`
         .split('\n')
         .map((line) => line.trim())
     )
@@ -328,6 +344,8 @@ test.group('Array Compiler', () => {
   test('use for of loop when any array immediate child has async rules', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -338,6 +356,8 @@ test.group('Array Compiler', () => {
       ],
       each: {
         type: 'object' as const,
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'object',
@@ -349,6 +369,8 @@ test.group('Array Compiler', () => {
         children: {
           username: {
             type: 'literal' as const,
+            optional: false,
+            nullable: false,
             subtype: 'string',
             rules: [
               {
@@ -459,6 +481,8 @@ test.group('Array Compiler', () => {
   test('use for of loop when any of the nested children has async rules', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -469,6 +493,8 @@ test.group('Array Compiler', () => {
       ],
       each: {
         type: 'object' as const,
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'object',
@@ -480,6 +506,8 @@ test.group('Array Compiler', () => {
         children: {
           username: {
             type: 'literal' as const,
+            optional: false,
+            nullable: false,
             subtype: 'string',
             rules: [
               {
@@ -590,6 +618,8 @@ test.group('Array Compiler', () => {
   test('compile nested arrays', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -600,6 +630,8 @@ test.group('Array Compiler', () => {
       ],
       each: {
         type: 'array' as const,
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'array',
@@ -611,6 +643,8 @@ test.group('Array Compiler', () => {
         each: {
           type: 'literal' as const,
           subtype: 'string',
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'string',
@@ -721,6 +755,8 @@ test.group('Array Compiler', () => {
   test('compile array children that has nested arrays', async (assert) => {
     const objectNode = {
       type: 'array' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'array',
@@ -731,6 +767,8 @@ test.group('Array Compiler', () => {
       ],
       each: {
         type: 'object' as const,
+        optional: false,
+        nullable: false,
         rules: [
           {
             name: 'object',
@@ -742,6 +780,8 @@ test.group('Array Compiler', () => {
         children: {
           scores: {
             type: 'array' as const,
+            optional: false,
+            nullable: false,
             rules: [
               {
                 name: 'array',
@@ -752,6 +792,8 @@ test.group('Array Compiler', () => {
             ],
             each: {
               type: 'literal' as const,
+              optional: false,
+              nullable: false,
               subtype: 'string',
               rules: [
                 {

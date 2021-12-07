@@ -17,6 +17,8 @@ test.group('Object Compiler', () => {
   test('compile an object node with rules', async (assert) => {
     const objectNode = {
       type: 'object' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'object',
@@ -28,6 +30,8 @@ test.group('Object Compiler', () => {
       children: {
         username: {
           type: 'literal' as const,
+          optional: false,
+          nullable: false,
           subtype: 'string',
           rules: [
             {
@@ -111,6 +115,8 @@ test.group('Object Compiler', () => {
   test('compile a nested object node with rules', async (assert) => {
     const objectNode = {
       type: 'object' as const,
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'object',
@@ -122,6 +128,8 @@ test.group('Object Compiler', () => {
       children: {
         profile: {
           type: 'object' as const,
+          optional: false,
+          nullable: false,
           rules: [
             {
               name: 'object',
@@ -133,6 +141,8 @@ test.group('Object Compiler', () => {
           children: {
             username: {
               type: 'literal' as const,
+              optional: false,
+              nullable: false,
               subtype: 'string',
               rules: [
                 {
@@ -240,6 +250,8 @@ test.group('Object Compiler', () => {
     const objectNode = {
       type: 'object' as const,
       subtype: 'string',
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'object',
@@ -289,7 +301,9 @@ test.group('Object Compiler', () => {
         errorReporter
       };
       validations.object.validate(val_0, {}, val_0_options);
-        out['user'] = {};`
+      if (val_0_exists) {
+        out['user'] = {};
+      }`
         .split('\n')
         .map((line) => line.trim())
     )
@@ -299,6 +313,8 @@ test.group('Object Compiler', () => {
     const objectNode = {
       type: 'object' as const,
       subtype: 'string',
+      optional: false,
+      nullable: false,
       rules: [
         {
           name: 'object',
@@ -347,7 +363,9 @@ test.group('Object Compiler', () => {
         errorReporter
       };
       validations.object.validate(val_0, {}, val_0_options);
-			out['user'] = val_0;`
+      if (val_0_exists) {
+        out['user'] = val_0;
+      }`
         .split('\n')
         .map((line) => line.trim())
     )
@@ -358,9 +376,13 @@ test.group('Object Compiler', () => {
       type: 'object' as const,
       subtype: 'string',
       rules: [],
+      optional: false,
+      nullable: false,
       children: {
         username: {
           type: 'literal' as const,
+          optional: false,
+          nullable: false,
           subtype: 'string',
           rules: [
             {
@@ -422,6 +444,107 @@ test.group('Object Compiler', () => {
         if (val_1_exists) {
           out_0['username'] = val_1;
         }
+      }`
+        .split('\n')
+        .map((line) => line.trim())
+    )
+  })
+
+  test('set null on out value when node has nullable = true', async (assert) => {
+    const objectNode = {
+      type: 'object' as const,
+      optional: false,
+      nullable: true,
+      rules: [
+        {
+          name: 'object',
+          compiledOptions: {},
+          async: false,
+          allowUndefineds: true,
+        },
+      ],
+      children: {
+        username: {
+          type: 'literal' as const,
+          optional: false,
+          nullable: false,
+          subtype: 'string',
+          rules: [
+            {
+              name: 'string',
+              compiledOptions: {},
+              async: false,
+              allowUndefineds: true,
+            },
+          ],
+        },
+      },
+    }
+
+    const field = {
+      name: 'user',
+      type: 'literal' as const,
+    }
+
+    const references = {
+      outVariable: 'out',
+      referenceVariable: 'root',
+      parentPointer: [],
+    }
+
+    const compiler = new Compiler({})
+    const buff = new CompilerBuffer()
+
+    const objectCompiler = new ObjectCompiler(field, objectNode, compiler, references)
+    objectCompiler.compile(buff)
+
+    assert.deepEqual(
+      buff
+        .toString()
+        .split('\n')
+        .map((line) => line.trim()),
+      `// Validate root['user']
+      let val_0 = root['user'];
+      const val_0_exists = helpers.exists(val_0);
+      function mutate_val_0 (newValue) {
+        val_0 = newValue;
+      }
+      const val_0_options = {
+        root,
+        refs,
+        field: 'user',
+        tip: root,
+        pointer: 'user',
+        mutate: mutate_val_0,
+        errorReporter
+      };
+      validations.object.validate(val_0, {}, val_0_options);
+
+      if (val_0_exists && helpers.isObject(val_0)) {
+        const out_0 = out['user'] = {};
+
+        // Validate val_0['username']
+        let val_1 = val_0['username'];
+        const val_1_exists = helpers.exists(val_1);
+        function mutate_val_1 (newValue) {
+          val_1 = newValue;
+        }
+        const val_1_options = {
+          root,
+          refs,
+          field: 'username',
+          tip: val_0,
+          pointer: 'user.username',
+          mutate: mutate_val_1,
+          errorReporter
+        };
+        validations.string.validate(val_1, {}, val_1_options);
+        if (val_1_exists) {
+          out_0['username'] = val_1;
+        }
+      }
+      else if (val_0 === null) {
+        out['user'] = null;
       }`
         .split('\n')
         .map((line) => line.trim())

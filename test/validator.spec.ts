@@ -162,6 +162,392 @@ test.group('Validator | validate', () => {
   })
 })
 
+test.group('Validator | validate object', () => {
+  test('do not fail when value is undefined and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.optional().members({
+          username: schema.string(),
+        }),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('do not fail when value is null and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.optional().members({
+          username: schema.string(),
+        }),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('fail when value is undefined and nullable', async (assert) => {
+    assert.plan(1)
+
+    try {
+      await validator.validate({
+        schema: schema.create({
+          user: schema.object.nullable().members({
+            username: schema.string(),
+          }),
+        }),
+        data: {},
+      })
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        user: ['nullable validation failed'],
+      })
+    }
+  })
+
+  test('do not fail when value is null and nullable', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullable().members({
+          username: schema.string(),
+        }),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullableAndOptional().members({
+          username: schema.string(),
+        }),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullableAndOptional().members({
+          username: schema.string(),
+        }),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('ignore object properties when not defined inside the schema', async (assert) => {
+    const output = await validator.validate({
+      schema: schema.create({
+        profile: schema.object().members({}),
+      }),
+      data: {
+        profile: {
+          username: 'virk',
+          age: 30,
+        },
+      },
+    })
+
+    assert.deepEqual(output, { profile: {} })
+  })
+})
+
+test.group('Validator | validate object | anyMembers', () => {
+  test('do not fail when value is undefined and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.optional().anyMembers(),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('do not fail when value is null and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.optional().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('fail when value is undefined and nullable', async (assert) => {
+    assert.plan(1)
+
+    try {
+      await validator.validate({
+        schema: schema.create({
+          user: schema.object.nullable().anyMembers(),
+        }),
+        data: {},
+      })
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        user: ['nullable validation failed'],
+      })
+    }
+  })
+
+  test('do not fail when value is null and nullable', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullable().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullableAndOptional().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.object.nullableAndOptional().anyMembers(),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('return object by reference when anyMembers are allowed', async (assert) => {
+    assert.plan(1)
+
+    const output = await validator.validate({
+      schema: schema.create({
+        profile: schema.object().anyMembers(),
+      }),
+      data: {
+        profile: {
+          username: 'virk',
+          age: 30,
+        },
+      },
+    })
+
+    assert.deepEqual(output, { profile: { username: 'virk', age: 30 } })
+  })
+})
+
+test.group('Validator | validate array', () => {
+  test('do not fail when value is undefined and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.optional().members(schema.string()),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('do not fail when value is null and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.optional().members(schema.string()),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('fail when value is undefined and nullable', async (assert) => {
+    assert.plan(1)
+
+    try {
+      await validator.validate({
+        schema: schema.create({
+          user: schema.array.nullable().members(schema.string()),
+        }),
+        data: {},
+      })
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        user: ['nullable validation failed'],
+      })
+    }
+  })
+
+  test('do not fail when value is null and nullable', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullable().members(schema.string()),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullableAndOptional().members(schema.string()),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullableAndOptional().members(schema.string()),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+})
+
+test.group('Validator | validate array | anyMembers', () => {
+  test('do not fail when value is undefined and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.optional().anyMembers(),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('do not fail when value is null and optional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.optional().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('fail when value is undefined and nullable', async (assert) => {
+    assert.plan(1)
+
+    try {
+      await validator.validate({
+        schema: schema.create({
+          user: schema.array.nullable().anyMembers(),
+        }),
+        data: {},
+      })
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        user: ['nullable validation failed'],
+      })
+    }
+  })
+
+  test('do not fail when value is null and nullable', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullable().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullableAndOptional().anyMembers(),
+      }),
+      data: {
+        user: null,
+      },
+    })
+
+    assert.deepEqual(data, { user: null })
+  })
+
+  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+    const data = await validator.validate({
+      schema: schema.create({
+        user: schema.array.nullableAndOptional().anyMembers(),
+      }),
+      data: {},
+    })
+
+    assert.deepEqual(data as any, {})
+  })
+
+  test('pass array by reference', async (assert) => {
+    assert.plan(1)
+
+    const output = await validator.validate({
+      schema: schema.create({
+        profiles: schema.array().anyMembers(),
+      }),
+      data: {
+        profiles: [
+          {
+            username: 'virk',
+            age: 30,
+          },
+        ],
+      },
+    })
+
+    assert.deepEqual(output, { profiles: [{ username: 'virk', age: 30 }] })
+  })
+})
+
 test.group('Validator | rule', () => {
   test('add a custom rule', (assert) => {
     validator.rule('isPhone', () => {})
@@ -290,7 +676,7 @@ test.group('Validator | rule', () => {
 test.group('Validator | addType', () => {
   test('add a custom type', (assert) => {
     function unicorn() {
-      return getLiteralType('unicorn', false, {}, [])
+      return getLiteralType('unicorn', false, false, {}, [])
     }
     validator.addRule('unicorn', {
       compile() {
@@ -314,6 +700,8 @@ test.group('Validator | addType', () => {
       avatar: {
         type: 'literal' as const,
         subtype: 'unicorn',
+        nullable: false,
+        optional: false,
         rules: [
           {
             name: 'required',
@@ -474,104 +862,6 @@ test.group('After Before Field', () => {
     } catch (error) {
       assert.deepEqual(error.messages, { after: ['after date validation failed'] })
     }
-  })
-})
-
-test.group('Validator | object', () => {
-  test('validate object with any members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profile: schema.object().anyMembers(),
-      }),
-      data: {
-        profile: {
-          username: 'virk',
-          age: 30,
-        },
-      },
-    })
-
-    assert.deepEqual(output, { profile: { username: 'virk', age: 30 } })
-  })
-
-  test('validate optional object with any members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profile: schema.object.optional().anyMembers(),
-      }),
-      data: {},
-    })
-    assert.deepEqual(output, { profile: undefined })
-  })
-
-  test('validate object with zero members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profile: schema.object().members({}),
-      }),
-      data: {
-        profile: {
-          username: 'virk',
-          age: 30,
-        },
-      },
-    })
-
-    assert.deepEqual(output, { profile: {} })
-  })
-
-  test('validate optional object with zero members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profile: schema.object.optional().members({}),
-      }),
-      data: {},
-    })
-
-    assert.deepEqual(output, { profile: {} })
-  })
-})
-
-test.group('Validator | array', () => {
-  test('validate array with any members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profiles: schema.array().anyMembers(),
-      }),
-      data: {
-        profiles: [
-          {
-            username: 'virk',
-            age: 30,
-          },
-        ],
-      },
-    })
-
-    assert.deepEqual(output, { profiles: [{ username: 'virk', age: 30 }] })
-  })
-
-  test('validate optional array with any members', async (assert) => {
-    assert.plan(1)
-
-    const output = await validator.validate({
-      schema: schema.create({
-        profiles: schema.array.optional().anyMembers(),
-      }),
-      data: {},
-    })
-
-    assert.deepEqual(output, { profiles: undefined })
   })
 })
 

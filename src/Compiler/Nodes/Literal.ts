@@ -23,7 +23,7 @@ export class LiteralCompiler {
   /**
    * Name of the variable set for the literal node
    */
-  public variableName
+  public variableName: string
 
   constructor(
     private field: ValidationField,
@@ -106,7 +106,11 @@ export class LiteralCompiler {
    */
   private assignOutValue(buffer: CompilerBuffer) {
     const referenceVariable = this.compiler.pointerToExpression(this.field)
-    buffer.writeStatement(`if (${this.compiler.getVariableExistsName(this.variableName)}) {`)
+    buffer.writeStatement(
+      `if (${this.compiler.getVariableExistsName(this.variableName)}${
+        this.node.nullable ? ` || ${this.variableName} === null` : ''
+      }) {`
+    )
     buffer.indent()
     buffer.writeExpression(
       `${this.references.outVariable}[${referenceVariable}] = ${this.variableName}`
@@ -118,7 +122,7 @@ export class LiteralCompiler {
   /**
    * Converts the literal node to compiled Javascript statement.
    */
-  public compile(buff: CompilerBuffer) {
+  public compile(buffer: CompilerBuffer) {
     /**
      * Return early when no validation rules are defined on the node. However, we check
      * for `forceValueDeclaration` flag to see if we should declare the value
@@ -127,8 +131,8 @@ export class LiteralCompiler {
     if (!this.node.rules.length) {
       if (this.forceValueDeclaration) {
         this.initiateVariableName()
-        this.declareValueVariable(buff)
-        this.declareExistsVariable(buff)
+        this.declareValueVariable(buffer)
+        this.declareExistsVariable(buffer)
       }
       return
     }
@@ -137,36 +141,36 @@ export class LiteralCompiler {
      * Define variable name
      */
     this.initiateVariableName()
-    this.declareValueVariable(buff)
+    this.declareValueVariable(buffer)
 
     /**
-     * Define variable to know if value is defined or not
+     * Define variable to know if value is undefined or null
      */
-    this.declareExistsVariable(buff)
+    this.declareExistsVariable(buffer)
 
     /**
      * Define mutation function
      */
-    this.declareMutationFunction(buff)
+    this.declareMutationFunction(buffer)
 
     /**
      * Define options
      */
-    this.declareValidationOptions(buff)
+    this.declareValidationOptions(buffer)
 
     /**
      * Write expressions for each validation call for the defined
      * rules
      */
     this.node.rules.forEach((rule) => {
-      buff.writeExpression(this.compiler.getValidationCallableExpression(this.variableName, rule))
+      buffer.writeExpression(this.compiler.getValidationCallableExpression(this.variableName, rule))
     })
 
     /**
      * Do not define the out variable when disabled
      */
     if (!this.disableOutVariable) {
-      this.assignOutValue(buff)
+      this.assignOutValue(buffer)
     }
   }
 }

@@ -29,6 +29,7 @@ export { requiredIfNotExistsAny } from './existence/requiredIfNotExistsAny'
 export { requiredWhen } from './existence/requiredWhen'
 
 export { notIn } from './miscellaneous/notIn'
+export { lessThan } from './miscellaneous/lessThan'
 
 export { unsigned } from './number/unsigned'
 export { range } from './number/range'

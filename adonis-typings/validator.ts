@@ -954,9 +954,14 @@ declare module '@ioc:Adonis/Core/Validator' {
     equalTo(equalToValue: string | SchemaRef<string>): Rule
 
     /**
-     * The value of string must be lessThan
+     * The value must be lessThan
      */
     lessThan(lessThanValue: string | SchemaRef<string>): Rule
+
+    /**
+     * The value must be greaterThan
+     */
+    greaterThan(greaterThanValue: string | SchemaRef<string>): Rule
   }
 
   /**

@@ -28,11 +28,11 @@ function compile(greaterThanValue: any, subtype?: NodeSubType) {
 }
 
 test.group('greaterThan', () => {
-  validate(greaterThan, test, 18, 20, compile(20))
+  validate(greaterThan, test, 20, 18, compile(18))
 
   test('report error when value fails the greaterThan validation', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    greaterThan.validate(1, compile(2).compiledOptions, {
+    greaterThan.validate(2, compile(1).compiledOptions, {
       errorReporter: reporter,
       field: 'age',
       pointer: 'age',
@@ -55,7 +55,7 @@ test.group('greaterThan', () => {
 
   test('work fine when value passes the greaterThan validation', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    greaterThan.validate(20, compile(18).compiledOptions, {
+    greaterThan.validate(18, compile(20).compiledOptions, {
       errorReporter: reporter,
       field: 'age',
       pointer: 'age',
@@ -78,12 +78,12 @@ test.group('greaterThan', () => {
       tip: {},
       root: {},
       refs: schema.refs({
-        refValue: 20,
+        refValue: 21,
       }),
       mutate: () => {},
     }
 
-    greaterThan.validate(21, compile(validator.refs.refValue).compiledOptions!, validator)
+    greaterThan.validate(20, compile(validator.refs.refValue).compiledOptions!, validator)
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })

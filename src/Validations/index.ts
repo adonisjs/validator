@@ -10,10 +10,12 @@
 export { distinct } from './array/distinct'
 
 export { after } from './date/after'
+export { afterOrEqual } from './date/afterOrEqual'
 export { afterField } from './date/afterField'
 export { afterOrEqualToField } from './date/afterOrEqualToField'
 
 export { before } from './date/before'
+export { beforeOrEqual } from './date/beforeOrEqual'
 export { beforeField } from './date/beforeField'
 export { beforeOrEqualToField } from './date/beforeOrEqualToField'
 

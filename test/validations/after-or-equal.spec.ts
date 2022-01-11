@@ -295,7 +295,24 @@ test.group('Date | After Or Equal | Minutes', () => {
   test('work fine when time is after or equal to the defined interval', (assert) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ minutes: 40 }).toISO()
-    const publishedAtSameTime = DateTime.local().plus({ minutes: 30 }).toISO()
+
+    /*
+    Incrementing minutes only with .plus() with make this test fails because its milliseconds and seconds will always lesser than
+    the one that produce in "src/Validations/date/helpers/offset.ts". Hence, setting the max seconds and milliseconds to force
+    this test compares equality in minutes only.
+    */
+    const local = DateTime.local()
+    const publishedAtSameTime = DateTime.local(
+      local.year,
+      local.month,
+      local.day,
+      local.hour,
+      local.minute,
+      59,
+      999
+    )
+      .plus({ minutes: 30 })
+      .toISO()
 
     afterOrEqual.validate(DateTime.fromISO(publishedAt!), compile(30, 'minutes').compiledOptions!, {
       errorReporter: reporter,

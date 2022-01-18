@@ -15,7 +15,7 @@ import { isRef, enforceDateTime } from '../../../Validator/helpers'
  * Return type of the compile function
  */
 export type CompileReturnType = {
-  operator: '>' | '<'
+  operator: '>' | '<' | '>=' | '<='
   offset?: { duration: number; unit: DurationUnits; hasDayDuration: boolean }
   ref?: string
 }
@@ -24,10 +24,10 @@ export type CompileReturnType = {
  * Returns a luxon date time instance based upon the unit, duration and operator
  */
 function getDateTime(
-  operator: '>' | '<',
+  operator: '>' | '<' | '>=' | '<=',
   { unit, duration }: Exclude<CompileReturnType['offset'], undefined>
 ) {
-  if (operator === '>') {
+  if (operator === '>' || operator === '>=') {
     return DateTime.local().plus({ [unit]: duration })
   }
   return DateTime.local().minus({ [unit]: duration })
@@ -39,15 +39,30 @@ function getDateTime(
 function compareDateTime(
   lhs: DateTime,
   rhs: DateTime,
-  operator: '>' | '<',
+  operator: '>' | '<' | '>=' | '<=',
   options: CompileReturnType['offset']
 ) {
   if (options && options.hasDayDuration) {
-    return operator === '>'
-      ? lhs.startOf('day') > rhs.startOf('day')
-      : lhs.startOf('day') < rhs.startOf('day')
+    if (operator === '>') {
+      return lhs.startOf('day') > rhs.startOf('day')
+    } else if (operator === '>=') {
+      return lhs.startOf('day') >= rhs.startOf('day')
+    } else if (operator === '<') {
+      return lhs.startOf('day') < rhs.startOf('day')
+    } else if (operator === '<=') {
+      return lhs.startOf('day') <= rhs.startOf('day')
+    }
   }
-  return operator === '>' ? lhs > rhs : lhs < rhs
+
+  if (operator === '>') {
+    return lhs > rhs
+  } else if (operator === '>=') {
+    return lhs >= rhs
+  } else if (operator === '<') {
+    return lhs < rhs
+  } else if (operator === '<=') {
+    return lhs <= rhs
+  }
 }
 
 /**
@@ -55,7 +70,7 @@ function compareDateTime(
  */
 export function compile(
   ruleName: string,
-  operator: '>' | '<',
+  operator: '>' | '<' | '>=' | '<=',
   [duration, unit]: any[]
 ): { compiledOptions: CompileReturnType } {
   /**

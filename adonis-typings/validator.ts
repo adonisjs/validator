@@ -952,6 +952,42 @@ declare module '@ioc:Adonis/Core/Validator' {
      * The value of string must be equalToValue
      */
     equalTo(equalToValue: string | SchemaRef<string>): Rule
+
+    /**
+     * The value of date must be after or equal to a given duration
+     */
+    afterOrEqual(duration: number, unit: DurationUnits): Rule
+
+    /**
+     * The value of date must be after or equal to a given date
+     */
+    afterOrEqual(date: SchemaRef<DateTime>): Rule
+
+    /**
+     * The value of date must be after or equal to the given keyword.
+     *
+     * After "today" is equivalent to 0, days
+     * After "tomorrow" is equivalent to 1, day
+     */
+    afterOrEqual(keyword: 'today' | 'tomorrow'): Rule
+
+    /**
+     * The value of date must be before or equal to a given duration
+     */
+    beforeOrEqual(duration: number, unit: DurationUnits): Rule
+
+    /**
+     * The value of date must be before or equal to a given date
+     */
+    beforeOrEqual(date: SchemaRef<DateTime>): Rule
+
+    /**
+     * The value of date must be before or equal to the given keyword.
+     *
+     * Before "today" is equivalent to 0, days
+     * Before "yesterday" is equivalent to 1, day
+     */
+    beforeOrEqual(keyword: 'today' | 'yesterday'): Rule
   }
 
   /**

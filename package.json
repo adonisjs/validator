@@ -103,7 +103,7 @@
 		"@types/luxon": "^2.0.7",
 		"@types/validator": "^13.7.0",
 		"luxon": "^2.1.1",
-		"normalize-url": "^6.1.0",
+		"normalize-url": "^7.0.2",
 		"tmp-cache": "^1.1.0",
 		"validator": "^13.7.0"
 	},

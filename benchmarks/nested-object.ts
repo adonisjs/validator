@@ -9,6 +9,7 @@
 */
 
 import Joi from 'joi'
+import { z } from 'zod'
 import { Suite } from 'benchmark'
 import { validateOrReject, ValidateNested, IsString } from 'class-validator'
 import { validateAll, schema as indicativeSchema } from 'indicative/validator'
@@ -94,6 +95,17 @@ validateAll(
   }
 )
 
+/**
+ * Zod schema. I don't think they allow caching schema
+ */
+const zodSchema = z.object({
+  username: z.string(),
+  name: z.string(),
+  profile: z.object({
+    twitterHandle: z.string(),
+  }),
+})
+
 type Deferred = { resolve(): any }
 
 /**
@@ -110,6 +122,20 @@ new Suite()
           twitterHandle: '@AmanVirk1',
         },
       }).then(() => deferred.resolve())
+    },
+  })
+  .add('Zod', {
+    defer: true,
+    fn(deferred: Deferred) {
+      zodSchema
+        .parseAsync({
+          username: 'virk',
+          name: 'Virk',
+          profile: {
+            twitterHandle: '@AmanVirk1',
+          },
+        })
+        .then(() => deferred.resolve())
     },
   })
   .add('Joi', {

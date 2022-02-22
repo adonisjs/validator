@@ -96,7 +96,8 @@
 		"mrm": "^3.0.10",
 		"np": "^7.6.0",
 		"prettier": "^2.5.1",
-		"typescript": "^4.5.2"
+		"typescript": "^4.5.2",
+		"zod": "^3.11.6"
 	},
 	"dependencies": {
 		"@poppinss/utils": "^3.3.1",

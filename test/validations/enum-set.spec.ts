@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,17 +21,17 @@ function compile(choices: any[]) {
 test.group('enum set', () => {
   validate(enumSet, test, ['10', '20'], ['1', '2'], compile(['1', '2']))
 
-  test('do not compile when choices are not defined', (assert) => {
+  test('do not compile when choices are not defined', ({ assert }) => {
     const fn = () => enumSet.compile('literal', 'string')
-    assert.throw(fn, '"enumSet": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"enumSet": The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when choices not an array of values or a ref', (assert) => {
+  test('do not compile when choices not an array of values or a ref', ({ assert }) => {
     const fn = () => enumSet.compile('literal', 'string', ['foo'])
-    assert.throw(fn, '"enumSet": expects an array of choices or a "ref"')
+    assert.throws(fn, '"enumSet": expects an array of choices or a "ref"')
   })
 
-  test('report error when value all input values are not in the expected array', (assert) => {
+  test('report error when value all input values are not in the expected array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     enumSet.validate(['1', '2', '3'], compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
@@ -57,7 +57,7 @@ test.group('enum set', () => {
     })
   })
 
-  test('report error when value is not a valid array', (assert) => {
+  test('report error when value is not a valid array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     enumSet.validate('1', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
@@ -83,7 +83,7 @@ test.group('enum set', () => {
     })
   })
 
-  test('work fine when value is a subset of defined array', (assert) => {
+  test('work fine when value is a subset of defined array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     enumSet.validate(['1', '2'], compile(['1', '2', '3']).compiledOptions!, {
       errorReporter: reporter,

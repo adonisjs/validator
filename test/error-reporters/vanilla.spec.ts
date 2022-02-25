@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { MessagesBag } from '../../src/MessagesBag'
 import { validate } from '../fixtures/error-reporters'
 import { VanillaErrorReporter } from '../../src/ErrorReporter/index'
@@ -22,12 +22,12 @@ test.group('Vanilla ErrorReporter', () => {
     }, [] as { field: string; message: string }[])
   })
 
-  test('set flash messages to true when returning ValidationException instance', (assert) => {
+  test('set flash messages to true when returning ValidationException instance', ({ assert }) => {
     const reporter = new VanillaErrorReporter(new MessagesBag({}), false)
     assert.isTrue(reporter.toError().flashToSession)
   })
 
-  test("return error messages as a key-value pair of field and it's messages", (assert) => {
+  test("return error messages as a key-value pair of field and it's messages", ({ assert }) => {
     const reporter = new VanillaErrorReporter(new MessagesBag({}), false)
     reporter.report('username', 'required', 'required validation failed')
     reporter.report('username', 'alpha', 'alpha validation failed')

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
@@ -29,17 +29,17 @@ function compile() {
 test.group('Regex', () => {
   validate(regex, test, '9999', '99.999.999/0001-99', compile())
 
-  test('compile regex rule with flags', (assert) => {
+  test('compile regex rule with flags', ({ assert }) => {
     const { compiledOptions } = regex.compile('literal', 'string', rules.regex(/[a-z]/g).options)
     assert.deepEqual(compiledOptions, { pattern: '[a-z]', flags: 'g' })
   })
 
-  test('compile regex rule without flags', (assert) => {
+  test('compile regex rule without flags', ({ assert }) => {
     const { compiledOptions } = regex.compile('literal', 'string', rules.regex(/[a-z]/).options)
     assert.deepEqual(compiledOptions, { pattern: '[a-z]', flags: '' })
   })
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -54,7 +54,7 @@ test.group('Regex', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the regex pattern', (assert) => {
+  test('report error when value fails the regex pattern', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate('999999990001', compile().compiledOptions, {
       errorReporter: reporter,
@@ -77,7 +77,7 @@ test.group('Regex', () => {
     })
   })
 
-  test('work fine when value passes the regex pattern', (assert) => {
+  test('work fine when value passes the regex pattern', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     regex.validate('99.999.999/0001-99', compile().compiledOptions, {
       errorReporter: reporter,

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
@@ -22,7 +22,7 @@ function compile(options?: { allow?: ('space' | 'underscore' | 'dash')[] }) {
 test.group('Alpha', () => {
   validate(alpha, test, '9999', 'hello', compile())
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -39,7 +39,7 @@ test.group('Alpha', () => {
     })
   })
 
-  test('report error when value fails the alpha regex', (assert) => {
+  test('report error when value fails the alpha regex', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
@@ -62,7 +62,7 @@ test.group('Alpha', () => {
     })
   })
 
-  test('work fine when value passes the alpha regex', (assert) => {
+  test('work fine when value passes the alpha regex', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate('hello', compile().compiledOptions, {
       errorReporter: reporter,
@@ -79,7 +79,7 @@ test.group('Alpha', () => {
     })
   })
 
-  test('allow space with alpha characters', (assert) => {
+  test('allow space with alpha characters', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate('hello world', compile({ allow: ['space'] }).compiledOptions, {
       errorReporter: reporter,
@@ -96,7 +96,7 @@ test.group('Alpha', () => {
     })
   })
 
-  test('allow space, dash with alpha characters', (assert) => {
+  test('allow space, dash with alpha characters', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate('he-llo world', compile({ allow: ['space', 'dash'] }).compiledOptions, {
       errorReporter: reporter,
@@ -113,7 +113,7 @@ test.group('Alpha', () => {
     })
   })
 
-  test('allow space, dash and underscore with alpha characters', (assert) => {
+  test('allow space, dash and underscore with alpha characters', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     alpha.validate(
       'he l-lo_world',

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { ParsedRule } from '@ioc:Adonis/Core/Validator'
 
@@ -35,7 +35,7 @@ test.group('Date | After Field', () => {
     }
   )
 
-  test('report error when date is not after defined field', (assert) => {
+  test('report error when date is not after defined field', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const endDate = DateTime.local().toISODate()
 
@@ -58,7 +58,7 @@ test.group('Date | After Field', () => {
     assert.equal(errors.errors[0].message, 'after date validation failed')
   })
 
-  test('work fine when value is after the defined field value', (assert) => {
+  test('work fine when value is after the defined field value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const endDate = DateTime.local().plus({ days: 1 }).toISODate()
 
@@ -78,7 +78,7 @@ test.group('Date | After Field', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('raise error when comparison value cannot be converted to date time', (assert) => {
+  test('raise error when comparison value cannot be converted to date time', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const endDate = DateTime.local().plus({ days: 1 }).toISODate()
 
@@ -101,7 +101,7 @@ test.group('Date | After Field', () => {
     assert.equal(errors.errors[0].message, 'after date validation failed')
   })
 
-  test('skip validation when field value is not a datetime instance', (assert) => {
+  test('skip validation when field value is not a datetime instance', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     afterField.validate('hello world', compile('start_date').compiledOptions!, {

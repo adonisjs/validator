@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
@@ -23,7 +23,7 @@ function compile(options?: EmailRuleOptions) {
 test.group('Email', () => {
   validate(email, test, '9999', 'foo@bar.com', compile())
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -38,7 +38,7 @@ test.group('Email', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the email validation', (assert) => {
+  test('report error when value fails the email validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
@@ -61,7 +61,7 @@ test.group('Email', () => {
     })
   })
 
-  test('work fine when value passes the email validation', (assert) => {
+  test('work fine when value passes the email validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     email.validate('foo@bar.com', compile().compiledOptions, {
       errorReporter: reporter,
@@ -76,7 +76,7 @@ test.group('Email', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('sanitize email to lowercase', (assert) => {
+  test('sanitize email to lowercase', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let emailValue = 'FOO@bar.com'
 
@@ -93,7 +93,7 @@ test.group('Email', () => {
     assert.equal(emailValue, 'foo@bar.com')
   })
 
-  test('sanitize email but keep gmail dots', (assert) => {
+  test('sanitize email but keep gmail dots', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let emailValue = 'FOO.bar+2@gmail.com'
 
@@ -118,7 +118,7 @@ test.group('Email', () => {
     assert.equal(emailValue, 'foo.bar@gmail.com')
   })
 
-  test('sanitize email but keep subaddress', (assert) => {
+  test('sanitize email but keep subaddress', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let emailValue = 'FOO.bar+2@gmail.com'
 

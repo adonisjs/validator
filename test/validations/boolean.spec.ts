@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,7 +21,7 @@ function compile() {
 test.group('boolean', () => {
   validate(boolean, test, 'hello', '0', compile())
 
-  test('report error when value is not a valid boolean', (assert) => {
+  test('report error when value is not a valid boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     boolean.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('boolean', () => {
     })
   })
 
-  test('cast positive numeric representation to a boolean', (assert) => {
+  test('cast positive numeric representation to a boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 1
 
@@ -64,7 +64,7 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('cast positive string representation to a boolean', (assert) => {
+  test('cast positive string representation to a boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '1'
 
@@ -84,7 +84,7 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('cast on keyword to a positive boolean', (assert) => {
+  test('cast on keyword to a positive boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 'on'
 
@@ -104,7 +104,7 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('cast 0 numeric representation to a boolean', (assert) => {
+  test('cast 0 numeric representation to a boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 0
 
@@ -124,7 +124,7 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
-  test('cast 0 string representation to a boolean', (assert) => {
+  test('cast 0 string representation to a boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = '0'
 
@@ -144,7 +144,7 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
-  test('cast off keyword as negative boolean', (assert) => {
+  test('cast off keyword as negative boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 'off'
 
@@ -164,7 +164,7 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
-  test('cast true keyword to a positive boolean', (assert) => {
+  test('cast true keyword to a positive boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 'true'
 
@@ -184,7 +184,7 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('cast false keyword to a negative boolean', (assert) => {
+  test('cast false keyword to a negative boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = 'false'
 
@@ -204,7 +204,7 @@ test.group('boolean', () => {
     assert.equal(value, false)
   })
 
-  test('work fine when value is a positive boolean', (assert) => {
+  test('work fine when value is a positive boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = true
 
@@ -224,7 +224,7 @@ test.group('boolean', () => {
     assert.equal(value, true)
   })
 
-  test('work fine when value is a negative boolean', (assert) => {
+  test('work fine when value is a negative boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value: any = false
 

@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { Compiler } from '../src/Compiler'
 import { LiteralCompiler } from '../src/Compiler/Nodes/Literal'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 
 test.group('Literal Compiler', () => {
-  test('do not output compiled code when field has no rules applied', async (assert) => {
+  test('do not output compiled code when field has no rules applied', async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       optional: false,
@@ -42,7 +42,7 @@ test.group('Literal Compiler', () => {
     assert.deepEqual(buff.toString(), '')
   })
 
-  test('compile a literal node with rules', async (assert) => {
+  test('compile a literal node with rules', async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',
@@ -104,7 +104,7 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test("add exists guard when rule doesn't want to run on undefineds", async (assert) => {
+  test("add exists guard when rule doesn't want to run on undefineds", async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',
@@ -166,7 +166,7 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test('await async validations', async (assert) => {
+  test('await async validations', async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',
@@ -228,7 +228,7 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test("add exists guard when async rule doesn't want to run on undefineds", async (assert) => {
+  test("add exists guard when async rule doesn't want to run on undefineds", async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',
@@ -290,7 +290,9 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test('declare variable when no rules are defined but "forceValueDeclaration = true"', async (assert) => {
+  test('declare variable when no rules are defined but "forceValueDeclaration = true"', async ({
+    assert,
+  }) => {
     const literalNode = {
       type: 'literal' as const,
       optional: false,
@@ -329,7 +331,7 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test('do not assign out value when "disableOutVariable = true"', async (assert) => {
+  test('do not assign out value when "disableOutVariable = true"', async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',
@@ -389,7 +391,7 @@ test.group('Literal Compiler', () => {
     )
   })
 
-  test('set null on out value when node has nullable = true', async (assert) => {
+  test('set null on out value when node has nullable = true', async ({ assert }) => {
     const literalNode = {
       type: 'literal' as const,
       subtype: 'string',

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { VanillaErrorReporter, ApiErrorReporter } from '../src/ErrorReporter'
 
 import { rules } from '../src/Rules'
@@ -17,7 +17,7 @@ import { setupApp, fs } from '../test-helpers'
 import { ValidationException } from '../src/ValidationException'
 
 test.group('Validation Provider', (group) => {
-  group.afterEach(async () => {
+  group.each.teardown(async () => {
     await fs.cleanup()
 
     /**
@@ -30,7 +30,7 @@ test.group('Validation Provider', (group) => {
     })
   })
 
-  test('register validation provider', async (assert) => {
+  test('register validation provider', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'])
     assert.deepEqual(app.container.use('Adonis/Core/Validator'), {
       validator,
@@ -41,7 +41,7 @@ test.group('Validation Provider', (group) => {
     assert.isUndefined(app.container.use('Adonis/Core/Validator').validator.config.reporter)
   })
 
-  test('export validation exception class', async (assert) => {
+  test('export validation exception class', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'], 'api')
     assert.deepEqual(
       app.container.use('Adonis/Core/Validator').ValidationException,
@@ -49,7 +49,7 @@ test.group('Validation Provider', (group) => {
     )
   })
 
-  test('resolve reporter before passing it to the validator', async (assert) => {
+  test('resolve reporter before passing it to the validator', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'], 'api')
     assert.deepEqual(
       app.container.use('Adonis/Core/Validator').validator.config.reporter,
@@ -57,7 +57,7 @@ test.group('Validation Provider', (group) => {
     )
   })
 
-  test('extend request class by adding the validate method', async (assert) => {
+  test('extend request class by adding the validate method', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'])
     assert.property(app.container.use('Adonis/Core/Request').prototype, 'validate')
   })

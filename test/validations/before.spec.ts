@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { SchemaRef, ParsedRule, DurationUnits } from '@ioc:Adonis/Core/Validator'
 
@@ -41,24 +41,24 @@ function compile(
 test.group('Date | Before', () => {
   validate(before, test, DateTime.local(), DateTime.local().minus({ days: 2 }), compile(1, 'day'))
 
-  test('do not compile when one argument is passed and is not a ref', (assert) => {
+  test('do not compile when one argument is passed and is not a ref', ({ assert }) => {
     const fn = () => before.compile('literal', 'date', ['foo'])
-    assert.throw(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
+    assert.throws(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
   })
 
-  test('do not compile when interval is not a number', (assert) => {
+  test('do not compile when interval is not a number', ({ assert }) => {
     const fn = () => before.compile('literal', 'date', ['foo', 'days'])
-    assert.throw(fn, '"before": expects "duration" to be a number')
+    assert.throws(fn, '"before": expects "duration" to be a number')
   })
 
-  test('do not compile when interval no arguments are defined', (assert) => {
+  test('do not compile when interval no arguments are defined', ({ assert }) => {
     const fn = () => before.compile('literal', 'date', [])
-    assert.throw(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
+    assert.throws(fn, '"before": expects a date offset "duration" and "unit" or a "ref"')
   })
 })
 
 test.group('Date | Before | Day', () => {
-  test('report error when date is not before defined interval', (assert) => {
+  test('report error when date is not before defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().toISODate()
 
@@ -82,7 +82,7 @@ test.group('Date | Before | Day', () => {
   /**
    * The time should have no relevance in case of `days` offset
    */
-  test('report error when datetime is not before defined interval', (assert) => {
+  test('report error when datetime is not before defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 1 }).toISO()
 
@@ -103,7 +103,7 @@ test.group('Date | Before | Day', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('work fine when date is before defined interval', (assert) => {
+  test('work fine when date is before defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 2 }).toISO()
 
@@ -121,7 +121,7 @@ test.group('Date | Before | Day', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('report error when date is not before today', (assert) => {
+  test('report error when date is not before today', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().toISODate()
 
@@ -142,7 +142,7 @@ test.group('Date | Before | Day', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('work fine when date is before today', (assert) => {
+  test('work fine when date is before today', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 1 }).toISODate()
 
@@ -160,7 +160,7 @@ test.group('Date | Before | Day', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('report error when date is not yesterday today', (assert) => {
+  test('report error when date is not yesterday today', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 1 }).toISODate()
 
@@ -181,7 +181,7 @@ test.group('Date | Before | Day', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('work fine when date is before yesterday', (assert) => {
+  test('work fine when date is before yesterday', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 2 }).toISODate()
 
@@ -201,7 +201,7 @@ test.group('Date | Before | Day', () => {
 })
 
 test.group('Date | Before | Minutes', () => {
-  test('work fine when time is not defined for the same day', (assert) => {
+  test('work fine when time is not defined for the same day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISODate()
 
@@ -219,7 +219,7 @@ test.group('Date | Before | Minutes', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('report error when time is not before the defined interval', (assert) => {
+  test('report error when time is not before the defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISO()
 
@@ -240,7 +240,7 @@ test.group('Date | Before | Minutes', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('work fine when time is before the defined interval', (assert) => {
+  test('work fine when time is before the defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ minutes: 40 }).toISO()
 
@@ -258,7 +258,7 @@ test.group('Date | Before | Minutes', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when time is not defined for yesterday', (assert) => {
+  test('work fine when time is not defined for yesterday', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ days: 1 }).toISODate()
 
@@ -278,7 +278,7 @@ test.group('Date | Before | Minutes', () => {
 })
 
 test.group('Date | Before | Ref', () => {
-  test('report error when date is not before the defined ref', (assert) => {
+  test('report error when date is not before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISODate()
 
@@ -307,7 +307,7 @@ test.group('Date | Before | Ref', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('report error when datetime is not before the defined ref', (assert) => {
+  test('report error when datetime is not before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISO()
 
@@ -336,7 +336,7 @@ test.group('Date | Before | Ref', () => {
     assert.equal(errors.errors[0].message, 'before date validation failed')
   })
 
-  test('work fine when time is not defined for the same day', (assert) => {
+  test('work fine when time is not defined for the same day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ minutes: 5 }).toISODate()
 
@@ -362,7 +362,7 @@ test.group('Date | Before | Ref', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when date is before the defined ref', (assert) => {
+  test('work fine when date is before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ days: 11 }).toISODate()
 
@@ -388,7 +388,7 @@ test.group('Date | Before | Ref', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when datetime is before the defined ref', (assert) => {
+  test('work fine when datetime is before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ minutes: 30 }).toISO()
 
@@ -414,7 +414,7 @@ test.group('Date | Before | Ref', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when time is not defined for the previous day', (assert) => {
+  test('work fine when time is not defined for the previous day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().minus({ days: 1 }).toISODate()
 

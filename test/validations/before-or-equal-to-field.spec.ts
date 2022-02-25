@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { ParsedRule } from '@ioc:Adonis/Core/Validator'
 
@@ -40,7 +40,7 @@ test.group('Date | Before Or Equal To Field', () => {
     }
   )
 
-  test('report error when date is not before or equal to defined field', (assert) => {
+  test('report error when date is not before or equal to defined field', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const startDate = DateTime.local().plus({ days: 1 }).toISODate()
 
@@ -67,7 +67,7 @@ test.group('Date | Before Or Equal To Field', () => {
     assert.equal(errors.errors[0].message, 'before or equal to date validation failed')
   })
 
-  test('work fine when value is before to the defined field value', (assert) => {
+  test('work fine when value is before to the defined field value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const startDate = DateTime.local().minus({ days: 1 }).toISODate()
 
@@ -91,7 +91,7 @@ test.group('Date | Before Or Equal To Field', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when value is equal to the defined field value', (assert) => {
+  test('work fine when value is equal to the defined field value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const startDate = DateTime.local().toISODate()
 
@@ -115,7 +115,7 @@ test.group('Date | Before Or Equal To Field', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('skip validation when comparison field value is not a datetime instance', (assert) => {
+  test('skip validation when comparison field value is not a datetime instance', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const startDate = DateTime.local().plus({ days: 1 }).toISODate()
 
@@ -142,7 +142,7 @@ test.group('Date | Before Or Equal To Field', () => {
     assert.equal(errors.errors[0].message, 'before or equal to date validation failed')
   })
 
-  test('skip validation when field value is not a datetime instance', (assert) => {
+  test('skip validation when field value is not a datetime instance', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     beforeOrEqualToField.validate('hello world', compile('end_date').compiledOptions!, {

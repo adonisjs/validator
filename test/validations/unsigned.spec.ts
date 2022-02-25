@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,7 +21,7 @@ function compile() {
 test.group('unsigned', () => {
   validate(unsigned, test, -10, 10, compile())
 
-  test('report error when value is not an unsigned number', (assert) => {
+  test('report error when value is not an unsigned number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     unsigned.validate(-10, compile().compiledOptions!, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('unsigned', () => {
     })
   })
 
-  test('skip when value is not a number', (assert) => {
+  test('skip when value is not a number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     unsigned.validate('-10', compile().compiledOptions!, {
       errorReporter: reporter,
@@ -59,7 +59,7 @@ test.group('unsigned', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when value is a valid unsigned value', (assert) => {
+  test('work fine when value is a valid unsigned value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     unsigned.validate(1, compile().compiledOptions!, {
       errorReporter: reporter,

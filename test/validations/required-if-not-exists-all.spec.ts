@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -28,25 +28,25 @@ test.group('Required If Not Exists All', () => {
     tip: {},
   })
 
-  test('do not compile when args are not defined', (assert) => {
+  test('do not compile when args are not defined', ({ assert }) => {
     const fn = () => requiredIfNotExistsAll.compile('literal', 'string')
-    assert.throw(
+    assert.throws(
       fn,
       '"requiredIfNotExistsAll": The 3rd argument must be a combined array of arguments'
     )
   })
 
-  test('do not compile when fields are not defined', (assert) => {
+  test('do not compile when fields are not defined', ({ assert }) => {
     const fn = () => requiredIfNotExistsAll.compile('literal', 'string', [])
-    assert.throw(fn, '"requiredIfNotExistsAll": expects an array of "fields"')
+    assert.throws(fn, '"requiredIfNotExistsAll": expects an array of "fields"')
   })
 
-  test('do not compile when fields are not defined as array', (assert) => {
+  test('do not compile when fields are not defined as array', ({ assert }) => {
     const fn = () => requiredIfNotExistsAll.compile('literal', 'string', ['foo'])
-    assert.throw(fn, '"requiredIfNotExistsAll": expects "fields" to be an array')
+    assert.throws(fn, '"requiredIfNotExistsAll": expects "fields" to be an array')
   })
 
-  test('compile with options', (assert) => {
+  test('compile with options', ({ assert }) => {
     assert.deepEqual(requiredIfNotExistsAll.compile('literal', 'string', [['foo']]), {
       name: 'requiredIfNotExistsAll',
       async: false,
@@ -55,7 +55,7 @@ test.group('Required If Not Exists All', () => {
     })
   })
 
-  test('report error when expectation matches and field is null', (assert) => {
+  test('report error when expectation matches and field is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate(null, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
@@ -81,7 +81,7 @@ test.group('Required If Not Exists All', () => {
     })
   })
 
-  test('report error when expectation matches and field is null', (assert) => {
+  test('report error when expectation matches and field is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate(undefined, compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,
@@ -109,7 +109,7 @@ test.group('Required If Not Exists All', () => {
     })
   })
 
-  test('report error when expectation matches and field is empty string', (assert) => {
+  test('report error when expectation matches and field is empty string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate(
       '',
@@ -141,7 +141,7 @@ test.group('Required If Not Exists All', () => {
     })
   })
 
-  test('work fine when all of the target fields are defined', (assert) => {
+  test('work fine when all of the target fields are defined', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfNotExistsAll.validate('', compile(['type', 'user_id']).compiledOptions!, {
       errorReporter: reporter,

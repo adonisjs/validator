@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 
@@ -21,7 +21,7 @@ import { validator as validatorBase } from '../src/Validator'
 const validator = validatorBase as unknown as typeof validatorType
 
 test.group('Validator | validate', () => {
-  test('validate schema object against runtime data', async (assert) => {
+  test('validate schema object against runtime data', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -36,7 +36,7 @@ test.group('Validator | validate', () => {
     }
   })
 
-  test('collect all errors', async (assert) => {
+  test('collect all errors', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -57,7 +57,7 @@ test.group('Validator | validate', () => {
     }
   })
 
-  test('stop at first error when bail is true', async (assert) => {
+  test('stop at first error when bail is true', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -77,7 +77,7 @@ test.group('Validator | validate', () => {
     }
   })
 
-  test('use custom messages when defined', async (assert) => {
+  test('use custom messages when defined', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -100,7 +100,7 @@ test.group('Validator | validate', () => {
     }
   })
 
-  test('use custom error reporter when defined', async (assert) => {
+  test('use custom error reporter when defined', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -163,7 +163,7 @@ test.group('Validator | validate', () => {
 })
 
 test.group('Validator | validate object', () => {
-  test('do not fail when value is undefined and optional', async (assert) => {
+  test('do not fail when value is undefined and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.optional().members({
@@ -176,7 +176,7 @@ test.group('Validator | validate object', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('do not fail when value is null and optional', async (assert) => {
+  test('do not fail when value is null and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.optional().members({
@@ -191,7 +191,7 @@ test.group('Validator | validate object', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('fail when value is undefined and nullable', async (assert) => {
+  test('fail when value is undefined and nullable', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -210,7 +210,7 @@ test.group('Validator | validate object', () => {
     }
   })
 
-  test('do not fail when value is null and nullable', async (assert) => {
+  test('do not fail when value is null and nullable', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullable().members({
@@ -225,7 +225,7 @@ test.group('Validator | validate object', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+  test('do not fail when value is null and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullableAndOptional().members({
@@ -240,7 +240,7 @@ test.group('Validator | validate object', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+  test('do not fail when value is undefined and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullableAndOptional().members({
@@ -253,7 +253,7 @@ test.group('Validator | validate object', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('ignore object properties when not defined inside the schema', async (assert) => {
+  test('ignore object properties when not defined inside the schema', async ({ assert }) => {
     const output = await validator.validate({
       schema: schema.create({
         profile: schema.object().members({}),
@@ -271,7 +271,7 @@ test.group('Validator | validate object', () => {
 })
 
 test.group('Validator | validate object | anyMembers', () => {
-  test('do not fail when value is undefined and optional', async (assert) => {
+  test('do not fail when value is undefined and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.optional().anyMembers(),
@@ -282,7 +282,7 @@ test.group('Validator | validate object | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('do not fail when value is null and optional', async (assert) => {
+  test('do not fail when value is null and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.optional().anyMembers(),
@@ -295,7 +295,7 @@ test.group('Validator | validate object | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('fail when value is undefined and nullable', async (assert) => {
+  test('fail when value is undefined and nullable', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -312,7 +312,7 @@ test.group('Validator | validate object | anyMembers', () => {
     }
   })
 
-  test('do not fail when value is null and nullable', async (assert) => {
+  test('do not fail when value is null and nullable', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullable().anyMembers(),
@@ -325,7 +325,7 @@ test.group('Validator | validate object | anyMembers', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+  test('do not fail when value is null and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullableAndOptional().anyMembers(),
@@ -338,7 +338,7 @@ test.group('Validator | validate object | anyMembers', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+  test('do not fail when value is undefined and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.object.nullableAndOptional().anyMembers(),
@@ -349,7 +349,7 @@ test.group('Validator | validate object | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('return object by reference when anyMembers are allowed', async (assert) => {
+  test('return object by reference when anyMembers are allowed', async ({ assert }) => {
     assert.plan(1)
 
     const output = await validator.validate({
@@ -369,7 +369,7 @@ test.group('Validator | validate object | anyMembers', () => {
 })
 
 test.group('Validator | validate array', () => {
-  test('do not fail when value is undefined and optional', async (assert) => {
+  test('do not fail when value is undefined and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.optional().members(schema.string()),
@@ -380,7 +380,7 @@ test.group('Validator | validate array', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('do not fail when value is null and optional', async (assert) => {
+  test('do not fail when value is null and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.optional().members(schema.string()),
@@ -393,7 +393,7 @@ test.group('Validator | validate array', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('fail when value is undefined and nullable', async (assert) => {
+  test('fail when value is undefined and nullable', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -410,7 +410,7 @@ test.group('Validator | validate array', () => {
     }
   })
 
-  test('do not fail when value is null and nullable', async (assert) => {
+  test('do not fail when value is null and nullable', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullable().members(schema.string()),
@@ -423,7 +423,7 @@ test.group('Validator | validate array', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+  test('do not fail when value is null and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullableAndOptional().members(schema.string()),
@@ -436,7 +436,7 @@ test.group('Validator | validate array', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+  test('do not fail when value is undefined and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullableAndOptional().members(schema.string()),
@@ -449,7 +449,7 @@ test.group('Validator | validate array', () => {
 })
 
 test.group('Validator | validate array | anyMembers', () => {
-  test('do not fail when value is undefined and optional', async (assert) => {
+  test('do not fail when value is undefined and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.optional().anyMembers(),
@@ -460,7 +460,7 @@ test.group('Validator | validate array | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('do not fail when value is null and optional', async (assert) => {
+  test('do not fail when value is null and optional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.optional().anyMembers(),
@@ -473,7 +473,7 @@ test.group('Validator | validate array | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('fail when value is undefined and nullable', async (assert) => {
+  test('fail when value is undefined and nullable', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -490,7 +490,7 @@ test.group('Validator | validate array | anyMembers', () => {
     }
   })
 
-  test('do not fail when value is null and nullable', async (assert) => {
+  test('do not fail when value is null and nullable', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullable().anyMembers(),
@@ -503,7 +503,7 @@ test.group('Validator | validate array | anyMembers', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is null and nullableAndOptional', async (assert) => {
+  test('do not fail when value is null and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullableAndOptional().anyMembers(),
@@ -516,7 +516,7 @@ test.group('Validator | validate array | anyMembers', () => {
     assert.deepEqual(data, { user: null })
   })
 
-  test('do not fail when value is undefined and nullableAndOptional', async (assert) => {
+  test('do not fail when value is undefined and nullableAndOptional', async ({ assert }) => {
     const data = await validator.validate({
       schema: schema.create({
         user: schema.array.nullableAndOptional().anyMembers(),
@@ -527,7 +527,7 @@ test.group('Validator | validate array | anyMembers', () => {
     assert.deepEqual(data as any, {})
   })
 
-  test('pass array by reference', async (assert) => {
+  test('pass array by reference', async ({ assert }) => {
     assert.plan(1)
 
     const output = await validator.validate({
@@ -549,7 +549,7 @@ test.group('Validator | validate array | anyMembers', () => {
 })
 
 test.group('Validator | rule', () => {
-  test('add a custom rule', (assert) => {
+  test('add a custom rule', ({ assert }) => {
     validator.rule('isPhone', () => {})
 
     assert.property(validations, 'isPhone')
@@ -564,7 +564,7 @@ test.group('Validator | rule', () => {
     })
   })
 
-  test('rule recieves correct arguments', async (assert) => {
+  test('rule recieves correct arguments', async ({ assert }) => {
     assert.plan(14)
 
     const name = 'testArguments'
@@ -588,7 +588,7 @@ test.group('Validator | rule', () => {
       (value, compiledOptions, runtimeOptions) => {
         assert.equal(value, 'virk')
         assert.deepEqual(compiledOptions, options)
-        assert.hasAllKeys(runtimeOptions, [
+        assert.onlyProperties(runtimeOptions, [
           'root',
           'tip',
           'field',
@@ -625,7 +625,7 @@ test.group('Validator | rule', () => {
     })
   })
 
-  test('set allowUndefineds to true', (assert) => {
+  test('set allowUndefineds to true', ({ assert }) => {
     validator.rule(
       'isPhone',
       () => {},
@@ -648,7 +648,7 @@ test.group('Validator | rule', () => {
     })
   })
 
-  test('return custom options', (assert) => {
+  test('return custom options', ({ assert }) => {
     validator.rule(
       'isPhone',
       () => {},
@@ -674,7 +674,7 @@ test.group('Validator | rule', () => {
 })
 
 test.group('Validator | addType', () => {
-  test('add a custom type', (assert) => {
+  test('add a custom type', ({ assert }) => {
     function unicorn() {
       return getLiteralType('unicorn', false, false, {}, [])
     }
@@ -722,7 +722,7 @@ test.group('Validator | addType', () => {
 })
 
 test.group('Validator | validations with non-serialized options', () => {
-  test('validate against a regex', async (assert) => {
+  test('validate against a regex', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -741,7 +741,7 @@ test.group('Validator | validations with non-serialized options', () => {
 })
 
 test.group('Min Max Rules', () => {
-  test('min rule should check against the original value', async (assert) => {
+  test('min rule should check against the original value', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -758,7 +758,7 @@ test.group('Min Max Rules', () => {
     }
   })
 
-  test('min rule should check against the original nested value', async (assert) => {
+  test('min rule should check against the original nested value', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -781,7 +781,7 @@ test.group('Min Max Rules', () => {
 })
 
 test.group('After Before Field', () => {
-  test('fail when value is not after the defined field value', async (assert) => {
+  test('fail when value is not after the defined field value', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -800,7 +800,7 @@ test.group('After Before Field', () => {
     }
   })
 
-  test('pass when value is after the defined field value', async (assert) => {
+  test('pass when value is after the defined field value', async ({ assert }) => {
     const { before, after } = await validator.validate({
       schema: schema.create({
         after: schema.date({}, [rules.afterField('before')]),
@@ -816,7 +816,7 @@ test.group('After Before Field', () => {
     assert.instanceOf(after, DateTime)
   })
 
-  test('handle date formatting', async (assert) => {
+  test('handle date formatting', async ({ assert }) => {
     const { before, after } = await validator.validate({
       schema: schema.create({
         after: schema.date({ format: 'LLLL dd yyyy' }, [rules.afterField('before')]),
@@ -832,7 +832,7 @@ test.group('After Before Field', () => {
     assert.instanceOf(after, DateTime)
   })
 
-  test('handle use case when comparison field is not valid separately', async (assert) => {
+  test('handle use case when comparison field is not valid separately', async ({ assert }) => {
     const { after } = await validator.validate({
       schema: schema.create({
         after: schema.date({ format: 'LLLL dd yyyy' }, [rules.afterField('before')]),
@@ -846,7 +846,7 @@ test.group('After Before Field', () => {
     assert.instanceOf(after, DateTime)
   })
 
-  test('fail when format mis-match', async (assert) => {
+  test('fail when format mis-match', async ({ assert }) => {
     assert.plan(1)
 
     try {
@@ -866,7 +866,7 @@ test.group('After Before Field', () => {
 })
 
 test.group('Validator | options', (group) => {
-  group.afterEach(() => {
+  group.each.teardown(() => {
     /**
      * reset config
      */
@@ -877,7 +877,7 @@ test.group('Validator | options', (group) => {
     })
   })
 
-  test('use options reporter when defined', async (assert) => {
+  test('use options reporter when defined', async ({ assert }) => {
     assert.plan(1)
     validator.configure({ reporter: ApiErrorReporter })
 
@@ -901,7 +901,7 @@ test.group('Validator | options', (group) => {
     }
   })
 
-  test('use inline reporter over config reporter', async (assert) => {
+  test('use inline reporter over config reporter', async ({ assert }) => {
     assert.plan(1)
     validator.configure({ reporter: ApiErrorReporter })
 

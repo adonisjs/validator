@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { SchemaRef, ParsedRule, DurationUnits } from '@ioc:Adonis/Core/Validator'
 
@@ -48,24 +48,24 @@ test.group('Date | After Or Equal', () => {
     {}
   )
 
-  test('do not compile when one argument is passed and is not a ref', (assert) => {
+  test('do not compile when one argument is passed and is not a ref', ({ assert }) => {
     const fn = () => afterOrEqual.compile('literal', 'date', ['foo'])
-    assert.throw(fn, '"afterOrEqual": expects a date offset "duration" and "unit" or a "ref"')
+    assert.throws(fn, '"afterOrEqual": expects a date offset "duration" and "unit" or a "ref"')
   })
 
-  test('do not compile when interval is not a number', (assert) => {
+  test('do not compile when interval is not a number', ({ assert }) => {
     const fn = () => afterOrEqual.compile('literal', 'date', ['foo', 'days'])
-    assert.throw(fn, '"afterOrEqual": expects "duration" to be a number')
+    assert.throws(fn, '"afterOrEqual": expects "duration" to be a number')
   })
 
-  test('do not compile when interval no arguments are defined', (assert) => {
+  test('do not compile when interval no arguments are defined', ({ assert }) => {
     const fn = () => afterOrEqual.compile('literal', 'date', [])
-    assert.throw(fn, '"afterOrEqual": expects a date offset "duration" and "unit" or a "ref"')
+    assert.throws(fn, '"afterOrEqual": expects a date offset "duration" and "unit" or a "ref"')
   })
 })
 
 test.group('Date | After Or Equal | Day', () => {
-  test('report error when date is not after or equal to defined interval', (assert) => {
+  test('report error when date is not after or equal to defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().toISODate()
 
@@ -86,7 +86,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('report error when datetime is not after or equal to defined interval', (assert) => {
+  test('report error when datetime is not after or equal to defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ days: 1 }).toISO()
 
@@ -107,7 +107,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('work fine when date is after or equal to defined interval', (assert) => {
+  test('work fine when date is after or equal to defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().plus({ days: 2 }).toISO()
     const publishedOnSameDate = DateTime.local().plus({ days: 1 }).toISO()
@@ -140,7 +140,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('return error when date is not after or equal to today', (assert) => {
+  test('return error when date is not after or equal to today', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().minus({ day: 1 }).toISODate()
 
@@ -161,7 +161,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('work fine when date is after or equal to today', (assert) => {
+  test('work fine when date is after or equal to today', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().plus({ days: 1 }).toISODate()
     const publishedOnSameDate = DateTime.local().toISODate()
@@ -194,7 +194,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('return error when date is not after or equal to tomorrow', (assert) => {
+  test('return error when date is not after or equal to tomorrow', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().toISODate()
 
@@ -215,7 +215,7 @@ test.group('Date | After Or Equal | Day', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('work fine when date is after or equal to tomorrow', (assert) => {
+  test('work fine when date is after or equal to tomorrow', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedOn = DateTime.local().plus({ days: 2 }).toISODate()
     const publishedOnTomorrow = DateTime.local().plus({ days: 1 }).toISODate()
@@ -250,7 +250,7 @@ test.group('Date | After Or Equal | Day', () => {
 })
 
 test.group('Date | After Or Equal | Minutes', () => {
-  test('report error when time is not defined for the same day', (assert) => {
+  test('report error when time is not defined for the same day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISODate()
 
@@ -271,7 +271,7 @@ test.group('Date | After Or Equal | Minutes', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('report error when time is not after or equal to the defined interval', (assert) => {
+  test('report error when time is not after or equal to the defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISO()
 
@@ -292,7 +292,7 @@ test.group('Date | After Or Equal | Minutes', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('work fine when time is after or equal to the defined interval', (assert) => {
+  test('work fine when time is after or equal to the defined interval', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ minutes: 40 }).toISO()
 
@@ -342,7 +342,7 @@ test.group('Date | After Or Equal | Minutes', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when time is not defined for next day', (assert) => {
+  test('work fine when time is not defined for next day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ days: 1 }).toISODate()
 
@@ -362,7 +362,7 @@ test.group('Date | After Or Equal | Minutes', () => {
 })
 
 test.group('Date | After Or Equal | Ref', () => {
-  test('report error when date is before the defined ref', (assert) => {
+  test('report error when date is before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISODate()
     const validator = {
@@ -390,7 +390,7 @@ test.group('Date | After Or Equal | Ref', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('report error when datetime is before the defined ref', (assert) => {
+  test('report error when datetime is before the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().toISO()
 
@@ -419,7 +419,7 @@ test.group('Date | After Or Equal | Ref', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('report error when time is not defined for the same day', (assert) => {
+  test('report error when time is not defined for the same day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ minutes: 30 }).toISODate()
     const validator = {
@@ -447,7 +447,7 @@ test.group('Date | After Or Equal | Ref', () => {
     assert.equal(errors.errors[0].message, 'afterOrEqual date validation failed')
   })
 
-  test('work fine when date is after or equal to the defined ref', (assert) => {
+  test('work fine when date is after or equal to the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ days: 11 }).toISODate()
 
@@ -486,7 +486,7 @@ test.group('Date | After Or Equal | Ref', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when datetime is after or equal to the defined ref', (assert) => {
+  test('work fine when datetime is after or equal to the defined ref', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ minutes: 30 }).toISO()
     const publishedAtSameDateTime = DateTime.local().plus({ minutes: 10 }).toISO()
@@ -519,7 +519,7 @@ test.group('Date | After Or Equal | Ref', () => {
     assert.lengthOf(errors.errors, 0)
   })
 
-  test('work fine when time is not defined for the next day', (assert) => {
+  test('work fine when time is not defined for the next day', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publishedAt = DateTime.local().plus({ days: 1 }).toISODate()
     const validator = {

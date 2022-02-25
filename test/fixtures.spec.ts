@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { validator as validatorType } from '@ioc:Adonis/Core/Validator'
 import { validator as validatorBase } from '../src/Validator'
@@ -19,7 +19,7 @@ const fixtures = [userProfile]
 
 test.group('Fixtures', () => {
   fixtures.forEach((fixture) => {
-    test(fixture.title(), async (assert) => {
+    test(fixture.title(), async ({ assert }) => {
       for (let usecase of fixture.useCases()) {
         if (usecase.fails) {
           try {

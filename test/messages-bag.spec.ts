@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { MessagesBag } from '../src/MessagesBag'
 
 test.group('Message Bag', () => {
-  test('get message for a rule', (assert) => {
+  test('get message for a rule', ({ assert }) => {
     const messages = new MessagesBag({
       required: 'Field is required',
     })
@@ -22,7 +22,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('give preference to pointer.rule when defined', (assert) => {
+  test('give preference to pointer.rule when defined', ({ assert }) => {
     const messages = new MessagesBag({
       'required': 'Field is required',
       'username.required': 'Username is required',
@@ -34,7 +34,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('give preference to arrayExpression.rule when defined', (assert) => {
+  test('give preference to arrayExpression.rule when defined', ({ assert }) => {
     const messages = new MessagesBag({
       'required': 'Field is required',
       'users.*.username.required': 'Username is required',
@@ -46,7 +46,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('return default message when no messages are defined', (assert) => {
+  test('return default message when no messages are defined', ({ assert }) => {
     const messages = new MessagesBag({})
 
     assert.equal(
@@ -55,7 +55,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('replace field placeholder with the pointer', (assert) => {
+  test('replace field placeholder with the pointer', ({ assert }) => {
     const messages = new MessagesBag({
       required: '{{ field }} is required',
     })
@@ -66,7 +66,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('replace rule placeholder with the pointer', (assert) => {
+  test('replace rule placeholder with the pointer', ({ assert }) => {
     const messages = new MessagesBag({
       required: '{{ field }} is {{ rule }}',
     })
@@ -77,7 +77,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('replace options placeholders', (assert) => {
+  test('replace options placeholders', ({ assert }) => {
     const messages = new MessagesBag({
       required: '{{ field }} is required when foo = {{ options.when.foo }}',
     })
@@ -92,7 +92,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('invoke wildcard callback when no messages are defined', (assert) => {
+  test('invoke wildcard callback when no messages are defined', ({ assert }) => {
     const messages = new MessagesBag({
       '*': () => 'Validation failed',
     })
@@ -103,7 +103,7 @@ test.group('Message Bag', () => {
     )
   })
 
-  test('do not invoke wildcard callback when message for the pointer is defined', (assert) => {
+  test('do not invoke wildcard callback when message for the pointer is defined', ({ assert }) => {
     const messages = new MessagesBag({
       '*': () => 'Validation failed',
       'username.required': 'username is required',

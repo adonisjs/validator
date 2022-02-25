@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -19,7 +19,7 @@ function compile(fieldName?: string) {
 }
 
 test.group('Confirmed', () => {
-  test('ignore validation when original value is missing', (assert) => {
+  test('ignore validation when original value is missing', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -34,7 +34,9 @@ test.group('Confirmed', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when original value is present and confirmation field is missing', (assert) => {
+  test('report error when original value is present and confirmation field is missing', ({
+    assert,
+  }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
@@ -57,7 +59,7 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('report error when both fields are present but has different value', (assert) => {
+  test('report error when both fields are present but has different value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
@@ -82,7 +84,7 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('work fine when field values are same', (assert) => {
+  test('work fine when field values are same', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
@@ -99,7 +101,7 @@ test.group('Confirmed', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report when using nested fields', (assert) => {
+  test('report when using nested fields', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
@@ -128,7 +130,7 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('work fine when matches inside nested fields', (assert) => {
+  test('work fine when matches inside nested fields', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile().compiledOptions, {
       errorReporter: reporter,
@@ -149,7 +151,7 @@ test.group('Confirmed', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('define custom confirmation field name', (assert) => {
+  test('define custom confirmation field name', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
       errorReporter: reporter,
@@ -166,7 +168,7 @@ test.group('Confirmed', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('return error when custom confirmation field name is missing', (assert) => {
+  test('return error when custom confirmation field name is missing', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
       errorReporter: reporter,
@@ -191,7 +193,9 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('return error when custom confirmation field name is missing inside nested object', (assert) => {
+  test('return error when custom confirmation field name is missing inside nested object', ({
+    assert,
+  }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile('passwordConfirmation').compiledOptions, {
       errorReporter: reporter,
@@ -220,7 +224,9 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('return error when custom confirmation field name is missing at root level', (assert) => {
+  test('return error when custom confirmation field name is missing at root level', ({
+    assert,
+  }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile('/passwordConfirmation').compiledOptions, {
       errorReporter: reporter,
@@ -247,7 +253,7 @@ test.group('Confirmed', () => {
     })
   })
 
-  test('work fine when custom confirmation field name is present at root level', (assert) => {
+  test('work fine when custom confirmation field name is present at root level', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     confirmed.validate('secret', compile('/passwordConfirmation').compiledOptions, {
       errorReporter: reporter,

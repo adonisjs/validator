@@ -1,4 +1,4 @@
-import test from 'japa'
+import { test } from '@japa/runner'
 import { ValidationContract, ParsedRule } from '@ioc:Adonis/Core/Validator'
 import { MessagesBag } from '../../../src/MessagesBag'
 import { ApiErrorReporter } from '../../../src/ErrorReporter/Api'
@@ -19,7 +19,7 @@ function reportErrors(
   rule: ParsedRule,
   validationOptions?: ValidationOptions
 ) {
-  testFn('report error with a default message', (assert) => {
+  testFn('report error with a default message', ({ assert }) => {
     const errorReporter = new ApiErrorReporter(new MessagesBag({}), false)
     validation.validate(
       failureValue,
@@ -56,7 +56,7 @@ function reportUserDefinedErrors(
   rule: ParsedRule,
   validationOptions?: ValidationOptions
 ) {
-  testFn('report error with field pointer', (assert) => {
+  testFn('report error with field pointer', ({ assert }) => {
     const errorReporter = new ApiErrorReporter(
       new MessagesBag({
         [`username.${rule.name}`]: 'Validation failure for username',
@@ -99,7 +99,7 @@ function reportUserDefinedErrorsForArrayExpression(
   rule: ParsedRule,
   validationOptions?: ValidationOptions
 ) {
-  testFn('report error with array expression pointer', (assert) => {
+  testFn('report error with array expression pointer', ({ assert }) => {
     const errorReporter = new ApiErrorReporter(
       new MessagesBag({
         [`users.*.username.${rule.name}`]: 'Validation failure for users username',
@@ -143,7 +143,7 @@ function doNotReportErrorWithSuccessValue(
   rule: ParsedRule,
   validationOptions?: ValidationOptions
 ) {
-  testFn('do not report error when value is valid', (assert) => {
+  testFn('do not report error when value is valid', ({ assert }) => {
     const errorReporter = new ApiErrorReporter(new MessagesBag({}), false)
     validation.validate(
       successValue,

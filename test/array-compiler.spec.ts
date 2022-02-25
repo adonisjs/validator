@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { ArrayCompiler } from '../src/Compiler/Nodes/Array'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 import { Compiler } from '../src/Compiler'
 
 test.group('Array Compiler', () => {
-  test('compile an array node with rules and members', async (assert) => {
+  test('compile an array node with rules and members', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,
@@ -150,7 +150,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('compile an array node with rules and literal members', async (assert) => {
+  test('compile an array node with rules and literal members', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,
@@ -250,7 +250,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('do not output any code when array has no rules and members', async (assert) => {
+  test('do not output any code when array has no rules and members', async ({ assert }) => {
     const arrayNode = {
       type: 'array' as const,
       optional: false,
@@ -279,7 +279,7 @@ test.group('Array Compiler', () => {
     assert.deepEqual(buff.toString(), '')
   })
 
-  test('do not output members validation code when no members are defined', async (assert) => {
+  test('do not output members validation code when no members are defined', async ({ assert }) => {
     const arrayNode = {
       type: 'array' as const,
       optional: false,
@@ -341,7 +341,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('use for of loop when any array immediate child has async rules', async (assert) => {
+  test('use for of loop when any array immediate child has async rules', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,
@@ -478,7 +478,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('use for of loop when any of the nested children has async rules', async (assert) => {
+  test('use for of loop when any of the nested children has async rules', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,
@@ -615,7 +615,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('compile nested arrays', async (assert) => {
+  test('compile nested arrays', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,
@@ -752,7 +752,7 @@ test.group('Array Compiler', () => {
     )
   })
 
-  test('compile array children that has nested arrays', async (assert) => {
+  test('compile array children that has nested arrays', async ({ assert }) => {
     const objectNode = {
       type: 'array' as const,
       optional: false,

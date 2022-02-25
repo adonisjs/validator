@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
@@ -23,7 +23,7 @@ function compile(options?: UrlRuleOptions) {
 test.group('Url', () => {
   validate(url, test, '9999', 'google.com', compile())
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -38,7 +38,7 @@ test.group('Url', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the url validation', (assert) => {
+  test('report error when value fails the url validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate('foo', compile().compiledOptions, {
       errorReporter: reporter,
@@ -61,7 +61,7 @@ test.group('Url', () => {
     })
   })
 
-  test('work fine when value passes the url validation', (assert) => {
+  test('work fine when value passes the url validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate('google.com', compile().compiledOptions, {
       errorReporter: reporter,
@@ -76,7 +76,7 @@ test.group('Url', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when url protocol is missing', (assert) => {
+  test('report error when url protocol is missing', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'google.com',
@@ -105,7 +105,7 @@ test.group('Url', () => {
     })
   })
 
-  test("report error when url protocol doesn't match", (assert) => {
+  test("report error when url protocol doesn't match", ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'http://google.com',
@@ -135,7 +135,9 @@ test.group('Url', () => {
     })
   })
 
-  test("report error when url protocol doesn't match and requireProtocol is not explicitly enabled", (assert) => {
+  test("report error when url protocol doesn't match and requireProtocol is not explicitly enabled", ({
+    assert,
+  }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'google.com',
@@ -164,7 +166,9 @@ test.group('Url', () => {
     })
   })
 
-  test("allow value when url protocol doesn't match and requireProtocol is explicitly disabled", (assert) => {
+  test("allow value when url protocol doesn't match and requireProtocol is explicitly disabled", ({
+    assert,
+  }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'google.com',
@@ -188,7 +192,7 @@ test.group('Url', () => {
     })
   })
 
-  test('report error when url hostname is not part of allowedHosts', (assert) => {
+  test('report error when url hostname is not part of allowedHosts', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'http://google.com',
@@ -218,7 +222,7 @@ test.group('Url', () => {
     })
   })
 
-  test('report error when url hostname is part of bannedHosts', (assert) => {
+  test('report error when url hostname is part of bannedHosts', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     url.validate(
       'http://twitter.com',
@@ -248,7 +252,7 @@ test.group('Url', () => {
     })
   })
 
-  test('add protocol to the url if missing', (assert) => {
+  test('add protocol to the url if missing', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let website = 'google.com'
 
@@ -265,7 +269,7 @@ test.group('Url', () => {
     assert.equal(website, 'http://google.com')
   })
 
-  test('ensure the given protocol', (assert) => {
+  test('ensure the given protocol', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let website = 'google.com'
 
@@ -282,7 +286,7 @@ test.group('Url', () => {
     assert.equal(website, 'ftp://google.com')
   })
 
-  test('strip www', (assert) => {
+  test('strip www', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let website = 'www.google.com'
 

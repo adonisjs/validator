@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,7 +21,7 @@ function compile(options?: { escape: true }) {
 test.group('String', () => {
   validate(string, test, 22, 'anystring', compile())
 
-  test('report error when value is null', (assert) => {
+  test('report error when value is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('String', () => {
     })
   })
 
-  test('report error when value is a number', (assert) => {
+  test('report error when value is a number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate(22, compile().compiledOptions, {
       errorReporter: reporter,
@@ -67,7 +67,7 @@ test.group('String', () => {
     })
   })
 
-  test('work fine when value is a valid string', (assert) => {
+  test('work fine when value is a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     string.validate('22', compile().compiledOptions, {
       errorReporter: reporter,
@@ -82,7 +82,7 @@ test.group('String', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('escape string when enabled', (assert) => {
+  test('escape string when enabled', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     let value = '<p>hello world</p>'
 

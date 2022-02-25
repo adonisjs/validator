@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { schema } from '../src/Schema'
 import { validator } from '../src/Validator'
@@ -15,7 +15,7 @@ import { setupApp, fs } from '../test-helpers'
 import { ApiErrorReporter, VanillaErrorReporter } from '../src/ErrorReporter'
 
 test.group('Request validator', (group) => {
-  group.afterEach(async () => {
+  group.each.teardown(async () => {
     await fs.cleanup()
 
     /**
@@ -28,7 +28,7 @@ test.group('Request validator', (group) => {
     })
   })
 
-  test('choose api reporter when accept header is application/json', async (assert) => {
+  test('choose api reporter when accept header is application/json', async ({ assert }) => {
     assert.plan(1)
 
     const app = await setupApp(['../../providers/ValidatorProvider'])
@@ -60,7 +60,9 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('choose jsonapi reporter when accept header is application/vnd.api+json', async (assert) => {
+  test('choose jsonapi reporter when accept header is application/vnd.api+json', async ({
+    assert,
+  }) => {
     assert.plan(1)
 
     const app = await setupApp(['../../providers/ValidatorProvider'])
@@ -94,7 +96,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('choose vanilla reporter when no accept header is set', async (assert) => {
+  test('choose vanilla reporter when no accept header is set', async ({ assert }) => {
     assert.plan(2)
 
     const app = await setupApp(['../../providers/ValidatorProvider'])
@@ -120,7 +122,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('choose json reporter when its an ajax request', async (assert) => {
+  test('choose json reporter when its an ajax request', async ({ assert }) => {
     assert.plan(2)
 
     const app = await setupApp(['../../providers/ValidatorProvider'])
@@ -153,7 +155,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('profile using the profiler', async (assert) => {
+  test('profile using the profiler', async ({ assert }) => {
     assert.plan(2)
 
     const app = await setupApp(['../../providers/ValidatorProvider'])
@@ -180,7 +182,7 @@ test.group('Request validator', (group) => {
     } catch {}
   })
 
-  test('return validated request body', async (assert) => {
+  test('return validated request body', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'])
     const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
@@ -200,7 +202,7 @@ test.group('Request validator', (group) => {
     assert.deepEqual(validated, { username: 'virk' })
   })
 
-  test('provide custom data', async (assert) => {
+  test('provide custom data', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'])
     const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
     ctx.request.request.headers.accept = 'application/json'
@@ -220,7 +222,7 @@ test.group('Request validator', (group) => {
     assert.deepEqual(validated, { username: 'virk' })
   })
 
-  test('validate using vanilla object', async (assert) => {
+  test('validate using vanilla object', async ({ assert }) => {
     const app = await setupApp(['../../providers/ValidatorProvider'])
     const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
 
@@ -238,7 +240,7 @@ test.group('Request validator', (group) => {
     assert.deepEqual(validated, { username: 'virk' })
   })
 
-  test('use requestReporter from config when defined', async (assert) => {
+  test('use requestReporter from config when defined', async ({ assert }) => {
     assert.plan(1)
     validator.negotiator(() => ApiErrorReporter)
 
@@ -269,7 +271,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('use inline validator reporter over requestReporter', async (assert) => {
+  test('use inline validator reporter over requestReporter', async ({ assert }) => {
     assert.plan(1)
     validator.negotiator(() => ApiErrorReporter)
 
@@ -295,7 +297,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('use default messages', async (assert) => {
+  test('use default messages', async ({ assert }) => {
     assert.plan(1)
     validator.messages(() => {
       return {
@@ -330,7 +332,7 @@ test.group('Request validator', (group) => {
     }
   })
 
-  test('give priority to inline messages when defined', async (assert) => {
+  test('give priority to inline messages when defined', async ({ assert }) => {
     assert.plan(1)
     validator.messages(() => {
       return {

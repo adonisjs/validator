@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import validator from 'validator'
 import { rules } from '../../src/Rules'
@@ -23,7 +23,7 @@ function compile(options?: { strict?: boolean; locale?: validator.MobilePhoneLoc
 test.group('Mobile', () => {
   validate(mobile, test, '9999', '7555244225', compile())
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     mobile.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -38,7 +38,7 @@ test.group('Mobile', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the mobile validation', (assert) => {
+  test('report error when value fails the mobile validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     mobile.validate('hello-22', compile().compiledOptions, {
       errorReporter: reporter,
@@ -61,7 +61,7 @@ test.group('Mobile', () => {
     })
   })
 
-  test('work fine when value passes the mobile validation', (assert) => {
+  test('work fine when value passes the mobile validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     mobile.validate('7555244225', compile({ locale: ['en-IN'] }).compiledOptions, {
       errorReporter: reporter,

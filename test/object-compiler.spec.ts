@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { Compiler } from '../src/Compiler'
 import { ObjectCompiler } from '../src/Compiler/Nodes/Object'
 import { CompilerBuffer } from '../src/Compiler/Buffer'
 
 test.group('Object Compiler', () => {
-  test('compile an object node with rules', async (assert) => {
+  test('compile an object node with rules', async ({ assert }) => {
     const objectNode = {
       type: 'object' as const,
       optional: false,
@@ -112,7 +112,7 @@ test.group('Object Compiler', () => {
     )
   })
 
-  test('compile a nested object node with rules', async (assert) => {
+  test('compile a nested object node with rules', async ({ assert }) => {
     const objectNode = {
       type: 'object' as const,
       optional: false,
@@ -246,7 +246,9 @@ test.group('Object Compiler', () => {
     )
   })
 
-  test('do not output code for members validation when node has no children', async (assert) => {
+  test('do not output code for members validation when node has no children', async ({
+    assert,
+  }) => {
     const objectNode = {
       type: 'object' as const,
       subtype: 'string',
@@ -309,7 +311,9 @@ test.group('Object Compiler', () => {
     )
   })
 
-  test('do not output code for members validation when children are undefined', async (assert) => {
+  test('do not output code for members validation when children are undefined', async ({
+    assert,
+  }) => {
     const objectNode = {
       type: 'object' as const,
       subtype: 'string',
@@ -371,7 +375,9 @@ test.group('Object Compiler', () => {
     )
   })
 
-  test('do not output code for object validation when no rules have been defined', async (assert) => {
+  test('do not output code for object validation when no rules have been defined', async ({
+    assert,
+  }) => {
     const objectNode = {
       type: 'object' as const,
       subtype: 'string',
@@ -450,7 +456,7 @@ test.group('Object Compiler', () => {
     )
   })
 
-  test('set null on out value when node has nullable = true', async (assert) => {
+  test('set null on out value when node has nullable = true', async ({ assert }) => {
     const objectNode = {
       type: 'object' as const,
       optional: false,

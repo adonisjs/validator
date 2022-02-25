@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,7 +21,7 @@ function compile() {
 test.group('array', () => {
   validate(array, test, null, [], compile())
 
-  test('report error when value is not a valid array', (assert) => {
+  test('report error when value is not a valid array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     array.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('array', () => {
     })
   })
 
-  test('work fine when value is a valid array', (assert) => {
+  test('work fine when value is a valid array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     array.validate([], compile().compiledOptions, {
       errorReporter: reporter,

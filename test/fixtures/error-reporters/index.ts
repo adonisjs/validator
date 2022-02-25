@@ -1,4 +1,4 @@
-import test from 'japa'
+import { test } from '@japa/runner'
 import { MessagesBag } from '../../../src/MessagesBag'
 import { ErrorReporterConstructorContract } from '@ioc:Adonis/Core/Validator'
 
@@ -10,7 +10,7 @@ function collectsMessages(
   testFn: typeof test,
   getMessage: (messages: any) => { field: string; message: string }[]
 ) {
-  testFn('collect reported errors', (assert) => {
+  testFn('collect reported errors', ({ assert }) => {
     const errorReporter = new Reporter(new MessagesBag({}), false)
     errorReporter.report('username', 'required', 'Required validation failed')
     assert.isTrue(errorReporter.hasErrors)
@@ -31,7 +31,7 @@ function useUserDefinedMessages(
   testFn: typeof test,
   getMessage: (messages: any) => { field: string; message: string }[]
 ) {
-  testFn('give preference to user defined messages for a field.rule', (assert) => {
+  testFn('give preference to user defined messages for a field.rule', ({ assert }) => {
     const errorReporter = new Reporter(
       new MessagesBag({
         'username.required': 'Username is required',
@@ -58,7 +58,7 @@ function useRuleMessages(
   testFn: typeof test,
   getMessage: (messages: any) => { field: string; message: string }[]
 ) {
-  testFn('give preference to user defined messages for a rule', (assert) => {
+  testFn('give preference to user defined messages for a rule', ({ assert }) => {
     const errorReporter = new Reporter(
       new MessagesBag({
         required: 'The field is required',
@@ -84,7 +84,7 @@ function useArrayExpressionMessage(
   testFn: typeof test,
   getMessage: (messages: any) => { field: string; message: string }[]
 ) {
-  testFn('use array expression message when defined', (assert) => {
+  testFn('use array expression message when defined', ({ assert }) => {
     const errorReporter = new Reporter(
       new MessagesBag({
         'users.*.username.required': 'Each user must have a username',
@@ -118,7 +118,7 @@ function usePointerMessage(
 ) {
   testFn(
     'given preference to field message, when array expression message is defined',
-    (assert) => {
+    ({ assert }) => {
       const errorReporter = new Reporter(
         new MessagesBag({
           'users.*.username.required': 'Each user must have a username',
@@ -152,7 +152,7 @@ function raiseException(
   testFn: typeof test,
   getMessage: (messages: any) => { field: string; message: string }[]
 ) {
-  testFn('raise exception when bail is true', (assert) => {
+  testFn('raise exception when bail is true', ({ assert }) => {
     assert.plan(2)
 
     const errorReporter = new Reporter(

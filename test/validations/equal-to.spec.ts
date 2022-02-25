@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { schema } from '../../src/Schema'
@@ -24,12 +24,12 @@ function compile(equalToValue: any) {
 test.group('equalTo', () => {
   validate(equalTo, test, 'bar', 'foo', compile('foo'))
 
-  test('compile equalTo rule', (assert) => {
+  test('compile equalTo rule', ({ assert }) => {
     const { compiledOptions } = equalTo.compile('literal', 'string', rules.equalTo('foo').options)
     assert.deepEqual(compiledOptions, { fieldValue: 'foo' })
   })
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     equalTo.validate(null, compile('foo').compiledOptions, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('equalTo', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the equalTo validation', (assert) => {
+  test('report error when value fails the equalTo validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     equalTo.validate('bar', compile('foo').compiledOptions, {
       errorReporter: reporter,
@@ -67,7 +67,7 @@ test.group('equalTo', () => {
     })
   })
 
-  test('work fine when value passes the equalTo validation', (assert) => {
+  test('work fine when value passes the equalTo validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     equalTo.validate('foo', compile('foo').compiledOptions, {
       errorReporter: reporter,
@@ -82,7 +82,7 @@ test.group('equalTo', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when value passes the equalTo validation with refs', (assert) => {
+  test('work fine when value passes the equalTo validation with refs', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     const validator = {

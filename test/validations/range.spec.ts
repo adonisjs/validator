@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,22 +21,22 @@ function compile(start: number, stop: number) {
 test.group('range', () => {
   validate(range, test, -2, 50, compile(1, 100))
 
-  test('do not compile when start is not a number', (assert) => {
+  test('do not compile when start is not a number', ({ assert }) => {
     const fn = () => range.compile('literal', 'number', ['10', 100])
-    assert.throw(fn, 'The start value for "range" must be defined as number')
+    assert.throws(fn, 'The start value for "range" must be defined as number')
   })
 
-  test('do not compile when stop is not a number', (assert) => {
+  test('do not compile when stop is not a number', ({ assert }) => {
     const fn = () => range.compile('literal', 'number', [10, '100'])
-    assert.throw(fn, 'The stop value for "range" must be defined as number')
+    assert.throws(fn, 'The stop value for "range" must be defined as number')
   })
 
-  test('do not compile if start value is lower than stop value', (assert) => {
+  test('do not compile if start value is lower than stop value', ({ assert }) => {
     const fn = () => range.compile('literal', 'number', [100, 10])
-    assert.throw(fn, 'The start value for "range" must be lower than the stop value')
+    assert.throws(fn, 'The start value for "range" must be lower than the stop value')
   })
 
-  test('report error when value is lower than the range', (assert) => {
+  test('report error when value is lower than the range', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     range.validate(0, compile(1, 100).compiledOptions!, {
       errorReporter: reporter,
@@ -63,7 +63,7 @@ test.group('range', () => {
     })
   })
 
-  test('report error when value is higher than the range', (assert) => {
+  test('report error when value is higher than the range', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     range.validate(0, compile(1, 100).compiledOptions!, {
       errorReporter: reporter,
@@ -90,7 +90,7 @@ test.group('range', () => {
     })
   })
 
-  test('skip when value is not a number', (assert) => {
+  test('skip when value is not a number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     range.validate('-10', compile(1, 100).compiledOptions!, {
       errorReporter: reporter,
@@ -105,7 +105,7 @@ test.group('range', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when value is a valid number in the range', (assert) => {
+  test('work fine when value is a valid number in the range', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     range.validate(25, compile(1, 100).compiledOptions!, {
       errorReporter: reporter,

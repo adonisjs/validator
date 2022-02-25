@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../src/Rules'
 import { schema } from '../src/Schema'
 
 test.group('Schema | String', () => {
-  test('define schema with string rule', (assert) => {
+  test('define schema with string rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string(),
@@ -42,7 +42,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('define schema with optional string rule', (assert) => {
+  test('define schema with optional string rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string.optional(),
@@ -66,7 +66,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('define schema with nullable string rule', (assert) => {
+  test('define schema with nullable string rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string.nullable(),
@@ -96,7 +96,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('define schema with both nullable and optional string rule', (assert) => {
+  test('define schema with both nullable and optional string rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string.nullableAndOptional(),
@@ -120,7 +120,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('define schema with string and custom rules', (assert) => {
+  test('define schema with string and custom rules', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string({}, [rules.alpha()]),
@@ -158,7 +158,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('define schema with escape rule', (assert) => {
+  test('define schema with escape rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string({ escape: true }),
@@ -188,7 +188,7 @@ test.group('Schema | String', () => {
     )
   })
 
-  test('turn on trim', (assert) => {
+  test('turn on trim', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.string({ escape: true, trim: true }),
@@ -220,7 +220,7 @@ test.group('Schema | String', () => {
 })
 
 test.group('Schema | Boolean', () => {
-  test('define schema with boolean rule', (assert) => {
+  test('define schema with boolean rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.boolean(),
@@ -250,7 +250,7 @@ test.group('Schema | Boolean', () => {
     )
   })
 
-  test('define schema with optional boolean rule', (assert) => {
+  test('define schema with optional boolean rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.boolean.optional(),
@@ -274,7 +274,7 @@ test.group('Schema | Boolean', () => {
     )
   })
 
-  test('define schema with nullable boolean rule', (assert) => {
+  test('define schema with nullable boolean rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.boolean.nullable(),
@@ -304,7 +304,7 @@ test.group('Schema | Boolean', () => {
     )
   })
 
-  test('define schema with both nullable and optional boolean rule', (assert) => {
+  test('define schema with both nullable and optional boolean rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.boolean.nullableAndOptional(),
@@ -330,7 +330,7 @@ test.group('Schema | Boolean', () => {
 })
 
 test.group('Schema | Number', () => {
-  test('define schema with number rule', (assert) => {
+  test('define schema with number rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.number(),
@@ -360,7 +360,7 @@ test.group('Schema | Number', () => {
     )
   })
 
-  test('define schema with optional number rule', (assert) => {
+  test('define schema with optional number rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.number.optional(),
@@ -384,7 +384,7 @@ test.group('Schema | Number', () => {
     )
   })
 
-  test('define schema with nullable number rule', (assert) => {
+  test('define schema with nullable number rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.number.nullable(),
@@ -414,7 +414,7 @@ test.group('Schema | Number', () => {
     )
   })
 
-  test('define schema with both optional and nullable number rule', (assert) => {
+  test('define schema with both optional and nullable number rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.number.nullableAndOptional(),
@@ -438,7 +438,7 @@ test.group('Schema | Number', () => {
     )
   })
 
-  test('define schema with number and custom rules', (assert) => {
+  test('define schema with number and custom rules', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.number([rules.unsigned()]),
@@ -476,7 +476,7 @@ test.group('Schema | Number', () => {
 })
 
 test.group('Schema | Date', () => {
-  test('define schema with date rule', (assert) => {
+  test('define schema with date rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date(),
@@ -508,7 +508,7 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with optional date rule', (assert) => {
+  test('define schema with optional date rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date.optional(),
@@ -534,7 +534,7 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with nullable date rule', (assert) => {
+  test('define schema with nullable date rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date.nullable(),
@@ -566,7 +566,7 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with both nullable and optional date rule', (assert) => {
+  test('define schema with both nullable and optional date rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date.nullableAndOptional(),
@@ -592,7 +592,7 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with date rule and a format', (assert) => {
+  test('define schema with date rule and a format', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date({ format: 'iso' }),
@@ -622,7 +622,7 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with optional date rule and a format', (assert) => {
+  test('define schema with optional date rule and a format', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.date.optional({ format: 'iso' }),
@@ -648,7 +648,7 @@ test.group('Schema | Date', () => {
 })
 
 test.group('Schema | Enum', () => {
-  test('define schema with enum rule', (assert) => {
+  test('define schema with enum rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enum(['1', '2']),
@@ -678,7 +678,7 @@ test.group('Schema | Enum', () => {
     )
   })
 
-  test('define schema with optional enum rule', (assert) => {
+  test('define schema with optional enum rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enum.optional(['1', '2']),
@@ -702,7 +702,7 @@ test.group('Schema | Enum', () => {
     )
   })
 
-  test('define schema with nullable enum rule', (assert) => {
+  test('define schema with nullable enum rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enum.nullable(['1', '2']),
@@ -732,7 +732,7 @@ test.group('Schema | Enum', () => {
     )
   })
 
-  test('define schema with both optional and nullable enum rule', (assert) => {
+  test('define schema with both optional and nullable enum rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enum.nullableAndOptional(['1', '2']),
@@ -758,7 +758,7 @@ test.group('Schema | Enum', () => {
 })
 
 test.group('Schema | Enum Set', () => {
-  test('define schema with enumSet rule', (assert) => {
+  test('define schema with enumSet rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enumSet(['1', '2']),
@@ -788,7 +788,7 @@ test.group('Schema | Enum Set', () => {
     )
   })
 
-  test('define schema with optional enumSet rule', (assert) => {
+  test('define schema with optional enumSet rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enumSet.optional(['1', '2']),
@@ -812,7 +812,7 @@ test.group('Schema | Enum Set', () => {
     )
   })
 
-  test('define schema with nullable enumSet rule', (assert) => {
+  test('define schema with nullable enumSet rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enumSet.nullable(['1', '2']),
@@ -842,7 +842,7 @@ test.group('Schema | Enum Set', () => {
     )
   })
 
-  test('define schema with both optional and nullable enumSet rule', (assert) => {
+  test('define schema with both optional and nullable enumSet rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         username: schema.enumSet.nullableAndOptional(['1', '2']),
@@ -868,7 +868,7 @@ test.group('Schema | Enum Set', () => {
 })
 
 test.group('Schema | Object', () => {
-  test('define schema with object', (assert) => {
+  test('define schema with object', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.object().members({
@@ -921,7 +921,7 @@ test.group('Schema | Object', () => {
     )
   })
 
-  test('define schema with optional object', (assert) => {
+  test('define schema with optional object', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.object.optional().members({
@@ -968,7 +968,7 @@ test.group('Schema | Object', () => {
     )
   })
 
-  test('define schema with nullable object', (assert) => {
+  test('define schema with nullable object', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.object.nullable().members({
@@ -1021,7 +1021,7 @@ test.group('Schema | Object', () => {
     )
   })
 
-  test('define schema with both optional and nullable object', (assert) => {
+  test('define schema with both optional and nullable object', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.object.nullableAndOptional().members({
@@ -1068,7 +1068,7 @@ test.group('Schema | Object', () => {
     )
   })
 
-  test('define schema object with any members', (assert) => {
+  test('define schema object with any members', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.object().anyMembers(),
@@ -1099,7 +1099,7 @@ test.group('Schema | Object', () => {
 })
 
 test.group('Schema | Array', () => {
-  test('define schema with array', (assert) => {
+  test('define schema with array', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array().members(
@@ -1173,7 +1173,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema with optional array', (assert) => {
+  test('define schema with optional array', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array.optional().members(
@@ -1241,7 +1241,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema with nullable array', (assert) => {
+  test('define schema with nullable array', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array.nullable().members(
@@ -1315,7 +1315,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema with array and custom rules', (assert) => {
+  test('define schema with array and custom rules', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array([rules.maxLength(2)]).members(
@@ -1395,7 +1395,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema array with no members', (assert) => {
+  test('define schema array with no members', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array().anyMembers(),
@@ -1424,7 +1424,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema optional array with no members', (assert) => {
+  test('define schema optional array with no members', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         profile: schema.array.optional().anyMembers(),
@@ -1447,7 +1447,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema with array of strings', (assert) => {
+  test('define schema with array of strings', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         scores: schema.array().members(schema.string()),
@@ -1496,7 +1496,7 @@ test.group('Schema | Array', () => {
     )
   })
 
-  test('define schema with array of optional strings', (assert) => {
+  test('define schema with array of optional strings', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         scores: schema.array().members(schema.string.optional()),
@@ -1541,7 +1541,7 @@ test.group('Schema | Array', () => {
 })
 
 test.group('Schema | File', () => {
-  test('define schema with file rule', (assert) => {
+  test('define schema with file rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         avatar: schema.file(),
@@ -1571,7 +1571,7 @@ test.group('Schema | File', () => {
     )
   })
 
-  test('define schema with file rule and validation options', (assert) => {
+  test('define schema with file rule and validation options', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         avatar: schema.file({ size: 10, extnames: ['jpg'] }),
@@ -1604,7 +1604,7 @@ test.group('Schema | File', () => {
     )
   })
 
-  test('define schema with optional file rule', (assert) => {
+  test('define schema with optional file rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         avatar: schema.file.optional(),
@@ -1628,7 +1628,7 @@ test.group('Schema | File', () => {
     )
   })
 
-  test('define schema with nullable file rule', (assert) => {
+  test('define schema with nullable file rule', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         avatar: schema.file.nullable(),
@@ -1658,7 +1658,7 @@ test.group('Schema | File', () => {
     )
   })
 
-  test('define schema with optional file rule and validation options', (assert) => {
+  test('define schema with optional file rule and validation options', ({ assert }) => {
     assert.deepEqual(
       schema.create({
         avatar: schema.file.optional({ size: 10, extnames: ['jpg'] }),

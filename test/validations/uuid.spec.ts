@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { UUIDVersion } from 'class-validator'
 
 import { rules } from '../../src/Rules'
@@ -27,7 +27,7 @@ const v5 = '3ddcf668-ef98-5b30-a8bc-545b8394c81c'
 test.group('UUID', () => {
   validate(uuid, test, 'not-a-uuid', v4, compile())
 
-  test('ignore validation when value is not a valid string', (assert) => {
+  test('ignore validation when value is not a valid string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(null, compile().compiledOptions, {
       errorReporter: reporter,
@@ -42,7 +42,7 @@ test.group('UUID', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when value fails the uuid validation', (assert) => {
+  test('report error when value fails the uuid validation', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate('not-a-uuid', compile().compiledOptions, {
       errorReporter: reporter,
@@ -65,7 +65,7 @@ test.group('UUID', () => {
     })
   })
 
-  test('work fine when implicitly checking v4', (assert) => {
+  test('work fine when implicitly checking v4', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(v4, compile().compiledOptions, {
       errorReporter: reporter,
@@ -80,7 +80,7 @@ test.group('UUID', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when checking v3 against default (v4)', (assert) => {
+  test('report error when checking v3 against default (v4)', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(v3, compile().compiledOptions, {
       errorReporter: reporter,
@@ -103,7 +103,7 @@ test.group('UUID', () => {
     })
   })
 
-  test('work fine when explicitly validating v3', (assert) => {
+  test('work fine when explicitly validating v3', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(v3, compile({ version: 3 }).compiledOptions, {
       errorReporter: reporter,
@@ -118,7 +118,7 @@ test.group('UUID', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when explicitly validating v4', (assert) => {
+  test('work fine when explicitly validating v4', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(v4, compile({ version: 4 }).compiledOptions, {
       errorReporter: reporter,
@@ -133,7 +133,7 @@ test.group('UUID', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when explicitly validating v5', (assert) => {
+  test('work fine when explicitly validating v5', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     uuid.validate(v5, compile({ version: 5 }).compiledOptions, {
       errorReporter: reporter,

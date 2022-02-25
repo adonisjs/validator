@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 import { File } from '@adonisjs/bodyparser/build/src/Multipart/File'
@@ -43,12 +43,12 @@ test.group('File', () => {
     })
   )
 
-  test('do not compile when args are not defined', (assert) => {
+  test('do not compile when args are not defined', ({ assert }) => {
     const fn = () => file.compile('literal', 'file')
-    assert.throw(fn, '"file": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"file": The 3rd argument must be a combined array of arguments')
   })
 
-  test('compile with empty object when options are not defined', (assert) => {
+  test('compile with empty object when options are not defined', ({ assert }) => {
     assert.deepEqual(file.compile('literal', 'file', []), {
       async: false,
       allowUndefineds: false,
@@ -57,7 +57,7 @@ test.group('File', () => {
     })
   })
 
-  test('report error when value is not a file', (assert) => {
+  test('report error when value is not a file', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     file.validate({}, compile({}).compiledOptions!, {
       errorReporter: reporter,
@@ -81,7 +81,7 @@ test.group('File', () => {
     })
   })
 
-  test('report error when size validation fails', (assert) => {
+  test('report error when size validation fails', ({ assert }) => {
     const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20
@@ -110,7 +110,7 @@ test.group('File', () => {
     })
   })
 
-  test('report error when extension validation fails', (assert) => {
+  test('report error when extension validation fails', ({ assert }) => {
     const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20
@@ -139,7 +139,7 @@ test.group('File', () => {
     })
   })
 
-  test('work fine when field is a valid file', (assert) => {
+  test('work fine when field is a valid file', ({ assert }) => {
     const mp = new File({ fieldName: 'avatar', clientName: 'avatar', headers: {} }, {}, {} as any)
     mp.state = 'consumed'
     mp.size = 20

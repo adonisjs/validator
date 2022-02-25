@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 import { NodeSubType } from '@ioc:Adonis/Core/Validator'
 
@@ -25,19 +25,19 @@ function compile(values: any, subtype?: NodeSubType) {
 test.group('notIn', () => {
   validate(notIn, test, '1', '10', compile(['1', '2']))
 
-  test('do not compile when values are not defined', (assert) => {
+  test('do not compile when values are not defined', ({ assert }) => {
     const fn = () => notIn.compile('literal', 'string')
-    assert.throw(fn, '"notIn": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"notIn": The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when notIn is not an array of values', (assert) => {
+  test('do not compile when notIn is not an array of values', ({ assert }) => {
     const fn = () => notIn.compile('literal', 'string', ['foo'])
-    assert.throw(fn, '"notIn": expects an array of "notIn values" or a "ref"')
+    assert.throws(fn, '"notIn": expects an array of "notIn values" or a "ref"')
   })
 })
 
 test.group('notIn | string', () => {
-  test('report error when value is part of notIn values', (assert) => {
+  test('report error when value is part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate('3', compile(['3', '4']).compiledOptions!, {
       errorReporter: reporter,
@@ -61,7 +61,7 @@ test.group('notIn | string', () => {
     })
   })
 
-  test('work fine when value is not part of notIn', (assert) => {
+  test('work fine when value is not part of notIn', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate('1', compile(['3', '4']).compiledOptions!, {
       errorReporter: reporter,
@@ -76,7 +76,7 @@ test.group('notIn | string', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('skip when value is not a string', (assert) => {
+  test('skip when value is not a string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate(null, compile(['3', '4']).compiledOptions!, {
       errorReporter: reporter,
@@ -93,7 +93,7 @@ test.group('notIn | string', () => {
 })
 
 test.group('notIn | number', () => {
-  test('report error when value is part of notIn values', (assert) => {
+  test('report error when value is part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate(3, compile([3, 4], 'number').compiledOptions!, {
       errorReporter: reporter,
@@ -117,7 +117,7 @@ test.group('notIn | number', () => {
     })
   })
 
-  test('work fine when value is not part of notIn', (assert) => {
+  test('work fine when value is not part of notIn', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate(1, compile([3, 4], 'number').compiledOptions!, {
       errorReporter: reporter,
@@ -132,7 +132,7 @@ test.group('notIn | number', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('skip when value is not a number', (assert) => {
+  test('skip when value is not a number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     notIn.validate('foo', compile([3, 4], 'number').compiledOptions!, {
       errorReporter: reporter,
@@ -149,7 +149,7 @@ test.group('notIn | number', () => {
 })
 
 test.group('notIn | date', () => {
-  test('report error when value is part of notIn values', (assert) => {
+  test('report error when value is part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publicHolidays = ['2020-12-25', '2021-01-01']
 
@@ -179,7 +179,7 @@ test.group('notIn | date', () => {
     })
   })
 
-  test('work fine when value is not part of notIn', (assert) => {
+  test('work fine when value is not part of notIn', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publicHolidays = ['2020-12-25', '2021-01-01']
 
@@ -200,7 +200,7 @@ test.group('notIn | date', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('skip when value is not a date', (assert) => {
+  test('skip when value is not a date', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const publicHolidays = ['2020-12-25', '2021-01-01']
 
@@ -219,7 +219,7 @@ test.group('notIn | date', () => {
 })
 
 test.group('notIn | array', () => {
-  test('report error when value is part of notIn values', (assert) => {
+  test('report error when value is part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     notIn.validate(['1', '2', '3'], compile(['10', '3', '6'], 'array').compiledOptions!, {
@@ -244,7 +244,7 @@ test.group('notIn | array', () => {
     })
   })
 
-  test('work fine when value is not part of notIn values', (assert) => {
+  test('work fine when value is not part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     notIn.validate(['1', '2', '4'], compile(['10', '3', '6'], 'array').compiledOptions!, {
@@ -260,7 +260,7 @@ test.group('notIn | array', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('skip when value is not an array', (assert) => {
+  test('skip when value is not an array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     notIn.validate('3', compile(['10', '3', '6'], 'array').compiledOptions!, {
@@ -278,7 +278,7 @@ test.group('notIn | array', () => {
 })
 
 test.group('notIn | refs', () => {
-  test('report error when value is part of notIn values', (assert) => {
+  test('report error when value is part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     const validator = {
@@ -307,7 +307,7 @@ test.group('notIn | refs', () => {
     })
   })
 
-  test('work fine when value is not a part of notIn values', (assert) => {
+  test('work fine when value is not a part of notIn values', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
 
     const validator = {

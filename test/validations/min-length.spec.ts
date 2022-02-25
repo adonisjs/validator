@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { NodeSubType } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../../src/Rules'
@@ -23,22 +23,22 @@ function compile(subtype: NodeSubType, length: number) {
 test.group('Min Length', () => {
   validate(minLength, test, 'hello', 'helloworld', compile('string', 6), {})
 
-  test('do not compile when args are not defined', (assert) => {
+  test('do not compile when args are not defined', ({ assert }) => {
     const fn = () => minLength.compile('literal', 'array')
-    assert.throw(fn, '"minLength": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"minLength": The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when length is not defined', (assert) => {
+  test('do not compile when length is not defined', ({ assert }) => {
     const fn = () => minLength.compile('literal', 'array', [])
-    assert.throw(fn, 'The limit value for "minLength" must be defined as a number')
+    assert.throws(fn, 'The limit value for "minLength" must be defined as a number')
   })
 
-  test('do not compile node subtype is not array or string', (assert) => {
+  test('do not compile node subtype is not array or string', ({ assert }) => {
     const fn = () => minLength.compile('literal', 'object', [])
-    assert.throw(fn, '"minLength": Rule can only be used with "schema.<string,array>" type(s)')
+    assert.throws(fn, '"minLength": Rule can only be used with "schema.<string,array>" type(s)')
   })
 
-  test('compile with options', (assert) => {
+  test('compile with options', ({ assert }) => {
     assert.deepEqual(minLength.compile('literal', 'array', [10]), {
       name: 'minLength',
       allowUndefineds: false,
@@ -47,7 +47,7 @@ test.group('Min Length', () => {
     })
   })
 
-  test('skip when value is not an array or string', (assert) => {
+  test('skip when value is not an array or string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     minLength.validate(
       {},
@@ -68,7 +68,7 @@ test.group('Min Length', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('raise error when string length is under the minLength', (assert) => {
+  test('raise error when string length is under the minLength', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     minLength.validate('hello', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
@@ -94,7 +94,7 @@ test.group('Min Length', () => {
     })
   })
 
-  test('raise error when array length is under the minLength', (assert) => {
+  test('raise error when array length is under the minLength', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     minLength.validate(['hello', 'world'], compile('array', 3).compiledOptions!, {
       errorReporter: reporter,
@@ -120,7 +120,7 @@ test.group('Min Length', () => {
     })
   })
 
-  test('work fine when string length is above or equals minLength', (assert) => {
+  test('work fine when string length is above or equals minLength', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     minLength.validate('helloworld', compile('string', 10).compiledOptions!, {
       errorReporter: reporter,
@@ -137,7 +137,7 @@ test.group('Min Length', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when array length is above or equals minLength', (assert) => {
+  test('work fine when array length is above or equals minLength', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     minLength.validate(['hello'], compile('array', 1).compiledOptions!, {
       errorReporter: reporter,

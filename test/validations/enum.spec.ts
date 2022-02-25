@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { schema } from '../../src/Schema'
 import { validate } from '../fixtures/rules/index'
@@ -22,17 +22,17 @@ function compile(choices: any) {
 test.group('enum', () => {
   validate(oneOf, test, '10', '2', compile(['1', '2']))
 
-  test('do not compile when choices are not defined', (assert) => {
+  test('do not compile when choices are not defined', ({ assert }) => {
     const fn = () => oneOf.compile('literal', 'string')
-    assert.throw(fn, '"enum": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"enum": The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when choices not an array of values', (assert) => {
+  test('do not compile when choices not an array of values', ({ assert }) => {
     const fn = () => oneOf.compile('literal', 'string', ['foo'])
-    assert.throw(fn, '"enum": expects an array of choices or a "ref"')
+    assert.throws(fn, '"enum": expects an array of choices or a "ref"')
   })
 
-  test('report error when value is not in the defined array', (assert) => {
+  test('report error when value is not in the defined array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate('3', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
@@ -56,7 +56,7 @@ test.group('enum', () => {
     })
   })
 
-  test('report error when value is null', (assert) => {
+  test('report error when value is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate(null, compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
@@ -80,7 +80,7 @@ test.group('enum', () => {
     })
   })
 
-  test('work fine when value is in the defined array', (assert) => {
+  test('work fine when value is in the defined array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     oneOf.validate('1', compile(['1', '2']).compiledOptions!, {
       errorReporter: reporter,
@@ -95,7 +95,7 @@ test.group('enum', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('define options as a reference', (assert) => {
+  test('define options as a reference', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const validator = {
       errorReporter: reporter,
@@ -114,7 +114,7 @@ test.group('enum', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('re-use the same compiled schema with different refs', (assert) => {
+  test('re-use the same compiled schema with different refs', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const validator = {
       errorReporter: reporter,

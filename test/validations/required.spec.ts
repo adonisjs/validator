@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -21,7 +21,7 @@ function compile() {
 test.group('Required', () => {
   validate(required, test, undefined, 'anything', compile())
 
-  test('report error when value is null', (assert) => {
+  test('report error when value is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(null, compile().compiledOptions!, {
       errorReporter: reporter,
@@ -44,7 +44,7 @@ test.group('Required', () => {
     })
   })
 
-  test('report error when value is undefined', (assert) => {
+  test('report error when value is undefined', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(undefined, compile().compiledOptions!, {
       errorReporter: reporter,
@@ -67,7 +67,7 @@ test.group('Required', () => {
     })
   })
 
-  test('report error when value is an empty string', (assert) => {
+  test('report error when value is an empty string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate('', compile().compiledOptions!, {
       errorReporter: reporter,
@@ -90,7 +90,7 @@ test.group('Required', () => {
     })
   })
 
-  test('work fine when value is defined', (assert) => {
+  test('work fine when value is defined', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate('virk', compile().compiledOptions!, {
       errorReporter: reporter,
@@ -105,7 +105,7 @@ test.group('Required', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when value is negative boolean', (assert) => {
+  test('work fine when value is negative boolean', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(false, compile().compiledOptions!, {
       errorReporter: reporter,
@@ -120,7 +120,7 @@ test.group('Required', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when value is zero', (assert) => {
+  test('work fine when value is zero', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     required.validate(0, compile().compiledOptions!, {
       errorReporter: reporter,

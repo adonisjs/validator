@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
@@ -23,17 +23,17 @@ test.group('Required If Exists', () => {
     tip: { id: 1 },
   })
 
-  test('do not compile when args are not defined', (assert) => {
+  test('do not compile when args are not defined', ({ assert }) => {
     const fn = () => requiredIfExists.compile('literal', 'string')
-    assert.throw(fn, '"requiredIfExists": The 3rd argument must be a combined array of arguments')
+    assert.throws(fn, '"requiredIfExists": The 3rd argument must be a combined array of arguments')
   })
 
-  test('do not compile when options are not defined', (assert) => {
+  test('do not compile when options are not defined', ({ assert }) => {
     const fn = () => requiredIfExists.compile('literal', 'string', [])
-    assert.throw(fn, '"requiredIfExists": expects a "field"')
+    assert.throws(fn, '"requiredIfExists": expects a "field"')
   })
 
-  test('compile with options', (assert) => {
+  test('compile with options', ({ assert }) => {
     assert.deepEqual(requiredIfExists.compile('literal', 'string', ['id']), {
       name: 'requiredIfExists',
       allowUndefineds: true,
@@ -42,7 +42,7 @@ test.group('Required If Exists', () => {
     })
   })
 
-  test('pass otherField to the error options', (assert) => {
+  test('pass otherField to the error options', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(null, compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -70,7 +70,7 @@ test.group('Required If Exists', () => {
     })
   })
 
-  test('report error when expectation matches and field is null', (assert) => {
+  test('report error when expectation matches and field is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(null, compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -98,7 +98,7 @@ test.group('Required If Exists', () => {
     })
   })
 
-  test('report error when expectation matches and field is null', (assert) => {
+  test('report error when expectation matches and field is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate(undefined, compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -126,7 +126,7 @@ test.group('Required If Exists', () => {
     })
   })
 
-  test('report error when expectation matches and field is empty string', (assert) => {
+  test('report error when expectation matches and field is empty string', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -154,7 +154,7 @@ test.group('Required If Exists', () => {
     })
   })
 
-  test('work fine when target field is undefined', (assert) => {
+  test('work fine when target field is undefined', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -169,7 +169,7 @@ test.group('Required If Exists', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when target field is null', (assert) => {
+  test('work fine when target field is null', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('', compile('type').compiledOptions!, {
       errorReporter: reporter,
@@ -186,7 +186,7 @@ test.group('Required If Exists', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when expectation matches and field has value', (assert) => {
+  test('work fine when expectation matches and field has value', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     requiredIfExists.validate('hello', compile('type').compiledOptions!, {
       errorReporter: reporter,

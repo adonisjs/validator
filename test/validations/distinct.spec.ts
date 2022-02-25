@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import test from 'japa'
+import { test } from '@japa/runner'
 
 import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
@@ -28,7 +28,7 @@ test.group('Distinct', () => {
     compile('username')
   )
 
-  test('ignore validation when value is not an array', (assert) => {
+  test('ignore validation when value is not an array', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     distinct.validate({ foo: 'bar' }, compile('username').compiledOptions, {
       errorReporter: reporter,
@@ -43,7 +43,7 @@ test.group('Distinct', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('report error when field value is not unique in an array of objects', (assert) => {
+  test('report error when field value is not unique in an array of objects', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     distinct.validate(
       [{ foo: 'bar' }, { foo: 'bar' }, { foo: 'baz' }],
@@ -74,7 +74,7 @@ test.group('Distinct', () => {
     })
   })
 
-  test('report error when top level array values are not unique', (assert) => {
+  test('report error when top level array values are not unique', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     distinct.validate([10, 20, 10, 5], compile('*').compiledOptions, {
       errorReporter: reporter,
@@ -101,7 +101,7 @@ test.group('Distinct', () => {
     })
   })
 
-  test('work fine when values are unique', (assert) => {
+  test('work fine when values are unique', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     distinct.validate([{ foo: 'bar' }, { foo: 'baz' }], compile('foo').compiledOptions, {
       errorReporter: reporter,
@@ -116,7 +116,7 @@ test.group('Distinct', () => {
     assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
-  test('work fine when top level array values are unique', (assert) => {
+  test('work fine when top level array values are unique', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     distinct.validate([10, 20, 5], compile('*').compiledOptions, {
       errorReporter: reporter,

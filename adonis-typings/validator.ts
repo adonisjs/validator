@@ -285,26 +285,26 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a string or optional string type
    */
   export interface StringType {
-    (options?: { escape?: boolean; trim?: boolean }, rules?: Rule[]): {
+    (options?: { escape?: boolean; trim?: boolean } | Rule[], rules?: Rule[]): {
       t: string
       getTree(): SchemaLiteral
     }
     optional(
-      options?: { escape?: boolean; trim?: boolean },
+      options?: { escape?: boolean; trim?: boolean } | Rule[],
       rules?: Rule[]
     ): {
       t?: string
       getTree(): SchemaLiteral
     }
     nullable(
-      options?: { escape?: boolean; trim?: boolean },
+      options?: { escape?: boolean; trim?: boolean } | Rule[],
       rules?: Rule[]
     ): {
       t: string | null
       getTree(): SchemaLiteral
     }
     nullableAndOptional(
-      options?: { escape?: boolean; trim?: boolean },
+      options?: { escape?: boolean; trim?: boolean } | Rule[],
       rules?: Rule[]
     ): {
       t?: string | null
@@ -849,6 +849,16 @@ declare module '@ioc:Adonis/Core/Validator' {
      * Value must be a valid url
      */
     url(options?: UrlRuleOptions): Rule
+
+    /**
+     * Trim string value
+     */
+    trim(): Rule
+
+    /**
+     * Escape string value
+     */
+    escape(): Rule
 
     /**
      * Value must be valid as ip address regex. Optionally you can

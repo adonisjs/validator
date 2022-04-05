@@ -920,3 +920,35 @@ test.group('Validator | options', (group) => {
     }
   })
 })
+
+test.group('Validator | validate string', () => {
+  test('apply escape as a rule', async ({ assert }) => {
+    assert.plan(1)
+
+    const { username } = await validator.validate({
+      schema: schema.create({
+        username: schema.string([rules.escape()]),
+      }),
+      data: {
+        username: '<p>virk</p>',
+      },
+    })
+
+    assert.deepEqual(username, '&lt;p&gt;virk&lt;&#x2F;p&gt;')
+  })
+
+  test('apply trim as a rule', async ({ assert }) => {
+    assert.plan(1)
+
+    const { username } = await validator.validate({
+      schema: schema.create({
+        username: schema.string([rules.trim()]),
+      }),
+      data: {
+        username: ' virk ',
+      },
+    })
+
+    assert.deepEqual(username, 'virk')
+  })
+})

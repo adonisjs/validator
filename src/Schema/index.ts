@@ -29,29 +29,45 @@ import {
 /**
  * String schema type
  */
-function string(options?: { escape?: boolean; trim?: boolean }, rules?: Rule[]) {
+function string(options?: { escape?: boolean; trim?: boolean } | Rule[], rules?: Rule[]) {
+  if (!rules && Array.isArray(options)) {
+    rules = options
+    options = {}
+  }
   return getLiteralType('string', false, false, options, rules || []) as ReturnType<StringType>
 }
 string.optional = function optionalString(
-  options?: { escape?: boolean; trim?: boolean },
+  options?: { escape?: boolean; trim?: boolean } | Rule[],
   rules?: Rule[]
 ) {
+  if (!rules && Array.isArray(options)) {
+    rules = options
+    options = {}
+  }
   return getLiteralType('string', true, false, options, rules || []) as ReturnType<
     StringType['optional']
   >
 }
 string.nullable = function nullableString(
-  options?: { escape?: boolean; trim?: boolean },
+  options?: { escape?: boolean; trim?: boolean } | Rule[],
   rules?: Rule[]
 ) {
+  if (!rules && Array.isArray(options)) {
+    rules = options
+    options = {}
+  }
   return getLiteralType('string', false, true, options, rules || []) as ReturnType<
     StringType['nullable']
   >
 }
 string.nullableAndOptional = function nullableAndOptionalString(
-  options?: { escape?: boolean; trim?: boolean },
+  options?: { escape?: boolean; trim?: boolean } | Rule[],
   rules?: Rule[]
 ) {
+  if (!rules && Array.isArray(options)) {
+    rules = options
+    options = {}
+  }
   return getLiteralType('string', true, true, options, rules || []) as ReturnType<
     StringType['nullableAndOptional']
   >

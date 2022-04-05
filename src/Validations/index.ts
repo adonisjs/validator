@@ -46,6 +46,8 @@ export { string } from './primitives/string'
 
 export { alpha } from './string/alpha'
 export { regex } from './string/regex'
+export { escape } from './string/escape'
+export { trim } from './string/trim'
 export { email } from './string/email'
 export { url } from './string/url'
 export { ip } from './string/ip'

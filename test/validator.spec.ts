@@ -678,18 +678,15 @@ test.group('Validator | addType', () => {
     function unicorn() {
       return getLiteralType('unicorn', false, false, {}, [])
     }
-    validator.addRule('unicorn', {
-      compile() {
-        return {
-          async: false,
-          allowUndefineds: false,
-          name: 'unicorn',
-          compiledOptions: undefined,
-        }
-      },
-      validate() {},
-    })
-    validator.addType('unicorn', unicorn)
+    validator.rule(
+      'unicorn',
+      () => {},
+      () => {
+        return {}
+      }
+    )
+
+    validator.type('unicorn', unicorn)
 
     assert.property(schema, 'file')
     const parsed = schema.create({
@@ -699,21 +696,21 @@ test.group('Validator | addType', () => {
     assert.deepEqual(parsed.tree, {
       avatar: {
         type: 'literal' as const,
-        subtype: 'unicorn',
         nullable: false,
         optional: false,
+        subtype: 'unicorn',
         rules: [
           {
             name: 'required',
-            async: false,
             allowUndefineds: true,
+            async: false,
             compiledOptions: [],
           },
           {
             name: 'unicorn',
             async: false,
             allowUndefineds: false,
-            compiledOptions: undefined,
+            compiledOptions: [{}],
           },
         ],
       },

@@ -52,7 +52,7 @@ export const file: SyncValidation<Partial<FileValidationOptions>> = {
     }
 
     /**
-     * Set size when it's defined by in the options
+     * Set size when it's defined in the options
      */
     if (fileToValidate.sizeLimit === undefined && compiledOptions.size) {
       fileToValidate.sizeLimit = compiledOptions.size

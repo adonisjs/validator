@@ -38,9 +38,13 @@ export const range: SyncValidation<{ start: number; stop: number }> = {
     }
 
     if (value < compiledOptions.start || value > compiledOptions.stop) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
-        ...compiledOptions,
-      })
+      errorReporter.report(
+        pointer,
+        RULE_NAME,
+        DEFAULT_MESSAGE,
+        arrayExpressionPointer,
+        compiledOptions
+      )
     }
   },
 }

@@ -919,7 +919,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * Value must pass the mobile regex rule
      */
-    mobile(options?: { strict?: boolean; locales?: validatorJs.MobilePhoneLocale[] }): Rule
+    mobile(options?: { strict?: boolean; locale?: validatorJs.MobilePhoneLocale[] }): Rule
 
     /**
      * Length of string or array must be below or same as the defined length

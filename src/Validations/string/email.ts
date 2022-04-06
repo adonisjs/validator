@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import isEmail from 'validator/lib/isEmail'
 import normalizeEmail from 'validator/lib/normalizeEmail'
+import isEmail, { IsEmailOptions } from 'validator/lib/isEmail'
 import { SyncValidation, EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
 
 import { isObject, wrapCompile } from '../../Validator/helpers'
@@ -20,7 +20,7 @@ const DEFAULT_MESSAGE = 'email validation failed'
  * Shape of compiled options. It is a merged copy of
  * sanitization and validation options
  */
-type CompiledOptions = Parameters<typeof isEmail>[1] & {
+type CompiledOptions = IsEmailOptions & {
   sanitize?: {
     all_lowercase?: boolean
     gmail_remove_dots?: boolean
@@ -53,6 +53,10 @@ export const email: SyncValidation<CompiledOptions> = {
     let sanitizationOptions: CompiledOptions['sanitize']
     if (options.sanitize) {
       sanitizationOptions = {}
+      process.emitWarning(
+        'DeprecationWarning',
+        'email.sanitize options are deprecated. Instead use "rules.normalizeEmail" method'
+      )
 
       if (options.sanitize === true) {
         sanitizationOptions = {}

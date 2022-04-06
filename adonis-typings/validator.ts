@@ -716,10 +716,10 @@ declare module '@ioc:Adonis/Core/Validator' {
   /**
    * Email validation and sanitization options
    */
-  export type EmailRuleOptions = {
-    domainSpecificValidation?: boolean
-    allowIpDomain?: boolean
-    ignoreMaxLength?: boolean
+  export type EmailRuleOptions = EmailValidationOptions & {
+    /**
+     * @deprecated
+     */
     sanitize?:
       | boolean
       | {
@@ -727,6 +727,38 @@ declare module '@ioc:Adonis/Core/Validator' {
           removeDots?: boolean
           removeSubaddress?: boolean
         }
+  }
+
+  /**
+   * Options to validate email
+   */
+  export type EmailValidationOptions = {
+    allowDisplayName?: boolean
+    requireDisplayName?: boolean
+    allowUtf8LocalPart?: boolean
+    requireTld?: boolean
+    ignoreMaxLength?: boolean
+    allowIpDomain?: boolean
+    domainSpecificValidation?: boolean
+    hostBlacklist?: string[]
+  }
+
+  /**
+   * Options accepted by the normalizeEmail
+   * rule
+   */
+  export type NormalizeEmailOptions = {
+    allLowercase?: boolean
+    gmailLowercase?: boolean
+    gmailRemoveDots?: boolean
+    gmailRemoveSubaddress?: boolean
+    gmailConvertGooglemaildotcom?: boolean
+    outlookdotcomLowercase?: boolean
+    outlookdotcomRemoveSubaddress?: boolean
+    yahooLowercase?: boolean
+    yahooRemoveSubaddress?: boolean
+    icloudLowercase?: boolean
+    icloudRemoveSubaddress?: boolean
   }
 
   /**
@@ -842,8 +874,20 @@ declare module '@ioc:Adonis/Core/Validator' {
 
     /**
      * Value must be a valid email address
+     * @deprecated
      */
     email(options?: EmailRuleOptions): Rule
+
+    /**
+     * Validate string value to be formatted as an email
+     * address
+     */
+    email(options?: EmailValidationOptions): Rule
+
+    /**
+     * Normalize email address
+     */
+    normalizeEmail(options: NormalizeEmailOptions): Rule
 
     /**
      * Value must be a valid url

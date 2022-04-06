@@ -14,9 +14,9 @@ import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { email } from '../../src/Validations/string/email'
-import { EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
+import { EmailValidationOptions } from '@ioc:Adonis/Core/Validator'
 
-function compile(options?: EmailRuleOptions) {
+function compile(options?: EmailValidationOptions) {
   return email.compile('literal', 'string', rules.email(options).options, {})
 }
 
@@ -74,72 +74,5 @@ test.group('Email', () => {
     })
 
     assert.deepEqual(reporter.toJSON(), { errors: [] })
-  })
-
-  test('sanitize email to lowercase', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let emailValue = 'FOO@bar.com'
-
-    email.validate(emailValue, compile({ sanitize: true }).compiledOptions, {
-      errorReporter: reporter,
-      field: 'email',
-      pointer: 'email',
-      tip: {},
-      root: {},
-      refs: {},
-      mutate: (newValue) => (emailValue = newValue),
-    })
-
-    assert.equal(emailValue, 'foo@bar.com')
-  })
-
-  test('sanitize email but keep gmail dots', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let emailValue = 'FOO.bar+2@gmail.com'
-
-    email.validate(
-      emailValue,
-      compile({
-        sanitize: {
-          removeDots: false,
-        },
-      }).compiledOptions,
-      {
-        errorReporter: reporter,
-        field: 'email',
-        pointer: 'email',
-        tip: {},
-        root: {},
-        refs: {},
-        mutate: (newValue) => (emailValue = newValue),
-      }
-    )
-
-    assert.equal(emailValue, 'foo.bar@gmail.com')
-  })
-
-  test('sanitize email but keep subaddress', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let emailValue = 'FOO.bar+2@gmail.com'
-
-    email.validate(
-      emailValue,
-      compile({
-        sanitize: {
-          removeSubaddress: false,
-        },
-      }).compiledOptions,
-      {
-        errorReporter: reporter,
-        field: 'email',
-        pointer: 'email',
-        tip: {},
-        root: {},
-        refs: {},
-        mutate: (newValue) => (emailValue = newValue),
-      }
-    )
-
-    assert.equal(emailValue, 'foobar+2@gmail.com')
   })
 })

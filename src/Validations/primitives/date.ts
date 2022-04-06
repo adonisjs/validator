@@ -30,7 +30,9 @@ export const date: SyncValidation<{ format?: string }> = {
     const dateTime = toLuxon(value, compiledOptions.format)
 
     if (isDateInstance && compiledOptions.format) {
-      errorReporter.report(pointer, RULE_NAME, CANNOT_VALIDATE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, CANNOT_VALIDATE, arrayExpressionPointer, {
+        format: compiledOptions.format,
+      })
       return
     }
 
@@ -39,7 +41,9 @@ export const date: SyncValidation<{ format?: string }> = {
      * date or a string and we must report the error and return early.
      */
     if (!dateTime) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
+      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer, {
+        format: compiledOptions.format,
+      })
       return
     }
 
@@ -51,7 +55,8 @@ export const date: SyncValidation<{ format?: string }> = {
         pointer,
         `${RULE_NAME}.format`,
         dateTime.invalidExplanation!,
-        arrayExpressionPointer
+        arrayExpressionPointer,
+        { format: compiledOptions.format }
       )
       return
     }

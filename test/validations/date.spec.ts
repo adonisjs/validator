@@ -40,6 +40,7 @@ test.group('Date', () => {
           field: 'dob',
           rule: 'date',
           message: 'date validation failed',
+          args: { format: undefined },
         },
       ],
     })
@@ -63,6 +64,7 @@ test.group('Date', () => {
           field: 'dob',
           rule: 'date',
           message: 'date validation failed',
+          args: { format: undefined },
         },
       ],
     })
@@ -106,6 +108,7 @@ test.group('Date', () => {
           field: 'dob',
           rule: 'date.format',
           message: 'you specified 21 (of type number) as a month, which is invalid',
+          args: { format: 'iso' },
         },
       ],
     })
@@ -149,6 +152,7 @@ test.group('Date', () => {
           field: 'dob',
           rule: 'date.format',
           message: 'you specified 21 (of type number) as a month, which is invalid',
+          args: { format: 'yyyy-dd-MM' },
         },
       ],
     })
@@ -192,6 +196,7 @@ test.group('Date', () => {
           field: 'dob',
           rule: 'date',
           message: 'cannot validate date instance against a date format',
+          args: { format: 'yyyy-dd-MM' },
         },
       ],
     })

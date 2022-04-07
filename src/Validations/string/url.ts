@@ -9,7 +9,8 @@
 
 import normalizeUrl from 'normalize-url'
 import isUrl, { IsURLOptions } from 'validator/lib/isURL'
-import { SyncValidation, UrlRuleOptions } from '@ioc:Adonis/Core/Validator'
+import { SyncValidation, UrlOptions } from '@ioc:Adonis/Core/Validator'
+
 import { wrapCompile } from '../../Validator/helpers'
 
 const RULE_NAME = 'url'
@@ -32,7 +33,21 @@ type CompiledOptions = {
  */
 export const url: SyncValidation<CompiledOptions> = {
   compile: wrapCompile(RULE_NAME, ['string'], (args) => {
-    const options = Object.assign({}, args[0]) as UrlRuleOptions
+    const options = Object.assign({}, args[0]) as UrlOptions
+
+    if (options.ensureProtocol !== undefined) {
+      process.emitWarning(
+        'DeprecationWarning',
+        'url.ensureProtocol option is deprecated. Instead use "rules.normalizeUrl" method'
+      )
+    }
+
+    if (options.stripWWW !== undefined) {
+      process.emitWarning(
+        'DeprecationWarning',
+        'url.stripWWW option is deprecated. Instead use "rules.normalizeUrl" method'
+      )
+    }
 
     return {
       /**

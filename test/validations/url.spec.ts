@@ -14,9 +14,9 @@ import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { url } from '../../src/Validations/string/url'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
-import { UrlRuleOptions } from '@ioc:Adonis/Core/Validator'
+import { UrlValidationOptions } from '@ioc:Adonis/Core/Validator'
 
-function compile(options?: UrlRuleOptions) {
+function compile(options?: UrlValidationOptions) {
   return url.compile('literal', 'string', rules.url(options).options, {})
 }
 
@@ -250,56 +250,5 @@ test.group('Url', () => {
         },
       ],
     })
-  })
-
-  test('add protocol to the url if missing', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let website = 'google.com'
-
-    url.validate(website, compile({ ensureProtocol: true }).compiledOptions, {
-      errorReporter: reporter,
-      field: 'website',
-      pointer: 'website',
-      tip: {},
-      root: {},
-      refs: {},
-      mutate: (newValue) => (website = newValue),
-    })
-
-    assert.equal(website, 'http://google.com')
-  })
-
-  test('ensure the given protocol', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let website = 'google.com'
-
-    url.validate(website, compile({ ensureProtocol: 'ftp' }).compiledOptions, {
-      errorReporter: reporter,
-      field: 'website',
-      pointer: 'website',
-      tip: {},
-      root: {},
-      refs: {},
-      mutate: (newValue) => (website = newValue),
-    })
-
-    assert.equal(website, 'ftp://google.com')
-  })
-
-  test('strip www', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    let website = 'www.google.com'
-
-    url.validate(website, compile({ stripWWW: true }).compiledOptions, {
-      errorReporter: reporter,
-      field: 'website',
-      pointer: 'website',
-      tip: {},
-      root: {},
-      refs: {},
-      mutate: (newValue) => (website = newValue),
-    })
-
-    assert.equal(website, 'http://google.com')
   })
 })

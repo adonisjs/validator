@@ -8,25 +8,21 @@
  */
 
 import { snakeCase } from '@poppinss/utils/build/src/Helpers/string'
-import { SyncValidation, NormalizeEmailOptions } from '@ioc:Adonis/Core/Validator'
-import {
-  default as validatorJsNormalizeEmail,
-  NormalizeEmailOptions as ValidatorJsOptions,
-} from 'validator/lib/normalizeEmail'
+import { SyncValidation, EmailNormalizationOptions } from '@ioc:Adonis/Core/Validator'
+import { default as normalize, NormalizeEmailOptions } from 'validator/lib/normalizeEmail'
 
 import { wrapCompile } from '../../Validator/helpers'
-
 const RULE_NAME = 'normalizeEmail'
 
 /**
  * Normalize email address
  */
-export const normalizeEmail: SyncValidation<ValidatorJsOptions> = {
+export const normalizeEmail: SyncValidation<NormalizeEmailOptions> = {
   compile: wrapCompile(RULE_NAME, ['string'], (args) => {
-    const options = Object.assign({}, args[0]) as NormalizeEmailOptions
+    const options = Object.assign({}, args[0]) as EmailNormalizationOptions
 
     return {
-      compiledOptions: Object.keys(options).reduce<ValidatorJsOptions>((result, key) => {
+      compiledOptions: Object.keys(options).reduce<NormalizeEmailOptions>((result, key) => {
         result[snakeCase(key)] = options[key]
         return result
       }, {}),
@@ -41,8 +37,8 @@ export const normalizeEmail: SyncValidation<ValidatorJsOptions> = {
     }
 
     /**
-     * Apply lower case sanitization
+     * Normalize email
      */
-    mutate(validatorJsNormalizeEmail(value, compiledOptions))
+    mutate(normalize(value, compiledOptions))
   },
 }

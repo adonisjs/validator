@@ -12,6 +12,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   import { default as validatorJs } from 'validator'
   import { DateTime, DurationObjectUnits } from 'luxon'
   import { RequestContract } from '@ioc:Adonis/Core/Request'
+  import { Options as NormalizeUrlOptions } from 'normalize-url'
   import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import { MultipartFileContract, FileValidationOptions } from '@ioc:Adonis/Core/BodyParser'
 
@@ -747,7 +748,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Options accepted by the normalizeEmail
    * rule
    */
-  export type NormalizeEmailOptions = {
+  export type EmailNormalizationOptions = {
     allLowercase?: boolean
     gmailLowercase?: boolean
     gmailRemoveDots?: boolean
@@ -762,9 +763,9 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
-   * Url validation options
+   * URL validation options
    */
-  export type UrlRuleOptions = {
+  export type UrlValidationOptions = {
     protocols?: ('http' | 'https' | 'ftp')[]
     requireTld?: boolean
     requireProtocol?: boolean
@@ -772,8 +773,21 @@ declare module '@ioc:Adonis/Core/Validator' {
     allowedHosts?: string[]
     bannedHosts?: string[]
     validateLength?: boolean
+  }
+
+  /**
+   * Extended options with deprecated properties
+   */
+  export type UrlOptions = UrlValidationOptions & {
     ensureProtocol?: string | boolean
     stripWWW?: boolean
+  }
+
+  /**
+   * URL normalization options
+   */
+  export type UrlNormalizationOptions = {
+    -readonly [K in keyof NormalizeUrlOptions]: NormalizeUrlOptions[K]
   }
 
   /**
@@ -887,12 +901,23 @@ declare module '@ioc:Adonis/Core/Validator' {
     /**
      * Normalize email address
      */
-    normalizeEmail(options: NormalizeEmailOptions): Rule
+    normalizeEmail(options: EmailNormalizationOptions): Rule
+
+    /**
+     * Value must be a valid url
+     * @deprecated
+     */
+    url(options?: UrlOptions): Rule
 
     /**
      * Value must be a valid url
      */
-    url(options?: UrlRuleOptions): Rule
+    url(options?: UrlValidationOptions): Rule
+
+    /**
+     * Normalize URL
+     */
+    normalizeUrl(options?: NormalizeUrlOptions): Rule
 
     /**
      * Trim string value

@@ -8,14 +8,14 @@
  */
 
 import { test } from '@japa/runner'
-import { NormalizeEmailOptions } from '@ioc:Adonis/Core/Validator'
+import { EmailNormalizationOptions } from '@ioc:Adonis/Core/Validator'
 
 import { rules } from '../../src/Rules'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { normalizeEmail } from '../../src/Validations/string/normalizeEmail'
 
-function compile(options: NormalizeEmailOptions) {
+function compile(options: EmailNormalizationOptions) {
   return normalizeEmail.compile('literal', 'string', rules.normalizeEmail(options).options, {})
 }
 

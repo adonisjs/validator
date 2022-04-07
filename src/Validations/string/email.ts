@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import normalizeEmail from 'validator/lib/normalizeEmail'
+import normalizeEmail, { NormalizeEmailOptions } from 'validator/lib/normalizeEmail'
 import isEmail, { IsEmailOptions } from 'validator/lib/isEmail'
 import { SyncValidation, EmailRuleOptions } from '@ioc:Adonis/Core/Validator'
 
@@ -21,14 +21,7 @@ const DEFAULT_MESSAGE = 'email validation failed'
  * sanitization and validation options
  */
 type CompiledOptions = IsEmailOptions & {
-  sanitize?: {
-    all_lowercase?: boolean
-    gmail_remove_dots?: boolean
-    gmail_remove_subaddress?: boolean
-    outlookdotcom_remove_subaddress?: boolean
-    yahoo_remove_subaddress?: boolean
-    icloud_remove_subaddress?: boolean
-  }
+  sanitize?: NormalizeEmailOptions
 }
 
 /**

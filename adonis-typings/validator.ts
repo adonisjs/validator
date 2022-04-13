@@ -887,16 +887,16 @@ declare module '@ioc:Adonis/Core/Validator' {
     regex(regexPattern: RegExp): Rule
 
     /**
-     * Value must be a valid email address
-     * @deprecated
-     */
-    email(options?: EmailRuleOptions): Rule
-
-    /**
      * Validate string value to be formatted as an email
      * address
      */
     email(options?: EmailValidationOptions): Rule
+
+    /**
+     * Value must be a valid email address
+     * @deprecated
+     */
+    email(options?: EmailRuleOptions): Rule
 
     /**
      * Normalize email address
@@ -905,14 +905,14 @@ declare module '@ioc:Adonis/Core/Validator' {
 
     /**
      * Value must be a valid url
-     * @deprecated
      */
-    url(options?: UrlOptions): Rule
+    url(options?: UrlValidationOptions): Rule
 
     /**
      * Value must be a valid url
+     * @deprecated
      */
-    url(options?: UrlValidationOptions): Rule
+    url(options?: UrlOptions): Rule
 
     /**
      * Normalize URL

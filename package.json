@@ -11,7 +11,7 @@
 	"scripts": {
 		"mrm": "mrm --preset=@adonisjs/mrm-preset",
 		"pretest": "npm run lint",
-		"test": "node -r @adonisjs/require-ts/build/register bin/test.ts",
+		"test": "node --unhandled-rejections=throw -r @adonisjs/require-ts/build/register bin/test.ts",
 		"clean": "del build",
 		"compile": "npm run lint && npm run clean && tsc",
 		"copy:files": "copyfiles \"templates/**/*.txt\" build",

@@ -33,6 +33,9 @@ test.group('JSON API ErrorReporter', () => {
     const reporter = new JsonApiErrorReporter(new MessagesBag({}), false)
     reporter.report('username', 'required', 'required validation failed')
     reporter.report('username', 'alpha', 'alpha validation failed', undefined, { isRegex: true })
+    reporter.report('username', 'alphaNum', 'alphaNum validation failed', undefined, {
+      isRegex: true,
+    })
     reporter.report('age', 'required', 'required validation failed')
 
     assert.deepEqual(reporter.toError().messages, {
@@ -50,6 +53,14 @@ test.group('JSON API ErrorReporter', () => {
           },
           code: 'alpha',
           title: 'alpha validation failed',
+          meta: { isRegex: true },
+        },
+        {
+          source: {
+            pointer: 'username',
+          },
+          code: 'alphaNum',
+          title: 'alphaNum validation failed',
           meta: { isRegex: true },
         },
         {

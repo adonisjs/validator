@@ -15,7 +15,7 @@ import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
 import { alpha } from '../../src/Validations/string/alpha'
 
-function compile(options?: { allow?: ('space' | 'underscore' | 'dash' | 'numeric')[] }) {
+function compile(options?: { allow?: ('space' | 'underscore' | 'dash')[] }) {
   return alpha.compile('literal', 'string', rules.alpha(options).options, {})
 }
 
@@ -118,27 +118,6 @@ test.group('Alpha', () => {
     alpha.validate(
       'he l-lo_world',
       compile({ allow: ['space', 'dash', 'underscore'] }).compiledOptions,
-      {
-        errorReporter: reporter,
-        field: 'username',
-        pointer: 'username',
-        tip: {},
-        root: {},
-        refs: {},
-        mutate: () => {},
-      }
-    )
-
-    assert.deepEqual(reporter.toJSON(), {
-      errors: [],
-    })
-  })
-
-  test('allow space, dash, underscore and numeric with alpha characters', ({ assert }) => {
-    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
-    alpha.validate(
-      'he l-lo_world22',
-      compile({ allow: ['space', 'dash', 'underscore', 'numeric'] }).compiledOptions,
       {
         errorReporter: reporter,
         field: 'username',

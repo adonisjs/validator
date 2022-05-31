@@ -53,13 +53,6 @@ export const alpha: SyncValidation<{ pattern: string }> = {
       charactersMatch += '_'
     }
 
-    /**
-     * Allow numeric
-     */
-    if (options.allow.includes('numeric')) {
-      charactersMatch += '0-9'
-    }
-
     return {
       compiledOptions: {
         pattern: `^[${charactersMatch}]+$`,

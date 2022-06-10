@@ -31,10 +31,15 @@ test.group('Vanilla ErrorReporter', () => {
     const reporter = new VanillaErrorReporter(new MessagesBag({}), false)
     reporter.report('username', 'required', 'required validation failed')
     reporter.report('username', 'alpha', 'alpha validation failed')
+    reporter.report('username', 'alphaNum', 'alphaNum validation failed')
     reporter.report('age', 'required', 'required validation failed')
 
     assert.deepEqual(reporter.toError().messages, {
-      username: ['required validation failed', 'alpha validation failed'],
+      username: [
+        'required validation failed',
+        'alpha validation failed',
+        'alphaNum validation failed',
+      ],
       age: ['required validation failed'],
     })
   })

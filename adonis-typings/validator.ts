@@ -882,6 +882,11 @@ declare module '@ioc:Adonis/Core/Validator' {
     alpha(options?: { allow?: ('space' | 'underscore' | 'dash')[] }): Rule
 
     /**
+     * String must be alphaNum
+     */
+    alphaNum(options?: { allow?: ('space' | 'underscore' | 'dash')[] }): Rule
+
+    /**
      * String must match regex
      */
     regex(regexPattern: RegExp): Rule

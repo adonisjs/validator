@@ -33,6 +33,9 @@ test.group('Api ErrorReporter', () => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     reporter.report('username', 'required', 'required validation failed')
     reporter.report('username', 'alpha', 'alpha validation failed', undefined, { isRegex: true })
+    reporter.report('username', 'alphaNum', 'alphaNum validation failed', undefined, {
+      isRegex: true,
+    })
     reporter.report('age', 'required', 'required validation failed')
 
     assert.deepEqual(reporter.toError().messages, {
@@ -46,6 +49,12 @@ test.group('Api ErrorReporter', () => {
           field: 'username',
           rule: 'alpha',
           message: 'alpha validation failed',
+          args: { isRegex: true },
+        },
+        {
+          field: 'username',
+          rule: 'alphaNum',
+          message: 'alphaNum validation failed',
           args: { isRegex: true },
         },
         {

@@ -75,9 +75,13 @@ export const email: SyncValidation<CompiledOptions> = {
 
     return {
       compiledOptions: {
-        domain_specific_validation: options.domainSpecificValidation,
-        allow_ip_domain: options.allowIpDomain,
+        allow_display_name: options.allowDisplayName,
+        require_display_name: options.requireDisplayName,
+        allow_utf8_local_part: options.allowUtf8LocalPart,
+        require_tld: options.requireTld,
         ignore_max_length: options.ignoreMaxLength,
+        allow_ip_domain: options.allowIpDomain,
+        domain_specific_validation: options.domainSpecificValidation,
         sanitize: sanitizationOptions,
       },
     }

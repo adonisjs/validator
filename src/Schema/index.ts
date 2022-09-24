@@ -29,15 +29,55 @@ import {
 /**
  * String schema type
  */
-function string(options?: { escape?: boolean; trim?: boolean } | Rule[], rules?: Rule[]) {
+function string(
+  options?:
+    | ({
+        escape?: boolean
+        trim?: boolean
+      } & (
+        | {
+            lowerCase?: true
+            upperCase?: false
+          }
+        | {
+            lowerCase?: false
+            upperCase?: true
+          }
+        | {
+            lowerCase?: false
+            upperCase?: false
+          }
+      ))
+    | Rule[],
+  rules?: Rule[]
+) {
   if (!rules && Array.isArray(options)) {
     rules = options
     options = {}
   }
   return getLiteralType('string', false, false, options, rules || []) as ReturnType<StringType>
 }
+
 string.optional = function optionalString(
-  options?: { escape?: boolean; trim?: boolean } | Rule[],
+  options?:
+    | ({
+        escape?: boolean
+        trim?: boolean
+      } & (
+        | {
+            lowerCase?: true
+            upperCase?: false
+          }
+        | {
+            lowerCase?: false
+            upperCase?: true
+          }
+        | {
+            lowerCase?: false
+            upperCase?: false
+          }
+      ))
+    | Rule[],
   rules?: Rule[]
 ) {
   if (!rules && Array.isArray(options)) {
@@ -49,7 +89,25 @@ string.optional = function optionalString(
   >
 }
 string.nullable = function nullableString(
-  options?: { escape?: boolean; trim?: boolean } | Rule[],
+  options?:
+    | ({
+        escape?: boolean
+        trim?: boolean
+      } & (
+        | {
+            lowerCase?: true
+            upperCase?: false
+          }
+        | {
+            lowerCase?: false
+            upperCase?: true
+          }
+        | {
+            lowerCase?: false
+            upperCase?: false
+          }
+      ))
+    | Rule[],
   rules?: Rule[]
 ) {
   if (!rules && Array.isArray(options)) {
@@ -61,7 +119,25 @@ string.nullable = function nullableString(
   >
 }
 string.nullableAndOptional = function nullableAndOptionalString(
-  options?: { escape?: boolean; trim?: boolean } | Rule[],
+  options?:
+    | ({
+        escape?: boolean
+        trim?: boolean
+      } & (
+        | {
+            lowerCase?: true
+            upperCase?: false
+          }
+        | {
+            lowerCase?: false
+            upperCase?: true
+          }
+        | {
+            lowerCase?: false
+            upperCase?: false
+          }
+      ))
+    | Rule[],
   rules?: Rule[]
 ) {
   if (!rules && Array.isArray(options)) {
@@ -79,6 +155,7 @@ string.nullableAndOptional = function nullableAndOptionalString(
 function boolean(rules?: Rule[]) {
   return getLiteralType('boolean', false, false, undefined, rules || []) as ReturnType<BooleanType>
 }
+
 boolean.optional = function optionalBoolean(rules?: Rule[]) {
   return getLiteralType('boolean', true, false, undefined, rules || []) as ReturnType<
     BooleanType['optional']
@@ -101,6 +178,7 @@ boolean.nullableAndOptional = function nullableAndOptionalBoolean(rules?: Rule[]
 function number(rules?: Rule[]) {
   return getLiteralType('number', false, false, undefined, rules || []) as ReturnType<NumberType>
 }
+
 number.optional = function optionalNumber(rules?: Rule[]) {
   return getLiteralType('number', true, false, undefined, rules || []) as ReturnType<
     NumberType['optional']
@@ -123,6 +201,7 @@ number.nullableAndOptional = function nullableAndOptionalNumber(rules?: Rule[]) 
 function date(options?: { format: string }, rules?: Rule[]) {
   return getLiteralType('date', false, false, options, rules || []) as ReturnType<DateType>
 }
+
 date.optional = function optionalDate(options?: { format: string }, rules?: Rule[]) {
   return getLiteralType('date', true, false, options, rules || []) as ReturnType<
     DateType['optional']
@@ -163,6 +242,7 @@ function object(rules?: Rule[]) {
     },
   } as ReturnType<ObjectType>
 }
+
 object.optional = function optionalObject(rules?: Rule[]) {
   return {
     members(schema: any) {
@@ -231,6 +311,7 @@ function array(rules?: Rule[]) {
     },
   } as ReturnType<ArrayType>
 }
+
 array.optional = function optionalArray(rules?: Rule[]) {
   return {
     members(schema: any) {
@@ -268,6 +349,7 @@ array.nullableAndOptional = function nullableAndOptionalArray(rules?: Rule[]) {
 function oneOf(enumOptions: any[], rules?: Rule[]) {
   return getLiteralType('enum', false, false, enumOptions, rules || []) as ReturnType<EnumType>
 }
+
 oneOf.optional = function optionalEnum(enumOptions: any[], rules?: Rule[]) {
   return getLiteralType('enum', true, false, enumOptions, rules || []) as ReturnType<
     EnumType['optional']
@@ -296,6 +378,7 @@ function enumSet(enumOptions: any[], rules?: Rule[]) {
     rules || []
   ) as ReturnType<EnumSetType>
 }
+
 enumSet.optional = function optionalEnumSet(enumOptions: any[], rules?: Rule[]) {
   return getLiteralType('enumSet', true, false, enumOptions, rules || []) as ReturnType<
     EnumSetType['optional']
@@ -321,6 +404,7 @@ enumSet.nullableAndOptional = function nullableAndOptionalEnumSet(
 function file(options: any, rules?: Rule[]) {
   return getLiteralType('file', false, false, options, rules || []) as ReturnType<FileType>
 }
+
 file.optional = function optionalFile(options: any, rules?: Rule[]) {
   return getLiteralType('file', true, false, options, rules || []) as ReturnType<
     FileType['optional']

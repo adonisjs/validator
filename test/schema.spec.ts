@@ -34,7 +34,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: false, trim: false },
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
             },
           ],
         },
@@ -58,7 +58,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: false, trim: false },
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
             },
           ],
         },
@@ -88,7 +88,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: false, trim: false },
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
             },
           ],
         },
@@ -112,7 +112,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: false, trim: false },
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
             },
           ],
         },
@@ -142,7 +142,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: false, trim: false },
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
             },
             {
               name: 'alpha',
@@ -180,7 +180,7 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: true, trim: false },
+              compiledOptions: { escape: true, trim: false, upperCase: false, lowerCase: false },
             },
           ],
         },
@@ -210,7 +210,67 @@ test.group('Schema | String', () => {
               name: 'string',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { escape: true, trim: true },
+              compiledOptions: { escape: true, trim: true, upperCase: false, lowerCase: false },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('turn on upperCase', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.string({ escape: false, trim: false, upperCase: true, lowerCase: false }),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'string',
+          optional: false,
+          nullable: false,
+          rules: [
+            {
+              name: 'required',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'string',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: { escape: false, trim: false, upperCase: true, lowerCase: false },
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('turn on lowerCase', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.string({ escape: false, trim: false, upperCase: false, lowerCase: true }),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'string',
+          optional: false,
+          nullable: false,
+          rules: [
+            {
+              name: 'required',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'string',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: true },
             },
           ],
         },
@@ -911,7 +971,12 @@ test.group('Schema | Object', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: { escape: false, trim: false },
+                  compiledOptions: {
+                    escape: false,
+                    trim: false,
+                    upperCase: false,
+                    lowerCase: false,
+                  },
                 },
               ],
             },
@@ -958,7 +1023,12 @@ test.group('Schema | Object', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: { escape: false, trim: false },
+                  compiledOptions: {
+                    escape: false,
+                    trim: false,
+                    upperCase: false,
+                    lowerCase: false,
+                  },
                 },
               ],
             },
@@ -1011,7 +1081,12 @@ test.group('Schema | Object', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: { escape: false, trim: false },
+                  compiledOptions: {
+                    escape: false,
+                    trim: false,
+                    upperCase: false,
+                    lowerCase: false,
+                  },
                 },
               ],
             },
@@ -1058,7 +1133,12 @@ test.group('Schema | Object', () => {
                   name: 'string',
                   allowUndefineds: false,
                   async: false,
-                  compiledOptions: { escape: false, trim: false },
+                  compiledOptions: {
+                    escape: false,
+                    trim: false,
+                    upperCase: false,
+                    lowerCase: false,
+                  },
                 },
               ],
             },
@@ -1162,7 +1242,12 @@ test.group('Schema | Array', () => {
                     name: 'string',
                     allowUndefineds: false,
                     async: false,
-                    compiledOptions: { escape: false, trim: false },
+                    compiledOptions: {
+                      escape: false,
+                      trim: false,
+                      upperCase: false,
+                      lowerCase: false,
+                    },
                   },
                 ],
               },
@@ -1230,7 +1315,12 @@ test.group('Schema | Array', () => {
                     name: 'string',
                     allowUndefineds: false,
                     async: false,
-                    compiledOptions: { escape: false, trim: false },
+                    compiledOptions: {
+                      escape: false,
+                      trim: false,
+                      upperCase: false,
+                      lowerCase: false,
+                    },
                   },
                 ],
               },
@@ -1304,7 +1394,12 @@ test.group('Schema | Array', () => {
                     name: 'string',
                     allowUndefineds: false,
                     async: false,
-                    compiledOptions: { escape: false, trim: false },
+                    compiledOptions: {
+                      escape: false,
+                      trim: false,
+                      upperCase: false,
+                      lowerCase: false,
+                    },
                   },
                 ],
               },
@@ -1384,7 +1479,12 @@ test.group('Schema | Array', () => {
                     name: 'string',
                     allowUndefineds: false,
                     async: false,
-                    compiledOptions: { escape: false, trim: false },
+                    compiledOptions: {
+                      escape: false,
+                      trim: false,
+                      upperCase: false,
+                      lowerCase: false,
+                    },
                   },
                 ],
               },
@@ -1487,7 +1587,7 @@ test.group('Schema | Array', () => {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
-                compiledOptions: { escape: false, trim: false },
+                compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
               },
             ],
           },
@@ -1530,7 +1630,7 @@ test.group('Schema | Array', () => {
                 name: 'string',
                 allowUndefineds: false,
                 async: false,
-                compiledOptions: { escape: false, trim: false },
+                compiledOptions: { escape: false, trim: false, upperCase: false, lowerCase: false },
               },
             ],
           },

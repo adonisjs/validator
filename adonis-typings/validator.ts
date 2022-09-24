@@ -191,6 +191,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export interface ErrorReporterContract<Messages extends any = any> {
     hasErrors: boolean
+
     report(
       pointer: string,
       rule: string,
@@ -198,7 +199,9 @@ declare module '@ioc:Adonis/Core/Validator' {
       arrayExpressionPointer?: string,
       args?: any
     ): void
+
     toError(): any
+
     toJSON(): Messages
   }
 
@@ -286,26 +289,104 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a string or optional string type
    */
   export interface StringType {
-    (options?: { escape?: boolean; trim?: boolean } | Rule[], rules?: Rule[]): {
+    (
+      options?:
+        | ({
+            escape?: boolean
+            trim?: boolean
+          } & (
+            | {
+                lowerCase?: true
+                upperCase?: false
+              }
+            | {
+                lowerCase?: false
+                upperCase?: true
+              }
+            | {
+                lowerCase?: false
+                upperCase?: false
+              }
+          ))
+        | Rule[],
+      rules?: Rule[]
+    ): {
       t: string
       getTree(): SchemaLiteral
     }
+
     optional(
-      options?: { escape?: boolean; trim?: boolean } | Rule[],
+      options?:
+        | ({
+            escape?: boolean
+            trim?: boolean
+          } & (
+            | {
+                lowerCase?: true
+                upperCase?: false
+              }
+            | {
+                lowerCase?: false
+                upperCase?: true
+              }
+            | {
+                lowerCase?: false
+                upperCase?: false
+              }
+          ))
+        | Rule[],
       rules?: Rule[]
     ): {
       t?: string
       getTree(): SchemaLiteral
     }
+
     nullable(
-      options?: { escape?: boolean; trim?: boolean } | Rule[],
+      options?:
+        | ({
+            escape?: boolean
+            trim?: boolean
+          } & (
+            | {
+                lowerCase?: true
+                upperCase?: false
+              }
+            | {
+                lowerCase?: false
+                upperCase?: true
+              }
+            | {
+                lowerCase?: false
+                upperCase?: false
+              }
+          ))
+        | Rule[],
       rules?: Rule[]
     ): {
       t: string | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional(
-      options?: { escape?: boolean; trim?: boolean } | Rule[],
+      options?:
+        | ({
+            escape?: boolean
+            trim?: boolean
+          } & (
+            | {
+                lowerCase?: true
+                upperCase?: false
+              }
+            | {
+                lowerCase?: false
+                upperCase?: true
+              }
+            | {
+                lowerCase?: false
+                upperCase?: false
+              }
+          ))
+        | Rule[],
       rules?: Rule[]
     ): {
       t?: string | null
@@ -321,6 +402,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: DateTime
       getTree(): SchemaLiteral
     }
+
     optional(
       options?: { format?: string },
       rules?: Rule[]
@@ -328,6 +410,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: DateTime
       getTree(): SchemaLiteral
     }
+
     nullable(
       options?: { format?: string },
       rules?: Rule[]
@@ -335,6 +418,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: DateTime | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional(
       options?: { format?: string },
       rules?: Rule[]
@@ -352,14 +436,17 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: boolean
       getTree(): SchemaLiteral
     }
+
     optional(rules?: Rule[]): {
       t?: boolean
       getTree(): SchemaLiteral
     }
+
     nullable(rules?: Rule[]): {
       t: boolean | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional(rules?: Rule[]): {
       t?: boolean | null
       getTree(): SchemaLiteral
@@ -374,14 +461,17 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: number
       getTree(): SchemaLiteral
     }
+
     optional(rules?: Rule[]): {
       t?: number
       getTree(): SchemaLiteral
     }
+
     nullable(rules?: Rule[]): {
       t: number | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional(rules?: Rule[]): {
       t?: number | null
       getTree(): SchemaLiteral
@@ -405,6 +495,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaObject
       }
     }
+
     optional(rules?: Rule[]): {
       members<T extends TypedSchema>(
         schema: T
@@ -417,6 +508,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaObject
       }
     }
+
     nullable(rules?: Rule[]): {
       members<T extends TypedSchema>(
         schema: T
@@ -429,6 +521,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaObject
       }
     }
+
     nullableAndOptional(rules?: Rule[]): {
       members<T extends TypedSchema>(
         schema: T
@@ -460,6 +553,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaArray
       }
     }
+
     optional(rules?: Rule[]): {
       members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
         schema: T
@@ -472,6 +566,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaArray
       }
     }
+
     nullable(rules?: Rule[]): {
       members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
         schema: T
@@ -484,6 +579,7 @@ declare module '@ioc:Adonis/Core/Validator' {
         getTree(): SchemaArray
       }
     }
+
     nullableAndOptional(rules?: Rule[]): {
       members<T extends { t?: any; getTree(): SchemaLiteral | SchemaObject | SchemaArray }>(
         schema: T
@@ -538,6 +634,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: EnumReturnValue<Options>
       getTree(): SchemaLiteral
     }
+
     optional<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -545,6 +642,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: EnumReturnValue<Options>
       getTree(): SchemaLiteral
     }
+
     nullable<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -552,6 +650,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: EnumReturnValue<Options> | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -569,6 +668,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: EnumSetReturnValue<Options>
       getTree(): SchemaLiteral
     }
+
     optional<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -576,6 +676,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: EnumSetReturnValue<Options>
       getTree(): SchemaLiteral
     }
+
     nullable<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -583,6 +684,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: EnumSetReturnValue<Options> | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional<Options extends AllowedEnumOptions>(
       options: Options,
       rules?: Rule[]
@@ -600,6 +702,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: MultipartFileContract
       getTree(): SchemaLiteral
     }
+
     optional(
       options?: Partial<FileValidationOptions>,
       rules?: Rule[]
@@ -607,6 +710,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t?: MultipartFileContract
       getTree(): SchemaLiteral
     }
+
     nullable(
       options?: Partial<FileValidationOptions>,
       rules?: Rule[]
@@ -614,6 +718,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       t: MultipartFileContract | null
       getTree(): SchemaLiteral
     }
+
     nullableAndOptional(
       options?: Partial<FileValidationOptions>,
       rules?: Rule[]
@@ -647,6 +752,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     array: ArrayType
     file: FileType
     refs: <T extends Object>(refs: T) => { [K in keyof T]: SchemaRef<T[K]> }
+
     create<T extends TypedSchema>(schema: T): ParsedTypedSchema<T>
   }
 
@@ -855,11 +961,13 @@ declare module '@ioc:Adonis/Core/Validator' {
       operator: 'in' | 'notIn',
       comparisonValues: any[] | SchemaRef<any[]>
     ): Rule
+
     requiredWhen(
       field: string,
       operator: '>' | '<' | '>=' | '<=',
       comparisonValue: number | SchemaRef<number>
     ): Rule
+
     requiredWhen(
       field: string,
       operator: 'in' | 'notIn' | '=' | '!=' | '>' | '<' | '>=' | '<=',

@@ -20,7 +20,7 @@ import {
  */
 export default function extendRequest(
   Request: RequestConstructorContract,
-  validate: typeof validator['validate'],
+  validate: (typeof validator)['validate'],
   config: ValidatorResolvedConfig
 ) {
   Request.macro('validate', async function validateRequest(Validator: RequestValidatorNode<any>) {

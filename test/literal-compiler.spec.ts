@@ -82,9 +82,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -144,9 +145,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -206,9 +208,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -268,9 +271,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -325,7 +329,7 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);`
+      let val_0_exists = helpers.exists(val_0);`
         .split('\n')
         .map((line) => line.trim())
     )
@@ -372,9 +376,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -431,9 +436,10 @@ test.group('Literal Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['username']
       let val_0 = root['username'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,

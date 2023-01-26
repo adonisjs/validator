@@ -73,7 +73,7 @@ export class Compiler {
    * Returns the declaration for the undefined and the null check
    */
   public getVariableExistsDeclaration(variableName: string) {
-    return `const ${this.getVariableExistsName(variableName)} = ${
+    return `let ${this.getVariableExistsName(variableName)} = ${
       this.COMPILER_REFERENCES.exists
     }(${variableName})`
   }
@@ -85,6 +85,9 @@ export class Compiler {
   public getMutationFnDeclararationExpression(variableName: string) {
     return `function ${this.getVariableMutationName(variableName)} (newValue) {
       ${variableName} = newValue;
+      ${this.getVariableExistsName(variableName)} = ${
+      this.COMPILER_REFERENCES.exists
+    }(${variableName});
     }`
   }
 

@@ -160,6 +160,64 @@ test.group('Validator | validate', () => {
       reporter: ApiErrorReporter,
     })
   })
+
+  test('assign value to a nullable field using rule', async ({ assert }) => {
+    assert.plan(1)
+
+    validator.rule(
+      'default',
+      (_, { defaultValue }, runtimeOptions) => {
+        runtimeOptions.mutate(defaultValue)
+      },
+      ([defaultValue]) => {
+        return {
+          allowUndefineds: true,
+          compiledOptions: {
+            defaultValue,
+          },
+        }
+      }
+    )
+
+    const { username } = await validator.validate({
+      schema: schema.create({
+        username: schema.string.nullable([{ name: 'default', options: ['virk'] }]),
+      }),
+      data: {
+        username: null,
+      },
+    })
+
+    assert.equal(username, 'virk')
+  })
+
+  test('assign value to an undefined field using rule', async ({ assert }) => {
+    assert.plan(1)
+
+    validator.rule(
+      'default',
+      (_, { defaultValue }, runtimeOptions) => {
+        runtimeOptions.mutate(defaultValue)
+      },
+      ([defaultValue]) => {
+        return {
+          allowUndefineds: true,
+          compiledOptions: {
+            defaultValue,
+          },
+        }
+      }
+    )
+
+    const { username } = await validator.validate({
+      schema: schema.create({
+        username: schema.string.optional([{ name: 'default', options: ['virk'] }]),
+      }),
+      data: {},
+    })
+
+    assert.equal(username, 'virk')
+  })
 })
 
 test.group('Validator | validate object', () => {

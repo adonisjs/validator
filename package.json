@@ -23,7 +23,8 @@
 		"benchmarks": "node build/benchmarks/index.js",
 		"lint": "eslint . --ext=.ts",
 		"format": "prettier --write .",
-		"sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json adonisjs/validator"
+		"sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json adonisjs/validator",
+    "vscode:test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
 	},
 	"types": "./build/adonis-typings/index.d.ts",
 	"author": "virk,adonisjs",

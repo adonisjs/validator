@@ -69,9 +69,10 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -89,9 +90,10 @@ test.group('Object Compiler', () => {
 
         // Validate val_0['username']
         let val_1 = val_0['username'];
-        const val_1_exists = helpers.exists(val_1);
+        let val_1_exists = helpers.exists(val_1);
         function mutate_val_1 (newValue) {
           val_1 = newValue;
+          val_1_exists = helpers.exists(val_1);
         }
         const val_1_options = {
           root,
@@ -182,9 +184,10 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -202,9 +205,10 @@ test.group('Object Compiler', () => {
 
         // Validate val_0['profile']
         let val_1 = val_0['profile'];
-        const val_1_exists = helpers.exists(val_1);
+        let val_1_exists = helpers.exists(val_1);
         function mutate_val_1 (newValue) {
           val_1 = newValue;
+          val_1_exists = helpers.exists(val_1);
         }
         const val_1_options = {
           root,
@@ -222,9 +226,10 @@ test.group('Object Compiler', () => {
 
           // Validate val_1['username']
           let val_2 = val_1['username'];
-          const val_2_exists = helpers.exists(val_2);
+          let val_2_exists = helpers.exists(val_2);
           function mutate_val_2 (newValue) {
             val_2 = newValue;
+            val_2_exists = helpers.exists(val_2);
           }
           const val_2_options = {
             root,
@@ -289,9 +294,10 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -353,9 +359,10 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -426,16 +433,17 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
 
       if (val_0_exists && helpers.isObject(val_0)) {
         const out_0 = out['user'] = {};
 
         // Validate val_0['username']
         let val_1 = val_0['username'];
-        const val_1_exists = helpers.exists(val_1);
+        let val_1_exists = helpers.exists(val_1);
         function mutate_val_1 (newValue) {
           val_1 = newValue;
+          val_1_exists = helpers.exists(val_1);
         }
         const val_1_options = {
           root,
@@ -511,9 +519,10 @@ test.group('Object Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['user']
       let val_0 = root['user'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -531,9 +540,10 @@ test.group('Object Compiler', () => {
 
         // Validate val_0['username']
         let val_1 = val_0['username'];
-        const val_1_exists = helpers.exists(val_1);
+        let val_1_exists = helpers.exists(val_1);
         function mutate_val_1 (newValue) {
           val_1 = newValue;
+          val_1_exists = helpers.exists(val_1);
         }
         const val_1_options = {
           root,

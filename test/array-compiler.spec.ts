@@ -82,9 +82,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -103,9 +104,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -124,9 +126,10 @@ test.group('Array Compiler', () => {
 
             // Validate val_1['username']
             let val_2 = val_1['username'];
-            const val_2_exists = helpers.exists(val_2);
+            let val_2_exists = helpers.exists(val_2);
             function mutate_val_2 (newValue) {
               val_2 = newValue;
+              val_2_exists = helpers.exists(val_2);
             }
             const val_2_options = {
               root,
@@ -204,9 +207,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -225,9 +229,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -319,9 +324,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -410,9 +416,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -431,9 +438,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -452,9 +460,10 @@ test.group('Array Compiler', () => {
 
             // Validate val_1['username']
             let val_2 = val_1['username'];
-            const val_2_exists = helpers.exists(val_2);
+            let val_2_exists = helpers.exists(val_2);
             function mutate_val_2 (newValue) {
               val_2 = newValue;
+              val_2_exists = helpers.exists(val_2);
             }
             const val_2_options = {
               root,
@@ -547,9 +556,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -568,9 +578,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -589,9 +600,10 @@ test.group('Array Compiler', () => {
 
             // Validate val_1['username']
             let val_2 = val_1['username'];
-            const val_2_exists = helpers.exists(val_2);
+            let val_2_exists = helpers.exists(val_2);
             function mutate_val_2 (newValue) {
               val_2 = newValue;
+              val_2_exists = helpers.exists(val_2);
             }
             const val_2_options = {
               root,
@@ -682,9 +694,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['geolocation']
       let val_0 = root['geolocation'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -703,9 +716,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -725,9 +739,10 @@ test.group('Array Compiler', () => {
 
               // Validate val_1[index_1]
               let val_2 = val_1[index_1];
-              const val_2_exists = helpers.exists(val_2);
+              let val_2_exists = helpers.exists(val_2);
               function mutate_val_2 (newValue) {
                 val_2 = newValue;
+                val_2_exists = helpers.exists(val_2);
               }
               const val_2_options = {
                 root,
@@ -834,9 +849,10 @@ test.group('Array Compiler', () => {
         .map((line) => line.trim()),
       `// Validate root['users']
       let val_0 = root['users'];
-      const val_0_exists = helpers.exists(val_0);
+      let val_0_exists = helpers.exists(val_0);
       function mutate_val_0 (newValue) {
         val_0 = newValue;
+        val_0_exists = helpers.exists(val_0);
       }
       const val_0_options = {
         root,
@@ -855,9 +871,10 @@ test.group('Array Compiler', () => {
 
           // Validate val_0[index_0]
           let val_1 = val_0[index_0];
-          const val_1_exists = helpers.exists(val_1);
+          let val_1_exists = helpers.exists(val_1);
           function mutate_val_1 (newValue) {
             val_1 = newValue;
+            val_1_exists = helpers.exists(val_1);
           }
           const val_1_options = {
             root,
@@ -876,9 +893,10 @@ test.group('Array Compiler', () => {
 
             // Validate val_1['scores']
             let val_2 = val_1['scores'];
-            const val_2_exists = helpers.exists(val_2);
+            let val_2_exists = helpers.exists(val_2);
             function mutate_val_2 (newValue) {
               val_2 = newValue;
+              val_2_exists = helpers.exists(val_2);
             }
             const val_2_options = {
               root,
@@ -898,9 +916,10 @@ test.group('Array Compiler', () => {
 
                 // Validate val_2[index_1]
                 let val_3 = val_2[index_1];
-                const val_3_exists = helpers.exists(val_3);
+                let val_3_exists = helpers.exists(val_3);
                 function mutate_val_3 (newValue) {
                   val_3 = newValue;
+                  val_3_exists = helpers.exists(val_3);
                 }
                 const val_3_options = {
                   root,

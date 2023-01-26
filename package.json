@@ -1,6 +1,6 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "12.4.1",
+	"version": "12.4.2",
 	"description": "Validator for adonis framework",
 	"main": "build/providers/ValidatorProvider.js",
 	"files": [
@@ -24,7 +24,7 @@
 		"lint": "eslint . --ext=.ts",
 		"format": "prettier --write .",
 		"sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json adonisjs/validator",
-    "vscode:test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
+		"vscode:test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
 	},
 	"types": "./build/adonis-typings/index.d.ts",
 	"author": "virk,adonisjs",

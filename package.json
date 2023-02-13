@@ -6,7 +6,6 @@
 	"type": "module",
 	"files": [
 		"build/src",
-		"build/test_factories",
 		"build/index.d.ts",
 		"build/index.js"
 	],

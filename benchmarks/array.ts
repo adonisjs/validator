@@ -12,11 +12,10 @@ import Joi from 'joi'
 import { z } from 'zod'
 import { Suite } from 'benchmark'
 import { validateOrReject, ValidateNested, IsString } from 'class-validator'
-import { validateAll, schema as indicativeSchema } from 'indicative/validator'
 
-import { validate } from './validate'
-import { schema } from '../src/Schema'
-import { Compiler } from '../src/Compiler'
+import { validate } from './validate.js'
+import { schema } from '../src/schema/index.js'
+import { Compiler } from '../src/compiler/index.js'
 
 /**
  * Adonis pre compiled validation function
@@ -57,53 +56,19 @@ const joiValidate = Joi.object({
  */
 class Profile {
   @IsString()
-  public profileId: string
+  declare profileId: string
 }
 
 class User {
   @IsString()
-  public username: string
+  declare username: string
 
   @IsString()
-  public name: string
+  declare name: string
 
   @ValidateNested()
-  public profile: Profile[]
+  declare profile: Profile[]
 }
-
-/**
- * Indicative schema
- */
-const indicativeCompiled = indicativeSchema.new({
-  username: indicativeSchema.string(),
-  name: indicativeSchema.string(),
-  profiles: indicativeSchema.array().members(
-    indicativeSchema.object().members({
-      profileId: indicativeSchema.string(),
-    })
-  ),
-})
-
-/**
- * Indicative doesn't have a pre-compile function. However, validating
- * once with a cache key caches the compiled schema
- */
-validateAll(
-  {
-    username: 'virk',
-    name: 'Virk',
-    profiles: [
-      {
-        profileId: 'virk011',
-      },
-    ],
-  },
-  indicativeCompiled,
-  {},
-  {
-    cacheKey: 'nested-object',
-  }
-)
 
 /**
  * Zod schema. I don't think they allow caching schema
@@ -170,27 +135,6 @@ new Suite()
         .then(() => deferred.resolve())
     },
   })
-  .add('Indicative', {
-    defer: true,
-    fn(deferred: Deferred) {
-      validateAll(
-        {
-          username: 'virk',
-          name: 'Virk',
-          profiles: [
-            {
-              profileId: 'virk011',
-            },
-          ],
-        },
-        indicativeCompiled,
-        {},
-        {
-          cacheKey: 'nested-object',
-        }
-      ).then(() => deferred.resolve())
-    },
-  })
   .add('Class Validator', {
     defer: true,
     fn(deferred: Deferred) {
@@ -207,7 +151,7 @@ new Suite()
   .on('cycle', function cycle(event: any) {
     console.log(String(event.target))
   })
-  .on('complete', function () {
+  .on('complete', function (this: Suite) {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
   })
   .run({ async: true })

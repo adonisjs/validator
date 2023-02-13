@@ -7,27 +7,44 @@
  * file that was distributed with this source code.
  */
 
-import {
+import type {
   Rule,
   ParsedRule,
   SchemaArray,
   SchemaObject,
   SchemaLiteral,
   ParsedSchemaTree,
-} from '@ioc:Adonis/Core/Validator'
+  NodeType,
+  NodeSubType,
+} from './types.js'
 
-import { rules as schemaRules } from './Rules'
-import * as validations from './Validations'
+import { rules as schemaRules } from './rules/index.js'
+import validations from './validations/index.js'
+
+function hasRuleValidation(ruleName: string): ruleName is keyof typeof validations {
+  if (ruleName in validations) {
+    return true
+  }
+
+  return false
+}
 
 /**
  * Compiles the `Rule` object and returns `ParsedRule` object.
  */
-export function compileRule(type: string, subtype: string, rule: Rule, tree: any): ParsedRule {
-  const ruleValidation = validations[rule.name]
-  if (!ruleValidation) {
+export function compileRule(
+  type: NodeType,
+  subtype: NodeSubType,
+  rule: Rule,
+  tree: any
+): ParsedRule {
+  const ruleName = rule.name
+
+  if (!hasRuleValidation(ruleName)) {
     throw new Error(`"${rule.name}" rule is not registered. Use "validator.rule" to add the rule.`)
   }
 
+  const ruleValidation = validations[ruleName]
   if (typeof ruleValidation.compile !== 'function') {
     throw new Error(`"${rule.name}" rule must implement the compile function`)
   }
@@ -46,7 +63,7 @@ export function compileRule(type: string, subtype: string, rule: Rule, tree: any
  * Dry function to define a literal type
  */
 export function getLiteralType(
-  subtype: string,
+  subtype: NodeSubType,
   optional: boolean,
   nullable: boolean,
   ruleOptions: any,
@@ -64,7 +81,7 @@ export function getLiteralType(
         subtype: subtype,
         rules: ([] as Rule[])
           .concat(optional ? [] : nullable ? [schemaRules.nullable()] : [schemaRules.required()])
-          .concat(subTypeRule ? [] : [schemaRules[subtype](ruleOptions)])
+          .concat(subTypeRule ? [] : [(schemaRules as any)[subtype](ruleOptions)])
           .concat(rules)
           .map((rule) => compileRule('literal', subtype, rule, optionsTree)),
       }

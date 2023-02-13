@@ -7,12 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { CompilerOutput } from '@ioc:Adonis/Core/Validator'
+import { CompilerOutput } from '../src/types.js'
 
-import * as validations from '../src/Validations'
-import { MessagesBag } from '../src/MessagesBag'
-import { exists, isObject } from '../src/Validator/helpers'
-import { VanillaErrorReporter } from '../src/ErrorReporter/Vanilla'
+import validations from '../src/validations/index.js'
+import { MessagesBag } from '../src/messages_bag/index.js'
+import { exists, isObject } from '../src/validator/helpers.js'
+import { VanillaErrorReporter } from '../src/error_reporter/vanilla.js'
+
 const helpers = { exists, isObject }
 
 export function validate(fn: CompilerOutput<any>, data: any) {

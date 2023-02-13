@@ -1,13 +1,32 @@
 {
-  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig",
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "lib": ["ESNext"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "removeComments": true,
+    "declaration": true,
+    "rootDir": "./",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "skipLibCheck": true,
+    "types": ["@types/node"]
   },
-  "files": [
-    "./node_modules/@adonisjs/application/build/adonis-typings/index.d.ts",
-    "./node_modules/@adonisjs/http-server/build/adonis-typings/index.d.ts",
-    "./node_modules/@adonisjs/drive/build/adonis-typings/index.d.ts",
-    "./node_modules/@adonisjs/bodyparser/build/adonis-typings/index.d.ts"
-  ]
+  "include": ["./**/*"],
+  "exclude": ["./node_modules", "./build"],
+  "ts-node": {
+    "swc": true
+  }
 }

@@ -1,37 +1,37 @@
-import { getDirname } from '@poppinss/utils'
+import kleur from 'kleur'
 import { execaNode } from 'execa'
-import { cyan, green, red } from 'kleur'
+import { fileURLToPath } from 'node:url'
 
 async function run() {
-  console.log(cyan('Benchmarking against flat object'))
-  await execaNode('./flat-object.js', {
-    cwd: getDirname(new URL('./', import.meta.url)),
+  console.log(kleur.cyan('Benchmarking against flat object'))
+  await execaNode('./flat_object.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against flat object with extra properties'))
-  await execaNode('./flat-object-extra-properties.js', {
-    cwd: getDirname(new URL('./', import.meta.url)),
+  console.log(kleur.cyan('Benchmarking against flat object with extra properties'))
+  await execaNode('./flat_object_extra_properties.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against nested object'))
-  await execaNode('./nested-object.js', {
-    cwd: getDirname(new URL('./', import.meta.url)),
+  console.log(kleur.cyan('Benchmarking against nested object'))
+  await execaNode('./nested_object.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against array of objects'))
+  console.log(kleur.cyan('Benchmarking against array of objects'))
   await execaNode('./array.js', {
-    cwd: getDirname(new URL('./', import.meta.url)),
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 }
 
 run()
   .then(() => {
-    console.log(green('completed'))
+    console.log(kleur.green('completed'))
   })
   .catch((error) => {
-    console.log(red(error))
+    console.log(kleur.red(error))
   })

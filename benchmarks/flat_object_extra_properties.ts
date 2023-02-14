@@ -12,7 +12,7 @@
 
 import Joi from 'joi'
 import { z } from 'zod'
-import { Suite } from 'benchmark'
+import benchmark from 'benchmark'
 
 import { Compiler } from '../src/compiler/index.js'
 import { schema } from '../src/schema/index.js'
@@ -49,7 +49,7 @@ type Deferred = { resolve(): any }
 /**
  * Starting benchmark
  */
-new Suite()
+new benchmark.Suite()
   .add('AdonisJS', {
     defer: true,
     fn(deferred: Deferred) {
@@ -89,7 +89,7 @@ new Suite()
   .on('cycle', function cycle(event: any) {
     console.log(String(event.target))
   })
-  .on('complete', function (this: Suite) {
+  .on('complete', function (this: benchmark.Suite) {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
   })
   .run({ async: true })

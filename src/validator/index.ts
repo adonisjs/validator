@@ -30,6 +30,7 @@ import {
   DefaultMessagesCallback,
 } from '../types.js'
 
+import '../bindings/request.js'
 import { schema } from '../schema/index.js'
 import { Compiler } from '../compiler/index.js'
 import { rules, getRuleFn } from '../rules/index.js'

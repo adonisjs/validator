@@ -8,11 +8,12 @@
  */
 
 import { test } from '@japa/runner'
+import { HttpContextFactory } from '@adonisjs/http-server/factories'
+import { BodyParserMiddlewareFactory } from '@adonisjs/bodyparser/factories'
 
 import '../src/bindings/request.js'
 import { schema } from '../src/schema/index.js'
 import { validator } from '../src/validator/index.js'
-import { HttpContextFactory } from '@adonisjs/http-server/factories'
 import { ApiErrorReporter, VanillaErrorReporter } from '../src/error_reporter/index.js'
 
 test.group('Request validator', (group) => {
@@ -31,10 +32,10 @@ test.group('Request validator', (group) => {
     assert.plan(1)
 
     const ctx = new HttpContextFactory().create()
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
+
     ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
 
     class Validator {
       schema = schema.create({
@@ -63,10 +64,10 @@ test.group('Request validator', (group) => {
     assert.plan(1)
 
     const ctx = new HttpContextFactory().create()
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
+
     ctx.request.request.headers.accept = 'application/vnd.api+json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
 
     class Validator {
       schema = schema.create({
@@ -95,10 +96,8 @@ test.group('Request validator', (group) => {
     assert.plan(2)
 
     const ctx = new HttpContextFactory().create()
-
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     class Validator {
       schema = schema.create({
@@ -120,11 +119,10 @@ test.group('Request validator', (group) => {
     assert.plan(2)
 
     const ctx = new HttpContextFactory().create()
-    ctx.request.request.headers['x-requested-with'] = 'XMLHttpRequest'
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    ctx.request.request.headers['x-requested-with'] = 'XMLHttpRequest'
 
     class Validator {
       schema = schema.create({
@@ -150,11 +148,10 @@ test.group('Request validator', (group) => {
 
   test('return validated request body', async ({ assert }) => {
     const ctx = new HttpContextFactory().create()
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
     ctx.request.setInitialBody({ username: 'virk', age: 22 })
 
     class Validator {
@@ -169,10 +166,10 @@ test.group('Request validator', (group) => {
 
   test('provide custom data', async ({ assert }) => {
     const ctx = new HttpContextFactory().create()
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
+
     ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
 
     class Validator {
       schema = schema.create({
@@ -188,11 +185,10 @@ test.group('Request validator', (group) => {
 
   test('validate using vanilla object', async ({ assert }) => {
     const ctx = new HttpContextFactory().create()
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     ctx.request.request.headers.accept = 'application/json'
-    ctx.request.allFiles = function () {
-      return {}
-    }
     ctx.request.setInitialBody({ username: 'virk', age: 22 })
 
     const validated = await ctx.request.validate({
@@ -208,9 +204,8 @@ test.group('Request validator', (group) => {
     validator.negotiator(() => ApiErrorReporter)
 
     const ctx = new HttpContextFactory().create()
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     class Validator {
       schema = schema.create({
@@ -238,9 +233,8 @@ test.group('Request validator', (group) => {
     validator.negotiator(() => ApiErrorReporter)
 
     const ctx = new HttpContextFactory().create()
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     class Validator {
       schema = schema.create({
@@ -267,9 +261,8 @@ test.group('Request validator', (group) => {
     })
 
     const ctx = new HttpContextFactory().create()
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     class Validator {
       schema = schema.create({
@@ -301,9 +294,8 @@ test.group('Request validator', (group) => {
     })
 
     const ctx = new HttpContextFactory().create()
-    ctx.request.allFiles = function () {
-      return {}
-    }
+    const bodyParser = new BodyParserMiddlewareFactory().create()
+    await bodyParser.handle(ctx, () => {})
 
     class Validator {
       schema = schema.create({

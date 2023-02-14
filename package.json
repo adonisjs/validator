@@ -31,11 +31,11 @@
 	},
 	"devDependencies": {
 		"@adonisjs/application": "^7.1.0-0",
-		"@adonisjs/bodyparser": "^9.2.2-0",
+		"@adonisjs/bodyparser": "^9.3.0-0",
 		"@adonisjs/encryption": "^5.1.2-0",
 		"@adonisjs/events": "^8.4.7-0",
 		"@adonisjs/fold": "^9.9.2-0",
-		"@adonisjs/http-server": "^6.7.1-0",
+		"@adonisjs/http-server": "^6.8.0-0",
 		"@adonisjs/logger": "^5.4.2-0",
 		"@commitlint/cli": "^17.4.3",
 		"@commitlint/config-conventional": "^17.4.3",
@@ -75,13 +75,13 @@
 		"validator": "^13.9.0"
 	},
 	"peerDependencies": {
-		"@adonisjs/bodyparser": "^9.2.2-0"
+		"@adonisjs/bodyparser": "^9.3.0-0"
 	},
 	"keywords": [
 		"validator",
 		"schema-validation",
-    "adonisjs",
-    "adonisjs-validator"
+		"adonisjs",
+		"adonisjs-validator"
 	],
 	"license": "MIT",
 	"author": "virk,adonisjs",

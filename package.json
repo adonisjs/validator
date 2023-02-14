@@ -33,7 +33,10 @@
 		"@adonisjs/application": "^7.1.0-0",
 		"@adonisjs/bodyparser": "^9.2.2-0",
 		"@adonisjs/encryption": "^5.1.2-0",
+		"@adonisjs/events": "^8.4.7-0",
+		"@adonisjs/fold": "^9.9.2-0",
 		"@adonisjs/http-server": "^6.7.1-0",
+		"@adonisjs/logger": "^5.4.2-0",
 		"@commitlint/cli": "^17.4.3",
 		"@commitlint/config-conventional": "^17.4.3",
 		"@japa/assert": "^1.4.1",
@@ -71,11 +74,14 @@
 		"tmp-cache": "^1.1.0",
 		"validator": "^13.9.0"
 	},
+	"peerDependencies": {
+		"@adonisjs/bodyparser": "^9.2.2-0"
+	},
 	"keywords": [
 		"validator",
 		"schema-validation",
-		"adonis",
-		"indicative"
+    "adonisjs",
+    "adonisjs-validator"
 	],
 	"license": "MIT",
 	"author": "virk,adonisjs",

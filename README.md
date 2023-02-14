@@ -1,27 +1,31 @@
-<div align="center">
-  <img src="https://res.cloudinary.com/adonisjs/image/upload/q_100/v1558612869/adonis-readme_zscycu.jpg" width="600px">
-</div>
-
-<br />
-
-<div align="center">
-  <h3>AdonisJS Validator</h3>
-  <p> Fluent and super fast validation library used by AdonisJS. It out performs many of the other validation libraries in terms of performance. </p>
-</div>
+# @adonisjs/validator
 
 <br />
 
 <div align="center">
 
-[![gh-workflow-image]][gh-workflow-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url]  [![synk-image]][synk-url]
+  ![](./benchmarks.jpeg)
 
 </div>
 
-<div align="center">
+[![gh-workflow-image]][gh-workflow-url] [![npm-image]][npm-url] ![][typescript-image] [![license-image]][license-url] [![synk-image]][synk-url]
 
-  ![](./benchmarks.png)
+## Introduction
+AdonisJS validator is a type-safe schema validation library to validate form requests. It is one of the **fastest validation** library in the Node.js ecosystem.
 
-</div>
+## Official Documentation
+The documentation is available on the [AdonisJS website](https://docs.adonisjs.com/guides/validator/introduction)
+
+## Contributing
+One of the primary goals of AdonisJS is to have a vibrant community of users and contributors who believes in the principles of the framework.
+
+We encourage you to read the [contribution guide](https://github.com/adonisjs/.github/blob/main/docs/CONTRIBUTING.md) before contributing to the framework.
+
+## Code of Conduct
+In order to ensure that the AdonisJS community is welcoming to all, please review and abide by the [Code of Conduct](https://github.com/adonisjs/.github/blob/main/docs/CODE_OF_CONDUCT.md).
+
+## License
+AdonisJS validator is open-sourced software licensed under the [MIT license](LICENSE.md).
 
 <div align="center">
   <h3>
@@ -43,7 +47,7 @@
 	<sub>Built with ❤︎ by <a href="https://twitter.com/AmanVirk1">Harminder Virk</a>
 </div>
 
-[gh-workflow-image]: https://img.shields.io/github/workflow/status/adonisjs/validator/test?style=for-the-badge
+[gh-workflow-image]: https://img.shields.io/github/actions/workflow/status/adonisjs/validator/test.yml?style=for-the-badge
 [gh-workflow-url]: https://github.com/adonisjs/validator/actions/workflows/test.yml "Github action"
 
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript

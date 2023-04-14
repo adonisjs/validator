@@ -1,6 +1,6 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "13.0.2-1",
+	"version": "13.0.2-2",
 	"description": "Validator for adonis framework",
 	"main": "build/index.js",
 	"type": "module",

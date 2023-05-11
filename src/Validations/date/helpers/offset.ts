@@ -30,7 +30,7 @@ function getDateTime(
   if (operator === '>' || operator === '>=') {
     return DateTime.local().plus({ [unit]: duration })
   }
-  return DateTime.local().minus({ [unit]: duration })
+  return DateTime.local().plus({ [unit]: duration })
 }
 
 /**

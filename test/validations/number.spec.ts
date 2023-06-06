@@ -21,6 +21,33 @@ function compile() {
 test.group('Number', () => {
   validate(number, test, 'helloworld', 10, compile())
 
+  test('report error when value is near Infinity', ({ assert }) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    number.validate(
+      '-3177777777777777777777777777777777777777777777777777777777777777777777777770000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999991111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+      compile().compiledOptions,
+      {
+        errorReporter: reporter,
+        field: 'age',
+        pointer: 'age',
+        tip: {},
+        root: {},
+        refs: {},
+        mutate: () => {},
+      }
+    )
+
+    assert.deepEqual(reporter.toJSON(), {
+      errors: [
+        {
+          field: 'age',
+          rule: 'number',
+          message: 'number validation failed',
+        },
+      ],
+    })
+  })
+
   test('report error when value is not a valid number', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     number.validate(null, compile().compiledOptions, {

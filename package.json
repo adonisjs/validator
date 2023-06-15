@@ -109,11 +109,11 @@
 	"dependencies": {
 		"@poppinss/utils": "^5.0.0",
 		"@types/luxon": "^3.0.1",
-		"@types/validator": "^13.7.10",
+		"@types/validator": "^13.7.17",
 		"luxon": "^3.0.3",
 		"normalize-url": "^6.1.0",
 		"tmp-cache": "^1.1.0",
-		"validator": "^13.7.0"
+		"validator": "^13.9.0"
 	},
 	"peerDependencies": {
 		"@adonisjs/application": "^5.0.0",

@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { Request } from '@adonisjs/http-server'
-import '@adonisjs/bodyparser/bodyparser_middleware'
+import { Request } from '@adonisjs/core/http'
+import '@adonisjs/core/bodyparser_middleware'
 
 import { validator } from '../validator/index.js'
 import type { TypedSchema, ParsedTypedSchema, RequestValidatorNode } from '../types.js'

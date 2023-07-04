@@ -8,7 +8,7 @@
  */
 
 import { Exception } from '@poppinss/utils'
-import { HttpContext } from '@adonisjs/http-server'
+import { HttpContext } from '@adonisjs/core/http'
 
 /**
  * Validation exception raised by the error reporters. The handle method is called

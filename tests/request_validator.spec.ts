@@ -8,8 +8,8 @@
  */
 
 import { test } from '@japa/runner'
-import { HttpContextFactory } from '@adonisjs/http-server/factories'
-import { BodyParserMiddlewareFactory } from '@adonisjs/bodyparser/factories'
+import { HttpContextFactory } from '@adonisjs/core/factories/http'
+import { BodyParserMiddlewareFactory } from '@adonisjs/core/factories/bodyparser'
 
 import '../src/bindings/request.js'
 import { schema } from '../src/schema/index.js'

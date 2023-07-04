@@ -18,7 +18,7 @@ import type {
   ErrorReporterConstructorContract,
 } from '../types.js'
 
-import { Request } from '@adonisjs/http-server'
+import { Request } from '@adonisjs/core/http'
 import * as ErrorReporters from '../error_reporter/index.js'
 
 /**

@@ -11,16 +11,17 @@
 	],
 	"exports": {
 		".": "./build/index.js",
+    "./validator_provider": "./build/providers/validator_provider.js",
 		"./types": "./build/src/types.js"
 	},
-  "engines": {
-    "node": ">=18.16.0"
-  },
+	"engines": {
+		"node": ">=18.16.0"
+	},
 	"scripts": {
 		"pretest": "npm run lint",
 		"test": "c8 npm run vscode:test",
 		"clean": "del-cli build",
-    "typecheck": "tsc --noEmit",
+		"typecheck": "tsc --noEmit",
 		"compile": "npm run lint && npm run clean && tsc",
 		"copy:files": "copyfiles \"templates/**/*.txt\" build",
 		"build": "npm run compile",
@@ -34,14 +35,8 @@
 		"vscode:test": "node --loader=ts-node/esm bin/test.ts"
 	},
 	"devDependencies": {
-		"@adonisjs/application": "^7.1.2-3",
-		"@adonisjs/bodyparser": "^9.3.2-6",
-		"@adonisjs/encryption": "^5.1.2-2",
+		"@adonisjs/core": "^6.1.5-5",
 		"@adonisjs/eslint-config": "^1.1.7",
-		"@adonisjs/events": "^8.4.9-3",
-		"@adonisjs/fold": "^9.9.3-5",
-		"@adonisjs/http-server": "^6.8.2-7",
-		"@adonisjs/logger": "^5.4.2-3",
 		"@adonisjs/prettier-config": "^1.1.7",
 		"@adonisjs/tsconfig": "^1.1.7",
 		"@commitlint/cli": "^17.6.6",
@@ -77,7 +72,7 @@
 		"validator": "^13.9.0"
 	},
 	"peerDependencies": {
-		"@adonisjs/bodyparser": "^9.3.2-5"
+		"@adonisjs/core": "^6.1.5-5"
 	},
 	"keywords": [
 		"validator",

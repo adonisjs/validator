@@ -9,7 +9,7 @@
 
 import validatorJs from 'validator'
 import type { DateTime, DurationObjectUnits } from 'luxon'
-import type { Request, HttpContext } from '@adonisjs/http-server'
+import type { Request, HttpContext } from '@adonisjs/core/http'
 import type { Options as NormalizeUrlOptions } from 'normalize-url'
 import type { FileValidationOptions, MultipartFile } from '@adonisjs/bodyparser/types'
 

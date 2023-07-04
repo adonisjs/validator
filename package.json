@@ -5,6 +5,7 @@
 	"main": "build/index.js",
 	"type": "module",
 	"files": [
+    "build/providers",
 		"build/src",
 		"build/index.d.ts",
 		"build/index.js"

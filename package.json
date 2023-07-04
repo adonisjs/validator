@@ -1,18 +1,18 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "13.0.2-2",
+	"version": "13.0.2-3",
 	"description": "Validator for adonis framework",
 	"main": "build/index.js",
 	"type": "module",
 	"files": [
-    "build/providers",
+		"build/providers",
 		"build/src",
 		"build/index.d.ts",
 		"build/index.js"
 	],
 	"exports": {
 		".": "./build/index.js",
-    "./validator_provider": "./build/providers/validator_provider.js",
+		"./validator_provider": "./build/providers/validator_provider.js",
 		"./types": "./build/src/types.js"
 	},
 	"engines": {

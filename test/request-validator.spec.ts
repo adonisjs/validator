@@ -370,4 +370,74 @@ test.group('Request validator', (group) => {
       })
     }
   })
+
+  test('validate cookies', async ({ assert }) => {
+    assert.plan(1)
+
+    const app = await setupApp(['../../providers/ValidatorProvider'])
+    const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+
+    ctx.request.request.headers.accept = 'application/json'
+
+    ctx.request.allFiles = function () {
+      return {}
+    }
+
+    class Validator {
+      public schema = schema.create({
+        cookies: schema.object().members({
+          APP_KEY: schema.string(),
+        }),
+      })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        errors: [
+          {
+            rule: 'required',
+            message: 'field is required',
+            field: 'cookies.APP_KEY',
+          },
+        ],
+      })
+    }
+  })
+
+  test('validate headers', async ({ assert }) => {
+    assert.plan(1)
+
+    const app = await setupApp(['../../providers/ValidatorProvider'])
+    const ctx = app.container.use('Adonis/Core/HttpContext').create('/', {})
+
+    ctx.request.request.headers.accept = 'application/json'
+
+    ctx.request.allFiles = function () {
+      return {}
+    }
+
+    class Validator {
+      public schema = schema.create({
+        headers: schema.object().members({
+          'X-API-KEY': schema.string(),
+        }),
+      })
+    }
+
+    try {
+      await ctx.request.validate(Validator)
+    } catch (error) {
+      assert.deepEqual(error.messages, {
+        errors: [
+          {
+            rule: 'required',
+            message: 'field is required',
+            field: 'headers.X-API-KEY',
+          },
+        ],
+      })
+    }
+  })
 })

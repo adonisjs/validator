@@ -34,6 +34,8 @@ export default function extendRequest(
       ...this.all(),
       ...this.allFiles(),
       params: this.ctx!.params,
+      cookies: this.ctx!.request.cookiesList(),
+      headers: this.ctx!.request.headers(),
     }
 
     /**

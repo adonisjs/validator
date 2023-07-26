@@ -27,7 +27,10 @@ export class VanillaErrorReporter implements ErrorReporterContract<VanillaErrorN
    */
   hasErrors = false
 
-  constructor(private messages: MessagesBagContract, private bail: boolean) {}
+  constructor(
+    private messages: MessagesBagContract,
+    private bail: boolean
+  ) {}
 
   /**
    * Report a new error

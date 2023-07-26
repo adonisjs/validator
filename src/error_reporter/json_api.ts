@@ -22,7 +22,10 @@ export class JsonApiErrorReporter implements ErrorReporterContract<{ errors: Jso
    */
   hasErrors = false
 
-  constructor(private messages: MessagesBagContract, private bail: boolean) {}
+  constructor(
+    private messages: MessagesBagContract,
+    private bail: boolean
+  ) {}
 
   /**
    * Report a new error

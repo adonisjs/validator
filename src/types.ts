@@ -276,7 +276,10 @@ export type TypedSchema = {
  * Signature to define a string or optional string type
  */
 export interface StringType {
-  (options?: { escape?: boolean; trim?: boolean } | Rule[], rules?: Rule[]): {
+  (
+    options?: { escape?: boolean; trim?: boolean } | Rule[],
+    rules?: Rule[]
+  ): {
     t: string
     getTree(): SchemaLiteral
   }
@@ -307,7 +310,10 @@ export interface StringType {
  * Signature to define a date or an optional date type
  */
 export interface DateType {
-  (options?: { format?: string }, rules?: Rule[]): {
+  (
+    options?: { format?: string },
+    rules?: Rule[]
+  ): {
     t: DateTime
     getTree(): SchemaLiteral
   }
@@ -522,7 +528,10 @@ export type EnumSetReturnValue<Options extends AllowedEnumOptions> = Options ext
  * values or a ref that is resolved lazily.
  */
 export interface EnumType {
-  <Options extends AllowedEnumOptions>(options: Options, rules?: Rule[]): {
+  <Options extends AllowedEnumOptions>(
+    options: Options,
+    rules?: Rule[]
+  ): {
     t: EnumReturnValue<Options>
     getTree(): SchemaLiteral
   }
@@ -553,7 +562,10 @@ export interface EnumType {
  * Signature to define an enum set type
  */
 export interface EnumSetType {
-  <Options extends AllowedEnumOptions>(options: Options, rules?: Rule[]): {
+  <Options extends AllowedEnumOptions>(
+    options: Options,
+    rules?: Rule[]
+  ): {
     t: EnumSetReturnValue<Options>
     getTree(): SchemaLiteral
   }
@@ -584,7 +596,10 @@ export interface EnumSetType {
  * Type for validating multipart files
  */
 export interface FileType {
-  (options?: Partial<FileValidationOptions>, rules?: Rule[]): {
+  (
+    options?: Partial<FileValidationOptions>,
+    rules?: Rule[]
+  ): {
     t: MultipartFile
     getTree(): SchemaLiteral
   }
@@ -1063,7 +1078,10 @@ export interface Rules {
 }
 
 export interface ValidationExceptionContract {
-  new (flashToSession: boolean, messages?: any): {
+  new (
+    flashToSession: boolean,
+    messages?: any
+  ): {
     handle(error: InstanceType<ValidationExceptionContract>, ctx: HttpContext): any
   }
 }

@@ -86,8 +86,8 @@ export class Compiler {
     return `function ${this.getVariableMutationName(variableName)} (newValue) {
       ${variableName} = newValue;
       ${this.getVariableExistsName(variableName)} = ${
-      this.COMPILER_REFERENCES.exists
-    }(${variableName});
+        this.COMPILER_REFERENCES.exists
+      }(${variableName});
     }`
   }
 

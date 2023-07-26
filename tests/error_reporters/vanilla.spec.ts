@@ -14,12 +14,15 @@ import { VanillaErrorReporter } from '../../src/error_reporter/index.js'
 
 test.group('Vanilla ErrorReporter', () => {
   validate(VanillaErrorReporter, test, (messages) => {
-    return Object.keys(messages).reduce((errors, field) => {
-      messages[field].forEach((message: any) => {
-        errors.push({ field, message })
-      })
-      return errors
-    }, [] as { field: string; message: string }[])
+    return Object.keys(messages).reduce(
+      (errors, field) => {
+        messages[field].forEach((message: any) => {
+          errors.push({ field, message })
+        })
+        return errors
+      },
+      [] as { field: string; message: string }[]
+    )
   })
 
   test('set flash messages to true when returning ValidationException instance', ({ assert }) => {

@@ -15,7 +15,10 @@ import { HttpContext } from '@adonisjs/core/http'
  * automatically during an HTTP request by AdonisJS to self handle the exception
  */
 export class ValidationException extends Exception {
-  constructor(public flashToSession: boolean, public messages?: any) {
+  constructor(
+    public flashToSession: boolean,
+    public messages?: any
+  ) {
     super('Validation Exception', { code: 'E_VALIDATION_EXCEPTION', status: 422 })
   }
 

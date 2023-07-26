@@ -341,14 +341,17 @@ file.nullableAndOptional = function nullableAndOptionalFile(options: any, rules?
  * Define refs, which are resolved at runtime vs the compile time
  */
 function refs<T extends Object>(schemaRefs: T): { [P in keyof T]: SchemaRef<T[P]> } {
-  return Object.keys(schemaRefs).reduce((result, key) => {
-    result[key as keyof T] = {
-      __$isRef: true,
-      value: schemaRefs[key as keyof T],
-      key: key,
-    }
-    return result
-  }, {} as { [P in keyof T]: SchemaRef<T[P]> })
+  return Object.keys(schemaRefs).reduce(
+    (result, key) => {
+      result[key as keyof T] = {
+        __$isRef: true,
+        value: schemaRefs[key as keyof T],
+        key: key,
+      }
+      return result
+    },
+    {} as { [P in keyof T]: SchemaRef<T[P]> }
+  )
 }
 
 /**

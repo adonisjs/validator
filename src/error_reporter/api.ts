@@ -22,7 +22,10 @@ export class ApiErrorReporter implements ErrorReporterContract<{ errors: ApiErro
    */
   hasErrors = false
 
-  constructor(private messages: MessagesBagContract, private bail: boolean) {}
+  constructor(
+    private messages: MessagesBagContract,
+    private bail: boolean
+  ) {}
 
   /**
    * Report a new error

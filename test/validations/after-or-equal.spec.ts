@@ -451,9 +451,9 @@ test.group('Date | After Or Equal | Ref', () => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     const afterDate = DateTime.local().plus({ days: 11 }).toISODate()
 
-    /* 
+    /*
       Using toISO because toISODate will not include hours, minutes, seconds, ...
-      So if later when it get converted to datetime again, the test will fail 
+      So if later when it get converted to datetime again, the test will fail
       because `publishedAtSameDate` would then have 0 in hours, minutes, seconds, ... but datetime in ref is not.
     */
     const sameDate = DateTime.local().plus({ days: 10 }).plus({ hour: 1 }).toISO()
@@ -471,13 +471,13 @@ test.group('Date | After Or Equal | Ref', () => {
     }
 
     afterOrEqual.validate(
-      DateTime.fromISO(afterDate),
+      DateTime.fromISO(afterDate!),
       compile(validator.refs.afterDate).compiledOptions!,
       validator
     )
 
     afterOrEqual.validate(
-      DateTime.fromISO(sameDate),
+      DateTime.fromISO(sameDate!),
       compile(validator.refs.afterDate).compiledOptions!,
       validator
     )

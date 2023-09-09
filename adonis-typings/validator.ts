@@ -165,11 +165,11 @@ declare module '@ioc:Adonis/Core/Validator' {
    */
   export type CustomMessages =
     | {
-        '*'?: (field: string, rule: string, arrayExpressionPointer?: string, args?: any) => string
-      }
+      '*'?: (field: string, rule: string, arrayExpressionPointer?: string, args?: any) => string
+    }
     | {
-        [key: string]: string
-      }
+      [key: string]: string
+    }
 
   /**
    * Returns the most appropriate message for the current
@@ -206,7 +206,7 @@ declare module '@ioc:Adonis/Core/Validator' {
    * The reporter constructor contract
    */
   export interface ErrorReporterConstructorContract<Messages extends any = any> {
-    new (messages: MessagesBagContract, bail: boolean): ErrorReporterContract<Messages>
+    new(messages: MessagesBagContract, bail: boolean): ErrorReporterContract<Messages>
   }
 
   /*
@@ -389,6 +389,28 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
+   * Signature to define a bigint or optional bigint type
+   */
+  export interface BigintType {
+    (rules?: Rule[]): {
+      t: bigint
+      getTree(): SchemaLiteral
+    }
+    optional(rules?: Rule[]): {
+      t?: bigint
+      getTree(): SchemaLiteral
+    }
+    nullable(rules?: Rule[]): {
+      t: bigint | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      t?: bigint | null
+      getTree(): SchemaLiteral
+    }
+  }
+
+  /**
    * Signature to define an object with members or an optional object
    * with members.
    */
@@ -510,8 +532,8 @@ declare module '@ioc:Adonis/Core/Validator' {
     infer R
   >
     ? R extends readonly unknown[]
-      ? R[number]
-      : unknown
+    ? R[number]
+    : unknown
     : Options extends readonly unknown[]
     ? Options[number]
     : never
@@ -523,8 +545,8 @@ declare module '@ioc:Adonis/Core/Validator' {
     infer R
   >
     ? R extends readonly unknown[]
-      ? R[number][]
-      : unknown
+    ? R[number][]
+    : unknown
     : Options extends readonly unknown[]
     ? Options[number][]
     : never
@@ -640,6 +662,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     string: StringType
     boolean: BooleanType
     number: NumberType
+    bigint: BigintType
     date: DateType
     enum: EnumType
     enumSet: EnumSetType
@@ -722,12 +745,12 @@ declare module '@ioc:Adonis/Core/Validator' {
      * @deprecated
      */
     sanitize?:
-      | boolean
-      | {
-          lowerCase?: boolean
-          removeDots?: boolean
-          removeSubaddress?: boolean
-        }
+    | boolean
+    | {
+      lowerCase?: boolean
+      removeDots?: boolean
+      removeSubaddress?: boolean
+    }
   }
 
   /**
@@ -1171,7 +1194,7 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   export interface ValidationExceptionContract {
-    new (flashToSession: boolean, messages?: any): {
+    new(flashToSession: boolean, messages?: any): {
       handle(error: InstanceType<ValidationExceptionContract>, ctx: HttpContextContract): any
     }
   }

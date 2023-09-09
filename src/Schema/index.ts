@@ -20,6 +20,7 @@ import {
   StringType,
   ObjectType,
   NumberType,
+  BigintType,
   EnumSetType,
   BooleanType,
   TypedSchema,
@@ -114,6 +115,28 @@ number.nullable = function nullableNumber(rules?: Rule[]) {
 number.nullableAndOptional = function nullableAndOptionalNumber(rules?: Rule[]) {
   return getLiteralType('number', true, true, undefined, rules || []) as ReturnType<
     NumberType['nullableAndOptional']
+  >
+}
+
+/**
+ * Bigint schema type
+ */
+function bigint(rules?: Rule[]) {
+  return getLiteralType('bigint', false, false, undefined, rules || []) as ReturnType<BigintType>
+}
+bigint.optional = function optionalBigint(rules?: Rule[]) {
+  return getLiteralType('bigint', true, false, undefined, rules || []) as ReturnType<
+    BigintType['optional']
+  >
+}
+bigint.nullable = function nullableBigint(rules?: Rule[]) {
+  return getLiteralType('bigint', false, true, undefined, rules || []) as ReturnType<
+    BigintType['nullable']
+  >
+}
+bigint.nullableAndOptional = function nullableAndOptionalBigint(rules?: Rule[]) {
+  return getLiteralType('bigint', true, true, undefined, rules || []) as ReturnType<
+    BigintType['nullableAndOptional']
   >
 }
 

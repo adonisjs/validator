@@ -20,6 +20,7 @@ import {
   StringType,
   ObjectType,
   NumberType,
+  BigIntType,
   EnumSetType,
   BooleanType,
   TypedSchema,
@@ -114,6 +115,28 @@ number.nullable = function nullableNumber(rules?: Rule[]) {
 number.nullableAndOptional = function nullableAndOptionalNumber(rules?: Rule[]) {
   return getLiteralType('number', true, true, undefined, rules || []) as ReturnType<
     NumberType['nullableAndOptional']
+  >
+}
+
+/**
+ * bigint schema type
+ */
+function bigint(rules?: Rule[]) {
+  return getLiteralType('bigint', false, false, undefined, rules || []) as ReturnType<BigIntType>
+}
+bigint.optional = function optionalBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', true, false, undefined, rules || []) as ReturnType<
+    BigIntType['optional']
+  >
+}
+bigint.nullable = function nullableBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', false, true, undefined, rules || []) as ReturnType<
+    BigIntType['nullable']
+  >
+}
+bigint.nullableAndOptional = function nullableAndOptionalBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', true, true, undefined, rules || []) as ReturnType<
+    BigIntType['nullableAndOptional']
   >
 }
 
@@ -359,6 +382,7 @@ export const schema: Schema = {
   string,
   boolean,
   number,
+  bigint,
   date,
   object,
   array,

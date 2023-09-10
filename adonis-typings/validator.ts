@@ -389,6 +389,28 @@ declare module '@ioc:Adonis/Core/Validator' {
   }
 
   /**
+   * Signature to define a bigint or bigint number type
+   */
+  export interface BigIntType {
+    (rules?: Rule[]): {
+      t: bigint
+      getTree(): SchemaLiteral
+    }
+    optional(rules?: Rule[]): {
+      t?: bigint
+      getTree(): SchemaLiteral
+    }
+    nullable(rules?: Rule[]): {
+      t: bigint | null
+      getTree(): SchemaLiteral
+    }
+    nullableAndOptional(rules?: Rule[]): {
+      t?: bigint | null
+      getTree(): SchemaLiteral
+    }
+  }
+
+  /**
    * Signature to define an object with members or an optional object
    * with members.
    */
@@ -640,6 +662,7 @@ declare module '@ioc:Adonis/Core/Validator' {
     string: StringType
     boolean: BooleanType
     number: NumberType
+    bigint: BigIntType
     date: DateType
     enum: EnumType
     enumSet: EnumSetType

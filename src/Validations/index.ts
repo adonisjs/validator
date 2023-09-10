@@ -41,6 +41,7 @@ export { oneOf as enum } from './primitives/enum'
 export { enumSet } from './primitives/enumSet'
 export { file } from './primitives/file'
 export { number } from './primitives/number'
+export { bigint } from './primitives/bigint'
 export { object } from './primitives/object'
 export { string } from './primitives/string'
 

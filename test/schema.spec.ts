@@ -475,6 +475,116 @@ test.group('Schema | Number', () => {
   })
 })
 
+test.group('Schema | BigInt', () => {
+  test('define schema with bigint rule', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.bigint(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'bigint',
+          optional: false,
+          nullable: false,
+          rules: [
+            {
+              name: 'required',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'bigint',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with optional bigint rule', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.bigint.optional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'bigint',
+          optional: true,
+          nullable: false,
+          rules: [
+            {
+              name: 'bigint',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with nullable bigint rule', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.bigint.nullable(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'bigint',
+          optional: false,
+          nullable: true,
+          rules: [
+            {
+              name: 'nullable',
+              allowUndefineds: true,
+              async: false,
+              compiledOptions: [],
+            },
+            {
+              name: 'bigint',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+
+  test('define schema with both optional and nullable bigint rule', ({ assert }) => {
+    assert.deepEqual(
+      schema.create({
+        username: schema.bigint.nullableAndOptional(),
+      }).tree,
+      {
+        username: {
+          type: 'literal',
+          subtype: 'bigint',
+          optional: true,
+          nullable: true,
+          rules: [
+            {
+              name: 'bigint',
+              allowUndefineds: false,
+              async: false,
+              compiledOptions: [],
+            },
+          ],
+        },
+      }
+    )
+  })
+})
+
 test.group('Schema | Date', () => {
   test('define schema with date rule', ({ assert }) => {
     assert.deepEqual(

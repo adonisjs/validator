@@ -21,7 +21,7 @@ function compile() {
 test.group('BigInt', () => {
   validate(bigint, test, 'helloworld', 10n, compile())
 
-  test('report error when value is near Infinity', ({ assert }) => {
+  test('work fine when value is near Infinity', ({ assert }) => {
     const reporter = new ApiErrorReporter(new MessagesBag({}), false)
     bigint.validate(
       '-3177777777777777777777777777777777777777777777777777777777777777777777777770000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999991111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
@@ -37,15 +37,7 @@ test.group('BigInt', () => {
       }
     )
 
-    assert.deepEqual(reporter.toJSON(), {
-      errors: [
-        {
-          field: 'age',
-          rule: 'bigint',
-          message: 'bigint validation failed',
-        },
-      ],
-    })
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
   })
 
   test('report error when value is not a valid bigint', ({ assert }) => {

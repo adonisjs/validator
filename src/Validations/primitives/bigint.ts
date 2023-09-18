@@ -36,20 +36,15 @@ export const bigint: SyncValidation = {
      * Attempt to cast bigint like string to a bigint. In case of
      * failure report the validation error
      */
-    const castedValue = Number(value)
-    if (isNaN(castedValue)) {
-      errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-      return
-    }
+    try {
+      const castedValue = BigInt(value)
 
-    if (castedValue === Infinity || castedValue === -Infinity) {
+      /**
+       * Mutate the value
+       */
+      mutate(castedValue)
+    } catch (e) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
-      return
     }
-
-    /**
-     * Mutate the value
-     */
-    mutate(castedValue)
   },
 }

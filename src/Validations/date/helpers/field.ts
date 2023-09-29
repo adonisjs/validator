@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { DateTime } from 'luxon'
+import { DateTime, DateTimeOptions } from 'luxon'
 import { ValidationRuntimeOptions } from '@ioc:Adonis/Core/Validator'
 
 import { toLuxon } from './toLuxon'
@@ -20,6 +20,7 @@ export type CompileReturnType = {
   operator: '>' | '<' | '>=' | '<='
   field: string
   format?: string
+  opts?: DateTimeOptions
 }
 
 /**
@@ -60,6 +61,7 @@ export function compile(
       operator,
       field,
       format: rulesTree.date?.format,
+      opts: rulesTree.date?.opts,
     },
   }
 }
@@ -71,7 +73,7 @@ export function validate(
   ruleName: string,
   errorMessage: string,
   value: any,
-  { field, operator, format }: CompileReturnType,
+  { field, operator, format, opts }: CompileReturnType,
   { root, tip, errorReporter, pointer, arrayExpressionPointer }: ValidationRuntimeOptions
 ) {
   /**
@@ -82,7 +84,7 @@ export function validate(
     return
   }
 
-  const comparisonValue = toLuxon(getFieldValue(field, root, tip), format)
+  const comparisonValue = toLuxon(getFieldValue(field, root, tip), format, opts)
 
   /**
    * Raise error when comparison field is not a valid date

@@ -10,7 +10,7 @@
 declare module '@ioc:Adonis/Core/Validator' {
   import { UUIDVersion } from 'validator/lib/isUUID'
   import { default as validatorJs } from 'validator'
-  import { DateTime, DurationObjectUnits } from 'luxon'
+  import { DateTime, DateTimeOptions, DurationObjectUnits } from 'luxon'
   import { RequestContract } from '@ioc:Adonis/Core/Request'
   import { Options as NormalizeUrlOptions } from 'normalize-url'
   import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
@@ -317,26 +317,26 @@ declare module '@ioc:Adonis/Core/Validator' {
    * Signature to define a date or an optional date type
    */
   export interface DateType {
-    (options?: { format?: string }, rules?: Rule[]): {
+    (options?: { format?: string; opts?: DateTimeOptions }, rules?: Rule[]): {
       t: DateTime
       getTree(): SchemaLiteral
     }
     optional(
-      options?: { format?: string },
+      options?: { format?: string; opts?: DateTimeOptions },
       rules?: Rule[]
     ): {
       t?: DateTime
       getTree(): SchemaLiteral
     }
     nullable(
-      options?: { format?: string },
+      options?: { format?: string; opts?: DateTimeOptions },
       rules?: Rule[]
     ): {
       t: DateTime | null
       getTree(): SchemaLiteral
     }
     nullableAndOptional(
-      options?: { format?: string },
+      options?: { format?: string; opts?: DateTimeOptions },
       rules?: Rule[]
     ): {
       t?: DateTime | null

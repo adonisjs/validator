@@ -11,6 +11,7 @@ import { SyncValidation } from '@ioc:Adonis/Core/Validator'
 
 import { wrapCompile } from '../../Validator/helpers'
 import { toLuxon } from '../date/helpers/toLuxon'
+import { DateTimeOptions } from 'luxon'
 
 const RULE_NAME = 'date'
 const DEFAULT_MESSAGE = 'date validation failed'
@@ -19,15 +20,18 @@ const CANNOT_VALIDATE = 'cannot validate date instance against a date format'
 /**
  * Ensure the value is a valid date instance
  */
-export const date: SyncValidation<{ format?: string }> = {
+export const date: SyncValidation<{ format?: string; opts?: DateTimeOptions }> = {
   compile: wrapCompile(RULE_NAME, [], ([options]) => {
     return {
-      compiledOptions: { format: options && options.format },
+      compiledOptions: {
+        format: options && options.format,
+        opts: options && options.opts,
+      },
     }
   }),
   validate(value, compiledOptions, { mutate, errorReporter, pointer, arrayExpressionPointer }) {
     const isDateInstance = value instanceof Date
-    const dateTime = toLuxon(value, compiledOptions.format)
+    const dateTime = toLuxon(value, compiledOptions.format, compiledOptions.opts)
 
     if (isDateInstance && compiledOptions.format) {
       errorReporter.report(pointer, RULE_NAME, CANNOT_VALIDATE, arrayExpressionPointer, {

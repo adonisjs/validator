@@ -1079,6 +1079,13 @@ declare module '@ioc:Adonis/Core/Validator' {
      * @param min the minimum value
      */
     minimum(min: number): Rule
+
+    /**
+     * The value of number must be lower or equal to maximum.
+     *
+     * @param min the minimum value
+     */
+    maximum(min: number): Rule
   }
 
   /**

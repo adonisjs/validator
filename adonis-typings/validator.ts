@@ -1072,6 +1072,13 @@ declare module '@ioc:Adonis/Core/Validator' {
      * Before "yesterday" is equivalent to 1, day
      */
     beforeOrEqual(keyword: 'today' | 'yesterday'): Rule
+
+    /**
+     * The value of number must be bigger or equal to minimum.
+     *
+     * @param min the minimum value
+     */
+    minimum(min: number): Rule
   }
 
   /**

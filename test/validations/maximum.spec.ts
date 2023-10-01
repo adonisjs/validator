@@ -3,7 +3,6 @@ import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
-import { range } from '../../src/Validations/number/range'
 import { maximum } from '../../src/Validations/number/maximum'
 
 function compile(max: number) {
@@ -14,8 +13,8 @@ test.group('max', () => {
   validate(maximum, test, 3, 1, compile(2))
 
   test('do not compile when max is not a number', ({ assert }) => {
-    const fn = () => range.compile('literal', 'number', ['10'])
-    assert.throws(fn, 'The start value for "range" must be defined as number')
+    const fn = () => maximum.compile('literal', 'number', ['10'])
+    assert.throws(fn, 'The start value for "max" must be defined as number')
   })
 
   test('report error when value is bigger than the max', ({ assert }) => {

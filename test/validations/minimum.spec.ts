@@ -3,7 +3,6 @@ import { rules } from '../../src/Rules'
 import { validate } from '../fixtures/rules/index'
 import { MessagesBag } from '../../src/MessagesBag'
 import { ApiErrorReporter } from '../../src/ErrorReporter'
-import { range } from '../../src/Validations/number/range'
 import { minimum } from '../../src/Validations/number/minimum'
 
 function compile(min: number) {
@@ -14,8 +13,8 @@ test.group('min', () => {
   validate(minimum, test, 0, 2, compile(1))
 
   test('do not compile when min is not a number', ({ assert }) => {
-    const fn = () => range.compile('literal', 'number', ['10'])
-    assert.throws(fn, 'The start value for "range" must be defined as number')
+    const fn = () => minimum.compile('literal', 'number', ['10'])
+    assert.throws(fn, 'The start value for "min" must be defined as number')
   })
 
   test('report error when value is lower than the min', ({ assert }) => {

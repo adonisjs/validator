@@ -34,6 +34,8 @@ export { notIn } from './miscellaneous/notIn'
 
 export { unsigned } from './number/unsigned'
 export { range } from './number/range'
+export { maximum } from './number/maximum'
+export { minimum } from './number/minimum'
 export { array } from './primitives/array'
 export { boolean } from './primitives/boolean'
 export { date } from './primitives/date'

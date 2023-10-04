@@ -120,4 +120,24 @@ test.group('BigInt', () => {
       ],
     })
   })
+
+  test('cast number to a valid bigint', ({ assert }) => {
+    const reporter = new ApiErrorReporter(new MessagesBag({}), false)
+    let value: any = 21
+
+    bigint.validate(value, compile().compiledOptions, {
+      errorReporter: reporter,
+      field: 'age',
+      pointer: 'age',
+      tip: {},
+      root: {},
+      refs: {},
+      mutate: (newValue) => {
+        value = newValue
+      },
+    })
+
+    assert.deepEqual(reporter.toJSON(), { errors: [] })
+    assert.equal(value, 21n)
+  })
 })

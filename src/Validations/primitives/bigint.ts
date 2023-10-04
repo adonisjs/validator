@@ -25,15 +25,15 @@ export const bigint: SyncValidation = {
     }
 
     /**
-     * Report error when value is not a bigint and neither a string
+     * Report error when value is not a bigint and neither a string or a number
      */
-    if (typeof value !== 'string') {
+    if (typeof value !== 'string' && typeof value !== 'number') {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
       return
     }
 
     /**
-     * Attempt to cast bigint like string to a bigint. In case of
+     * Attempt to cast string or number to a bigint. In case of
      * failure report the validation error
      */
     try {

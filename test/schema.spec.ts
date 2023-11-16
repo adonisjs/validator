@@ -610,6 +610,7 @@ test.group('Schema | Date', () => {
               async: false,
               compiledOptions: {
                 format: undefined,
+                opts: undefined,
               },
             },
           ],
@@ -636,6 +637,7 @@ test.group('Schema | Date', () => {
               async: false,
               compiledOptions: {
                 format: undefined,
+                opts: undefined,
               },
             },
           ],
@@ -668,6 +670,7 @@ test.group('Schema | Date', () => {
               async: false,
               compiledOptions: {
                 format: undefined,
+                opts: undefined,
               },
             },
           ],
@@ -694,6 +697,7 @@ test.group('Schema | Date', () => {
               async: false,
               compiledOptions: {
                 format: undefined,
+                opts: undefined,
               },
             },
           ],
@@ -702,10 +706,10 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with date rule and a format', ({ assert }) => {
+  test('define schema with date rule and options', ({ assert }) => {
     assert.deepEqual(
       schema.create({
-        username: schema.date({ format: 'iso' }),
+        username: schema.date({ format: 'iso', opts: { zone: 'UTC-4' } }),
       }).tree,
       {
         username: {
@@ -724,7 +728,7 @@ test.group('Schema | Date', () => {
               name: 'date',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { format: 'iso' },
+              compiledOptions: { format: 'iso', opts: { zone: 'UTC-4' } },
             },
           ],
         },
@@ -732,10 +736,10 @@ test.group('Schema | Date', () => {
     )
   })
 
-  test('define schema with optional date rule and a format', ({ assert }) => {
+  test('define schema with optional date rule and options', ({ assert }) => {
     assert.deepEqual(
       schema.create({
-        username: schema.date.optional({ format: 'iso' }),
+        username: schema.date.optional({ format: 'iso', opts: { zone: 'UTC-4' } }),
       }).tree,
       {
         username: {
@@ -748,7 +752,7 @@ test.group('Schema | Date', () => {
               name: 'date',
               allowUndefineds: false,
               async: false,
-              compiledOptions: { format: 'iso' },
+              compiledOptions: { format: 'iso', opts: { zone: 'UTC-4' } },
             },
           ],
         },

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { DateTime } from 'luxon'
+import { DateTime, DateTimeOptions } from 'luxon'
 
 /**
  * A list of pre-defined formats and their luxon specific methods
@@ -22,7 +22,11 @@ const PREDEFINED_FORMATS = {
 /**
  * Convers a value to an instance of datetime
  */
-export function toLuxon(value: any, format: string | undefined): DateTime | undefined {
+export function toLuxon(
+  value: any,
+  format: string | undefined,
+  opts: DateTimeOptions | undefined
+): DateTime | undefined {
   let dateTime: DateTime | undefined
 
   /**
@@ -35,7 +39,9 @@ export function toLuxon(value: any, format: string | undefined): DateTime | unde
     dateTime = value
   } else if (typeof value === 'string') {
     const formatterFn = PREDEFINED_FORMATS[format || 'iso']
-    dateTime = formatterFn ? DateTime[formatterFn](value) : DateTime.fromFormat(value, format!)
+    dateTime = formatterFn
+      ? DateTime[formatterFn](value, opts)
+      : DateTime.fromFormat(value, format!, opts)
   }
 
   return dateTime

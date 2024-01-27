@@ -13,7 +13,7 @@ import '@adonisjs/core/bodyparser_middleware'
 import { validator } from '../validator/index.js'
 import type { TypedSchema, ParsedTypedSchema, RequestValidatorNode } from '../types.js'
 
-declare module '@adonisjs/http-server' {
+declare module '@adonisjs/core/http' {
   interface Request {
     /**
      * Validate current request. The data is optional here, since request

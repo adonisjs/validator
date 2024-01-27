@@ -24,9 +24,7 @@ export const normalizeEmail: SyncValidation<validatorJs.NormalizeEmailOptions> =
 
     return {
       compiledOptions: Object.keys(options).reduce((result, key) => {
-        const validatorKey = string.snakeCase(
-          key
-        ) as keyof validatorJs.NormalizeEmailOptions
+        const validatorKey = string.snakeCase(key) as keyof validatorJs.NormalizeEmailOptions
         result[validatorKey] = options[key as keyof EmailNormalizationOptions]
         return result
       }, {} as validatorJs.NormalizeEmailOptions),

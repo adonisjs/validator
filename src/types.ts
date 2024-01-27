@@ -502,26 +502,26 @@ export type AllowedEnumOptions = SchemaRef<unknown> | readonly unknown[]
 /**
  * Conditionally finds the return value for the Enum options
  */
-export type EnumReturnValue<Options extends AllowedEnumOptions> = Options extends SchemaRef<infer R>
-  ? R extends readonly unknown[]
-    ? R[number]
-    : unknown
-  : Options extends readonly unknown[]
-  ? Options[number]
-  : never
+export type EnumReturnValue<Options extends AllowedEnumOptions> =
+  Options extends SchemaRef<infer R>
+    ? R extends readonly unknown[]
+      ? R[number]
+      : unknown
+    : Options extends readonly unknown[]
+      ? Options[number]
+      : never
 
 /**
  * Conditionally finds the return value for the EnumSet options
  */
-export type EnumSetReturnValue<Options extends AllowedEnumOptions> = Options extends SchemaRef<
-  infer R
->
-  ? R extends readonly unknown[]
-    ? R[number][]
-    : unknown
-  : Options extends readonly unknown[]
-  ? Options[number][]
-  : never
+export type EnumSetReturnValue<Options extends AllowedEnumOptions> =
+  Options extends SchemaRef<infer R>
+    ? R extends readonly unknown[]
+      ? R[number][]
+      : unknown
+    : Options extends readonly unknown[]
+      ? Options[number][]
+      : never
 
 /**
  * Signature to define an enum type. We accept a static list of enum

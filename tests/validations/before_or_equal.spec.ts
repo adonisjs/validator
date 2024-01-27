@@ -32,8 +32,8 @@ function compile(
     typeof interval === 'number'
       ? rules.beforeOrEqual(interval, duration!)
       : typeof interval === 'string'
-      ? rules.beforeOrEqual(interval)
-      : rules.beforeOrEqual(interval)
+        ? rules.beforeOrEqual(interval)
+        : rules.beforeOrEqual(interval)
 
   return beforeOrEqual.compile('literal', 'date', options, {})
 }

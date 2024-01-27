@@ -32,8 +32,8 @@ function compile(
     typeof interval === 'number'
       ? rules.afterOrEqual(interval, duration!)
       : typeof interval === 'string'
-      ? rules.afterOrEqual(interval)
-      : rules.afterOrEqual(interval)
+        ? rules.afterOrEqual(interval)
+        : rules.afterOrEqual(interval)
 
   return validations.afterOrEqual.compile('literal', 'date', options)
 }

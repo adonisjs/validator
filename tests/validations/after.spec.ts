@@ -32,8 +32,8 @@ function compile(
     typeof interval === 'number'
       ? rules.after(interval, duration!)
       : typeof interval === 'string'
-      ? rules.after(interval)
-      : rules.after(interval)
+        ? rules.after(interval)
+        : rules.after(interval)
 
   return after.compile('literal', 'date', options)
 }

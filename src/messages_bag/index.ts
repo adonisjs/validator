@@ -62,7 +62,7 @@ export class MessagesBag implements MessagesBagContract {
     return validationMessage
       ? this.transform(validationMessage as string, rule, pointer, args)
       : this.wildCardCallback
-      ? this.wildCardCallback(pointer, rule, arrayExpressionPointer, args)
-      : message
+        ? this.wildCardCallback(pointer, rule, arrayExpressionPointer, args)
+        : message
   }
 }

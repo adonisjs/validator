@@ -8,7 +8,7 @@
  */
 
 import { test } from '@japa/runner'
-import { UUIDVersion } from 'class-validator'
+import { UUIDVersion } from 'validator'
 
 import { rules } from '../../src/rules/index.js'
 import { validate } from '../fixtures/rules/index.js'

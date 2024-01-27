@@ -20,7 +20,7 @@ const DEFAULT_MESSAGE = 'mobile validation failed'
  */
 export const mobile: SyncValidation<{
   strict: boolean
-  locale?: validatorJs.default.MobilePhoneLocale[]
+  locale?: validatorJs.MobilePhoneLocale[]
 }> = {
   compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
     options = Object.assign({}, options)

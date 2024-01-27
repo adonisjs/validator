@@ -18,7 +18,7 @@ const RULE_NAME = 'normalizeEmail'
 /**
  * Normalize email address
  */
-export const normalizeEmail: SyncValidation<validatorJs.default.NormalizeEmailOptions> = {
+export const normalizeEmail: SyncValidation<validatorJs.NormalizeEmailOptions> = {
   compile: wrapCompile(RULE_NAME, ['string'], (args) => {
     const options = Object.assign({}, args[0]) as EmailNormalizationOptions
 
@@ -26,10 +26,10 @@ export const normalizeEmail: SyncValidation<validatorJs.default.NormalizeEmailOp
       compiledOptions: Object.keys(options).reduce((result, key) => {
         const validatorKey = string.snakeCase(
           key
-        ) as keyof validatorJs.default.NormalizeEmailOptions
+        ) as keyof validatorJs.NormalizeEmailOptions
         result[validatorKey] = options[key as keyof EmailNormalizationOptions]
         return result
-      }, {} as validatorJs.default.NormalizeEmailOptions),
+      }, {} as validatorJs.NormalizeEmailOptions),
     }
   }),
   validate(value, compiledOptions, { mutate }) {

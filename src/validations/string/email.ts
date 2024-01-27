@@ -19,8 +19,8 @@ const DEFAULT_MESSAGE = 'email validation failed'
  * Shape of compiled options. It is a merged copy of
  * sanitization and validation options
  */
-type CompiledOptions = validatorJs.default.IsEmailOptions & {
-  sanitize?: validatorJs.default.NormalizeEmailOptions
+type CompiledOptions = validatorJs.IsEmailOptions & {
+  sanitize?: validatorJs.NormalizeEmailOptions
 }
 
 /**

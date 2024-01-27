@@ -16,7 +16,7 @@ import { MessagesBag } from '../../src/messages_bag/index.js'
 import { ApiErrorReporter } from '../../src/error_reporter/index.js'
 import { mobile } from '../../src/validations/string/mobile.js'
 
-function compile(options?: { strict?: boolean; locale?: validator.default.MobilePhoneLocale[] }) {
+function compile(options?: { strict?: boolean; locale?: validator.MobilePhoneLocale[] }) {
   return mobile.compile('literal', 'string', rules.mobile(options).options, {})
 }
 

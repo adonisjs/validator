@@ -947,12 +947,12 @@ export interface Rules {
    * Value must be valid as per uuid format. Optionally you can
    * define a uuid version
    */
-  uuid(options?: { version?: validatorJs.default.UUIDVersion }): Rule
+  uuid(options?: { version?: validatorJs.UUIDVersion }): Rule
 
   /**
    * Value must pass the mobile regex rule
    */
-  mobile(options?: { strict?: boolean; locale?: validatorJs.default.MobilePhoneLocale[] }): Rule
+  mobile(options?: { strict?: boolean; locale?: validatorJs.MobilePhoneLocale[] }): Rule
 
   /**
    * Length of string or array must be below or same as the defined length

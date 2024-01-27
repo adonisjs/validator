@@ -24,7 +24,7 @@ type CompiledOptions = {
     normalizeProtocol?: boolean
     stripWWW?: boolean
   }
-  validationOptions: validatorJs.default.IsURLOptions
+  validationOptions: validatorJs.IsURLOptions
 }
 
 /**

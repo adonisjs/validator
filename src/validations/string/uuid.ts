@@ -19,7 +19,7 @@ const RULE_NAME = 'uuid'
  * Validation signature for the "uuid" rule. Non-string values are
  * ignored.
  */
-export const uuid: SyncValidation<{ version?: validatorJs.default.UUIDVersion }> = {
+export const uuid: SyncValidation<{ version?: validatorJs.UUIDVersion }> = {
   compile: wrapCompile(RULE_NAME, ['string'], ([options]) => {
     return {
       compiledOptions: {

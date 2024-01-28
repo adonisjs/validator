@@ -47,7 +47,7 @@ export const number: SyncValidation = {
       return
     }
 
-    if (castedValue === Infinity || castedValue === -Infinity) {
+    if (castedValue === Number.POSITIVE_INFINITY || castedValue === Number.NEGATIVE_INFINITY) {
       errorReporter.report(pointer, RULE_NAME, DEFAULT_MESSAGE, arrayExpressionPointer)
       return
     }

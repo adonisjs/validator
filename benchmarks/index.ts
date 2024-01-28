@@ -1,36 +1,37 @@
-import execa from 'execa'
-import { cyan, green, red } from 'kleur'
+import kleur from 'kleur'
+import { execaNode } from 'execa'
+import { fileURLToPath } from 'node:url'
 
 async function run() {
-  console.log(cyan('Benchmarking against flat object'))
-  await execa.node('./flat-object.js', {
-    cwd: __dirname,
+  console.log(kleur.cyan('Benchmarking against flat object'))
+  await execaNode('./flat_object.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against flat object with extra properties'))
-  await execa.node('./flat-object-extra-properties.js', {
-    cwd: __dirname,
+  console.log(kleur.cyan('Benchmarking against flat object with extra properties'))
+  await execaNode('./flat_object_extra_properties.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against nested object'))
-  await execa.node('./nested-object.js', {
-    cwd: __dirname,
+  console.log(kleur.cyan('Benchmarking against nested object'))
+  await execaNode('./nested_object.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 
-  console.log(cyan('Benchmarking against array of objects'))
-  await execa.node('./array.js', {
-    cwd: __dirname,
+  console.log(kleur.cyan('Benchmarking against array of objects'))
+  await execaNode('./array.js', {
+    cwd: fileURLToPath(new URL('./', import.meta.url)),
     stdio: 'inherit',
   })
 }
 
 run()
   .then(() => {
-    console.log(green('completed'))
+    console.log(kleur.green('completed'))
   })
   .catch((error) => {
-    console.log(red(error))
+    console.log(kleur.red(error))
   })

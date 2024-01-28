@@ -1,166 +1,124 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "12.6.0",
 	"description": "Validator for adonis framework",
-	"main": "build/providers/ValidatorProvider.js",
+	"version": "13.0.2-3",
+	"engines": {
+		"node": ">=18.16.0"
+	},
+	"main": "build/index.js",
+	"type": "module",
 	"files": [
-		"build/adonis-typings",
-		"build/providers",
-		"build/src"
+		"build",
+		"!build/benchmarks",
+		"!build/tests"
 	],
+	"exports": {
+		".": "./build/index.js",
+		"./validator_provider": "./build/providers/validator_provider.js",
+		"./types": "./build/src/types.js"
+	},
 	"scripts": {
-		"mrm": "mrm --preset=@adonisjs/mrm-preset",
 		"pretest": "npm run lint",
-		"test": "node -r @adonisjs/require-ts/build/register bin/test.ts",
-		"clean": "del build",
+		"test": "c8 npm run quick:test",
+		"clean": "del-cli build",
+		"typecheck": "tsc --noEmit",
 		"compile": "npm run lint && npm run clean && tsc",
 		"copy:files": "copyfiles \"templates/**/*.txt\" build",
 		"build": "npm run compile",
 		"prepublishOnly": "npm run build",
-		"commit": "git-cz",
 		"release": "np --message=\"chore(release): %s\"",
 		"version": "npm run build",
 		"benchmarks": "node build/benchmarks/index.js",
 		"lint": "eslint . --ext=.ts",
 		"format": "prettier --write .",
-		"sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json adonisjs/validator",
-		"vscode:test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
+		"sync-labels": "github-label-sync --labels .github/labels.json adonisjs/validator",
+		"quick:test": "node --enable-source-maps --loader=ts-node/esm bin/test.ts"
 	},
-	"types": "./build/adonis-typings/index.d.ts",
+	"devDependencies": {
+		"@adonisjs/bodyparser": "^10.0.1",
+		"@adonisjs/core": "^6.2.2",
+		"@adonisjs/eslint-config": "^1.2.1",
+		"@adonisjs/prettier-config": "^1.2.1",
+		"@adonisjs/tsconfig": "^1.2.1",
+		"@commitlint/cli": "^17.8.1",
+		"@commitlint/config-conventional": "^17.8.1",
+		"@japa/assert": "^2.1.0",
+		"@japa/runner": "^3.1.1",
+		"@swc/core": "^1.3.106",
+		"@types/benchmark": "^2.1.5",
+		"@types/node": "^20.11.8",
+		"benchmark": "^2.1.4",
+		"c8": "^9.1.0",
+		"class-validator": "^0.14.1",
+		"del-cli": "^5.1.0",
+		"eslint": "^8.56.0",
+		"execa": "^7.2.0",
+		"github-label-sync": "^2.3.1",
+		"husky": "^9.0.6",
+		"joi": "^17.12.0",
+		"kleur": "^4.1.5",
+		"np": "^9.2.0",
+		"prettier": "^3.2.4",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3",
+		"zod": "^3.22.4"
+	},
+	"dependencies": {
+		"@poppinss/utils": "^6.7.1",
+		"@types/luxon": "^3.4.2",
+		"@types/validator": "^13.11.8",
+		"luxon": "^3.4.4",
+		"normalize-url": "^8.0.0",
+		"tmp-cache": "^1.1.0",
+		"validator": "^13.11.0"
+	},
+	"peerDependencies": {
+		"@adonisjs/core": "^6.2.0"
+	},
 	"author": "virk,adonisjs",
 	"license": "MIT",
+	"homepage": "https://github.com/adonisjs/validator#readme",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/adonisjs/validator.git"
 	},
-	"keywords": [
-		"validator",
-		"schema-validation",
-		"adonis",
-		"indicative"
-	],
 	"bugs": {
 		"url": "https://github.com/adonisjs/validator/issues"
 	},
-	"homepage": "https://github.com/adonisjs/validator#readme",
-	"nyc": {
-		"exclude": [
-			"test"
-		],
-		"extension": [
-			".ts"
+	"keywords": [
+		"validator",
+		"schema-validation",
+		"adonisjs",
+		"adonisjs-validator"
+	],
+	"eslintConfig": {
+		"extends": "@adonisjs/eslint-config/package"
+	},
+	"prettier": "@adonisjs/prettier-config",
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
 		]
-	},
-	"husky": {
-		"hooks": {
-			"commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
-		}
-	},
-	"config": {
-		"commitizen": {
-			"path": "cz-conventional-changelog"
-		}
-	},
-	"np": {
-		"contents": ".",
-		"anyBranch": false
 	},
 	"publishConfig": {
 		"access": "public",
 		"tag": "latest"
 	},
-	"devDependencies": {
-		"@adonisjs/application": "^5.3.0",
-		"@adonisjs/bodyparser": "^8.1.9",
-		"@adonisjs/drive": "^2.3.0",
-		"@adonisjs/encryption": "^4.0.8",
-		"@adonisjs/http-server": "^5.12.0",
-		"@adonisjs/i18n": "^1.6.0",
-		"@adonisjs/mrm-preset": "^5.0.3",
-		"@adonisjs/require-ts": "^2.0.13",
-		"@japa/assert": "^1.4.1",
-		"@japa/run-failed-tests": "^1.1.1",
-		"@japa/runner": "^2.5.1",
-		"@japa/spec-reporter": "^1.3.3",
-		"@poppinss/dev-utils": "^2.0.3",
-		"@types/node": "^18.11.18",
-		"benchmark": "^2.1.4",
-		"class-validator": "^0.14.0",
-		"commitizen": "^4.3.0",
-		"cz-conventional-changelog": "^3.3.0",
-		"del-cli": "^5.0.0",
-		"eslint": "^8.47.0",
-		"eslint-config-prettier": "^8.6.0",
-		"eslint-plugin-adonis": "^2.1.1",
-		"eslint-plugin-prettier": "^4.2.1",
-		"execa": "^5.1.1",
-		"github-label-sync": "^2.3.1",
-		"husky": "^8.0.3",
-		"indicative": "^7.4.4",
-		"japa": "^4.0.0",
-		"joi": "^17.9.2",
-		"kleur": "^4.1.5",
-		"mrm": "^4.1.17",
-		"np": "^7.6.3",
-		"prettier": "^2.8.3",
-		"typescript": "^4.9.4",
-		"zod": "^3.22.2"
+	"np": {
+		"message": "chore(release): %s",
+		"tag": "latest",
+		"branch": "main",
+		"anyBranch": false
 	},
-	"dependencies": {
-		"@poppinss/utils": "^5.0.0",
-		"@types/luxon": "^3.3.1",
-		"@types/validator": "^13.11.1",
-		"luxon": "^3.4.1",
-		"normalize-url": "^6.1.0",
-		"tmp-cache": "^1.1.0",
-		"validator": "^13.11.0"
-	},
-	"peerDependencies": {
-		"@adonisjs/application": "^5.0.0",
-		"@adonisjs/bodyparser": "^8.0.0",
-		"@adonisjs/http-server": "^5.0.0"
-	},
-	"mrmConfig": {
-		"core": true,
-		"license": "MIT",
-		"services": [
-			"github-actions"
+	"c8": {
+		"reporter": [
+			"text",
+			"html"
 		],
-		"minNodeVersion": "14.15.4",
-		"probotApps": [
-			"stale",
-			"lock"
-		],
-		"runGhActionsOnWindows": true
-	},
-	"eslintConfig": {
-		"extends": [
-			"plugin:adonis/typescriptPackage",
-			"prettier"
-		],
-		"plugins": [
-			"prettier"
-		],
-		"rules": {
-			"prettier/prettier": [
-				"error",
-				{
-					"endOfLine": "auto"
-				}
-			]
-		}
-	},
-	"eslintIgnore": [
-		"build"
-	],
-	"prettier": {
-		"trailingComma": "es5",
-		"semi": false,
-		"singleQuote": true,
-		"useTabs": false,
-		"quoteProps": "consistent",
-		"bracketSpacing": true,
-		"arrowParens": "always",
-		"printWidth": 100
+		"exclude": [
+			"tests/**",
+			"test_factories/**",
+			".yalc/**"
+		]
 	}
 }

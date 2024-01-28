@@ -1,7 +1,10 @@
 {
 	"name": "@adonisjs/validator",
-	"version": "13.0.2-3",
 	"description": "Validator for adonis framework",
+	"version": "13.0.2-3",
+	"engines": {
+		"node": ">=18.16.0"
+	},
 	"main": "build/index.js",
 	"type": "module",
 	"files": [
@@ -13,9 +16,6 @@
 		".": "./build/index.js",
 		"./validator_provider": "./build/providers/validator_provider.js",
 		"./types": "./build/src/types.js"
-	},
-	"engines": {
-		"node": ">=18.16.0"
 	},
 	"scripts": {
 		"pretest": "npm run lint",
@@ -75,14 +75,9 @@
 	"peerDependencies": {
 		"@adonisjs/core": "^6.2.0"
 	},
-	"keywords": [
-		"validator",
-		"schema-validation",
-		"adonisjs",
-		"adonisjs-validator"
-	],
-	"license": "MIT",
 	"author": "virk,adonisjs",
+	"license": "MIT",
+	"homepage": "https://github.com/adonisjs/validator#readme",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/adonisjs/validator.git"
@@ -90,7 +85,16 @@
 	"bugs": {
 		"url": "https://github.com/adonisjs/validator/issues"
 	},
-	"homepage": "https://github.com/adonisjs/validator#readme",
+	"keywords": [
+		"validator",
+		"schema-validation",
+		"adonisjs",
+		"adonisjs-validator"
+	],
+	"eslintConfig": {
+		"extends": "@adonisjs/eslint-config/package"
+	},
+	"prettier": "@adonisjs/prettier-config",
 	"commitlint": {
 		"extends": [
 			"@commitlint/config-conventional"
@@ -116,9 +120,5 @@
 			"test_factories/**",
 			".yalc/**"
 		]
-	},
-	"eslintConfig": {
-		"extends": "@adonisjs/eslint-config/package"
-	},
-	"prettier": "@adonisjs/prettier-config"
+	}
 }

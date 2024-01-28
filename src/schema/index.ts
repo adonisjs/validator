@@ -20,6 +20,7 @@ import {
   StringType,
   ObjectType,
   NumberType,
+  BigIntType,
   EnumSetType,
   BooleanType,
   TypedSchema,
@@ -285,6 +286,28 @@ oneOf.nullableAndOptional = function nullableAndOptionalEnum(enumOptions: any[],
 }
 
 /**
+ * BigInt schema type
+ */
+function bigint(rules?: Rule[]) {
+  return getLiteralType('bigint', false, false, undefined, rules || []) as ReturnType<BigIntType>
+}
+bigint.optional = function optionalBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', true, false, undefined, rules || []) as ReturnType<
+    BigIntType['optional']
+  >
+}
+bigint.nullable = function nullableBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', false, true, undefined, rules || []) as ReturnType<
+    BigIntType['nullable']
+  >
+}
+bigint.nullableAndOptional = function nullableAndOptionalBigInt(rules?: Rule[]) {
+  return getLiteralType('bigint', true, true, undefined, rules || []) as ReturnType<
+    BigIntType['nullableAndOptional']
+  >
+}
+
+/**
  * Enum set schema type
  */
 function enumSet(enumOptions: any[], rules?: Rule[]) {
@@ -365,6 +388,7 @@ export const schema: Schema = {
   date,
   object,
   array,
+  bigint,
   enum: oneOf as unknown as EnumType,
   enumSet: enumSet as unknown as EnumSetType,
   file,

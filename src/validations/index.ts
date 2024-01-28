@@ -43,6 +43,7 @@ import { file } from './primitives/file.js'
 import { number } from './primitives/number.js'
 import { object } from './primitives/object.js'
 import { string } from './primitives/string.js'
+import { bigint } from './primitives/bigint.js'
 
 import { alpha } from './string/alpha.js'
 import { alphaNum } from './string/alpha_num.js'
@@ -70,6 +71,7 @@ const validations = {
   beforeOrEqual,
   beforeField,
   beforeOrEqualToField,
+  bigint,
   confirmed,
   required,
   nullable,

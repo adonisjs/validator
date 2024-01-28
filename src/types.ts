@@ -524,6 +524,28 @@ export type EnumSetReturnValue<Options extends AllowedEnumOptions> =
       : never
 
 /**
+ * BigInt schema types
+ */
+export interface BigIntType {
+  (rules?: Rule[]): {
+    t: bigint
+    getTree(): SchemaLiteral
+  }
+  optional(rules?: Rule[]): {
+    t?: bigint
+    getTree(): SchemaLiteral
+  }
+  nullable(rules?: Rule[]): {
+    t: bigint | null
+    getTree(): SchemaLiteral
+  }
+  nullableAndOptional(rules?: Rule[]): {
+    t?: bigint | null
+    getTree(): SchemaLiteral
+  }
+}
+
+/**
  * Signature to define an enum type. We accept a static list of enum
  * values or a ref that is resolved lazily.
  */
@@ -644,6 +666,7 @@ export interface Schema {
   boolean: BooleanType
   number: NumberType
   date: DateType
+  bigint: BigIntType
   enum: EnumType
   enumSet: EnumSetType
   object: ObjectType
